@@ -1,0 +1,30 @@
+{
+  "psaRankingApp": {
+    "event": {
+      "home": {
+        "title": "Eventos",
+        "createLabel": "Agregar Evento",
+        "createOrEditLabel": "Crear o editar eventos",
+        "notFound": "No hay Eventos"
+      },
+      "created": "El evento {{param}} ha sido creado",
+      "updated": "El evento {{param}} ha sido actualizado",
+      "deleted": "El evento {{param}} ha sido eliminado",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar el evento {{ id }}?"
+      },
+      "detail": {
+        "title": "Evento"
+      },
+      "name": "Nombre",
+      "fromDate": "Fecha Inicio",
+      "endDate": "Fecha Fin",
+      "endInscriptionDate": "Fecha Cierre Inscripcion",
+      "status": "Estado",
+      "createDate": "Fecha Creado",
+      "updatedDate": "Fecha Actualizado",
+      "tournament": "Torneo",
+      "category": "Categoria"
+    }
+  }
+}

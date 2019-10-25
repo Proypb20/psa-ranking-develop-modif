@@ -1,0 +1,33 @@
+{
+  "psaRankingApp": {
+    "person": {
+      "home": {
+        "title": "People",
+        "createLabel": "Criar novo Person",
+        "createOrEditLabel": "Criar ou editar Person",
+        "notFound": "Nenhum Person encontrado"
+      },
+      "created": "Um novo Person foi criado com o identificador {{ param }}",
+      "updated": "Um Person foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Person foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Person {{ id }}?"
+      },
+      "detail": {
+        "title": "Person"
+      },
+      "names": "Names",
+      "surnames": "Surnames",
+      "email": "Email",
+      "phone": "Phone",
+      "bornDate": "Born Date",
+      "psaId": "Psa Id",
+      "eraseDate": "Erase Date",
+      "active": "Active",
+      "createDate": "Create Date",
+      "updatedDate": "Updated Date",
+      "address": "Address",
+      "docType": "Doc Type"
+    }
+  }
+}

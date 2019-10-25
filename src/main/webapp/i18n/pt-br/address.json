@@ -1,0 +1,25 @@
+{
+  "psaRankingApp": {
+    "address": {
+      "home": {
+        "title": "Addresses",
+        "createLabel": "Criar novo Address",
+        "createOrEditLabel": "Criar ou editar Address",
+        "notFound": "Nenhum Address encontrado"
+      },
+      "created": "Um novo Address foi criado com o identificador {{ param }}",
+      "updated": "Um Address foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Address foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Address {{ id }}?"
+      },
+      "detail": {
+        "title": "Address"
+      },
+      "street": "Street",
+      "zipCode": "Zip Code",
+      "city": "City",
+      "userExtra": "User Extra"
+    }
+  }
+}

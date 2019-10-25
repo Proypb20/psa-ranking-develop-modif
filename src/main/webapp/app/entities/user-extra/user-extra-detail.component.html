@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="userExtra">
+            <h2><span jhiTranslate="psaRankingApp.userExtra.detail.title">User Extra</span> {{userExtra.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.userExtra.numDoc">Num Doc</span></dt>
+                <dd>
+                    <span>{{userExtra.numDoc}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.userExtra.phone">Phone</span></dt>
+                <dd>
+                    <span>{{userExtra.phone}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.userExtra.bornDate">Born Date</span></dt>
+                <dd>
+                    <span>{{userExtra.bornDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.userExtra.user">User</span></dt>
+                <dd>
+                    {{userExtra.userId}}
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span></dt>
+                <dd>
+                    <div *ngIf="userExtra.docTypeId">
+                        <a [routerLink]="['/doc-type', userExtra.docTypeId, 'view']">{{userExtra.docTypeId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/user-extra', userExtra.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "psaRankingApp": {
+    "roster": {
+      "home": {
+        "title": "Rosters",
+        "createLabel": "Create a new Roster",
+        "createOrEditLabel": "Create or edit a Roster",
+        "notFound": "No Rosters found"
+      },
+      "created": "A new Roster is created with identifier {{ param }}",
+      "updated": "A Roster is updated with identifier {{ param }}",
+      "deleted": "A Roster is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Roster {{ id }}?"
+      },
+      "detail": {
+        "title": "Roster"
+      },
+      "active": "Active",
+      "profile": "Profile",
+      "createDate": "Create Date",
+      "updatedDate": "Updated Date",
+      "category": "Category",
+      "player": "Player"
+    }
+  }
+}

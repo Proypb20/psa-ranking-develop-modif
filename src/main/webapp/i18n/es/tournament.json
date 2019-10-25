@@ -1,0 +1,29 @@
+{
+  "psaRankingApp": {
+    "tournament": {
+      "home": {
+        "title": "Torneos",
+        "createLabel": "Agregar Torneo",
+        "createOrEditLabel": "Crear o editar Torneo",
+        "notFound": "No se encontraron Torneos"
+      },
+      "created": "El torneo {{param}} ha sido creado",
+      "updated": "El torneo {{param}} ha sido actualizado",
+      "deleted": "El torneo {{param}} ha sido eliminado",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar el torneo {{ id }}?"
+      },
+      "detail": {
+        "title": "Torneo"
+      },
+      "name": "Nombre",
+      "closeInscrDays": "Dias Cierre Inscripcion",
+      "status": "Estado",
+      "createDate": "Fecha Creacion",
+      "updatedDate": "Fecha Actualizado",
+      "address": "Direccion",
+      "event": "Evento",
+      "owner": "Propietario"
+    }
+  }
+}

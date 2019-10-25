@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="player">
+            <h2><span jhiTranslate="psaRankingApp.player.detail.title">Player</span> {{player.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.player.profile">Profile</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.player.captainFlag">Captain Flag</span></dt>
+                <dd>
+                    <span>{{player.captainFlag}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.player.userExtra">User Extra</span></dt>
+                <dd>
+                    <div *ngIf="player.userExtraId">
+                        <a [routerLink]="['/user-extra', player.userExtraId, 'view']">{{player.userExtraId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/player', player.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

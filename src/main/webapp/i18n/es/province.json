@@ -1,0 +1,24 @@
+{
+  "psaRankingApp": {
+    "province": {
+      "home": {
+        "title": "Provincias",
+        "createLabel": "Agregar Provincia",
+        "createOrEditLabel": "Crear o editar provincia",
+        "notFound": "No se encontraron provincias"
+      },
+      "created": "La provincia {{ param }} ha sido creada",
+      "updated": "La provincia {{ param }} ha sido actualizada",
+      "deleted": "La provincia {{ param }} ha sido eliminada",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar la Provincia {{ id }}?"
+      },
+      "detail": {
+        "title": "Provincia"
+      },
+      "name": "Nombre",
+      "country": "Pais",
+      "location": "Localidad"
+    }
+  }
+}

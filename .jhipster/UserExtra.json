@@ -1,0 +1,51 @@
+{
+    "name": "UserExtra",
+    "fields": [
+        {
+            "fieldName": "numDoc",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bornDate",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "userExtra",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "address",
+            "otherEntityRelationshipName": "userExtra",
+            "relationshipName": "address"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "docType",
+            "otherEntityRelationshipName": "userExtra",
+            "relationshipName": "docType",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191023204539",
+    "javadoc": "UserExtra entity.\\n@author Marcelo Miño",
+    "entityTableName": "user_extra",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

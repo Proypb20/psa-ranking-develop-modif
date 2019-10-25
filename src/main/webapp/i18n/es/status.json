@@ -1,0 +1,10 @@
+{
+  "psaRankingApp": {
+    "Status": {
+      "null": "",
+      "CREATED": "Creado",
+      "IN_PROGRESS": "En Progreso",
+      "DONE": "Finalizado"
+    }
+  }
+}

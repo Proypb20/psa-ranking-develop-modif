@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="event">
+            <h2><span jhiTranslate="psaRankingApp.event.detail.title">Event</span> {{event.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.event.name">Name</span></dt>
+                <dd>
+                    <span>{{event.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.fromDate">From Date</span></dt>
+                <dd>
+                    <span>{{event.fromDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{event.endDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.endInscriptionDate">End Inscription Date</span></dt>
+                <dd>
+                    <span>{{event.endInscriptionDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.Status.' + event.status}}">{{event.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.createDate">Create Date</span></dt>
+                <dd>
+                    <span>{{event.createDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.updatedDate">Updated Date</span></dt>
+                <dd>
+                    <span>{{event.updatedDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.tournament">Tournament</span></dt>
+                <dd>
+                    <div *ngIf="event.tournamentId">
+                        <a [routerLink]="['/tournament', event.tournamentId, 'view']">{{event.tournamentId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.category">Category</span></dt>
+                <dd>
+                    <span *ngFor="let category of event.categories; let last = last">
+                        <a [routerLink]="['/category', category?.id, 'view' ]">{{category.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/event', event.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

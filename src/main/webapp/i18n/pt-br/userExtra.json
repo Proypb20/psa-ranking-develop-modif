@@ -1,0 +1,27 @@
+{
+  "psaRankingApp": {
+    "userExtra": {
+      "home": {
+        "title": "User Extras",
+        "createLabel": "Criar novo User Extra",
+        "createOrEditLabel": "Criar ou editar User Extra",
+        "notFound": "Nenhum User Extra encontrado"
+      },
+      "created": "Um novo User Extra foi criado com o identificador {{ param }}",
+      "updated": "Um User Extra foi atualizado com o identificador {{ param }}",
+      "deleted": "Um User Extra foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir User Extra {{ id }}?"
+      },
+      "detail": {
+        "title": "User Extra"
+      },
+      "numDoc": "Num Doc",
+      "phone": "Phone",
+      "bornDate": "Born Date",
+      "user": "User",
+      "address": "Address",
+      "docType": "Doc Type"
+    }
+  }
+}

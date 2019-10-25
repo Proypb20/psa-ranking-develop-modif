@@ -1,0 +1,73 @@
+{
+    "name": "Person",
+    "fields": [
+        {
+            "fieldName": "names",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "surnames",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bornDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "psaId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "eraseDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "address",
+            "otherEntityRelationshipName": "person",
+            "relationshipName": "address",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "docType",
+            "otherEntityRelationshipName": "person",
+            "relationshipName": "docType",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191022230137",
+    "javadoc": "Person entity.\\n@author Marcelo Miño",
+    "entityTableName": "person",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

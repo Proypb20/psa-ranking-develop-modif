@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="tournament">
+            <h2><span jhiTranslate="psaRankingApp.tournament.detail.title">Tournament</span> {{tournament.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.tournament.name">Name</span></dt>
+                <dd>
+                    <span>{{tournament.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span></dt>
+                <dd>
+                    <span>{{tournament.closeInscrDays}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.createDate">Create Date</span></dt>
+                <dd>
+                    <span>{{tournament.createDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.updatedDate">Updated Date</span></dt>
+                <dd>
+                    <span>{{tournament.updatedDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.address">Address</span></dt>
+                <dd>
+                    <div *ngIf="tournament.addressId">
+                        <a [routerLink]="['/address', tournament.addressId, 'view']">{{tournament.addressId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></dt>
+                <dd>
+                    <div *ngIf="tournament.ownerId">
+                        <a [routerLink]="['/user-extra', tournament.ownerId, 'view']">{{tournament.ownerId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/tournament', tournament.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

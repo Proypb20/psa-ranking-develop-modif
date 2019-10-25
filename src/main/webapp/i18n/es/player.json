@@ -1,0 +1,25 @@
+{
+  "psaRankingApp": {
+    "player": {
+      "home": {
+        "title": "Players",
+        "createLabel": "Crear nuevo Player",
+        "createOrEditLabel": "Crear o editar Player",
+        "notFound": "No Players found"
+      },
+      "created": "Un nuevo Player ha sido creado con el identificador {{ param }}",
+      "updated": "Un Player ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Player ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Player {{ id }}?"
+      },
+      "detail": {
+        "title": "Player"
+      },
+      "profile": "Profile",
+      "captainFlag": "Captain Flag",
+      "userExtra": "User Extra",
+      "roster": "Roster"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="roster">
+            <h2><span jhiTranslate="psaRankingApp.roster.detail.title">Roster</span> {{roster.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.roster.active">Active</span></dt>
+                <dd>
+                    <span>{{roster.active}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.profile">Profile</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.ProfileUser.' + roster.profile}}">{{roster.profile}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span></dt>
+                <dd>
+                    <span>{{roster.createDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.updatedDate">Updated Date</span></dt>
+                <dd>
+                    <span>{{roster.updatedDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.category">Category</span></dt>
+                <dd>
+                    <div *ngIf="roster.categoryId">
+                        <a [routerLink]="['/category', roster.categoryId, 'view']">{{roster.categoryId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.player">Player</span></dt>
+                <dd>
+                    <span *ngFor="let player of roster.players; let last = last">
+                        <a [routerLink]="['/player', player?.id, 'view' ]">{{player.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/roster', roster.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

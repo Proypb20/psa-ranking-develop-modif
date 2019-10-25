@@ -1,0 +1,26 @@
+{
+  "psaRankingApp": {
+    "team": {
+      "home": {
+        "title": "Teams",
+        "createLabel": "Criar novo Team",
+        "createOrEditLabel": "Criar ou editar Team",
+        "notFound": "Nenhum Team encontrado"
+      },
+      "created": "Um novo Team foi criado com o identificador {{ param }}",
+      "updated": "Um Team foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Team foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Team {{ id }}?"
+      },
+      "detail": {
+        "title": "Team"
+      },
+      "name": "Name",
+      "active": "Active",
+      "createDate": "Create Date",
+      "updatedDate": "Updated Date",
+      "owner": "Owner"
+    }
+  }
+}

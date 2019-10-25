@@ -1,0 +1,25 @@
+{
+  "psaRankingApp": {
+    "address": {
+      "home": {
+        "title": "Domicilios",
+        "createLabel": "Nuevo Domicilio",
+        "createOrEditLabel": "Crear o editar Domicilio",
+        "notFound": "No se encontro un domicilio"
+      },
+      "created": "El domicilio {{ param }} ha sido creado",
+      "updated": "El domicilio {{ param }} ha sido actualizado",
+      "deleted": "El domicilio {{ param }} ha sido eliminado",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar el domicilio {{ id }}?"
+      },
+      "detail": {
+        "title": "Domicilio"
+      },
+      "street": "Calle",
+      "zipCode": "Codigo Postal",
+      "city": "Ciudad",
+      "userExtra": "Usuario"
+    }
+  }
+}
