@@ -63,7 +63,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: putoelquelee.psa@gmail.com
-    password: sufmbhqdgcrlcoxq
+    password: psa_peql
     protocol: smtp
     tls: true
     properties.mail.smtp:

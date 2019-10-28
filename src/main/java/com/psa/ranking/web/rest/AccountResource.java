@@ -42,6 +42,7 @@ public class AccountResource {
     private final UserService userService;
 
     private final MailService mailService;
+   
 
     public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
 
@@ -66,7 +67,7 @@ public class AccountResource {
         }
         /*Agregado Edu 20191023 UserExtra*/
         /*User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());*/
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(),managedUserVM.getNumDoc(),managedUserVM.getPhone(),managedUserVM.getBornDate());
+        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(),managedUserVM.getPhone(),managedUserVM.getNumDoc(),managedUserVM.getBornDate());
         mailService.sendActivationEmail(user);
     }
 

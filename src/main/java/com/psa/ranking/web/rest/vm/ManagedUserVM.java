@@ -15,28 +15,20 @@ public class ManagedUserVM extends UserDTO {
 
     public static final int PASSWORD_MAX_LENGTH = 100;
 
-    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
-    private String password;
-    
     //Agregado Edu 20191023 UserExtra
     private String phone;
     
     private String numDoc;
     
     private LocalDate bornDate;
+    
+    private String password;
+    
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
     public String getPhone() {
 		return phone;
 	}
@@ -52,6 +44,14 @@ public class ManagedUserVM extends UserDTO {
 	public void setNumDoc(String numDoc) {
 		this.numDoc = numDoc;
 	}
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 	public LocalDate getBornDate() {
 		return bornDate;
@@ -60,10 +60,10 @@ public class ManagedUserVM extends UserDTO {
 	public void setBornDate(LocalDate bornDate) {
 		this.bornDate = bornDate;
 	}
-
-	@Override
+    
+    /*	@Override
     public String toString() {
         return "ManagedUserVM{" + super.toString() + "} ";
-    }
+    }*/
     
 }

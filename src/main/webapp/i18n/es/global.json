@@ -64,6 +64,12 @@
     "form": {
       "username.label": "Usuario",
       "username.placeholder": "Nombre de usuario",
+      "phone.label": "Telefono",
+      "phone.placeholder": "Telefono",
+      "numDoc.label": "Nro de Documento",
+      "numDoc.placeholder": "Nro de Documento",
+      "bornDate.label": "Fecha de Nacimiento",
+      "bornDate.placeholder": "Fecha de Nacimiento",
       "currentpassword.label": "Contraseña actual",
       "currentpassword.placeholder": "Contraseña actual",
       "newpassword.label": "Nueva contraseña",

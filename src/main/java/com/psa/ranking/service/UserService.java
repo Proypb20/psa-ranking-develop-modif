@@ -45,7 +45,8 @@ public class UserService {
 
     private final CacheManager cacheManager;
     
-    private final UserExtraRepository userExtraRepository;
+    private UserExtraRepository userExtraRepository;
+
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, UserExtraRepository userExtraRepository) {
         this.userRepository = userRepository;
@@ -92,9 +93,8 @@ public class UserService {
             });
     }
 
-    /*Modificado Edu 20191023*/
-    /*public User registerUser(UserDTO userDTO, String password) {*/
-    public User registerUser(UserDTO userDTO, String password, String numDoc, String phone, LocalDate bornDate) {
+   
+    public User registerUser(UserDTO userDTO, String password) {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -125,7 +125,45 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
-        //this.clearUserCaches(newUser);
+        this.clearUserCaches(newUser);
+        log.debug("Created Information for User: {}", newUser);
+        
+        return newUser;
+    }
+    
+    /*Modificado Edu 20191023*/
+    public User registerUser(UserDTO userDTO, String password, String phone, String numDoc, LocalDate bornDate) {
+    	userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
+            boolean removed = removeNonActivatedUser(existingUser);
+            if (!removed) {
+                throw new UsernameAlreadyUsedException();
+            }
+        });
+        userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
+            boolean removed = removeNonActivatedUser(existingUser);
+            if (!removed) {
+                throw new EmailAlreadyUsedException();
+            }
+        });
+        User newUser = new User();
+        String encryptedPassword = passwordEncoder.encode(password);
+        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        // new user gets initially a generated password
+        newUser.setPassword(encryptedPassword);
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        newUser.setEmail(userDTO.getEmail().toLowerCase());
+        newUser.setImageUrl(userDTO.getImageUrl());
+        newUser.setLangKey(userDTO.getLangKey());
+        // new user is not active
+        newUser.setActivated(false);
+        // new user gets registration key
+        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        Set<Authority> authorities = new HashSet<>();
+        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        newUser.setAuthorities(authorities);
+        userRepository.save(newUser);
+        this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         
         
@@ -135,6 +173,7 @@ public class UserService {
         newUserExtra.setId(newUser.getId());
         newUserExtra.setPhone(phone);
         newUserExtra.setNumDoc(numDoc);
+        newUserExtra.setBornDate(bornDate);
         newUserExtra.setUser(newUser);
         log.debug("Information for UserExtra: {}", newUserExtra);
         userExtraRepository.save(newUserExtra);
