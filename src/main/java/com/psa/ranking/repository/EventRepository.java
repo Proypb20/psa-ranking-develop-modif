@@ -13,7 +13,7 @@ import java.util.Optional;
  * Spring Data  repository for the Event entity.
  */
 @Repository
-public interface EventRepository extends JpaRepository<Event, Long> {
+public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
 
     @Query(value = "select distinct event from Event event left join fetch event.categories",
         countQuery = "select count(distinct event) from Event event")

@@ -32,7 +32,7 @@ public class Province implements Serializable {
 
     @OneToMany(mappedBy = "province")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Location> locations = new HashSet<>();
+    private Set<City> cities = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -69,29 +69,29 @@ public class Province implements Serializable {
         this.country = country;
     }
 
-    public Set<Location> getLocations() {
-        return locations;
+    public Set<City> getCities() {
+        return cities;
     }
 
-    public Province locations(Set<Location> locations) {
-        this.locations = locations;
+    public Province cities(Set<City> cities) {
+        this.cities = cities;
         return this;
     }
 
-    public Province addLocation(Location location) {
-        this.locations.add(location);
-        location.setProvince(this);
+    public Province addCity(City city) {
+        this.cities.add(city);
+        city.setProvince(this);
         return this;
     }
 
-    public Province removeLocation(Location location) {
-        this.locations.remove(location);
-        location.setProvince(null);
+    public Province removeCity(City city) {
+        this.cities.remove(city);
+        city.setProvince(null);
         return this;
     }
 
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
+    public void setCities(Set<City> cities) {
+        this.cities = cities;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

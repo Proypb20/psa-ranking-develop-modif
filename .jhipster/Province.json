@@ -15,9 +15,9 @@
         },
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "location",
+            "otherEntityName": "city",
             "otherEntityRelationshipName": "province",
-            "relationshipName": "location"
+            "relationshipName": "city"
         }
     ],
     "changelogDate": "20191022230132",

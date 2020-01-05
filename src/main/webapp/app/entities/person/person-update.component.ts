@@ -11,8 +11,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPerson, Person } from 'app/shared/model/person.model';
 import { PersonService } from './person.service';
-import { IAddress } from 'app/shared/model/address.model';
-import { AddressService } from 'app/entities/address/address.service';
+import { ICity } from 'app/shared/model/city.model';
+import { CityService } from 'app/entities/city/city.service';
 import { IDocType } from 'app/shared/model/doc-type.model';
 import { DocTypeService } from 'app/entities/doc-type/doc-type.service';
 
@@ -23,30 +23,27 @@ import { DocTypeService } from 'app/entities/doc-type/doc-type.service';
 export class PersonUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  addresses: IAddress[];
+  cities: ICity[];
 
   doctypes: IDocType[];
 
   editForm = this.fb.group({
     id: [],
-    names: [],
-    surnames: [],
-    email: [],
-    phone: [],
-    bornDate: [],
     psaId: [],
     eraseDate: [],
     active: [],
     createDate: [],
     updatedDate: [],
-    addressId: [],
+    address: [],
+    zipCode: [],
+    cityId: [],
     docTypeId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected personService: PersonService,
-    protected addressService: AddressService,
+    protected cityService: CityService,
     protected docTypeService: DocTypeService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -57,25 +54,25 @@ export class PersonUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ person }) => {
       this.updateForm(person);
     });
-    this.addressService
+    this.cityService
       .query({ filter: 'person-is-null' })
       .pipe(
-        filter((mayBeOk: HttpResponse<IAddress[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAddress[]>) => response.body)
+        filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICity[]>) => response.body)
       )
       .subscribe(
-        (res: IAddress[]) => {
-          if (!this.editForm.get('addressId').value) {
-            this.addresses = res;
+        (res: ICity[]) => {
+          if (!this.editForm.get('cityId').value) {
+            this.cities = res;
           } else {
-            this.addressService
-              .find(this.editForm.get('addressId').value)
+            this.cityService
+              .find(this.editForm.get('cityId').value)
               .pipe(
-                filter((subResMayBeOk: HttpResponse<IAddress>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAddress>) => subResponse.body)
+                filter((subResMayBeOk: HttpResponse<ICity>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<ICity>) => subResponse.body)
               )
               .subscribe(
-                (subRes: IAddress) => (this.addresses = [subRes].concat(res)),
+                (subRes: ICity) => (this.cities = [subRes].concat(res)),
                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
               );
           }
@@ -94,17 +91,14 @@ export class PersonUpdateComponent implements OnInit {
   updateForm(person: IPerson) {
     this.editForm.patchValue({
       id: person.id,
-      names: person.names,
-      surnames: person.surnames,
-      email: person.email,
-      phone: person.phone,
-      bornDate: person.bornDate != null ? person.bornDate.format(DATE_TIME_FORMAT) : null,
       psaId: person.psaId,
       eraseDate: person.eraseDate != null ? person.eraseDate.format(DATE_TIME_FORMAT) : null,
       active: person.active,
       createDate: person.createDate != null ? person.createDate.format(DATE_TIME_FORMAT) : null,
       updatedDate: person.updatedDate != null ? person.updatedDate.format(DATE_TIME_FORMAT) : null,
-      addressId: person.addressId,
+      address: person.address,
+      zipCode: person.zipCode,
+      cityId: person.cityId,
       docTypeId: person.docTypeId
     });
   }
@@ -127,11 +121,6 @@ export class PersonUpdateComponent implements OnInit {
     return {
       ...new Person(),
       id: this.editForm.get(['id']).value,
-      names: this.editForm.get(['names']).value,
-      surnames: this.editForm.get(['surnames']).value,
-      email: this.editForm.get(['email']).value,
-      phone: this.editForm.get(['phone']).value,
-      bornDate: this.editForm.get(['bornDate']).value != null ? moment(this.editForm.get(['bornDate']).value, DATE_TIME_FORMAT) : undefined,
       psaId: this.editForm.get(['psaId']).value,
       eraseDate:
         this.editForm.get(['eraseDate']).value != null ? moment(this.editForm.get(['eraseDate']).value, DATE_TIME_FORMAT) : undefined,
@@ -140,7 +129,9 @@ export class PersonUpdateComponent implements OnInit {
         this.editForm.get(['createDate']).value != null ? moment(this.editForm.get(['createDate']).value, DATE_TIME_FORMAT) : undefined,
       updatedDate:
         this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
-      addressId: this.editForm.get(['addressId']).value,
+      address: this.editForm.get(['address']).value,
+      zipCode: this.editForm.get(['zipCode']).value,
+      cityId: this.editForm.get(['cityId']).value,
       docTypeId: this.editForm.get(['docTypeId']).value
     };
   }
@@ -161,7 +152,7 @@ export class PersonUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackAddressById(index: number, item: IAddress) {
+  trackCityById(index: number, item: ICity) {
     return item.id;
   }
 

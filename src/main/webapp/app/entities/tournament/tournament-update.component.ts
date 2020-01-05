@@ -11,8 +11,6 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { ITournament, Tournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from './tournament.service';
-import { IAddress } from 'app/shared/model/address.model';
-import { AddressService } from 'app/entities/address/address.service';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
 import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
 
@@ -23,8 +21,6 @@ import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
 export class TournamentUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  addresses: IAddress[];
-
   userextras: IUserExtra[];
 
   editForm = this.fb.group({
@@ -34,14 +30,12 @@ export class TournamentUpdateComponent implements OnInit {
     status: [],
     createDate: [],
     updatedDate: [],
-    addressId: [],
     ownerId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected tournamentService: TournamentService,
-    protected addressService: AddressService,
     protected userExtraService: UserExtraService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -52,31 +46,6 @@ export class TournamentUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ tournament }) => {
       this.updateForm(tournament);
     });
-    this.addressService
-      .query({ filter: 'tournament-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAddress[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAddress[]>) => response.body)
-      )
-      .subscribe(
-        (res: IAddress[]) => {
-          if (!this.editForm.get('addressId').value) {
-            this.addresses = res;
-          } else {
-            this.addressService
-              .find(this.editForm.get('addressId').value)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IAddress>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAddress>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IAddress) => (this.addresses = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
     this.userExtraService
       .query()
       .pipe(
@@ -94,7 +63,6 @@ export class TournamentUpdateComponent implements OnInit {
       status: tournament.status,
       createDate: tournament.createDate != null ? tournament.createDate.format(DATE_TIME_FORMAT) : null,
       updatedDate: tournament.updatedDate != null ? tournament.updatedDate.format(DATE_TIME_FORMAT) : null,
-      addressId: tournament.addressId,
       ownerId: tournament.ownerId
     });
   }
@@ -124,7 +92,6 @@ export class TournamentUpdateComponent implements OnInit {
         this.editForm.get(['createDate']).value != null ? moment(this.editForm.get(['createDate']).value, DATE_TIME_FORMAT) : undefined,
       updatedDate:
         this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
-      addressId: this.editForm.get(['addressId']).value,
       ownerId: this.editForm.get(['ownerId']).value
     };
   }
@@ -143,10 +110,6 @@ export class TournamentUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  trackAddressById(index: number, item: IAddress) {
-    return item.id;
   }
 
   trackUserExtraById(index: number, item: IUserExtra) {

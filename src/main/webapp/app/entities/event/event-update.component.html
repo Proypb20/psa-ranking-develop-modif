@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.event.tournament" for="field_tournament">Tournament</label>
                     <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
-                        <option [ngValue]="null"></option>
+                        <!-- <option [ngValue]="null"></option> -->
                         <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
                     </select>
                 </div>
@@ -20,6 +20,13 @@
                     <label class="form-control-label" jhiTranslate="psaRankingApp.event.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.city" for="field_city">City</label>
+                    <select class="form-control" id="field_city" name="city" formControlName="cityId">
+                        <!-- <option [ngValue]="null"></option> -->
+                        <option [ngValue]="cityOption.id" *ngFor="let cityOption of cities; trackBy: trackCityById">{{cityOption.name}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                      <table class="table table-striped">
@@ -58,14 +65,14 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.event.status" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="CREATED">{{'psaRankingApp.Status.CREATED' | translate}}</option>
                         <option value="IN_PROGRESS">{{'psaRankingApp.Status.IN_PROGRESS' | translate}}</option>
                         <option value="DONE">{{'psaRankingApp.Status.DONE' | translate}}</option>
                     </select>
-                </div>
+                </div>-->
                 <!-- <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.event.createDate" for="field_createDate">Create Date</label>
                     <div class="d-flex">
@@ -86,11 +93,11 @@
                 </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </div>
         </form>

@@ -27,9 +27,11 @@
             <tbody>
             <tr *ngFor="let province of provinces ;trackBy: trackId">
                 <td>
-                    <div *ngIf="province.countryId">
-                        <a [routerLink]="['/country', province.countryId , 'view' ]" ></a>
-                    </div>
+	                <div *ngIf="province.countryId">
+		                <div *ngFor="let item of countries">
+		                	<a [routerLink]="['/country', province.countryId , 'view' ]" *ngIf="(item.id == province.countryId)" >{{item.name}}</a>
+						</div>
+					</div>
                 </td>
                 <!--  <td><a [routerLink]="['/province', province.id, 'view' ]">{{province.id}}</a></td>-->
                 <td>{{province.name}}</td>

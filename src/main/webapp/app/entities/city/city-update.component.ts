@@ -9,8 +9,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICity, City } from 'app/shared/model/city.model';
 import { CityService } from './city.service';
-import { ILocation } from 'app/shared/model/location.model';
-import { LocationService } from 'app/entities/location/location.service';
+import { IProvince } from 'app/shared/model/province.model';
+import { ProvinceService } from 'app/entities/province/province.service';
 
 @Component({
   selector: 'jhi-city-update',
@@ -19,20 +19,20 @@ import { LocationService } from 'app/entities/location/location.service';
 export class CityUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  locations: ILocation[];
+  provinces: IProvince[];
 
   editForm = this.fb.group({
     id: [],
     name: [],
     latitude: [],
     longitude: [],
-    locationId: []
+    provinceId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected cityService: CityService,
-    protected locationService: LocationService,
+    protected provinceService: ProvinceService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -42,13 +42,13 @@ export class CityUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ city }) => {
       this.updateForm(city);
     });
-    this.locationService
+    this.provinceService
       .query()
       .pipe(
-        filter((mayBeOk: HttpResponse<ILocation[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ILocation[]>) => response.body)
+        filter((mayBeOk: HttpResponse<IProvince[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IProvince[]>) => response.body)
       )
-      .subscribe((res: ILocation[]) => (this.locations = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: IProvince[]) => (this.provinces = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(city: ICity) {
@@ -57,7 +57,7 @@ export class CityUpdateComponent implements OnInit {
       name: city.name,
       latitude: city.latitude,
       longitude: city.longitude,
-      locationId: city.locationId
+      provinceId: city.provinceId
     });
   }
 
@@ -82,7 +82,7 @@ export class CityUpdateComponent implements OnInit {
       name: this.editForm.get(['name']).value,
       latitude: this.editForm.get(['latitude']).value,
       longitude: this.editForm.get(['longitude']).value,
-      locationId: this.editForm.get(['locationId']).value
+      provinceId: this.editForm.get(['provinceId']).value
     };
   }
 
@@ -102,7 +102,7 @@ export class CityUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackLocationById(index: number, item: ILocation) {
+  trackProvinceById(index: number, item: IProvince) {
     return item.id;
   }
 }

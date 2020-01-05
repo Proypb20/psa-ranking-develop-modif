@@ -12,6 +12,7 @@ export interface IEvent {
   createDate?: Moment;
   updatedDate?: Moment;
   tournamentId?: number;
+  cityId?: number;
   categories?: ICategory[];
 }
 
@@ -26,6 +27,7 @@ export class Event implements IEvent {
     public createDate?: Moment,
     public updatedDate?: Moment,
     public tournamentId?: number,
+    public cityId?: number,
     public categories?: ICategory[]
   ) {}
 }

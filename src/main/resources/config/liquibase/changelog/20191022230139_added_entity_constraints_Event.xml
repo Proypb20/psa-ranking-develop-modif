@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="tournament"/>
 
+        <addForeignKeyConstraint baseColumnNames="city_id"
+                                 baseTableName="event"
+                                 constraintName="fk_event_city_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="city"/>
+
         <addForeignKeyConstraint baseColumnNames="event_id"
                                  baseTableName="event_category"
                                  constraintName="fk_event_category_event_id"

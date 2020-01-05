@@ -19,17 +19,14 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="names"><span jhiTranslate="psaRankingApp.person.names">Names</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="surnames"><span jhiTranslate="psaRankingApp.person.surnames">Surnames</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="email"><span jhiTranslate="psaRankingApp.person.email">Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="phone"><span jhiTranslate="psaRankingApp.person.phone">Phone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="bornDate"><span jhiTranslate="psaRankingApp.person.bornDate">Born Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="psaId"><span jhiTranslate="psaRankingApp.person.psaId">Psa Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="eraseDate"><span jhiTranslate="psaRankingApp.person.eraseDate">Erase Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.person.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.person.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.person.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="addressId"><span jhiTranslate="psaRankingApp.person.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="address"><span jhiTranslate="psaRankingApp.person.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="zipCode"><span jhiTranslate="psaRankingApp.person.zipCode">Zip Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="cityId"><span jhiTranslate="psaRankingApp.person.city">City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="docTypeId"><span jhiTranslate="psaRankingApp.person.docType">Doc Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -37,19 +34,16 @@
             <tbody>
             <tr *ngFor="let person of people ;trackBy: trackId">
                 <td><a [routerLink]="['/person', person.id, 'view' ]">{{person.id}}</a></td>
-                <td>{{person.names}}</td>
-                <td>{{person.surnames}}</td>
-                <td>{{person.email}}</td>
-                <td>{{person.phone}}</td>
-                <td>{{person.bornDate | date:'medium'}}</td>
                 <td>{{person.psaId}}</td>
                 <td>{{person.eraseDate | date:'medium'}}</td>
                 <td>{{person.active}}</td>
                 <td>{{person.createDate | date:'medium'}}</td>
                 <td>{{person.updatedDate | date:'medium'}}</td>
+                <td>{{person.address}}</td>
+                <td>{{person.zipCode}}</td>
                 <td>
-                    <div *ngIf="person.addressId">
-                        <a [routerLink]="['/address', person.addressId , 'view' ]" >{{person.addressId}}</a>
+                    <div *ngIf="person.cityId">
+                        <a [routerLink]="['/city', person.cityId , 'view' ]" >{{person.cityId}}</a>
                     </div>
                 </td>
                 <td>

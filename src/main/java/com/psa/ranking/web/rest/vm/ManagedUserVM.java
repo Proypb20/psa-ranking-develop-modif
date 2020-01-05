@@ -4,8 +4,6 @@ import com.psa.ranking.service.dto.UserDTO;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Size;
-
 /**
  * View Model extending the UserDTO, which is meant to be used in the user management UI.
  */

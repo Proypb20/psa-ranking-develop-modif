@@ -16,8 +16,6 @@ public interface UserExtraMapper extends EntityMapper<UserExtraDTO, UserExtra> {
     UserExtraDTO toDto(UserExtra userExtra);
 
     @Mapping(source = "userId", target = "user")
-    @Mapping(target = "addresses", ignore = true)
-    @Mapping(target = "removeAddress", ignore = true)
     @Mapping(source = "docTypeId", target = "docType")
     UserExtra toEntity(UserExtraDTO userExtraDTO);
 

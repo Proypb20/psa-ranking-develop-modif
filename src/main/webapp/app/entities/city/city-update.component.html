@@ -4,10 +4,16 @@
             <h2 id="jhi-city-heading" jhiTranslate="psaRankingApp.city.home.createOrEditLabel">Create or edit a City</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
+                </div> -->
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.province" for="field_province">Province</label>
+                    <select class="form-control" id="field_province" name="province" formControlName="provinceId">
+                        <option [ngValue]="provinceOption.id" *ngFor="let provinceOption of provinces; trackBy: trackProvinceById">{{provinceOption.name}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.city.name" for="field_name">Name</label>
@@ -25,20 +31,13 @@
                            formControlName="longitude"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.location" for="field_location">Location</label>
-                    <select class="form-control" id="field_location" name="location" formControlName="locationId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="locationOption.id" *ngFor="let locationOption of locations; trackBy: trackLocationById">{{locationOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </div>
         </form>

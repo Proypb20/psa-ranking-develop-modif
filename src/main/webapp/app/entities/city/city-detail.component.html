@@ -17,10 +17,10 @@
                 <dd>
                     <span>{{city.longitude}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.city.location">Location</span></dt>
+                <dt><span jhiTranslate="psaRankingApp.city.province">Province</span></dt>
                 <dd>
-                    <div *ngIf="city.locationId">
-                        <a [routerLink]="['/location', city.locationId, 'view']">{{city.locationId}}</a>
+                    <div *ngIf="city.provinceId">
+                        <a [routerLink]="['/province', city.provinceId, 'view']">{{city.provinceId}}</a>
                     </div>
                 </dd>
             </dl>

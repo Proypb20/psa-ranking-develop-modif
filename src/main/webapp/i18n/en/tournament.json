@@ -21,7 +21,6 @@
       "status": "Status",
       "createDate": "Create Date",
       "updatedDate": "Updated Date",
-      "address": "Address",
       "event": "Event",
       "owner": "Owner"
     }

@@ -15,8 +15,8 @@ public interface ProvinceMapper extends EntityMapper<ProvinceDTO, Province> {
     ProvinceDTO toDto(Province province);
 
     @Mapping(source = "countryId", target = "country")
-    @Mapping(target = "locations", ignore = true)
-    @Mapping(target = "removeLocation", ignore = true)
+    @Mapping(target = "cities", ignore = true)
+    @Mapping(target = "removeCity", ignore = true)
     Province toEntity(ProvinceDTO provinceDTO);
 
     default Province fromId(Long id) {

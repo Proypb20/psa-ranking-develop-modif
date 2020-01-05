@@ -11,7 +11,6 @@
         "province": "Province",
         "location": "Location",
         "city": "City",
-        "address": "Address",
         "docType": "Doc Type",
         "person": "Person",
         "tournament": "Tournament",

@@ -8,13 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Event} and its DTO {@link EventDTO}.
  */
-@Mapper(componentModel = "spring", uses = {TournamentMapper.class, CategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {TournamentMapper.class, CityMapper.class, CategoryMapper.class})
 public interface EventMapper extends EntityMapper<EventDTO, Event> {
 
     @Mapping(source = "tournament.id", target = "tournamentId")
+    @Mapping(source = "city.id", target = "cityId")
     EventDTO toDto(Event event);
 
     @Mapping(source = "tournamentId", target = "tournament")
+    @Mapping(source = "cityId", target = "city")
     @Mapping(target = "removeCategory", ignore = true)
     Event toEntity(EventDTO eventDTO);
 

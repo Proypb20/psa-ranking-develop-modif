@@ -4,7 +4,7 @@
       "home": {
         "title": "Eventos",
         "createLabel": "Agregar Evento",
-        "createOrEditLabel": "Crear o editar eventos",
+        "createOrEditLabel": "Eventos",
         "notFound": "No hay Eventos"
       },
       "created": "El evento {{param}} ha sido creado",
@@ -24,6 +24,7 @@
       "createDate": "Fecha Creado",
       "updatedDate": "Fecha Actualizado",
       "tournament": "Torneo",
+      "city": "Ciudad",
       "category": "Categoria"
     }
   }

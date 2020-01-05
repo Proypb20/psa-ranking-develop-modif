@@ -53,6 +53,10 @@ public class Event implements Serializable {
     @JsonIgnoreProperties("events")
     private Tournament tournament;
 
+    @ManyToOne
+    @JsonIgnoreProperties("events")
+    private City city;
+
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "event_category",
@@ -171,6 +175,19 @@ public class Event implements Serializable {
 
     public void setTournament(Tournament tournament) {
         this.tournament = tournament;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public Event city(City city) {
+        this.city = city;
+        return this;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public Set<Category> getCategories() {

@@ -16,8 +16,8 @@
     ],
     "relationships": [
         {
-            "relationshipName": "location",
-            "otherEntityName": "location",
+            "relationshipName": "province",
+            "otherEntityName": "province",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }

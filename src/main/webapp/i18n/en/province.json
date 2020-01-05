@@ -18,7 +18,7 @@
       },
       "name": "Name",
       "country": "Country",
-      "location": "Location"
+      "city": "City"
     }
   }
 }

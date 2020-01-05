@@ -9,7 +9,6 @@ export interface ITournament {
   status?: Status;
   createDate?: Moment;
   updatedDate?: Moment;
-  addressId?: number;
   events?: IEvent[];
   ownerId?: number;
 }
@@ -22,7 +21,6 @@ export class Tournament implements ITournament {
     public status?: Status,
     public createDate?: Moment,
     public updatedDate?: Moment,
-    public addressId?: number,
     public events?: IEvent[],
     public ownerId?: number
   ) {}

@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { IAddress } from 'app/shared/model/address.model';
+import { ICity } from 'app/shared/model/city.model';
 
 export interface IUserExtra {
   id?: number;
@@ -7,7 +7,7 @@ export interface IUserExtra {
   phone?: string;
   bornDate?: Moment;
   userId?: number;
-  addresses?: IAddress[];
+  cities?: ICity[];
   docTypeId?: number;
 }
 
@@ -18,7 +18,7 @@ export class UserExtra implements IUserExtra {
     public phone?: string,
     public bornDate?: Moment,
     public userId?: number,
-    public addresses?: IAddress[],
+    public cities?: ICity[],
     public docTypeId?: number
   ) {}
 }

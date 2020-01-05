@@ -4,7 +4,7 @@
       "home": {
         "title": "Torneos",
         "createLabel": "Agregar Torneo",
-        "createOrEditLabel": "Crear o editar Torneo",
+        "createOrEditLabel": "Torneos",
         "notFound": "No se encontraron Torneos"
       },
       "created": "El torneo {{param}} ha sido creado",
@@ -21,7 +21,6 @@
       "status": "Estado",
       "createDate": "Fecha Creacion",
       "updatedDate": "Fecha Actualizado",
-      "address": "Direccion",
       "event": "Evento",
       "owner": "Propietario"
     }

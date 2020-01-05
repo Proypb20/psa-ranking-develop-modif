@@ -2,26 +2,6 @@
     "name": "Person",
     "fields": [
         {
-            "fieldName": "names",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "surnames",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "email",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "phone",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "bornDate",
-            "fieldType": "Instant"
-        },
-        {
             "fieldName": "psaId",
             "fieldType": "String"
         },
@@ -40,14 +20,22 @@
         {
             "fieldName": "updatedDate",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "zipCode",
+            "fieldType": "String"
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "otherEntityName": "address",
+            "otherEntityName": "city",
             "otherEntityRelationshipName": "person",
-            "relationshipName": "address",
+            "relationshipName": "city",
             "otherEntityField": "id",
             "ownerSide": true
         },

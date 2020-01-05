@@ -22,21 +22,6 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "names")
-    private String names;
-
-    @Column(name = "surnames")
-    private String surnames;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "born_date")
-    private Instant bornDate;
-
     @Column(name = "psa_id")
     private String psaId;
 
@@ -52,9 +37,15 @@ public class Person implements Serializable {
     @Column(name = "updated_date")
     private Instant updatedDate;
 
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "zip_code")
+    private String zipCode;
+
     @OneToOne
     @JoinColumn(unique = true)
-    private Address address;
+    private City city;
 
     @ManyToOne
     @JsonIgnoreProperties("people")
@@ -67,71 +58,6 @@ public class Person implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public Person names(String names) {
-        this.names = names;
-        return this;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
-    }
-
-    public String getSurnames() {
-        return surnames;
-    }
-
-    public Person surnames(String surnames) {
-        this.surnames = surnames;
-        return this;
-    }
-
-    public void setSurnames(String surnames) {
-        this.surnames = surnames;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Person email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public Person phone(String phone) {
-        this.phone = phone;
-        return this;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Instant getBornDate() {
-        return bornDate;
-    }
-
-    public Person bornDate(Instant bornDate) {
-        this.bornDate = bornDate;
-        return this;
-    }
-
-    public void setBornDate(Instant bornDate) {
-        this.bornDate = bornDate;
     }
 
     public String getPsaId() {
@@ -199,17 +125,43 @@ public class Person implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public Person address(Address address) {
+    public Person address(String address) {
         this.address = address;
         return this;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public Person zipCode(String zipCode) {
+        this.zipCode = zipCode;
+        return this;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public Person city(City city) {
+        this.city = city;
+        return this;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public DocType getDocType() {
@@ -246,16 +198,13 @@ public class Person implements Serializable {
     public String toString() {
         return "Person{" +
             "id=" + getId() +
-            ", names='" + getNames() + "'" +
-            ", surnames='" + getSurnames() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", phone='" + getPhone() + "'" +
-            ", bornDate='" + getBornDate() + "'" +
             ", psaId='" + getPsaId() + "'" +
             ", eraseDate='" + getEraseDate() + "'" +
             ", active='" + isActive() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", zipCode='" + getZipCode() + "'" +
             "}";
     }
 }

@@ -21,8 +21,8 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./city/city.module').then(m => m.PsaRankingCityModule)
       },
       {
-        path: 'address',
-        loadChildren: () => import('./address/address.module').then(m => m.PsaRankingAddressModule)
+        path: 'city',
+        loadChildren: () => import('./city/city.module').then(m => m.PsaRankingCityModule)
       },
       {
         path: 'doc-type',

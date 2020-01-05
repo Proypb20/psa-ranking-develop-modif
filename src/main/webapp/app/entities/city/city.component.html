@@ -18,33 +18,36 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="provinceId"><span jhiTranslate="psaRankingApp.city.province">Province</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.city.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="latitude"><span jhiTranslate="psaRankingApp.city.latitude">Latitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="longitude"><span jhiTranslate="psaRankingApp.city.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="locationId"><span jhiTranslate="psaRankingApp.city.location">Location</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let city of cities ;trackBy: trackId">
-                <td><a [routerLink]="['/city', city.id, 'view' ]">{{city.id}}</a></td>
+                <!-- <td><a [routerLink]="['/city', city.id, 'view' ]">{{city.id}}</a></td> -->
+                <td>
+                    <div *ngIf="city.provinceId">
+                        <div *ngFor="let item of provinces">
+		                	<a [routerLink]="['/province', city.provinceId , 'view' ]" *ngIf="(item.id == city.provinceId)" >{{item.name}}</a>
+						</div>
+                    </div>
+                </td>
                 <td>{{city.name}}</td>
                 <td>{{city.latitude}}</td>
                 <td>{{city.longitude}}</td>
-                <td>
-                    <div *ngIf="city.locationId">
-                        <a [routerLink]="['/location', city.locationId , 'view' ]" >{{city.locationId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <button type="submit"
+                        <!-- <button type="submit"
                                 [routerLink]="['/city', city.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
+                        </button> -->
                         <button type="submit"
                                 [routerLink]="['/city', city.id, 'edit']"
                                 class="btn btn-primary btn-sm">

@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.province.country" for="field_country">Country</label>
                     <select class="form-control" id="field_country" name="country" formControlName="countryId">
-                        <option [ngValue]="null"></option>
+                        <!-- <option [ngValue]="null"></option> -->
                         <option [ngValue]="countryOption.id" *ngFor="let countryOption of countries; trackBy: trackCountryById">{{countryOption.name}}</option>
                     </select>
                 </div>
@@ -23,11 +23,11 @@
                 </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </div>
         </form>

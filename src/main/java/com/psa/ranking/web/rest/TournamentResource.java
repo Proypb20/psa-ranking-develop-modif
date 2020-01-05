@@ -1,8 +1,11 @@
 package com.psa.ranking.web.rest;
 
 import com.psa.ranking.service.TournamentService;
-import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.TournamentDTO;
+import com.psa.ranking.web.rest.errors.BadRequestAlertException;
+import com.psa.ranking.service.dto.TournamentCriteria;
+import com.psa.ranking.domain.enumeration.Status;
+import com.psa.ranking.service.TournamentQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +43,11 @@ public class TournamentResource {
 
     private final TournamentService tournamentService;
 
-    public TournamentResource(TournamentService tournamentService) {
+    private final TournamentQueryService tournamentQueryService;
+
+    public TournamentResource(TournamentService tournamentService, TournamentQueryService tournamentQueryService) {
         this.tournamentService = tournamentService;
+        this.tournamentQueryService = tournamentQueryService;
     }
 
     /**
@@ -57,6 +63,7 @@ public class TournamentResource {
         if (tournamentDTO.getId() != null) {
             throw new BadRequestAlertException("A new tournament cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        tournamentDTO.setStatus(Status.CREATED);
         TournamentDTO result = tournamentService.save(tournamentDTO);
         return ResponseEntity.created(new URI("/api/tournaments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -90,14 +97,27 @@ public class TournamentResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tournaments in body.
      */
     @GetMapping("/tournaments")
-    public ResponseEntity<List<TournamentDTO>> getAllTournaments(Pageable pageable) {
-        log.debug("REST request to get a page of Tournaments");
-        Page<TournamentDTO> page = tournamentService.findAll(pageable);
+    public ResponseEntity<List<TournamentDTO>> getAllTournaments(TournamentCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Tournaments by criteria: {}", criteria);
+        Page<TournamentDTO> page = tournamentQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /tournaments/count} : count all the tournaments.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/tournaments/count")
+    public ResponseEntity<Long> countTournaments(TournamentCriteria criteria) {
+        log.debug("REST request to count Tournaments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(tournamentQueryService.countByCriteria(criteria));
     }
 
     /**

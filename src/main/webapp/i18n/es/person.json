@@ -16,18 +16,15 @@
       "detail": {
         "title": "Person"
       },
-      "names": "Names",
-      "surnames": "Surnames",
-      "email": "Email",
-      "phone": "Phone",
-      "bornDate": "Born Date",
       "psaId": "Psa Id",
       "eraseDate": "Erase Date",
       "active": "Active",
       "createDate": "Create Date",
       "updatedDate": "Updated Date",
-      "address": "Address",
-      "docType": "Doc Type"
+      "address": "Direccion",
+      "zipCode": "Codigo Postal",
+      "city": "Ciudad",
+      "docType": "Tipo de Documento"
     }
   }
 }

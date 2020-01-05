@@ -2,24 +2,24 @@
   "psaRankingApp": {
     "city": {
       "home": {
-        "title": "Cities",
-        "createLabel": "Crear nuevo City",
-        "createOrEditLabel": "Crear o editar City",
-        "notFound": "No Cities found"
+        "title": "Ciudades",
+        "createLabel": "Crear nuevo Ciudad",
+        "createOrEditLabel": "Ciudades",
+        "notFound": "No hay ciudades"
       },
-      "created": "Un nuevo City ha sido creado con el identificador {{ param }}",
-      "updated": "Un City ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un City ha sido eliminado con el identificador {{ param }}",
+      "created": "La nuevo Ciudad {{ param }} ha sido creada",
+      "updated": "La Ciudad ha sido actualizado",
+      "deleted": "La Ciudad ha sido eliminada",
       "delete": {
-        "question": "¿Seguro que quiere eliminar City {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la Ciudad {{ id }}?"
       },
       "detail": {
-        "title": "City"
+        "title": "Ciudad"
       },
-      "name": "Name",
-      "latitude": "Latitude",
-      "longitude": "Longitude",
-      "location": "Location"
+      "name": "Nombre",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "province": "Provincia"
     }
   }
 }

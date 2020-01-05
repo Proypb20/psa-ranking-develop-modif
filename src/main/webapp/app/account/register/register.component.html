@@ -124,8 +124,8 @@
                 </div>
                 <label class="form-control-label" for="bornDate" jhiTranslate="global.form.bornDate.label">bornDate</label>
                 <div class="input-group">
-                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
-                        <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                    <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
+                    <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                 </div>
                 <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary" jhiTranslate="register.form.button">Register</button>
             </form>

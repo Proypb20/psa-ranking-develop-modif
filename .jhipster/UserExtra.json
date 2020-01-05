@@ -25,9 +25,9 @@
         },
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "address",
+            "otherEntityName": "city",
             "otherEntityRelationshipName": "userExtra",
-            "relationshipName": "address"
+            "relationshipName": "city"
         },
         {
             "relationshipType": "many-to-one",

@@ -33,6 +33,8 @@ public class EventDTO implements Serializable {
 
     private Long tournamentId;
 
+    private Long cityId;
+
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public Long getId() {
@@ -107,6 +109,14 @@ public class EventDTO implements Serializable {
         this.tournamentId = tournamentId;
     }
 
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
     public Set<CategoryDTO> getCategories() {
         return categories;
     }
@@ -148,6 +158,7 @@ public class EventDTO implements Serializable {
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
             ", tournament=" + getTournamentId() +
+            ", city=" + getCityId() +
             "}";
     }
 }

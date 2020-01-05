@@ -24,8 +24,6 @@ public class TournamentDTO implements Serializable {
     private Instant updatedDate;
 
 
-    private Long addressId;
-
     private Long ownerId;
 
     public Long getId() {
@@ -76,14 +74,6 @@ public class TournamentDTO implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public Long getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
-    }
-
     public Long getOwnerId() {
         return ownerId;
     }
@@ -122,7 +112,6 @@ public class TournamentDTO implements Serializable {
             ", status='" + getStatus() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
-            ", address=" + getAddressId() +
             ", owner=" + getOwnerId() +
             "}";
     }

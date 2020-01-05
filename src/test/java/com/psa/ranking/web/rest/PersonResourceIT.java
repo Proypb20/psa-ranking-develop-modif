@@ -38,21 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PsaRankingApp.class)
 public class PersonResourceIT {
 
-    private static final String DEFAULT_NAMES = "AAAAAAAAAA";
-    private static final String UPDATED_NAMES = "BBBBBBBBBB";
-
-    private static final String DEFAULT_SURNAMES = "AAAAAAAAAA";
-    private static final String UPDATED_SURNAMES = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHONE = "AAAAAAAAAA";
-    private static final String UPDATED_PHONE = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_BORN_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_BORN_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
     private static final String DEFAULT_PSA_ID = "AAAAAAAAAA";
     private static final String UPDATED_PSA_ID = "BBBBBBBBBB";
 
@@ -67,6 +52,12 @@ public class PersonResourceIT {
 
     private static final Instant DEFAULT_UPDATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ZIP_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_ZIP_CODE = "BBBBBBBBBB";
 
     @Autowired
     private PersonRepository personRepository;
@@ -116,16 +107,13 @@ public class PersonResourceIT {
      */
     public static Person createEntity(EntityManager em) {
         Person person = new Person()
-            .names(DEFAULT_NAMES)
-            .surnames(DEFAULT_SURNAMES)
-            .email(DEFAULT_EMAIL)
-            .phone(DEFAULT_PHONE)
-            .bornDate(DEFAULT_BORN_DATE)
             .psaId(DEFAULT_PSA_ID)
             .eraseDate(DEFAULT_ERASE_DATE)
             .active(DEFAULT_ACTIVE)
             .createDate(DEFAULT_CREATE_DATE)
-            .updatedDate(DEFAULT_UPDATED_DATE);
+            .updatedDate(DEFAULT_UPDATED_DATE)
+            .address(DEFAULT_ADDRESS)
+            .zipCode(DEFAULT_ZIP_CODE);
         return person;
     }
     /**
@@ -136,16 +124,13 @@ public class PersonResourceIT {
      */
     public static Person createUpdatedEntity(EntityManager em) {
         Person person = new Person()
-            .names(UPDATED_NAMES)
-            .surnames(UPDATED_SURNAMES)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
-            .bornDate(UPDATED_BORN_DATE)
             .psaId(UPDATED_PSA_ID)
             .eraseDate(UPDATED_ERASE_DATE)
             .active(UPDATED_ACTIVE)
             .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .updatedDate(UPDATED_UPDATED_DATE)
+            .address(UPDATED_ADDRESS)
+            .zipCode(UPDATED_ZIP_CODE);
         return person;
     }
 
@@ -170,16 +155,13 @@ public class PersonResourceIT {
         List<Person> personList = personRepository.findAll();
         assertThat(personList).hasSize(databaseSizeBeforeCreate + 1);
         Person testPerson = personList.get(personList.size() - 1);
-        assertThat(testPerson.getNames()).isEqualTo(DEFAULT_NAMES);
-        assertThat(testPerson.getSurnames()).isEqualTo(DEFAULT_SURNAMES);
-        assertThat(testPerson.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testPerson.getPhone()).isEqualTo(DEFAULT_PHONE);
-        assertThat(testPerson.getBornDate()).isEqualTo(DEFAULT_BORN_DATE);
         assertThat(testPerson.getPsaId()).isEqualTo(DEFAULT_PSA_ID);
         assertThat(testPerson.getEraseDate()).isEqualTo(DEFAULT_ERASE_DATE);
         assertThat(testPerson.isActive()).isEqualTo(DEFAULT_ACTIVE);
         assertThat(testPerson.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testPerson.getUpdatedDate()).isEqualTo(DEFAULT_UPDATED_DATE);
+        assertThat(testPerson.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testPerson.getZipCode()).isEqualTo(DEFAULT_ZIP_CODE);
     }
 
     @Test
@@ -214,16 +196,13 @@ public class PersonResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(person.getId().intValue())))
-            .andExpect(jsonPath("$.[*].names").value(hasItem(DEFAULT_NAMES)))
-            .andExpect(jsonPath("$.[*].surnames").value(hasItem(DEFAULT_SURNAMES)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
-            .andExpect(jsonPath("$.[*].bornDate").value(hasItem(DEFAULT_BORN_DATE.toString())))
             .andExpect(jsonPath("$.[*].psaId").value(hasItem(DEFAULT_PSA_ID)))
             .andExpect(jsonPath("$.[*].eraseDate").value(hasItem(DEFAULT_ERASE_DATE.toString())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].zipCode").value(hasItem(DEFAULT_ZIP_CODE)));
     }
     
     @Test
@@ -237,16 +216,13 @@ public class PersonResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(person.getId().intValue()))
-            .andExpect(jsonPath("$.names").value(DEFAULT_NAMES))
-            .andExpect(jsonPath("$.surnames").value(DEFAULT_SURNAMES))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
-            .andExpect(jsonPath("$.bornDate").value(DEFAULT_BORN_DATE.toString()))
             .andExpect(jsonPath("$.psaId").value(DEFAULT_PSA_ID))
             .andExpect(jsonPath("$.eraseDate").value(DEFAULT_ERASE_DATE.toString()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
+            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
+            .andExpect(jsonPath("$.zipCode").value(DEFAULT_ZIP_CODE));
     }
 
     @Test
@@ -270,16 +246,13 @@ public class PersonResourceIT {
         // Disconnect from session so that the updates on updatedPerson are not directly saved in db
         em.detach(updatedPerson);
         updatedPerson
-            .names(UPDATED_NAMES)
-            .surnames(UPDATED_SURNAMES)
-            .email(UPDATED_EMAIL)
-            .phone(UPDATED_PHONE)
-            .bornDate(UPDATED_BORN_DATE)
             .psaId(UPDATED_PSA_ID)
             .eraseDate(UPDATED_ERASE_DATE)
             .active(UPDATED_ACTIVE)
             .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .updatedDate(UPDATED_UPDATED_DATE)
+            .address(UPDATED_ADDRESS)
+            .zipCode(UPDATED_ZIP_CODE);
         PersonDTO personDTO = personMapper.toDto(updatedPerson);
 
         restPersonMockMvc.perform(put("/api/people")
@@ -291,16 +264,13 @@ public class PersonResourceIT {
         List<Person> personList = personRepository.findAll();
         assertThat(personList).hasSize(databaseSizeBeforeUpdate);
         Person testPerson = personList.get(personList.size() - 1);
-        assertThat(testPerson.getNames()).isEqualTo(UPDATED_NAMES);
-        assertThat(testPerson.getSurnames()).isEqualTo(UPDATED_SURNAMES);
-        assertThat(testPerson.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testPerson.getPhone()).isEqualTo(UPDATED_PHONE);
-        assertThat(testPerson.getBornDate()).isEqualTo(UPDATED_BORN_DATE);
         assertThat(testPerson.getPsaId()).isEqualTo(UPDATED_PSA_ID);
         assertThat(testPerson.getEraseDate()).isEqualTo(UPDATED_ERASE_DATE);
         assertThat(testPerson.isActive()).isEqualTo(UPDATED_ACTIVE);
         assertThat(testPerson.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testPerson.getUpdatedDate()).isEqualTo(UPDATED_UPDATED_DATE);
+        assertThat(testPerson.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testPerson.getZipCode()).isEqualTo(UPDATED_ZIP_CODE);
     }
 
     @Test

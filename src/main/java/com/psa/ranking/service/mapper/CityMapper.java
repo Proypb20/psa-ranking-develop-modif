@@ -8,13 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link City} and its DTO {@link CityDTO}.
  */
-@Mapper(componentModel = "spring", uses = {LocationMapper.class})
+@Mapper(componentModel = "spring", uses = {ProvinceMapper.class})
 public interface CityMapper extends EntityMapper<CityDTO, City> {
 
-    @Mapping(source = "location.id", target = "locationId")
+    @Mapping(source = "province.id", target = "provinceId")
     CityDTO toDto(City city);
 
-    @Mapping(source = "locationId", target = "location")
+    @Mapping(source = "provinceId", target = "province")
     City toEntity(CityDTO cityDTO);
 
     default City fromId(Long id) {

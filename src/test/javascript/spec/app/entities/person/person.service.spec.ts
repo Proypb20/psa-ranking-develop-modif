@@ -24,26 +24,13 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Person(
-        0,
-        'AAAAAAA',
-        'AAAAAAA',
-        'AAAAAAA',
-        'AAAAAAA',
-        currentDate,
-        'AAAAAAA',
-        currentDate,
-        false,
-        currentDate,
-        currentDate
-      );
+      elemDefault = new Person(0, 'AAAAAAA', currentDate, false, currentDate, currentDate, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            bornDate: currentDate.format(DATE_TIME_FORMAT),
             eraseDate: currentDate.format(DATE_TIME_FORMAT),
             createDate: currentDate.format(DATE_TIME_FORMAT),
             updatedDate: currentDate.format(DATE_TIME_FORMAT)
@@ -64,7 +51,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            bornDate: currentDate.format(DATE_TIME_FORMAT),
             eraseDate: currentDate.format(DATE_TIME_FORMAT),
             createDate: currentDate.format(DATE_TIME_FORMAT),
             updatedDate: currentDate.format(DATE_TIME_FORMAT)
@@ -73,7 +59,6 @@ describe('Service Tests', () => {
         );
         const expected = Object.assign(
           {
-            bornDate: currentDate,
             eraseDate: currentDate,
             createDate: currentDate,
             updatedDate: currentDate
@@ -92,23 +77,19 @@ describe('Service Tests', () => {
       it('should update a Person', () => {
         const returnedFromService = Object.assign(
           {
-            names: 'BBBBBB',
-            surnames: 'BBBBBB',
-            email: 'BBBBBB',
-            phone: 'BBBBBB',
-            bornDate: currentDate.format(DATE_TIME_FORMAT),
             psaId: 'BBBBBB',
             eraseDate: currentDate.format(DATE_TIME_FORMAT),
             active: true,
             createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            updatedDate: currentDate.format(DATE_TIME_FORMAT),
+            address: 'BBBBBB',
+            zipCode: 'BBBBBB'
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            bornDate: currentDate,
             eraseDate: currentDate,
             createDate: currentDate,
             updatedDate: currentDate
@@ -127,22 +108,18 @@ describe('Service Tests', () => {
       it('should return a list of Person', () => {
         const returnedFromService = Object.assign(
           {
-            names: 'BBBBBB',
-            surnames: 'BBBBBB',
-            email: 'BBBBBB',
-            phone: 'BBBBBB',
-            bornDate: currentDate.format(DATE_TIME_FORMAT),
             psaId: 'BBBBBB',
             eraseDate: currentDate.format(DATE_TIME_FORMAT),
             active: true,
             createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            updatedDate: currentDate.format(DATE_TIME_FORMAT),
+            address: 'BBBBBB',
+            zipCode: 'BBBBBB'
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            bornDate: currentDate,
             eraseDate: currentDate,
             createDate: currentDate,
             updatedDate: currentDate

@@ -3,6 +3,9 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.EventService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.EventDTO;
+import com.psa.ranking.service.dto.EventCriteria;
+import com.psa.ranking.domain.enumeration.Status;
+import com.psa.ranking.service.EventQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +42,11 @@ public class EventResource {
 
     private final EventService eventService;
 
-    public EventResource(EventService eventService) {
+    private final EventQueryService eventQueryService;
+
+    public EventResource(EventService eventService, EventQueryService eventQueryService) {
         this.eventService = eventService;
+        this.eventQueryService = eventQueryService;
     }
 
     /**
@@ -57,6 +62,9 @@ public class EventResource {
         if (eventDTO.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        /*Agregado Edu 20200104*/
+        eventDTO.setStatus(Status.CREATED);
+        /*Fin Agregado Edu 20200104*/
         EventDTO result = eventService.save(eventDTO);
         return ResponseEntity.created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -89,20 +97,28 @@ public class EventResource {
      *
 
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of events in body.
      */
     @GetMapping("/events")
-    public ResponseEntity<List<EventDTO>> getAllEvents(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        log.debug("REST request to get a page of Events");
-        Page<EventDTO> page;
-        if (eagerload) {
-            page = eventService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = eventService.findAll(pageable);
-        }
+    public ResponseEntity<List<EventDTO>> getAllEvents(EventCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Events by criteria: {}", criteria);
+        Page<EventDTO> page = eventQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /events/count} : count all the events.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/events/count")
+    public ResponseEntity<Long> countEvents(EventCriteria criteria) {
+        log.debug("REST request to count Events by criteria: {}", criteria);
+        return ResponseEntity.ok().body(eventQueryService.countByCriteria(criteria));
     }
 
     /**

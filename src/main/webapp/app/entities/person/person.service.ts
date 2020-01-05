@@ -52,7 +52,6 @@ export class PersonService {
 
   protected convertDateFromClient(person: IPerson): IPerson {
     const copy: IPerson = Object.assign({}, person, {
-      bornDate: person.bornDate != null && person.bornDate.isValid() ? person.bornDate.toJSON() : null,
       eraseDate: person.eraseDate != null && person.eraseDate.isValid() ? person.eraseDate.toJSON() : null,
       createDate: person.createDate != null && person.createDate.isValid() ? person.createDate.toJSON() : null,
       updatedDate: person.updatedDate != null && person.updatedDate.isValid() ? person.updatedDate.toJSON() : null
@@ -62,7 +61,6 @@ export class PersonService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.bornDate = res.body.bornDate != null ? moment(res.body.bornDate) : null;
       res.body.eraseDate = res.body.eraseDate != null ? moment(res.body.eraseDate) : null;
       res.body.createDate = res.body.createDate != null ? moment(res.body.createDate) : null;
       res.body.updatedDate = res.body.updatedDate != null ? moment(res.body.updatedDate) : null;
@@ -73,7 +71,6 @@ export class PersonService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((person: IPerson) => {
-        person.bornDate = person.bornDate != null ? moment(person.bornDate) : null;
         person.eraseDate = person.eraseDate != null ? moment(person.eraseDate) : null;
         person.createDate = person.createDate != null ? moment(person.createDate) : null;
         person.updatedDate = person.updatedDate != null ? moment(person.updatedDate) : null;

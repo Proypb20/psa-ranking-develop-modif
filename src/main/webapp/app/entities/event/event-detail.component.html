@@ -39,6 +39,12 @@
                         <a [routerLink]="['/tournament', event.tournamentId, 'view']">{{event.tournamentId}}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.event.city">City</span></dt>
+                <dd>
+                    <div *ngIf="event.cityId">
+                        <a [routerLink]="['/city', event.cityId, 'view']">{{event.cityId}}</a>
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="psaRankingApp.event.category">Category</span></dt>
                 <dd>
                     <span *ngFor="let category of event.categories; let last = last">

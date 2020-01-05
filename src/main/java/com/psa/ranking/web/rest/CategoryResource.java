@@ -1,5 +1,6 @@
 package com.psa.ranking.web.rest;
 
+import com.psa.ranking.domain.enumeration.Status;
 import com.psa.ranking.service.CategoryService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.CategoryDTO;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

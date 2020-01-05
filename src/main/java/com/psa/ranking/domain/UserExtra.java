@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * UserExtra entity.\n@author Marcelo Miño
@@ -36,10 +34,6 @@ public class UserExtra implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
-
-    @OneToMany(mappedBy = "userExtra")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Address> addresses = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("userExtras")
@@ -104,31 +98,6 @@ public class UserExtra implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public UserExtra addresses(Set<Address> addresses) {
-        this.addresses = addresses;
-        return this;
-    }
-
-    public UserExtra addAddress(Address address) {
-        this.addresses.add(address);
-        address.setUserExtra(this);
-        return this;
-    }
-
-    public UserExtra removeAddress(Address address) {
-        this.addresses.remove(address);
-        address.setUserExtra(null);
-        return this;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
     }
 
     public DocType getDocType() {

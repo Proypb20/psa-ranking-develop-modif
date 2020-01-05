@@ -18,7 +18,7 @@ public class CityDTO implements Serializable {
     private String longitude;
 
 
-    private Long locationId;
+    private Long provinceId;
 
     public Long getId() {
         return id;
@@ -52,12 +52,12 @@ public class CityDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public Long getLocationId() {
-        return locationId;
+    public Long getProvinceId() {
+        return provinceId;
     }
 
-    public void setLocationId(Long locationId) {
-        this.locationId = locationId;
+    public void setProvinceId(Long provinceId) {
+        this.provinceId = provinceId;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class CityDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", latitude='" + getLatitude() + "'" +
             ", longitude='" + getLongitude() + "'" +
-            ", location=" + getLocationId() +
+            ", province=" + getProvinceId() +
             "}";
     }
 }

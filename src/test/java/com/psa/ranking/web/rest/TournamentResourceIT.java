@@ -2,11 +2,15 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.domain.Event;
+import com.psa.ranking.domain.UserExtra;
 import com.psa.ranking.repository.TournamentRepository;
 import com.psa.ranking.service.TournamentService;
 import com.psa.ranking.service.dto.TournamentDTO;
 import com.psa.ranking.service.mapper.TournamentMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.TournamentCriteria;
+import com.psa.ranking.service.TournamentQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +48,7 @@ public class TournamentResourceIT {
 
     private static final Integer DEFAULT_CLOSE_INSCR_DAYS = 1;
     private static final Integer UPDATED_CLOSE_INSCR_DAYS = 2;
+    private static final Integer SMALLER_CLOSE_INSCR_DAYS = 1 - 1;
 
     private static final Status DEFAULT_STATUS = Status.CREATED;
     private static final Status UPDATED_STATUS = Status.IN_PROGRESS;
@@ -62,6 +67,9 @@ public class TournamentResourceIT {
 
     @Autowired
     private TournamentService tournamentService;
+
+    @Autowired
+    private TournamentQueryService tournamentQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -85,7 +93,7 @@ public class TournamentResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TournamentResource tournamentResource = new TournamentResource(tournamentService);
+        final TournamentResource tournamentResource = new TournamentResource(tournamentService, tournamentQueryService);
         this.restTournamentMockMvc = MockMvcBuilders.standaloneSetup(tournamentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -209,6 +217,423 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
             .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name equals to DEFAULT_NAME
+        defaultTournamentShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the tournamentList where name equals to UPDATED_NAME
+        defaultTournamentShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name not equals to DEFAULT_NAME
+        defaultTournamentShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the tournamentList where name not equals to UPDATED_NAME
+        defaultTournamentShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultTournamentShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the tournamentList where name equals to UPDATED_NAME
+        defaultTournamentShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name is not null
+        defaultTournamentShouldBeFound("name.specified=true");
+
+        // Get all the tournamentList where name is null
+        defaultTournamentShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllTournamentsByNameContainsSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name contains DEFAULT_NAME
+        defaultTournamentShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the tournamentList where name contains UPDATED_NAME
+        defaultTournamentShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where name does not contain DEFAULT_NAME
+        defaultTournamentShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the tournamentList where name does not contain UPDATED_NAME
+        defaultTournamentShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays equals to DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.equals=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays equals to UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.equals=" + UPDATED_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays not equals to DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.notEquals=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays not equals to UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.notEquals=" + UPDATED_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays in DEFAULT_CLOSE_INSCR_DAYS or UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.in=" + DEFAULT_CLOSE_INSCR_DAYS + "," + UPDATED_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays equals to UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.in=" + UPDATED_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays is not null
+        defaultTournamentShouldBeFound("closeInscrDays.specified=true");
+
+        // Get all the tournamentList where closeInscrDays is null
+        defaultTournamentShouldNotBeFound("closeInscrDays.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays is greater than or equal to DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.greaterThanOrEqual=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays is greater than or equal to UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.greaterThanOrEqual=" + UPDATED_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays is less than or equal to DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.lessThanOrEqual=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays is less than or equal to SMALLER_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.lessThanOrEqual=" + SMALLER_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsLessThanSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays is less than DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.lessThan=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays is less than UPDATED_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.lessThan=" + UPDATED_CLOSE_INSCR_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCloseInscrDaysIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where closeInscrDays is greater than DEFAULT_CLOSE_INSCR_DAYS
+        defaultTournamentShouldNotBeFound("closeInscrDays.greaterThan=" + DEFAULT_CLOSE_INSCR_DAYS);
+
+        // Get all the tournamentList where closeInscrDays is greater than SMALLER_CLOSE_INSCR_DAYS
+        defaultTournamentShouldBeFound("closeInscrDays.greaterThan=" + SMALLER_CLOSE_INSCR_DAYS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where status equals to DEFAULT_STATUS
+        defaultTournamentShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the tournamentList where status equals to UPDATED_STATUS
+        defaultTournamentShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where status not equals to DEFAULT_STATUS
+        defaultTournamentShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+
+        // Get all the tournamentList where status not equals to UPDATED_STATUS
+        defaultTournamentShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultTournamentShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the tournamentList where status equals to UPDATED_STATUS
+        defaultTournamentShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where status is not null
+        defaultTournamentShouldBeFound("status.specified=true");
+
+        // Get all the tournamentList where status is null
+        defaultTournamentShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCreateDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where createDate equals to DEFAULT_CREATE_DATE
+        defaultTournamentShouldBeFound("createDate.equals=" + DEFAULT_CREATE_DATE);
+
+        // Get all the tournamentList where createDate equals to UPDATED_CREATE_DATE
+        defaultTournamentShouldNotBeFound("createDate.equals=" + UPDATED_CREATE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCreateDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where createDate not equals to DEFAULT_CREATE_DATE
+        defaultTournamentShouldNotBeFound("createDate.notEquals=" + DEFAULT_CREATE_DATE);
+
+        // Get all the tournamentList where createDate not equals to UPDATED_CREATE_DATE
+        defaultTournamentShouldBeFound("createDate.notEquals=" + UPDATED_CREATE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCreateDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where createDate in DEFAULT_CREATE_DATE or UPDATED_CREATE_DATE
+        defaultTournamentShouldBeFound("createDate.in=" + DEFAULT_CREATE_DATE + "," + UPDATED_CREATE_DATE);
+
+        // Get all the tournamentList where createDate equals to UPDATED_CREATE_DATE
+        defaultTournamentShouldNotBeFound("createDate.in=" + UPDATED_CREATE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCreateDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where createDate is not null
+        defaultTournamentShouldBeFound("createDate.specified=true");
+
+        // Get all the tournamentList where createDate is null
+        defaultTournamentShouldNotBeFound("createDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByUpdatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where updatedDate equals to DEFAULT_UPDATED_DATE
+        defaultTournamentShouldBeFound("updatedDate.equals=" + DEFAULT_UPDATED_DATE);
+
+        // Get all the tournamentList where updatedDate equals to UPDATED_UPDATED_DATE
+        defaultTournamentShouldNotBeFound("updatedDate.equals=" + UPDATED_UPDATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByUpdatedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where updatedDate not equals to DEFAULT_UPDATED_DATE
+        defaultTournamentShouldNotBeFound("updatedDate.notEquals=" + DEFAULT_UPDATED_DATE);
+
+        // Get all the tournamentList where updatedDate not equals to UPDATED_UPDATED_DATE
+        defaultTournamentShouldBeFound("updatedDate.notEquals=" + UPDATED_UPDATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByUpdatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where updatedDate in DEFAULT_UPDATED_DATE or UPDATED_UPDATED_DATE
+        defaultTournamentShouldBeFound("updatedDate.in=" + DEFAULT_UPDATED_DATE + "," + UPDATED_UPDATED_DATE);
+
+        // Get all the tournamentList where updatedDate equals to UPDATED_UPDATED_DATE
+        defaultTournamentShouldNotBeFound("updatedDate.in=" + UPDATED_UPDATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByUpdatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where updatedDate is not null
+        defaultTournamentShouldBeFound("updatedDate.specified=true");
+
+        // Get all the tournamentList where updatedDate is null
+        defaultTournamentShouldNotBeFound("updatedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByEventIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+        Event event = EventResourceIT.createEntity(em);
+        em.persist(event);
+        em.flush();
+        tournament.addEvent(event);
+        tournamentRepository.saveAndFlush(tournament);
+        Long eventId = event.getId();
+
+        // Get all the tournamentList where event equals to eventId
+        defaultTournamentShouldBeFound("eventId.equals=" + eventId);
+
+        // Get all the tournamentList where event equals to eventId + 1
+        defaultTournamentShouldNotBeFound("eventId.equals=" + (eventId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByOwnerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+        UserExtra owner = UserExtraResourceIT.createEntity(em);
+        em.persist(owner);
+        em.flush();
+        tournament.setOwner(owner);
+        tournamentRepository.saveAndFlush(tournament);
+        Long ownerId = owner.getId();
+
+        // Get all the tournamentList where owner equals to ownerId
+        defaultTournamentShouldBeFound("ownerId.equals=" + ownerId);
+
+        // Get all the tournamentList where owner equals to ownerId + 1
+        defaultTournamentShouldNotBeFound("ownerId.equals=" + (ownerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultTournamentShouldBeFound(String filter) throws Exception {
+        restTournamentMockMvc.perform(get("/api/tournaments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(tournament.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].closeInscrDays").value(hasItem(DEFAULT_CLOSE_INSCR_DAYS)))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+
+        // Check, that the count call also returns 1
+        restTournamentMockMvc.perform(get("/api/tournaments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultTournamentShouldNotBeFound(String filter) throws Exception {
+        restTournamentMockMvc.perform(get("/api/tournaments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restTournamentMockMvc.perform(get("/api/tournaments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -12,11 +12,16 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { ProvinceService } from './province.service';
 
+import { ICountry } from 'app/shared/model/country.model';
+import { CountryService } from 'app/entities/country/country.service';
+import { JhiAlertService } from 'ng-jhipster';
+
 @Component({
   selector: 'jhi-province',
   templateUrl: './province.component.html'
 })
 export class ProvinceComponent implements OnInit, OnDestroy {
+
   currentAccount: any;
   provinces: IProvince[];
   error: any;
@@ -31,7 +36,11 @@ export class ProvinceComponent implements OnInit, OnDestroy {
   previousPage: any;
   reverse: any;
 
+  countries: ICountry[];
+
   constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected countryService: CountryService,
     protected provinceService: ProvinceService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
@@ -94,6 +103,15 @@ export class ProvinceComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInProvinces();
+    this.countryService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ICountry[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ICountry[]>) => response.body)
+	    )
+	    .subscribe((res: ICountry[]) => (this.countries = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   ngOnDestroy() {
@@ -109,7 +127,7 @@ export class ProvinceComponent implements OnInit, OnDestroy {
   }
 
   sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
@@ -120,5 +138,13 @@ export class ProvinceComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.provinces = data;
+  }
+  
+  trackCountryById(index: number, item: ICountry) {
+	    return item.name;
+  }
+
+  protected onError(errorMessage: string) {
+	    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

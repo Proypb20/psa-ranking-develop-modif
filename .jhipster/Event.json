@@ -39,6 +39,12 @@
             "otherEntityField": "id"
         },
         {
+            "relationshipName": "city",
+            "otherEntityName": "city",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "many-to-many",
             "otherEntityName": "category",
             "otherEntityRelationshipName": "event",
@@ -53,7 +59,7 @@
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",

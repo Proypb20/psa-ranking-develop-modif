@@ -40,6 +40,9 @@
             <column name="tournament_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="city_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="event" columnName="create_date" columnDataType="datetime"/>

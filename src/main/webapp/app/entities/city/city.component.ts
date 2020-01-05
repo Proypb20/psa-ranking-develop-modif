@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -12,11 +12,16 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { CityService } from './city.service';
 
+import { IProvince } from 'app/shared/model/province.model';
+import { ProvinceService } from 'app/entities/province/province.service';
+import { JhiAlertService } from 'ng-jhipster';
+
 @Component({
   selector: 'jhi-city',
   templateUrl: './city.component.html'
 })
 export class CityComponent implements OnInit, OnDestroy {
+
   currentAccount: any;
   cities: ICity[];
   error: any;
@@ -30,8 +35,12 @@ export class CityComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  
+  provinces: IProvince[];
 
   constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected provinceService: ProvinceService,
     protected cityService: CityService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
@@ -94,6 +103,15 @@ export class CityComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInCities();
+    this.ProvinceService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<IProvince[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<IProvince[]>) => response.body)
+	    )
+	    .subscribe((res: IProvince[]) => (this.provinces = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   ngOnDestroy() {
@@ -109,7 +127,7 @@ export class CityComponent implements OnInit, OnDestroy {
   }
 
   sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
@@ -120,5 +138,13 @@ export class CityComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.cities = data;
+  }
+  
+  trackProvinceById(index: number, item: IProvince) {
+	    return item.name;
+  }
+
+  protected onError(errorMessage: string) {
+	    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

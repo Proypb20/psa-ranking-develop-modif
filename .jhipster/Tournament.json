@@ -25,14 +25,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "address",
-            "otherEntityRelationshipName": "tournament",
-            "relationshipName": "address",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "one-to-many",
             "otherEntityName": "event",
             "otherEntityRelationshipName": "tournament",
@@ -52,7 +44,7 @@
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",

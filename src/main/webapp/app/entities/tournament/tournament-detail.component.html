@@ -25,12 +25,6 @@
                 <dd>
                     <span>{{tournament.updatedDate}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.tournament.address">Address</span></dt>
-                <dd>
-                    <div *ngIf="tournament.addressId">
-                        <a [routerLink]="['/address', tournament.addressId, 'view']">{{tournament.addressId}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></dt>
                 <dd>
                     <div *ngIf="tournament.ownerId">

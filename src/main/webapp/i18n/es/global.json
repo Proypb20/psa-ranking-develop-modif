@@ -11,21 +11,27 @@
           "tournament": "Agregar Torneo",
           "Country": "Agregar Pais",
           "province": "Agregar Provincia",
+          "team": "Agregar Equipo",
           "add": "Agregar"
-                },
+        },
         "view": {
-          "event":"Ver Eventos",
-          "tournament": "Ver Torneos",
-          "province": "Ver Provincias"}
-                },
+          "admin": "Administrar",
+          "event": "Eventos",
+          "tournament": "Torneos",
+          "team": "Equipos",
+          "myteam": "Mis Equipos",
+          "roster": "Jugadores",
+          "province": "Provincias",
+          "doctype": "Tipos de Documento",
+          "country": "Paises"
+        }
+      },
       "entities": {
         "main": "Entidades",
         "country": "Paises",
         "province": "Provincias",
-        "location": "Localidades",
         "city": "Ciudades",
-        "address": "Domicilios",
-        "docType": "Doc Type",
+        "docType": "Tipos de Documentos",
         "person": "Person",
         "tournament": "Torneos",
         "event": "Eventos",

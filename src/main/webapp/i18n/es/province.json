@@ -18,7 +18,7 @@
       },
       "name": "Nombre",
       "country": "Pais",
-      "location": "Localidad"
+      "city": "Ciudad"
     }
   }
 }

@@ -72,16 +72,13 @@ class PersonGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "names":"SAMPLE_TEXT"
-                , "surnames":"SAMPLE_TEXT"
-                , "email":"SAMPLE_TEXT"
-                , "phone":"SAMPLE_TEXT"
-                , "bornDate":"2020-01-01T00:00:00.000Z"
                 , "psaId":"SAMPLE_TEXT"
                 , "eraseDate":"2020-01-01T00:00:00.000Z"
                 , "active":null
                 , "createDate":"2020-01-01T00:00:00.000Z"
                 , "updatedDate":"2020-01-01T00:00:00.000Z"
+                , "address":"SAMPLE_TEXT"
+                , "zipCode":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_person_url"))).exitHereIfFailed

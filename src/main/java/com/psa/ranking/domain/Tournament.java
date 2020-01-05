@@ -42,10 +42,6 @@ public class Tournament implements Serializable {
     @Column(name = "updated_date")
     private Instant updatedDate;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Address address;
-
     @OneToMany(mappedBy = "tournament")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Event> events = new HashSet<>();
@@ -126,19 +122,6 @@ public class Tournament implements Serializable {
 
     public void setUpdatedDate(Instant updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Tournament address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public Set<Event> getEvents() {

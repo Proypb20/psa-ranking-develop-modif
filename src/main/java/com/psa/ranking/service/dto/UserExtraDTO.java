@@ -18,7 +18,6 @@ public class UserExtraDTO implements Serializable {
 
     private LocalDate bornDate;
 
-
     private Long userId;
 
     private Long docTypeId;

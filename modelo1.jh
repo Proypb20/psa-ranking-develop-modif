@@ -37,17 +37,7 @@ entity Location {
  }
 
 /**
- * Address entity.
- * @author The JHipster team.
- */
-entity Address {
-	street String,
-	zipCode String,
-}
-
-
-/**
- * Address entity.
+ * DocType entity.
  * @author The JHipster team.
  */
  entity DocType {
@@ -143,19 +133,18 @@ relationship OneToMany {
     Province {location} to Location,
     Location {city} to City,
 	Tournament {event} to Event,
-	UserExtra {address} to Address,
+	UserExtra {city} to City,
 }
 
 relationship ManyToOne {
 	UserExtra {docType} to DocType,
     Tournament {owner} to UserExtra,
     Team {owner} to UserExtra,
-    Address {city} to City,
     Roster {category} to Category
 }
 
 relationship OneToOne {
-    Tournament {address} to Address,
+    Tournament {city} to City,
     Player {userExtra} to UserExtra,
     UserExtra{user} to User    
 }

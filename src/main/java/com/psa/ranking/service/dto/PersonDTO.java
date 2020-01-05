@@ -12,16 +12,6 @@ public class PersonDTO implements Serializable {
 
     private Long id;
 
-    private String names;
-
-    private String surnames;
-
-    private String email;
-
-    private String phone;
-
-    private Instant bornDate;
-
     private String psaId;
 
     private Instant eraseDate;
@@ -32,8 +22,12 @@ public class PersonDTO implements Serializable {
 
     private Instant updatedDate;
 
+    private String address;
 
-    private Long addressId;
+    private String zipCode;
+
+
+    private Long cityId;
 
     private Long docTypeId;
 
@@ -43,46 +37,6 @@ public class PersonDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
-    }
-
-    public String getSurnames() {
-        return surnames;
-    }
-
-    public void setSurnames(String surnames) {
-        this.surnames = surnames;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Instant getBornDate() {
-        return bornDate;
-    }
-
-    public void setBornDate(Instant bornDate) {
-        this.bornDate = bornDate;
     }
 
     public String getPsaId() {
@@ -125,12 +79,28 @@ public class PersonDTO implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public Long getDocTypeId() {
@@ -166,17 +136,14 @@ public class PersonDTO implements Serializable {
     public String toString() {
         return "PersonDTO{" +
             "id=" + getId() +
-            ", names='" + getNames() + "'" +
-            ", surnames='" + getSurnames() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", phone='" + getPhone() + "'" +
-            ", bornDate='" + getBornDate() + "'" +
             ", psaId='" + getPsaId() + "'" +
             ", eraseDate='" + getEraseDate() + "'" +
             ", active='" + isActive() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
-            ", address=" + getAddressId() +
+            ", address='" + getAddress() + "'" +
+            ", zipCode='" + getZipCode() + "'" +
+            ", city=" + getCityId() +
             ", docType=" + getDocTypeId() +
             "}";
     }

@@ -19,7 +19,7 @@
       "name": "Name",
       "latitude": "Latitude",
       "longitude": "Longitude",
-      "location": "Location"
+      "province": "Province"
     }
   }
 }

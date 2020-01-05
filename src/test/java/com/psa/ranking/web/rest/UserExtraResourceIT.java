@@ -1,12 +1,20 @@
 package com.psa.ranking.web.rest;
 
-import com.psa.ranking.PsaRankingApp;
-import com.psa.ranking.domain.UserExtra;
-import com.psa.ranking.repository.UserExtraRepository;
-import com.psa.ranking.service.UserExtraService;
-import com.psa.ranking.service.dto.UserExtraDTO;
-import com.psa.ranking.service.mapper.UserExtraMapper;
-import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,16 +29,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-
-import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.UserExtra;
+import com.psa.ranking.repository.UserExtraRepository;
+import com.psa.ranking.service.UserExtraService;
+import com.psa.ranking.service.dto.UserExtraDTO;
+import com.psa.ranking.service.mapper.UserExtraMapper;
+import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 
 /**
  * Integration tests for the {@link UserExtraResource} REST controller.

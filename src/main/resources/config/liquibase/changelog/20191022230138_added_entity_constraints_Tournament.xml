@@ -8,12 +8,6 @@
     -->
     <changeSet id="20191022230138-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="address_id"
-                                 baseTableName="tournament"
-                                 constraintName="fk_tournament_address_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="address"/>
-
         <addForeignKeyConstraint baseColumnNames="owner_id"
                                  baseTableName="tournament"
                                  constraintName="fk_tournament_owner_id"

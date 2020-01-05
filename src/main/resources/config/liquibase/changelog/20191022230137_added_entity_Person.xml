@@ -16,21 +16,6 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="names" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="surnames" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="phone" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="born_date" type="datetime">
-                <constraints nullable="true" />
-            </column>
             <column name="psa_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -46,15 +31,20 @@
             <column name="updated_date" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="address_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_person_address_id" />
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="zip_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="city_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_person_city_id" />
             </column>
             <column name="doc_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="person" columnName="born_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="person" columnName="erase_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="person" columnName="create_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="person" columnName="updated_date" columnDataType="datetime"/>
@@ -79,16 +69,13 @@
                   separator=";"
                   tableName="person">
             <column name="id" type="numeric"/>
-            <column name="names" type="string"/>
-            <column name="surnames" type="string"/>
-            <column name="email" type="string"/>
-            <column name="phone" type="string"/>
-            <column name="born_date" type="datetime"/>
             <column name="psa_id" type="string"/>
             <column name="erase_date" type="datetime"/>
             <column name="active" type="boolean"/>
             <column name="create_date" type="datetime"/>
             <column name="updated_date" type="datetime"/>
+            <column name="address" type="string"/>
+            <column name="zip_code" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
