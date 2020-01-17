@@ -103,7 +103,7 @@ export class CityComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInCities();
-    this.ProvinceService
+    this.provinceService
 	    .query({
 	    	size: 2000
 	    })

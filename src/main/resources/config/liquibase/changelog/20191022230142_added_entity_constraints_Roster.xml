@@ -26,5 +26,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="player"/>
         
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="roster"
+                                 constraintName="fk_roster_team_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+
     </changeSet>
 </databaseChangeLog>

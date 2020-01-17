@@ -24,7 +24,7 @@
                 <dt><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span></dt>
                 <dd>
                     <div *ngIf="userExtra.docTypeId">
-                        <a [routerLink]="['/doc-type', userExtra.docTypeId, 'view']">{{userExtra.docTypeId}}</a>
+                        <a [routerLink]="['/doc-type', userExtra.docTypeId, 'view']">{{userExtra.name}}</a>
                     </div>
                 </dd>
             </dl>

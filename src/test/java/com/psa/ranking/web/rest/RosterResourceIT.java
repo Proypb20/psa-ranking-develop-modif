@@ -2,6 +2,7 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.Team;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.RosterService;
 import com.psa.ranking.service.dto.RosterDTO;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -36,7 +38,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.psa.ranking.domain.enumeration.ProfileUser;
 /**
  * Integration tests for the {@link RosterResource} REST controller.
  */
@@ -45,9 +46,6 @@ public class RosterResourceIT {
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
-
-    private static final ProfileUser DEFAULT_PROFILE = ProfileUser.PLAYER;
-    private static final ProfileUser UPDATED_PROFILE = ProfileUser.STAFF;
 
     private static final Instant DEFAULT_CREATE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -110,9 +108,18 @@ public class RosterResourceIT {
     public static Roster createEntity(EntityManager em) {
         Roster roster = new Roster()
             .active(DEFAULT_ACTIVE)
-            .profile(DEFAULT_PROFILE)
             .createDate(DEFAULT_CREATE_DATE)
             .updatedDate(DEFAULT_UPDATED_DATE);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        roster.setTeam(team);
         return roster;
     }
     /**
@@ -124,9 +131,18 @@ public class RosterResourceIT {
     public static Roster createUpdatedEntity(EntityManager em) {
         Roster roster = new Roster()
             .active(UPDATED_ACTIVE)
-            .profile(UPDATED_PROFILE)
             .createDate(UPDATED_CREATE_DATE)
             .updatedDate(UPDATED_UPDATED_DATE);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createUpdatedEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        roster.setTeam(team);
         return roster;
     }
 
@@ -152,7 +168,6 @@ public class RosterResourceIT {
         assertThat(rosterList).hasSize(databaseSizeBeforeCreate + 1);
         Roster testRoster = rosterList.get(rosterList.size() - 1);
         assertThat(testRoster.isActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testRoster.getProfile()).isEqualTo(DEFAULT_PROFILE);
         assertThat(testRoster.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
         assertThat(testRoster.getUpdatedDate()).isEqualTo(DEFAULT_UPDATED_DATE);
     }
@@ -190,7 +205,6 @@ public class RosterResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(roster.getId().intValue())))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].profile").value(hasItem(DEFAULT_PROFILE.toString())))
             .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
             .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
     }
@@ -240,7 +254,6 @@ public class RosterResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(roster.getId().intValue()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.profile").value(DEFAULT_PROFILE.toString()))
             .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
             .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
     }
@@ -267,7 +280,6 @@ public class RosterResourceIT {
         em.detach(updatedRoster);
         updatedRoster
             .active(UPDATED_ACTIVE)
-            .profile(UPDATED_PROFILE)
             .createDate(UPDATED_CREATE_DATE)
             .updatedDate(UPDATED_UPDATED_DATE);
         RosterDTO rosterDTO = rosterMapper.toDto(updatedRoster);
@@ -282,7 +294,6 @@ public class RosterResourceIT {
         assertThat(rosterList).hasSize(databaseSizeBeforeUpdate);
         Roster testRoster = rosterList.get(rosterList.size() - 1);
         assertThat(testRoster.isActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testRoster.getProfile()).isEqualTo(UPDATED_PROFILE);
         assertThat(testRoster.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
         assertThat(testRoster.getUpdatedDate()).isEqualTo(UPDATED_UPDATED_DATE);
     }

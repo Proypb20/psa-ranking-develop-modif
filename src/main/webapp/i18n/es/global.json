@@ -15,6 +15,17 @@
           "add": "Agregar"
         },
         "view": {
+          "view": "Ver Todo",
+          "event": "Ver Eventos",
+          "tournament": "Ver Torneos",
+          "team": "Ver Equipos",
+          "roster": "Ver Jugadores",
+          "province": "Ver Provincias",
+          "doctype": "Ver Tipos de Documento",
+          "country": "Ver Paises",
+          "city": "Ver Ciudades"
+        },
+        "admin": {
           "admin": "Administrar",
           "event": "Eventos",
           "tournament": "Torneos",
@@ -23,7 +34,8 @@
           "roster": "Jugadores",
           "province": "Provincias",
           "doctype": "Tipos de Documento",
-          "country": "Paises"
+          "country": "Paises",
+          "city": "Ciudades"
         }
       },
       "entities": {
@@ -40,7 +52,7 @@
         "roster": "Roster",
         "player": "Player",
         "userExtra": "User Extra",
-        "console": "Consola",
+        "console": "Abrir Consola",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

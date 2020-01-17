@@ -20,11 +20,10 @@
                         <option [ngValue]="userExtraOption.id" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.team.active" for="field_active">Active</label>
-                    <input type="checkbox" class="form-control" name="active" id="field_active"
-                           formControlName="active"/>
-                </div>
+                <!--<div class="form-group">
+                    <label *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control-label" jhiTranslate="psaRankingApp.team.active" for="field_active">Active</label>
+                    <input *jhiHasAnyAuthority="'ROLE_ADMIN'" type="checkbox" class="form-control" name="active" id="field_active" formControlName="active"/>
+                </div>-->
                 <!-- <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.team.createDate" for="field_createDate">Create Date</label>
                     <div class="d-flex">

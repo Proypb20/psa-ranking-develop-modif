@@ -15,6 +15,8 @@ import { ICategory } from 'app/shared/model/category.model';
 import { CategoryService } from 'app/entities/category/category.service';
 import { IPlayer } from 'app/shared/model/player.model';
 import { PlayerService } from 'app/entities/player/player.service';
+import { ITeam } from 'app/shared/model/team.model';
+import { TeamService } from 'app/entities/team/team.service';
 
 @Component({
   selector: 'jhi-roster-update',
@@ -27,14 +29,16 @@ export class RosterUpdateComponent implements OnInit {
 
   players: IPlayer[];
 
+  teams: ITeam[];
+
   editForm = this.fb.group({
     id: [],
     active: [],
-    profile: [],
     createDate: [],
     updatedDate: [],
-    categoryId: [],
-    players: []
+    categoryId: [null, Validators.required],
+    players: [],
+    teamId: [null, Validators.required]
   });
 
   constructor(
@@ -42,6 +46,7 @@ export class RosterUpdateComponent implements OnInit {
     protected rosterService: RosterService,
     protected categoryService: CategoryService,
     protected playerService: PlayerService,
+    protected teamService: TeamService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -65,17 +70,24 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<IPlayer[]>) => response.body)
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.teamService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITeam[]>) => response.body)
+      )
+      .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(roster: IRoster) {
     this.editForm.patchValue({
       id: roster.id,
       active: roster.active,
-      profile: roster.profile,
       createDate: roster.createDate != null ? roster.createDate.format(DATE_TIME_FORMAT) : null,
       updatedDate: roster.updatedDate != null ? roster.updatedDate.format(DATE_TIME_FORMAT) : null,
       categoryId: roster.categoryId,
-      players: roster.players
+      players: roster.players,
+      teamId: roster.teamId
     });
   }
 
@@ -98,13 +110,13 @@ export class RosterUpdateComponent implements OnInit {
       ...new Roster(),
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
-      profile: this.editForm.get(['profile']).value,
       createDate:
         this.editForm.get(['createDate']).value != null ? moment(this.editForm.get(['createDate']).value, DATE_TIME_FORMAT) : undefined,
       updatedDate:
         this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
       categoryId: this.editForm.get(['categoryId']).value,
-      players: this.editForm.get(['players']).value
+      players: this.editForm.get(['players']).value,
+      teamId: this.editForm.get(['teamId']).value
     };
   }
 
@@ -129,6 +141,10 @@ export class RosterUpdateComponent implements OnInit {
   }
 
   trackPlayerById(index: number, item: IPlayer) {
+    return item.id;
+  }
+
+  trackTeamById(index: number, item: ITeam) {
     return item.id;
   }
 

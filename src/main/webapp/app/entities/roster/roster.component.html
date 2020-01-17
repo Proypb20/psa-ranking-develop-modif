@@ -20,10 +20,10 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.roster.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.roster.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryId"><span jhiTranslate="psaRankingApp.roster.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -31,12 +31,16 @@
             <tr *ngFor="let roster of rosters ;trackBy: trackId">
                 <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td>
                 <td>{{roster.active}}</td>
-                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + roster.profile}}">{{roster.profile}}</td>
                 <td>{{roster.createDate | date:'medium'}}</td>
                 <td>{{roster.updatedDate | date:'medium'}}</td>
                 <td>
                     <div *ngIf="roster.categoryId">
                         <a [routerLink]="['/category', roster.categoryId , 'view' ]" >{{roster.categoryId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="roster.teamId">
+                        <a [routerLink]="['/team', roster.teamId , 'view' ]" >{{roster.teamName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

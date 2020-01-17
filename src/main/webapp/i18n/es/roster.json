@@ -17,11 +17,11 @@
         "title": "Roster"
       },
       "active": "Active",
-      "profile": "Profile",
       "createDate": "Create Date",
       "updatedDate": "Updated Date",
       "category": "Category",
-      "player": "Player"
+      "player": "Player",
+      "team": "Team"
     }
   }
 }

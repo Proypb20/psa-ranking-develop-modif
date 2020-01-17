@@ -9,10 +9,6 @@
                 <dd>
                     <span>{{roster.active}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.roster.profile">Profile</span></dt>
-                <dd>
-                    <span jhiTranslate="{{'psaRankingApp.ProfileUser.' + roster.profile}}">{{roster.profile}}</span>
-                </dd>
                 <dt><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span></dt>
                 <dd>
                     <span>{{roster.createDate}}</span>
@@ -32,6 +28,12 @@
                     <span *ngFor="let player of roster.players; let last = last">
                         <a [routerLink]="['/player', player?.id, 'view' ]">{{player.id}}</a>{{last ? '' : ', '}}
                     </span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.team">Team</span></dt>
+                <dd>
+                    <div *ngIf="roster.teamId">
+                        <a [routerLink]="['/team', roster.teamId, 'view']">{{roster.teamName}}</a>
+                    </div>
                 </dd>
             </dl>
 

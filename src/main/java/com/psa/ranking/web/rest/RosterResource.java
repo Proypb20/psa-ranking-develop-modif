@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -51,11 +53,12 @@ public class RosterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/rosters")
-    public ResponseEntity<RosterDTO> createRoster(@RequestBody RosterDTO rosterDTO) throws URISyntaxException {
+    public ResponseEntity<RosterDTO> createRoster(@Valid @RequestBody RosterDTO rosterDTO) throws URISyntaxException {
         log.debug("REST request to save Roster : {}", rosterDTO);
         if (rosterDTO.getId() != null) {
             throw new BadRequestAlertException("A new roster cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        rosterDTO.setActive(true);
         RosterDTO result = rosterService.save(rosterDTO);
         return ResponseEntity.created(new URI("/api/rosters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -72,7 +75,7 @@ public class RosterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/rosters")
-    public ResponseEntity<RosterDTO> updateRoster(@RequestBody RosterDTO rosterDTO) throws URISyntaxException {
+    public ResponseEntity<RosterDTO> updateRoster(@Valid @RequestBody RosterDTO rosterDTO) throws URISyntaxException {
         log.debug("REST request to update Roster : {}", rosterDTO);
         if (rosterDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

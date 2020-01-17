@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { RosterService } from 'app/entities/roster/roster.service';
 import { IRoster, Roster } from 'app/shared/model/roster.model';
-import { ProfileUser } from 'app/shared/model/enumerations/profile-user.model';
 
 describe('Service Tests', () => {
   describe('Roster Service', () => {
@@ -25,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Roster(0, false, ProfileUser.PLAYER, currentDate, currentDate);
+      elemDefault = new Roster(0, false, currentDate, currentDate);
     });
 
     describe('Service methods', () => {
@@ -76,7 +75,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             active: true,
-            profile: 'BBBBBB',
             createDate: currentDate.format(DATE_TIME_FORMAT),
             updatedDate: currentDate.format(DATE_TIME_FORMAT)
           },
@@ -103,7 +101,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             active: true,
-            profile: 'BBBBBB',
             createDate: currentDate.format(DATE_TIME_FORMAT),
             updatedDate: currentDate.format(DATE_TIME_FORMAT)
           },

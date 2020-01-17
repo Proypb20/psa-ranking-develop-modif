@@ -1,11 +1,11 @@
 package com.psa.ranking.service.dto;
 import io.swagger.annotations.ApiModel;
 import java.time.Instant;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
-import com.psa.ranking.domain.enumeration.ProfileUser;
 
 /**
  * A DTO for the {@link com.psa.ranking.domain.Roster} entity.
@@ -17,8 +17,6 @@ public class RosterDTO implements Serializable {
 
     private Boolean active;
 
-    private ProfileUser profile;
-
     private Instant createDate;
 
     private Instant updatedDate;
@@ -27,6 +25,10 @@ public class RosterDTO implements Serializable {
     private Long categoryId;
 
     private Set<PlayerDTO> players = new HashSet<>();
+
+    private Long teamId;
+
+    private String teamName;
 
     public Long getId() {
         return id;
@@ -42,14 +44,6 @@ public class RosterDTO implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public ProfileUser getProfile() {
-        return profile;
-    }
-
-    public void setProfile(ProfileUser profile) {
-        this.profile = profile;
     }
 
     public Instant getCreateDate() {
@@ -84,6 +78,22 @@ public class RosterDTO implements Serializable {
         this.players = players;
     }
 
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -110,10 +120,11 @@ public class RosterDTO implements Serializable {
         return "RosterDTO{" +
             "id=" + getId() +
             ", active='" + isActive() + "'" +
-            ", profile='" + getProfile() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
             ", category=" + getCategoryId() +
+            ", team=" + getTeamId() +
+            ", team='" + getTeamName() + "'" +
             "}";
     }
 }

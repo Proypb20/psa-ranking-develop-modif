@@ -6,11 +6,6 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "profile",
-            "fieldType": "ProfileUser",
-            "fieldValues": "PLAYER,STAFF"
-        },
-        {
             "fieldName": "createDate",
             "fieldType": "Instant"
         },
@@ -34,6 +29,16 @@
             "relationshipName": "player",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipName": "team",
+            "otherEntityName": "team",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "roster"
         }
     ],
     "changelogDate": "20191022230142",
@@ -46,5 +51,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

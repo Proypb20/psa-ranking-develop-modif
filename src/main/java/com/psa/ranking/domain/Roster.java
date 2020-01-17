@@ -4,13 +4,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.psa.ranking.domain.enumeration.ProfileUser;
 
 /**
  * Roster entity.\n@author Marcelo Miño
@@ -29,10 +28,6 @@ public class Roster implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "profile")
-    private ProfileUser profile;
-
     @Column(name = "create_date")
     private Instant createDate;
 
@@ -49,6 +44,11 @@ public class Roster implements Serializable {
                joinColumns = @JoinColumn(name = "roster_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"))
     private Set<Player> players = new HashSet<>();
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("rosters")
+    private Team team;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -70,19 +70,6 @@ public class Roster implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public ProfileUser getProfile() {
-        return profile;
-    }
-
-    public Roster profile(ProfileUser profile) {
-        this.profile = profile;
-        return this;
-    }
-
-    public void setProfile(ProfileUser profile) {
-        this.profile = profile;
     }
 
     public Instant getCreateDate() {
@@ -148,6 +135,19 @@ public class Roster implements Serializable {
     public void setPlayers(Set<Player> players) {
         this.players = players;
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public Roster team(Team team) {
+        this.team = team;
+        return this;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -171,7 +171,6 @@ public class Roster implements Serializable {
         return "Roster{" +
             "id=" + getId() +
             ", active='" + isActive() + "'" +
-            ", profile='" + getProfile() + "'" +
             ", createDate='" + getCreateDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
             "}";

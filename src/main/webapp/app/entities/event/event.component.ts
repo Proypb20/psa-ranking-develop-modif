@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse,HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,6 +11,12 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EventService } from './event.service';
+
+import { ITournament } from 'app/shared/model/tournament.model';
+import { TournamentService } from 'app/entities/tournament/tournament.service';
+import { ICity } from 'app/shared/model/city.model';
+import { CityService } from 'app/entities/city/city.service';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-event',
@@ -30,8 +36,14 @@ export class EventComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  
+  tournaments: ITournament[];
+  cities: ICity[];
 
   constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected tournamentService: TournamentService,
+    protected cityService: CityService,
     protected eventService: EventService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
@@ -94,6 +106,24 @@ export class EventComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInEvents();
+    this.tournamentService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ITournament[]>) => response.body)
+	    )
+	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+	this.cityService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ICity[]>) => response.body)
+	    )
+	    .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   ngOnDestroy() {
@@ -120,5 +150,17 @@ export class EventComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.events = data;
+  }
+  
+  trackTournamentById(index: number, item: ITournament) {
+	    return item.name;
+  }
+  
+  trackCityById(index: number, item: ICity) {
+	    return item.name;
+  }
+
+  protected onError(errorMessage: string) {
+	    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

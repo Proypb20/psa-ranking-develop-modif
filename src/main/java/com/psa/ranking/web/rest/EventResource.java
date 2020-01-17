@@ -103,7 +103,7 @@ public class EventResource {
      */
     @GetMapping("/events")
     public ResponseEntity<List<EventDTO>> getAllEvents(EventCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get Events by criteria: {}", criteria);
+        log.debug("REST request to get Events by criteria: {}", criteria); 
         Page<EventDTO> page = eventQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

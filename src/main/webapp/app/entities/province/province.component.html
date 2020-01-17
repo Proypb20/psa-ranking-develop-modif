@@ -29,7 +29,8 @@
                 <td>
 	                <div *ngIf="province.countryId">
 		                <div *ngFor="let item of countries">
-		                	<a [routerLink]="['/country', province.countryId , 'view' ]" *ngIf="(item.id == province.countryId)" >{{item.name}}</a>
+		                	<!-- <a [routerLink]="['/country', province.countryId , 'view' ]" *ngIf="(item.id == province.countryId)" >{{item.name}}</a> -->
+		                	<a *ngIf="(item.id == province.countryId)" >{{item.name}}</a>
 						</div>
 					</div>
                 </td>
@@ -43,6 +44,12 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
+                        <button type="submit"
+                                [routerLink]="['/city', province.id, 'view']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.city">Cities</span>
+                        </button>
                         <button type="submit"
                                 [routerLink]="['/province', province.id, 'edit']"
                                 class="btn btn-primary btn-sm">

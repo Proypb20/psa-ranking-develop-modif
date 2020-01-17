@@ -4,22 +4,42 @@
             <h2 id="jhi-roster-heading" jhiTranslate="psaRankingApp.roster.home.createOrEditLabel">Create or edit a Roster</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
+                </div>-->
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.category" for="field_category">Category</label>
+                    <select class="form-control" id="field_category" name="category" formControlName="categoryId">
+                        <!-- <option [ngValue]="null"></option>-->
+                        <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('categoryId').invalid && (editForm.get('categoryId').dirty || editForm.get('categoryId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('categoryId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.team" for="field_team">Team</label>
+                    <select class="form-control" id="field_team" name="team" formControlName="teamId">
+                        <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('teamId').invalid && (editForm.get('teamId').dirty || editForm.get('teamId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <!--<div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.active" for="field_active">Active</label>
                     <input type="checkbox" class="form-control" name="active" id="field_active"
                            formControlName="active"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.profile" for="field_profile">Profile</label>
-                    <select class="form-control" name="profile" formControlName="profile" id="field_profile">
-                        <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
-                        <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
-                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.createDate" for="field_createDate">Create Date</label>
@@ -32,28 +52,58 @@
                     <div class="d-flex">
                         <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" formControlName="updatedDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.category" for="field_category">Category</label>
-                    <select class="form-control" id="field_category" name="category" formControlName="categoryId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
+                </div>-->
+                <table class="table table-striped" aria-describedby="page-heading">
+                <th>Jugadores</th>
+                <th>Tipo Jugador</th>
+                    <tbody>
+			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			            <a *ngIf="playerOption.profile == 'PLAYER'">
+			              <td>{{playerOption.id}}</td>
+			              <td>{{playerOption.profile}}</td>
+			            </a>
+                      </tr>
+                    </tbody>
+                </table>
+                
+                <table class="table table-striped" aria-describedby="page-heading">
+                <th>Staff</th>
+                <th>Tipo Jugador</th>
+                    <tbody>
+			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			            <div *ngIf="playerOption.profile == 'STAFF'">
+			              <td>{{playerOption.id}}</td>
+			              <td>{{playerOption.profile}}</td>
+			            </div>
+                      </tr>
+                    </tbody>
+                </table>
+                
+                <table class="table table-striped" aria-describedby="page-heading">
+                <th>Otros Jugadores</th>
+                <th>Tipo Jugador</th>
+                    <tbody>
+			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			           <div *ngIf="playerOption.profile != 'STAFF' && playerOption.profile != 'PLAYER'">
+			            <td>{{playerOption.id}}</td>
+			            <td>{{playerOption.profile}}</td>
+			            </div>
+                      </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="form-group">
                     <label jhiTranslate="psaRankingApp.roster.player" for="field_players">Player</label>
                     <select class="form-control" id="field_players" multiple name="players" formControlName="players">
                         <option [ngValue]="getSelected(editForm.get('players').value, playerOption)" *ngFor="let playerOption of players; trackBy: trackPlayerById">{{playerOption.id}}</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </div>
         </form>
