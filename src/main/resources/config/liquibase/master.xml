@@ -16,9 +16,7 @@
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230131_added_entity_Country.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230132_added_entity_Province.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230133_added_entity_Location.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_City.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230135_added_entity_Address.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230136_added_entity_DocType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230137_added_entity_Person.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230138_added_entity_Tournament.xml" relativeToChangelogFile="false"/>
@@ -30,9 +28,7 @@
     <include file="config/liquibase/changelog/20191023204539_added_entity_UserExtra.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191022230132_added_entity_constraints_Province.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230133_added_entity_constraints_Location.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_constraints_City.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230135_added_entity_constraints_Address.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230137_added_entity_constraints_Person.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230138_added_entity_constraints_Tournament.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230139_added_entity_constraints_Event.xml" relativeToChangelogFile="false"/>

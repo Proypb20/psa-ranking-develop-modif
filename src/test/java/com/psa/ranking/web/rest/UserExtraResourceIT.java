@@ -22,6 +22,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
@@ -92,6 +95,19 @@ public class UserExtraResourceIT {
             .setValidator(validator).build();
     }
 
+    /**
+     * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
+     * @return the {@link FormattingConversionService}.
+     */
+    public static FormattingConversionService createFormattingConversionService() {
+        DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
+        DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
+        registrar.setUseIsoFormat(true);
+        registrar.registerFormatters(dfcs);
+        return dfcs;
+    }
+
+    
 	/**
      * Create an entity for this test.
      *

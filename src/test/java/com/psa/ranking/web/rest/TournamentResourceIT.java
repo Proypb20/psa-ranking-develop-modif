@@ -1,16 +1,21 @@
 package com.psa.ranking.web.rest;
 
-import com.psa.ranking.PsaRankingApp;
-import com.psa.ranking.domain.Tournament;
-import com.psa.ranking.domain.Event;
-import com.psa.ranking.domain.UserExtra;
-import com.psa.ranking.repository.TournamentRepository;
-import com.psa.ranking.service.TournamentService;
-import com.psa.ranking.service.dto.TournamentDTO;
-import com.psa.ranking.service.mapper.TournamentMapper;
-import com.psa.ranking.web.rest.errors.ExceptionTranslator;
-import com.psa.ranking.service.dto.TournamentCriteria;
-import com.psa.ranking.service.TournamentQueryService;
+import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,18 +30,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.Event;
+import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.domain.UserExtra;
 import com.psa.ranking.domain.enumeration.Status;
+import com.psa.ranking.repository.TournamentRepository;
+import com.psa.ranking.service.TournamentQueryService;
+import com.psa.ranking.service.TournamentService;
+import com.psa.ranking.service.dto.TournamentDTO;
+import com.psa.ranking.service.mapper.TournamentMapper;
+import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 /**
  * Integration tests for the {@link TournamentResource} REST controller.
  */
