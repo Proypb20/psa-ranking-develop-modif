@@ -1,6 +1,26 @@
 package com.psa.ranking.web.rest;
 
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.psa.ranking.domain.User;
 import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.security.SecurityUtils;
@@ -8,19 +28,12 @@ import com.psa.ranking.service.MailService;
 import com.psa.ranking.service.UserService;
 import com.psa.ranking.service.dto.PasswordChangeDTO;
 import com.psa.ranking.service.dto.UserDTO;
-import com.psa.ranking.web.rest.errors.*;
+import com.psa.ranking.web.rest.errors.EmailAlreadyUsedException;
+import com.psa.ranking.web.rest.errors.EmailNotFoundException;
+import com.psa.ranking.web.rest.errors.InvalidPasswordException;
+import com.psa.ranking.web.rest.errors.LoginAlreadyUsedException;
 import com.psa.ranking.web.rest.vm.KeyAndPasswordVM;
 import com.psa.ranking.web.rest.vm.ManagedUserVM;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.*;
 
 /**
  * REST controller for managing the current user's account.
@@ -30,7 +43,7 @@ import java.util.*;
 public class AccountResource {
 
     private static class AccountResourceException extends RuntimeException {
-        private AccountResourceException(String message) {
+		private AccountResourceException(String message) {
             super(message);
         }
     }
@@ -55,20 +68,32 @@ public class AccountResource {
      * {@code POST  /register} : register the user.
      *
      * @param managedUserVM the managed user View Model.
+     * @return 
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        if (!checkPasswordLength(managedUserVM.getPassword())) {
-            throw new InvalidPasswordException();
-        }
-        /*Agregado Edu 20191023 UserExtra*/
-        /*User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());*/
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword(),managedUserVM.getPhone(),managedUserVM.getNumDoc(),managedUserVM.getBornDate());
-        mailService.sendActivationEmail(user);
+    public ResponseEntity<String> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    	  HttpHeaders textPlainHeaders = new HttpHeaders();
+    	    textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
+
+    	    return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
+    	        .map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
+    	        .orElseGet(() -> userRepository.findOneWithAuthoritiesByEmailIgnoreCase(managedUserVM.getEmail())
+    	            .map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
+    	            .orElseGet(() -> {
+    	                User user = userService
+    	                    .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
+    	                        managedUserVM.getFirstName(), managedUserVM.getLastName(),
+    	                        managedUserVM.getEmail().toLowerCase(), managedUserVM.getLangKey(),
+    	                        managedUserVM.getPhone());
+
+    	                mailService.sendActivationEmail(user);
+    	                return new ResponseEntity<>(HttpStatus.CREATED);
+    	            })
+    	    );
     }
 
     /**
