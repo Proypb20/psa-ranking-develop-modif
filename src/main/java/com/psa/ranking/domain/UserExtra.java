@@ -130,14 +130,11 @@ public class UserExtra implements Serializable {
         return 31;
     }
 
-    @Override
-    public String toString() {
-        return "UserExtra{" +
-            "id=" + getId() +
-            ", numDoc='" + getNumDoc() + "'" +
-            ", phone='" + getPhone() + "'" +
-            ", bornDate='" + getBornDate() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "UserExtra [id=" + id + ", numDoc=" + numDoc + ", phone=" + phone + ", bornDate=" + bornDate + ", user="
+				+ user + ", docType=" + docType + "]";
+	}
+
 
 }

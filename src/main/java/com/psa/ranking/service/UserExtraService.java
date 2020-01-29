@@ -1,18 +1,19 @@
 package com.psa.ranking.service;
 
-import com.psa.ranking.domain.UserExtra;
-import com.psa.ranking.repository.UserExtraRepository;
-import com.psa.ranking.service.dto.UserExtraDTO;
-import com.psa.ranking.service.mapper.UserExtraMapper;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import com.psa.ranking.domain.User;
+import com.psa.ranking.domain.UserExtra;
+import com.psa.ranking.repository.UserExtraRepository;
+import com.psa.ranking.service.dto.UserExtraDTO;
+import com.psa.ranking.service.mapper.UserExtraMapper;
 
 /**
  * Service Implementation for managing {@link UserExtra}.
@@ -26,10 +27,13 @@ public class UserExtraService {
     private final UserExtraRepository userExtraRepository;
 
     private final UserExtraMapper userExtraMapper;
+    
+    private final UserService userService;
 
-    public UserExtraService(UserExtraRepository userExtraRepository, UserExtraMapper userExtraMapper) {
+    public UserExtraService(UserExtraRepository userExtraRepository, UserExtraMapper userExtraMapper, UserService userService) {
         this.userExtraRepository = userExtraRepository;
         this.userExtraMapper = userExtraMapper;
+        this.userService = userService;
     }
 
     /**
@@ -80,5 +84,13 @@ public class UserExtraService {
     public void delete(Long id) {
         log.debug("Request to delete UserExtra : {}", id);
         userExtraRepository.deleteById(id);
+    }
+    
+    @Transactional(readOnly = true)
+    public UserExtra getUserWithAuthorities() {
+        User user = Optional.of(userService.getUserWithAuthorities().orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
+        UserExtra userExtra = Optional.of(userExtraRepository.findByUser(user)).orElseThrow(() -> new IllegalArgumentException("")).get();
+        log.debug(userExtra.toString());
+        return userExtra;        
     }
 }
