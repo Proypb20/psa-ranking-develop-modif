@@ -16,25 +16,23 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "user",
-            "otherEntityRelationshipName": "userExtra",
-            "relationshipName": "user",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "city",
-            "otherEntityRelationshipName": "userExtra",
-            "relationshipName": "city"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "docType",
             "otherEntityRelationshipName": "userExtra",
             "relationshipName": "docType",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "useJPADerivedIdentifier": true,
+            "otherEntityRelationshipName": "userExtra"
         }
     ],
     "changelogDate": "20191023204539",
@@ -47,5 +45,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

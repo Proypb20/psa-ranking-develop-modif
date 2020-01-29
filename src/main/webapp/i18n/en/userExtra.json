@@ -19,9 +19,8 @@
       "numDoc": "Num Doc",
       "phone": "Phone",
       "bornDate": "Born Date",
-      "user": "User",
-      "address": "Address",
-      "docType": "Doc Type"
+      "docType": "Doc Type",
+      "user": "User"
     }
   }
 }

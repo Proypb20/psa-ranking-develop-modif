@@ -22,8 +22,8 @@
             <th scope="col"  jhiSortBy="numDoc"><span jhiTranslate="psaRankingApp.userExtra.numDoc">Num Doc</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="phone"><span jhiTranslate="psaRankingApp.userExtra.phone">Phone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="bornDate"><span jhiTranslate="psaRankingApp.userExtra.bornDate">Born Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="userId"><span jhiTranslate="psaRankingApp.userExtra.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="docTypeId"><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.userExtra.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -34,12 +34,12 @@
                 <td>{{userExtra.phone}}</td>
                 <td>{{userExtra.bornDate | date:'mediumDate'}}</td>
                 <td>
-                    {{userExtra.userId}}
-                </td>
-                <td>
                     <div *ngIf="userExtra.docTypeId">
                         <a [routerLink]="['/doc-type', userExtra.docTypeId , 'view' ]" >{{userExtra.docTypeId}}</a>
                     </div>
+                </td>
+                <td>
+                    {{userExtra.userLogin}}
                 </td>
                 <td class="text-right">
                     <div class="btn-group">

@@ -10,10 +10,10 @@ import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserExtra, UserExtra } from 'app/shared/model/user-extra.model';
 import { UserExtraService } from './user-extra.service';
-import { IUser } from 'app/core/user/user.model';
-import { UserService } from 'app/core/user/user.service';
 import { IDocType } from 'app/shared/model/doc-type.model';
 import { DocTypeService } from 'app/entities/doc-type/doc-type.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-user-extra-update',
@@ -21,8 +21,10 @@ import { DocTypeService } from 'app/entities/doc-type/doc-type.service';
 })
 export class UserExtraUpdateComponent implements OnInit {
   isSaving: boolean;
-  users: IUser[];
+
   doctypes: IDocType[];
+
+  users: IUser[];
   bornDateDp: any;
 
   editForm = this.fb.group({
@@ -30,15 +32,15 @@ export class UserExtraUpdateComponent implements OnInit {
     numDoc: [],
     phone: [],
     bornDate: [],
-    userId: [],
-    docTypeId: []
+    docTypeId: [],
+    userId: [null, Validators.required]
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected userExtraService: UserExtraService,
-    protected userService: UserService,
     protected docTypeService: DocTypeService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -48,13 +50,6 @@ export class UserExtraUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ userExtra }) => {
       this.updateForm(userExtra);
     });
-    this.userService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.docTypeService
       .query()
       .pipe(
@@ -62,6 +57,13 @@ export class UserExtraUpdateComponent implements OnInit {
         map((response: HttpResponse<IDocType[]>) => response.body)
       )
       .subscribe((res: IDocType[]) => (this.doctypes = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.userService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
+      )
+      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(userExtra: IUserExtra) {
@@ -70,8 +72,8 @@ export class UserExtraUpdateComponent implements OnInit {
       numDoc: userExtra.numDoc,
       phone: userExtra.phone,
       bornDate: userExtra.bornDate,
-      userId: userExtra.userId,
-      docTypeId: userExtra.docTypeId
+      docTypeId: userExtra.docTypeId,
+      userId: userExtra.userId
     });
   }
 
@@ -96,8 +98,8 @@ export class UserExtraUpdateComponent implements OnInit {
       numDoc: this.editForm.get(['numDoc']).value,
       phone: this.editForm.get(['phone']).value,
       bornDate: this.editForm.get(['bornDate']).value,
-      userId: this.editForm.get(['userId']).value,
-      docTypeId: this.editForm.get(['docTypeId']).value
+      docTypeId: this.editForm.get(['docTypeId']).value,
+      userId: this.editForm.get(['userId']).value
     };
   }
 
@@ -117,11 +119,11 @@ export class UserExtraUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackUserById(index: number, item: IUser) {
+  trackDocTypeById(index: number, item: IDocType) {
     return item.id;
   }
 
-  trackDocTypeById(index: number, item: IDocType) {
+  trackUserById(index: number, item: IUser) {
     return item.id;
   }
 }

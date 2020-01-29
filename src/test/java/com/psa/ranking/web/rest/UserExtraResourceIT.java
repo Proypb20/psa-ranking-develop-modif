@@ -1,5 +1,6 @@
 package com.psa.ranking.web.rest;
 
+import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -22,9 +23,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
-import org.springframework.format.support.DefaultFormattingConversionService;
-import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.User;
 import com.psa.ranking.domain.UserExtra;
 import com.psa.ranking.repository.UserExtraRepository;
 import com.psa.ranking.service.UserExtraService;
@@ -96,19 +95,6 @@ public class UserExtraResourceIT {
     }
 
     /**
-     * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
-     * @return the {@link FormattingConversionService}.
-     */
-    public static FormattingConversionService createFormattingConversionService() {
-        DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
-        DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setUseIsoFormat(true);
-        registrar.registerFormatters(dfcs);
-        return dfcs;
-    }
-
-    
-	/**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
@@ -119,6 +105,11 @@ public class UserExtraResourceIT {
             .numDoc(DEFAULT_NUM_DOC)
             .phone(DEFAULT_PHONE)
             .bornDate(DEFAULT_BORN_DATE);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        userExtra.setUser(user);
         return userExtra;
     }
     /**
@@ -132,6 +123,11 @@ public class UserExtraResourceIT {
             .numDoc(UPDATED_NUM_DOC)
             .phone(UPDATED_PHONE)
             .bornDate(UPDATED_BORN_DATE);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        userExtra.setUser(user);
         return userExtra;
     }
 
@@ -159,6 +155,9 @@ public class UserExtraResourceIT {
         assertThat(testUserExtra.getNumDoc()).isEqualTo(DEFAULT_NUM_DOC);
         assertThat(testUserExtra.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testUserExtra.getBornDate()).isEqualTo(DEFAULT_BORN_DATE);
+
+        // Validate the id for MapsId, the ids must be same
+        assertThat(testUserExtra.getId()).isEqualTo(testUserExtra.getUser().getId());
     }
 
     @Test
@@ -181,6 +180,39 @@ public class UserExtraResourceIT {
         assertThat(userExtraList).hasSize(databaseSizeBeforeCreate);
     }
 
+    @Test
+    @Transactional
+    public void updateUserExtraMapsIdAssociationWithNewId() throws Exception {
+        // Initialize the database
+        userExtraRepository.saveAndFlush(userExtra);
+        int databaseSizeBeforeCreate = userExtraRepository.findAll().size();
+
+
+        // Load the userExtra
+        UserExtra updatedUserExtra = userExtraRepository.findById(userExtra.getId()).get();
+        // Disconnect from session so that the updates on updatedUserExtra are not directly saved in db
+        em.detach(updatedUserExtra);
+
+        // Update the User with new association value
+        updatedUserExtra.setUser(UserResourceIT.createEntity(em));
+        UserExtraDTO updatedUserExtraDTO = userExtraMapper.toDto(updatedUserExtra);
+
+        // Update the entity
+        restUserExtraMockMvc.perform(put("/api/user-extras")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedUserExtraDTO)))
+            .andExpect(status().isOk());
+
+        // Validate the UserExtra in the database
+        List<UserExtra> userExtraList = userExtraRepository.findAll();
+        assertThat(userExtraList).hasSize(databaseSizeBeforeCreate);
+        UserExtra testUserExtra = userExtraList.get(userExtraList.size() - 1);
+
+        // Validate the id for MapsId, the ids must be same
+        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
+        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
+         assertThat(testUserExtra.getId()).isEqualTo(testUserExtra.getUser().getId());
+    }
 
     @Test
     @Transactional

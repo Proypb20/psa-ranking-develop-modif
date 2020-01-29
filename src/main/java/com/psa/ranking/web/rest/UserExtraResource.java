@@ -13,14 +13,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -51,10 +54,13 @@ public class UserExtraResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/user-extras")
-    public ResponseEntity<UserExtraDTO> createUserExtra(@RequestBody UserExtraDTO userExtraDTO) throws URISyntaxException {
+    public ResponseEntity<UserExtraDTO> createUserExtra(@Valid @RequestBody UserExtraDTO userExtraDTO) throws URISyntaxException {
         log.debug("REST request to save UserExtra : {}", userExtraDTO);
         if (userExtraDTO.getId() != null) {
             throw new BadRequestAlertException("A new userExtra cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (Objects.isNull(userExtraDTO.getUserId())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
         UserExtraDTO result = userExtraService.save(userExtraDTO);
         return ResponseEntity.created(new URI("/api/user-extras/" + result.getId()))
@@ -72,7 +78,7 @@ public class UserExtraResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/user-extras")
-    public ResponseEntity<UserExtraDTO> updateUserExtra(@RequestBody UserExtraDTO userExtraDTO) throws URISyntaxException {
+    public ResponseEntity<UserExtraDTO> updateUserExtra(@Valid @RequestBody UserExtraDTO userExtraDTO) throws URISyntaxException {
         log.debug("REST request to update UserExtra : {}", userExtraDTO);
         if (userExtraDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

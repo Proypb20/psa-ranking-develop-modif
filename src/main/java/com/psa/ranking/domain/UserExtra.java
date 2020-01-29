@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,7 +20,6 @@ public class UserExtra implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "num_doc")
@@ -31,13 +31,15 @@ public class UserExtra implements Serializable {
     @Column(name = "born_date")
     private LocalDate bornDate;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private User user;
-
     @ManyToOne
     @JsonIgnoreProperties("userExtras")
     private DocType docType;
+
+    @OneToOne(optional = false)    @NotNull
+
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -61,13 +63,13 @@ public class UserExtra implements Serializable {
         this.numDoc = numDoc;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public UserExtra phone(String phone) {
         this.phone = phone;
         return this;
-    }
-    
-    public String getPhone() {
-        return phone;
     }
 
     public void setPhone(String phone) {
@@ -87,19 +89,6 @@ public class UserExtra implements Serializable {
         this.bornDate = bornDate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public UserExtra user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public DocType getDocType() {
         return docType;
     }
@@ -111,6 +100,19 @@ public class UserExtra implements Serializable {
 
     public void setDocType(DocType docType) {
         this.docType = docType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public UserExtra user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -130,11 +132,13 @@ public class UserExtra implements Serializable {
         return 31;
     }
 
-	@Override
-	public String toString() {
-		return "UserExtra [id=" + id + ", numDoc=" + numDoc + ", phone=" + phone + ", bornDate=" + bornDate + ", user="
-				+ user + ", docType=" + docType + "]";
-	}
-
-
+    @Override
+    public String toString() {
+        return "UserExtra{" +
+            "id=" + getId() +
+            ", numDoc='" + getNumDoc() + "'" +
+            ", phone='" + getPhone() + "'" +
+            ", bornDate='" + getBornDate() + "'" +
+            "}";
+    }
 }

@@ -1,6 +1,7 @@
 package com.psa.ranking.service.dto;
 import io.swagger.annotations.ApiModel;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,9 +19,12 @@ public class UserExtraDTO implements Serializable {
 
     private LocalDate bornDate;
 
-    private Long userId;
 
     private Long docTypeId;
+
+    private Long userId;
+
+    private String userLogin;
 
     public Long getId() {
         return id;
@@ -54,6 +58,14 @@ public class UserExtraDTO implements Serializable {
         this.bornDate = bornDate;
     }
 
+    public Long getDocTypeId() {
+        return docTypeId;
+    }
+
+    public void setDocTypeId(Long docTypeId) {
+        this.docTypeId = docTypeId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -62,12 +74,12 @@ public class UserExtraDTO implements Serializable {
         this.userId = userId;
     }
 
-    public Long getDocTypeId() {
-        return docTypeId;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setDocTypeId(Long docTypeId) {
-        this.docTypeId = docTypeId;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     @Override
@@ -98,8 +110,9 @@ public class UserExtraDTO implements Serializable {
             ", numDoc='" + getNumDoc() + "'" +
             ", phone='" + getPhone() + "'" +
             ", bornDate='" + getBornDate() + "'" +
-            ", user=" + getUserId() +
             ", docType=" + getDocTypeId() +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             "}";
     }
 }
