@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -28,6 +28,7 @@ export class RosterUpdateComponent implements OnInit {
   categories: ICategory[];
 
   players: IPlayer[];
+  staffs: IPlayer[];
 
   teams: ITeam[];
 
@@ -38,6 +39,7 @@ export class RosterUpdateComponent implements OnInit {
     updatedDate: [],
     categoryId: [null, Validators.required],
     players: [],
+    staffs: [],
     teamId: [null, Validators.required]
   });
 
@@ -46,6 +48,7 @@ export class RosterUpdateComponent implements OnInit {
     protected rosterService: RosterService,
     protected categoryService: CategoryService,
     protected playerService: PlayerService,
+    protected staffService: PlayerService,
     protected teamService: TeamService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -70,6 +73,13 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<IPlayer[]>) => response.body)
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
+      this.staffService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IPlayer[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IPlayer[]>) => response.body)
+      )
+      .subscribe((res: IPlayer[]) => (this.staffs = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.teamService
       .query()
       .pipe(

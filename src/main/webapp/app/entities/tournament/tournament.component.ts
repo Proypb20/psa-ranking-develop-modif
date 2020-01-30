@@ -30,7 +30,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
-
+  
   constructor(
     protected tournamentService: TournamentService,
     protected parseLinks: JhiParseLinks,
@@ -49,6 +49,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+    
     this.tournamentService
       .query({
         page: this.page - 1,

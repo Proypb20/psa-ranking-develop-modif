@@ -3,25 +3,35 @@
     "roster": {
       "home": {
         "title": "Rosters",
-        "createLabel": "Crear nuevo Roster",
-        "createOrEditLabel": "Crear o editar Roster",
+        "createLabel": "Nuevo Roster",
+        "createOrEditLabel": "Roster",
         "notFound": "No Rosters found"
       },
-      "created": "Un nuevo Roster ha sido creado con el identificador {{ param }}",
-      "updated": "Un Roster ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Roster ha sido eliminado con el identificador {{ param }}",
+      "created": "El Roster {{ param }} ha sido creado",
+      "updated": "El Roster {{ param }} ha sido actualizado",
+      "deleted": "El Roster {{ param }} ha sido eliminado",
       "delete": {
         "question": "¿Seguro que quiere eliminar Roster {{ id }}?"
-      },
+                },
       "detail": {
         "title": "Roster"
+                },
+      "active": "Activo",
+      "createDate": "Fecha de Creacion",
+      "updatedDate": "Fecha Actualizado",
+      "category": "Categoria",
+      "player": "Jugador",
+      "team": "Equipo",
+      "groups": {
+        "players": "Jugadores",
+        "staff": "Staff",
+        "others": "Otros Jugadores"
       },
-      "active": "Active",
-      "createDate": "Create Date",
-      "updatedDate": "Updated Date",
-      "category": "Category",
-      "player": "Player",
-      "team": "Team"
+      "button": {
+        "players": "Jugadores",
+        "staff": "Staff",
+        "others": "Otros"
+      }
     }
   }
 }

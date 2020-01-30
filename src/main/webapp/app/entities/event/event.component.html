@@ -1,7 +1,8 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.event.home.title">Events</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.event.home.createLabel">
             Create a new Event
@@ -65,13 +66,21 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_USER'" 
+                                type="submit"
+                                [routerLink]="['/roster/new']"
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="psaRankingApp.roster.home.createLabel">Teams</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
                                 [routerLink]="['/event', event.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
                                 [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

@@ -18,39 +18,41 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.roster.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <!-- <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <!-- <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.roster.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="categoryId"><span jhiTranslate="psaRankingApp.roster.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let roster of rosters ;trackBy: trackId">
-                <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td>
-                <td>{{roster.active}}</td>
-                <td>{{roster.createDate | date:'medium'}}</td>
-                <td>{{roster.updatedDate | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="roster.categoryId">
-                        <a [routerLink]="['/category', roster.categoryId , 'view' ]" >{{roster.categoryId}}</a>
-                    </div>
-                </td>
+                <!-- <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td> -->
                 <td>
                     <div *ngIf="roster.teamId">
-                        <a [routerLink]="['/team', roster.teamId , 'view' ]" >{{roster.teamName}}</a>
+                        <a>{{roster.teamName}}</a>
                     </div>
                 </td>
+                <!-- <td>{{roster.createDate | date:'medium'}}</td> -->
+                <!-- <td>{{roster.updatedDate | date:'medium'}}</td> -->
+                <td>
+                    <div *ngIf="roster.categoryId">
+                        <div *ngFor="let item of categories">
+                          <a *ngIf="(item.id == roster.categoryId)" >{{item.name}}</a>
+                        </div>
+                    </div>
+                </td>
+                <td>{{roster.active}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <button type="submit"
+                        <!-- <button type="submit"
                                 [routerLink]="['/roster', roster.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
+                        </button> -->
                         <button type="submit"
                                 [routerLink]="['/roster', roster.id, 'edit']"
                                 class="btn btn-primary btn-sm">
