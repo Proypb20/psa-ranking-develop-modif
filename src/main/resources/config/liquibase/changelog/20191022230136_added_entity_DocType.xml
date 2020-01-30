@@ -24,6 +24,15 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <loadData
+                  file="config/liquibase/data/doc_type.csv"
+                  separator=";"
+                  tableName="doc_type">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="description" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+        </loadData>
     </changeSet>
 
     <changeSet id="20191022230136-1-relations" author="jhipster">

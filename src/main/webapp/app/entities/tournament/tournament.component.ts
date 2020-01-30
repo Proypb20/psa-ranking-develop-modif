@@ -50,8 +50,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
 
   loadAll() {
     this.tournamentService
-      .query({	
-        'id.equals': 3,
+      .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse,HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -36,6 +36,8 @@ export class EventComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  tourId: number;
+  private sub: any;
   
   tournaments: ITournament[];
   cities: ICity[];
@@ -49,7 +51,7 @@ export class EventComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -63,6 +65,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loadAll() {
     this.eventService
       .query({
+        'tournamentId.equals': this.tourId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -101,6 +104,12 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.tourId = +params['tourId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

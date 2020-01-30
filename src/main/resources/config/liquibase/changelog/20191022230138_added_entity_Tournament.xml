@@ -38,6 +38,18 @@
         </createTable>
         <dropDefaultValue tableName="tournament" columnName="create_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="tournament" columnName="updated_date" columnDataType="datetime"/>
+        <loadData
+                  file="config/liquibase/data/tournament.csv"
+                  separator=";"
+                  tableName="tournament">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="close_inscr_days" type="numeric"/>
+            <column name="status" type="string"/>
+            <column name="create_date" type="datetime"/>
+            <column name="updated_date" type="datetime"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+        </loadData>
     </changeSet>
 
     <changeSet id="20191022230138-1-relations" author="jhipster">
