@@ -4,9 +4,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,19 +36,17 @@ public class Tournament implements Serializable {
     @Column(name = "status")
     private Status status;
 
-    @Column(name = "create_date")
-    private Instant createDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
+    @Column(name = "categorize")
+    private Boolean categorize;
 
     @OneToMany(mappedBy = "tournament")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("tournaments")
-    private UserExtra owner;
+    private User owner;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -98,30 +96,17 @@ public class Tournament implements Serializable {
         this.status = status;
     }
 
-    public Instant getCreateDate() {
-        return createDate;
+    public Boolean isCategorize() {
+        return categorize;
     }
 
-    public Tournament createDate(Instant createDate) {
-        this.createDate = createDate;
+    public Tournament categorize(Boolean categorize) {
+        this.categorize = categorize;
         return this;
     }
 
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Instant getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public Tournament updatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
-        return this;
-    }
-
-    public void setUpdatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setCategorize(Boolean categorize) {
+        this.categorize = categorize;
     }
 
     public Set<Event> getEvents() {
@@ -149,17 +134,17 @@ public class Tournament implements Serializable {
         this.events = events;
     }
 
-    public UserExtra getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public Tournament owner(UserExtra userExtra) {
-        this.owner = userExtra;
+    public Tournament owner(User user) {
+        this.owner = user;
         return this;
     }
 
-    public void setOwner(UserExtra userExtra) {
-        this.owner = userExtra;
+    public void setOwner(User user) {
+        this.owner = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -186,8 +171,7 @@ public class Tournament implements Serializable {
             ", name='" + getName() + "'" +
             ", closeInscrDays=" + getCloseInscrDays() +
             ", status='" + getStatus() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updatedDate='" + getUpdatedDate() + "'" +
+            ", categorize='" + isCategorize() + "'" +
             "}";
     }
 }

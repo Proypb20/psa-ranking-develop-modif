@@ -1,18 +1,18 @@
 package com.psa.ranking.service;
 
-import java.util.Optional;
-
+import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.repository.TournamentRepository;
+import com.psa.ranking.service.dto.TournamentDTO;
+import com.psa.ranking.service.mapper.TournamentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.psa.ranking.domain.Tournament;
-import com.psa.ranking.repository.TournamentRepository;
-import com.psa.ranking.service.dto.TournamentDTO;
-import com.psa.ranking.service.mapper.TournamentMapper;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link Tournament}.
@@ -24,15 +24,12 @@ public class TournamentService {
     private final Logger log = LoggerFactory.getLogger(TournamentService.class);
 
     private final TournamentRepository tournamentRepository;
-    
-    private final UserExtraService userExtraService;
 
     private final TournamentMapper tournamentMapper;
 
-    public TournamentService(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper, UserExtraService userExtraService) {
+    public TournamentService(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper) {
         this.tournamentRepository = tournamentRepository;
         this.tournamentMapper = tournamentMapper;
-        this.userExtraService = userExtraService;
     }
 
     /**
@@ -44,7 +41,6 @@ public class TournamentService {
     public TournamentDTO save(TournamentDTO tournamentDTO) {
         log.debug("Request to save Tournament : {}", tournamentDTO);
         Tournament tournament = tournamentMapper.toEntity(tournamentDTO);
-        tournament.setOwner(userExtraService.getUserWithAuthorities());
         tournament = tournamentRepository.save(tournament);
         return tournamentMapper.toDto(tournament);
     }

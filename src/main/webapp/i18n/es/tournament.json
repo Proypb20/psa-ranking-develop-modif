@@ -19,8 +19,7 @@
       "name": "Nombre",
       "closeInscrDays": "Dias Cierre Inscripcion",
       "status": "Estado",
-      "createDate": "Fecha Creacion",
-      "updatedDate": "Fecha Actualizado",
+      "categorize": "Categorizar",
       "event": "Evento",
       "owner": "Propietario"
     }

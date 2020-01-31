@@ -1,8 +1,6 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { take, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { ITournament, Tournament } from 'app/shared/model/tournament.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
@@ -14,7 +12,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: ITournament;
     let expectedResult;
-    let currentDate: moment.Moment;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
@@ -23,20 +20,13 @@ describe('Service Tests', () => {
       injector = getTestBed();
       service = injector.get(TournamentService);
       httpMock = injector.get(HttpTestingController);
-      currentDate = moment();
 
-      elemDefault = new Tournament(0, 'AAAAAAA', 0, Status.CREATED, currentDate, currentDate);
+      elemDefault = new Tournament(0, 'AAAAAAA', 0, Status.CREATED, false);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign(
-          {
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         service
           .find(123)
           .pipe(take(1))
@@ -50,19 +40,11 @@ describe('Service Tests', () => {
       it('should create a Tournament', () => {
         const returnedFromService = Object.assign(
           {
-            id: 0,
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            id: 0
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .create(new Tournament(null))
           .pipe(take(1))
@@ -78,19 +60,12 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             closeInscrDays: 1,
             status: 'BBBBBB',
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            categorize: true
           },
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .update(expected)
           .pipe(take(1))
@@ -106,18 +81,11 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             closeInscrDays: 1,
             status: 'BBBBBB',
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            categorize: true
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .query(expected)
           .pipe(

@@ -1,6 +1,6 @@
 package com.psa.ranking.service.dto;
 import io.swagger.annotations.ApiModel;
-import java.time.Instant;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import com.psa.ranking.domain.enumeration.Status;
@@ -19,12 +19,12 @@ public class TournamentDTO implements Serializable {
 
     private Status status;
 
-    private Instant createDate;
-
-    private Instant updatedDate;
+    private Boolean categorize;
 
 
     private Long ownerId;
+
+    private String ownerLogin;
 
     public Long getId() {
         return id;
@@ -58,28 +58,28 @@ public class TournamentDTO implements Serializable {
         this.status = status;
     }
 
-    public Instant getCreateDate() {
-        return createDate;
+    public Boolean isCategorize() {
+        return categorize;
     }
 
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Instant getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setCategorize(Boolean categorize) {
+        this.categorize = categorize;
     }
 
     public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Long userExtraId) {
-        this.ownerId = userExtraId;
+    public void setOwnerId(Long userId) {
+        this.ownerId = userId;
+    }
+
+    public String getOwnerLogin() {
+        return ownerLogin;
+    }
+
+    public void setOwnerLogin(String userLogin) {
+        this.ownerLogin = userLogin;
     }
 
     @Override
@@ -110,9 +110,9 @@ public class TournamentDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", closeInscrDays=" + getCloseInscrDays() +
             ", status='" + getStatus() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updatedDate='" + getUpdatedDate() + "'" +
+            ", categorize='" + isCategorize() + "'" +
             ", owner=" + getOwnerId() +
+            ", owner='" + getOwnerLogin() + "'" +
             "}";
     }
 }

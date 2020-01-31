@@ -100,11 +100,8 @@ public class TournamentQueryService extends QueryService<Tournament> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Tournament_.status));
             }
-            if (criteria.getCreateDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCreateDate(), Tournament_.createDate));
-            }
-            if (criteria.getUpdatedDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getUpdatedDate(), Tournament_.updatedDate));
+            if (criteria.getCategorize() != null) {
+                specification = specification.and(buildSpecification(criteria.getCategorize(), Tournament_.categorize));
             }
             if (criteria.getEventId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEventId(),
@@ -112,7 +109,7 @@ public class TournamentQueryService extends QueryService<Tournament> {
             }
             if (criteria.getOwnerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getOwnerId(),
-                    root -> root.join(Tournament_.owner, JoinType.LEFT).get(UserExtra_.id)));
+                    root -> root.join(Tournament_.owner, JoinType.LEFT).get(User_.id)));
             }
         }
         return specification;

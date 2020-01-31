@@ -22,24 +22,21 @@ public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "profile")
     private ProfileUser profile;
 
-    @Column(name = "captain_flag")
-    private Boolean captainFlag;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private UserExtra userExtra;
-
     @ManyToMany(mappedBy = "players")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Roster> rosters = new HashSet<>();
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -61,32 +58,6 @@ public class Player implements Serializable {
 
     public void setProfile(ProfileUser profile) {
         this.profile = profile;
-    }
-
-    public Boolean isCaptainFlag() {
-        return captainFlag;
-    }
-
-    public Player captainFlag(Boolean captainFlag) {
-        this.captainFlag = captainFlag;
-        return this;
-    }
-
-    public void setCaptainFlag(Boolean captainFlag) {
-        this.captainFlag = captainFlag;
-    }
-
-    public UserExtra getUserExtra() {
-        return userExtra;
-    }
-
-    public Player userExtra(UserExtra userExtra) {
-        this.userExtra = userExtra;
-        return this;
-    }
-
-    public void setUserExtra(UserExtra userExtra) {
-        this.userExtra = userExtra;
     }
 
     public Set<Roster> getRosters() {
@@ -113,6 +84,19 @@ public class Player implements Serializable {
     public void setRosters(Set<Roster> rosters) {
         this.rosters = rosters;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Player user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -136,7 +120,6 @@ public class Player implements Serializable {
         return "Player{" +
             "id=" + getId() +
             ", profile='" + getProfile() + "'" +
-            ", captainFlag='" + isCaptainFlag() + "'" +
             "}";
     }
 }

@@ -21,26 +21,20 @@
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="closeInscrDays"><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.tournament.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.tournament.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.tournament.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <!-- <th scope="col"  jhiSortBy="ownerId"><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="status"><span jhiTranslate="psaRankingApp.tournament.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="categorize"><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-             <tr *ngFor="let tournament of tournaments ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/tournament', tournament.id, 'view' ]">{{tournament.id}}</a></td> -->
+            <tr *ngFor="let tournament of tournaments ;trackBy: trackId">
+                <!-- <td><a [routerLink]="['/tournament', tournament.id, 'view' ]">{{tournament.id}}</a></td>-->
                 <td>{{tournament.name}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.closeInscrDays}}</td>
-                <!-- <td jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td> -->
-                <!-- <td>{{tournament.createDate | date:'medium'}}</td> -->
-                <!-- <td>{{tournament.updatedDate | date:'medium'}}</td> -->
-                <!-- <td>
-                    <div *ngIf="tournament.ownerId">
-                        <a [routerLink]="['/user-extra', tournament.ownerId , 'view' ]" >{{tournament.ownerId}}</a>
-                    </div>
-                </td> -->
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.categorize}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.ownerLogin}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"

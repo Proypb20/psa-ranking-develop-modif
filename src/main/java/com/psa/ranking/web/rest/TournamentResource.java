@@ -1,37 +1,31 @@
 package com.psa.ranking.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import com.psa.ranking.service.TournamentService;
+import com.psa.ranking.web.rest.errors.BadRequestAlertException;
+import com.psa.ranking.service.dto.TournamentDTO;
+import com.psa.ranking.service.dto.TournamentCriteria;
+import com.psa.ranking.service.TournamentQueryService;
 
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.psa.ranking.domain.enumeration.Status;
-import com.psa.ranking.service.TournamentQueryService;
-import com.psa.ranking.service.TournamentService;
-import com.psa.ranking.service.dto.TournamentCriteria;
-import com.psa.ranking.service.dto.TournamentDTO;
-import com.psa.ranking.web.rest.errors.BadRequestAlertException;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.psa.ranking.domain.Tournament}.
@@ -64,12 +58,11 @@ public class TournamentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/tournaments")
-    public ResponseEntity<TournamentDTO> createTournament(@RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
+    public ResponseEntity<TournamentDTO> createTournament(@Valid @RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
         log.debug("REST request to save Tournament : {}", tournamentDTO);
         if (tournamentDTO.getId() != null) {
             throw new BadRequestAlertException("A new tournament cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        tournamentDTO.setStatus(Status.CREATED);
         TournamentDTO result = tournamentService.save(tournamentDTO);
         return ResponseEntity.created(new URI("/api/tournaments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -86,7 +79,7 @@ public class TournamentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/tournaments")
-    public ResponseEntity<TournamentDTO> updateTournament(@RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
+    public ResponseEntity<TournamentDTO> updateTournament(@Valid @RequestBody TournamentDTO tournamentDTO) throws URISyntaxException {
         log.debug("REST request to update Tournament : {}", tournamentDTO);
         if (tournamentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

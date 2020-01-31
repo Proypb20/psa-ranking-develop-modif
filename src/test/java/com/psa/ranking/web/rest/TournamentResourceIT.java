@@ -1,21 +1,16 @@
 package com.psa.ranking.web.rest;
 
-import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-import javax.persistence.EntityManager;
+import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.domain.Event;
+import com.psa.ranking.domain.User;
+import com.psa.ranking.repository.TournamentRepository;
+import com.psa.ranking.service.TournamentService;
+import com.psa.ranking.service.dto.TournamentDTO;
+import com.psa.ranking.service.mapper.TournamentMapper;
+import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.TournamentCriteria;
+import com.psa.ranking.service.TournamentQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,17 +25,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
-import com.psa.ranking.PsaRankingApp;
-import com.psa.ranking.domain.Event;
-import com.psa.ranking.domain.Tournament;
-import com.psa.ranking.domain.UserExtra;
+import javax.persistence.EntityManager;
+import java.util.List;
+
+import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.psa.ranking.domain.enumeration.Status;
-import com.psa.ranking.repository.TournamentRepository;
-import com.psa.ranking.service.TournamentQueryService;
-import com.psa.ranking.service.TournamentService;
-import com.psa.ranking.service.dto.TournamentDTO;
-import com.psa.ranking.service.mapper.TournamentMapper;
-import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 /**
  * Integration tests for the {@link TournamentResource} REST controller.
  */
@@ -57,11 +51,8 @@ public class TournamentResourceIT {
     private static final Status DEFAULT_STATUS = Status.CREATED;
     private static final Status UPDATED_STATUS = Status.IN_PROGRESS;
 
-    private static final Instant DEFAULT_CREATE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_UPDATED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Boolean DEFAULT_CATEGORIZE = false;
+    private static final Boolean UPDATED_CATEGORIZE = true;
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -117,8 +108,12 @@ public class TournamentResourceIT {
             .name(DEFAULT_NAME)
             .closeInscrDays(DEFAULT_CLOSE_INSCR_DAYS)
             .status(DEFAULT_STATUS)
-            .createDate(DEFAULT_CREATE_DATE)
-            .updatedDate(DEFAULT_UPDATED_DATE);
+            .categorize(DEFAULT_CATEGORIZE);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        tournament.setOwner(user);
         return tournament;
     }
     /**
@@ -132,8 +127,12 @@ public class TournamentResourceIT {
             .name(UPDATED_NAME)
             .closeInscrDays(UPDATED_CLOSE_INSCR_DAYS)
             .status(UPDATED_STATUS)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .categorize(UPDATED_CATEGORIZE);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        tournament.setOwner(user);
         return tournament;
     }
 
@@ -161,8 +160,7 @@ public class TournamentResourceIT {
         assertThat(testTournament.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testTournament.getCloseInscrDays()).isEqualTo(DEFAULT_CLOSE_INSCR_DAYS);
         assertThat(testTournament.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testTournament.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
-        assertThat(testTournament.getUpdatedDate()).isEqualTo(DEFAULT_UPDATED_DATE);
+        assertThat(testTournament.isCategorize()).isEqualTo(DEFAULT_CATEGORIZE);
     }
 
     @Test
@@ -200,8 +198,7 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].closeInscrDays").value(hasItem(DEFAULT_CLOSE_INSCR_DAYS)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())));
     }
     
     @Test
@@ -218,8 +215,7 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.closeInscrDays").value(DEFAULT_CLOSE_INSCR_DAYS))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
+            .andExpect(jsonPath("$.categorize").value(DEFAULT_CATEGORIZE.booleanValue()));
     }
 
     @Test
@@ -459,106 +455,54 @@ public class TournamentResourceIT {
 
     @Test
     @Transactional
-    public void getAllTournamentsByCreateDateIsEqualToSomething() throws Exception {
+    public void getAllTournamentsByCategorizeIsEqualToSomething() throws Exception {
         // Initialize the database
         tournamentRepository.saveAndFlush(tournament);
 
-        // Get all the tournamentList where createDate equals to DEFAULT_CREATE_DATE
-        defaultTournamentShouldBeFound("createDate.equals=" + DEFAULT_CREATE_DATE);
+        // Get all the tournamentList where categorize equals to DEFAULT_CATEGORIZE
+        defaultTournamentShouldBeFound("categorize.equals=" + DEFAULT_CATEGORIZE);
 
-        // Get all the tournamentList where createDate equals to UPDATED_CREATE_DATE
-        defaultTournamentShouldNotBeFound("createDate.equals=" + UPDATED_CREATE_DATE);
+        // Get all the tournamentList where categorize equals to UPDATED_CATEGORIZE
+        defaultTournamentShouldNotBeFound("categorize.equals=" + UPDATED_CATEGORIZE);
     }
 
     @Test
     @Transactional
-    public void getAllTournamentsByCreateDateIsNotEqualToSomething() throws Exception {
+    public void getAllTournamentsByCategorizeIsNotEqualToSomething() throws Exception {
         // Initialize the database
         tournamentRepository.saveAndFlush(tournament);
 
-        // Get all the tournamentList where createDate not equals to DEFAULT_CREATE_DATE
-        defaultTournamentShouldNotBeFound("createDate.notEquals=" + DEFAULT_CREATE_DATE);
+        // Get all the tournamentList where categorize not equals to DEFAULT_CATEGORIZE
+        defaultTournamentShouldNotBeFound("categorize.notEquals=" + DEFAULT_CATEGORIZE);
 
-        // Get all the tournamentList where createDate not equals to UPDATED_CREATE_DATE
-        defaultTournamentShouldBeFound("createDate.notEquals=" + UPDATED_CREATE_DATE);
+        // Get all the tournamentList where categorize not equals to UPDATED_CATEGORIZE
+        defaultTournamentShouldBeFound("categorize.notEquals=" + UPDATED_CATEGORIZE);
     }
 
     @Test
     @Transactional
-    public void getAllTournamentsByCreateDateIsInShouldWork() throws Exception {
+    public void getAllTournamentsByCategorizeIsInShouldWork() throws Exception {
         // Initialize the database
         tournamentRepository.saveAndFlush(tournament);
 
-        // Get all the tournamentList where createDate in DEFAULT_CREATE_DATE or UPDATED_CREATE_DATE
-        defaultTournamentShouldBeFound("createDate.in=" + DEFAULT_CREATE_DATE + "," + UPDATED_CREATE_DATE);
+        // Get all the tournamentList where categorize in DEFAULT_CATEGORIZE or UPDATED_CATEGORIZE
+        defaultTournamentShouldBeFound("categorize.in=" + DEFAULT_CATEGORIZE + "," + UPDATED_CATEGORIZE);
 
-        // Get all the tournamentList where createDate equals to UPDATED_CREATE_DATE
-        defaultTournamentShouldNotBeFound("createDate.in=" + UPDATED_CREATE_DATE);
+        // Get all the tournamentList where categorize equals to UPDATED_CATEGORIZE
+        defaultTournamentShouldNotBeFound("categorize.in=" + UPDATED_CATEGORIZE);
     }
 
     @Test
     @Transactional
-    public void getAllTournamentsByCreateDateIsNullOrNotNull() throws Exception {
+    public void getAllTournamentsByCategorizeIsNullOrNotNull() throws Exception {
         // Initialize the database
         tournamentRepository.saveAndFlush(tournament);
 
-        // Get all the tournamentList where createDate is not null
-        defaultTournamentShouldBeFound("createDate.specified=true");
+        // Get all the tournamentList where categorize is not null
+        defaultTournamentShouldBeFound("categorize.specified=true");
 
-        // Get all the tournamentList where createDate is null
-        defaultTournamentShouldNotBeFound("createDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllTournamentsByUpdatedDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        tournamentRepository.saveAndFlush(tournament);
-
-        // Get all the tournamentList where updatedDate equals to DEFAULT_UPDATED_DATE
-        defaultTournamentShouldBeFound("updatedDate.equals=" + DEFAULT_UPDATED_DATE);
-
-        // Get all the tournamentList where updatedDate equals to UPDATED_UPDATED_DATE
-        defaultTournamentShouldNotBeFound("updatedDate.equals=" + UPDATED_UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTournamentsByUpdatedDateIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        tournamentRepository.saveAndFlush(tournament);
-
-        // Get all the tournamentList where updatedDate not equals to DEFAULT_UPDATED_DATE
-        defaultTournamentShouldNotBeFound("updatedDate.notEquals=" + DEFAULT_UPDATED_DATE);
-
-        // Get all the tournamentList where updatedDate not equals to UPDATED_UPDATED_DATE
-        defaultTournamentShouldBeFound("updatedDate.notEquals=" + UPDATED_UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTournamentsByUpdatedDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        tournamentRepository.saveAndFlush(tournament);
-
-        // Get all the tournamentList where updatedDate in DEFAULT_UPDATED_DATE or UPDATED_UPDATED_DATE
-        defaultTournamentShouldBeFound("updatedDate.in=" + DEFAULT_UPDATED_DATE + "," + UPDATED_UPDATED_DATE);
-
-        // Get all the tournamentList where updatedDate equals to UPDATED_UPDATED_DATE
-        defaultTournamentShouldNotBeFound("updatedDate.in=" + UPDATED_UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTournamentsByUpdatedDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        tournamentRepository.saveAndFlush(tournament);
-
-        // Get all the tournamentList where updatedDate is not null
-        defaultTournamentShouldBeFound("updatedDate.specified=true");
-
-        // Get all the tournamentList where updatedDate is null
-        defaultTournamentShouldNotBeFound("updatedDate.specified=false");
+        // Get all the tournamentList where categorize is null
+        defaultTournamentShouldNotBeFound("categorize.specified=false");
     }
 
     @Test
@@ -584,12 +528,8 @@ public class TournamentResourceIT {
     @Test
     @Transactional
     public void getAllTournamentsByOwnerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        tournamentRepository.saveAndFlush(tournament);
-        UserExtra owner = UserExtraResourceIT.createEntity(em);
-        em.persist(owner);
-        em.flush();
-        tournament.setOwner(owner);
+        // Get already existing entity
+        User owner = tournament.getOwner();
         tournamentRepository.saveAndFlush(tournament);
         Long ownerId = owner.getId();
 
@@ -611,8 +551,7 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].closeInscrDays").value(hasItem(DEFAULT_CLOSE_INSCR_DAYS)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())));
 
         // Check, that the count call also returns 1
         restTournamentMockMvc.perform(get("/api/tournaments/count?sort=id,desc&" + filter))
@@ -663,8 +602,7 @@ public class TournamentResourceIT {
             .name(UPDATED_NAME)
             .closeInscrDays(UPDATED_CLOSE_INSCR_DAYS)
             .status(UPDATED_STATUS)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .categorize(UPDATED_CATEGORIZE);
         TournamentDTO tournamentDTO = tournamentMapper.toDto(updatedTournament);
 
         restTournamentMockMvc.perform(put("/api/tournaments")
@@ -679,8 +617,7 @@ public class TournamentResourceIT {
         assertThat(testTournament.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTournament.getCloseInscrDays()).isEqualTo(UPDATED_CLOSE_INSCR_DAYS);
         assertThat(testTournament.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testTournament.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testTournament.getUpdatedDate()).isEqualTo(UPDATED_UPDATED_DATE);
+        assertThat(testTournament.isCategorize()).isEqualTo(UPDATED_CATEGORIZE);
     }
 
     @Test

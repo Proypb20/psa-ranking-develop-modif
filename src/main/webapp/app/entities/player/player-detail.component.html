@@ -9,15 +9,9 @@
                 <dd>
                     <span jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.player.captainFlag">Captain Flag</span></dt>
+                <dt><span jhiTranslate="psaRankingApp.player.user">User</span></dt>
                 <dd>
-                    <span>{{player.captainFlag}}</span>
-                </dd>
-                <dt><span jhiTranslate="psaRankingApp.player.userExtra">User Extra</span></dt>
-                <dd>
-                    <div *ngIf="player.userExtraId">
-                        <a [routerLink]="['/user-extra', player.userExtraId, 'view']">{{player.userExtraId}}</a>
-                    </div>
+                    {{player.userLogin}}
                 </dd>
             </dl>
 

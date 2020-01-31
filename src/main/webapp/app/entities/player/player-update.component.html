@@ -16,26 +16,21 @@
                         <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.captainFlag" for="field_captainFlag">Captain Flag</label>
-                    <input type="checkbox" class="form-control" name="captainFlag" id="field_captainFlag"
-                           formControlName="captainFlag"/>
-                </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.userExtra" for="field_userExtra">User Extra</label>
-                    <select class="form-control" id="field_userExtra" name="userExtra" formControlName="userExtraId">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="userId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="userExtraOption.id" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
                     </select>
                 </div>
             </div>
             <div>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                </button>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>
         </form>

@@ -19,8 +19,7 @@
       "name": "Name",
       "closeInscrDays": "Close Inscr Days",
       "status": "Status",
-      "createDate": "Create Date",
-      "updatedDate": "Updated Date",
+      "categorize": "Categorize",
       "event": "Event",
       "owner": "Owner"
     }

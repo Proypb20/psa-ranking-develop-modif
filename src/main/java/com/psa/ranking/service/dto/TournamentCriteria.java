@@ -11,7 +11,6 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the {@link com.psa.ranking.domain.Tournament} entity. This class is used
@@ -52,9 +51,7 @@ public class TournamentCriteria implements Serializable, Criteria {
 
     private StatusFilter status;
 
-    private InstantFilter createDate;
-
-    private InstantFilter updatedDate;
+    private BooleanFilter categorize;
 
     private LongFilter eventId;
 
@@ -68,8 +65,7 @@ public class TournamentCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.closeInscrDays = other.closeInscrDays == null ? null : other.closeInscrDays.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.createDate = other.createDate == null ? null : other.createDate.copy();
-        this.updatedDate = other.updatedDate == null ? null : other.updatedDate.copy();
+        this.categorize = other.categorize == null ? null : other.categorize.copy();
         this.eventId = other.eventId == null ? null : other.eventId.copy();
         this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
     }
@@ -111,20 +107,12 @@ public class TournamentCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public InstantFilter getCreateDate() {
-        return createDate;
+    public BooleanFilter getCategorize() {
+        return categorize;
     }
 
-    public void setCreateDate(InstantFilter createDate) {
-        this.createDate = createDate;
-    }
-
-    public InstantFilter getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(InstantFilter updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setCategorize(BooleanFilter categorize) {
+        this.categorize = categorize;
     }
 
     public LongFilter getEventId() {
@@ -158,8 +146,7 @@ public class TournamentCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(closeInscrDays, that.closeInscrDays) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(createDate, that.createDate) &&
-            Objects.equals(updatedDate, that.updatedDate) &&
+            Objects.equals(categorize, that.categorize) &&
             Objects.equals(eventId, that.eventId) &&
             Objects.equals(ownerId, that.ownerId);
     }
@@ -171,8 +158,7 @@ public class TournamentCriteria implements Serializable, Criteria {
         name,
         closeInscrDays,
         status,
-        createDate,
-        updatedDate,
+        categorize,
         eventId,
         ownerId
         );
@@ -185,8 +171,7 @@ public class TournamentCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (closeInscrDays != null ? "closeInscrDays=" + closeInscrDays + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
-                (createDate != null ? "createDate=" + createDate + ", " : "") +
-                (updatedDate != null ? "updatedDate=" + updatedDate + ", " : "") +
+                (categorize != null ? "categorize=" + categorize + ", " : "") +
                 (eventId != null ? "eventId=" + eventId + ", " : "") +
                 (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
             "}";

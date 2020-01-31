@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -55,6 +57,9 @@ public class PlayerResource {
         log.debug("REST request to save Player : {}", playerDTO);
         if (playerDTO.getId() != null) {
             throw new BadRequestAlertException("A new player cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (Objects.isNull(playerDTO.getUserId())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
         PlayerDTO result = playerService.save(playerDTO);
         return ResponseEntity.created(new URI("/api/players/" + result.getId()))

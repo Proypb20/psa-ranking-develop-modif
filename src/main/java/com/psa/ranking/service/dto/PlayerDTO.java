@@ -12,10 +12,10 @@ public class PlayerDTO implements Serializable {
 
     private ProfileUser profile;
 
-    private Boolean captainFlag;
 
+    private Long userId;
 
-    private Long userExtraId;
+    private String userLogin;
 
     public Long getId() {
         return id;
@@ -33,20 +33,20 @@ public class PlayerDTO implements Serializable {
         this.profile = profile;
     }
 
-    public Boolean isCaptainFlag() {
-        return captainFlag;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCaptainFlag(Boolean captainFlag) {
-        this.captainFlag = captainFlag;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getUserExtraId() {
-        return userExtraId;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUserExtraId(Long userExtraId) {
-        this.userExtraId = userExtraId;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     @Override
@@ -75,8 +75,8 @@ public class PlayerDTO implements Serializable {
         return "PlayerDTO{" +
             "id=" + getId() +
             ", profile='" + getProfile() + "'" +
-            ", captainFlag='" + isCaptainFlag() + "'" +
-            ", userExtra=" + getUserExtraId() +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             "}";
     }
 }

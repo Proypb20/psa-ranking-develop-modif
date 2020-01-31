@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(PlayerService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Player(0, ProfileUser.PLAYER, false);
+      elemDefault = new Player(0, ProfileUser.PLAYER);
     });
 
     describe('Service methods', () => {
@@ -57,8 +57,7 @@ describe('Service Tests', () => {
       it('should update a Player', () => {
         const returnedFromService = Object.assign(
           {
-            profile: 'BBBBBB',
-            captainFlag: true
+            profile: 'BBBBBB'
           },
           elemDefault
         );
@@ -76,8 +75,7 @@ describe('Service Tests', () => {
       it('should return a list of Player', () => {
         const returnedFromService = Object.assign(
           {
-            profile: 'BBBBBB',
-            captainFlag: true
+            profile: 'BBBBBB'
           },
           elemDefault
         );

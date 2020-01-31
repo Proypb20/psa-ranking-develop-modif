@@ -17,19 +17,13 @@
                 <dd>
                     <span jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.tournament.createDate">Create Date</span></dt>
+                <dt><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span></dt>
                 <dd>
-                    <span>{{tournament.createDate}}</span>
-                </dd>
-                <dt><span jhiTranslate="psaRankingApp.tournament.updatedDate">Updated Date</span></dt>
-                <dd>
-                    <span>{{tournament.updatedDate}}</span>
+                    <span>{{tournament.categorize}}</span>
                 </dd>
                 <dt><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></dt>
                 <dd>
-                    <div *ngIf="tournament.ownerId">
-                        <a [routerLink]="['/user-extra', tournament.ownerId, 'view']">{{tournament.ownerId}}</a>
-                    </div>
+                    {{tournament.ownerLogin}}
                 </dd>
             </dl>
 

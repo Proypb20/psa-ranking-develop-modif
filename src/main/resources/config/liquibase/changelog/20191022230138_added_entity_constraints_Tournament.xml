@@ -12,7 +12,7 @@
                                  baseTableName="tournament"
                                  constraintName="fk_tournament_owner_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="user_extra"/>
+                                 referencedTableName="jhi_user"/>
 
     </changeSet>
 </databaseChangeLog>

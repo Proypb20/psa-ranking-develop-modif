@@ -73,7 +73,6 @@ class PlayerGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "profile":"PLAYER"
-                , "captainFlag":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_player_url"))).exitHereIfFailed

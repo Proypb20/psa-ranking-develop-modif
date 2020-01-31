@@ -25,20 +25,15 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="create_date" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="updated_date" type="datetime">
+            <column name="categorize" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="owner_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="tournament" columnName="create_date" columnDataType="datetime"/>
-        <dropDefaultValue tableName="tournament" columnName="updated_date" columnDataType="datetime"/>
-        <loadData
+           <loadData
                   file="config/liquibase/data/tournament.csv"
                   separator=";"
                   tableName="tournament">
@@ -46,8 +41,8 @@
             <column name="name" type="string"/>
             <column name="close_inscr_days" type="numeric"/>
             <column name="status" type="string"/>
-            <column name="create_date" type="datetime"/>
-            <column name="updated_date" type="datetime"/>
+            <column name="categorize" type="boolean"/>
+            <column name="owner_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
@@ -74,8 +69,8 @@
             <column name="name" type="string"/>
             <column name="close_inscr_days" type="numeric"/>
             <column name="status" type="string"/>
-            <column name="create_date" type="datetime"/>
-            <column name="updated_date" type="datetime"/>
+            <column name="categorize" type="boolean"/>
+            <column name="owner_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

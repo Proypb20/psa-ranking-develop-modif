@@ -15,12 +15,8 @@
             "fieldValues": "CREATED,IN_PROGRESS,DONE"
         },
         {
-            "fieldName": "createDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "updatedDate",
-            "fieldType": "Instant"
+            "fieldName": "categorize",
+            "fieldType": "Boolean"
         }
     ],
     "relationships": [
@@ -31,11 +27,15 @@
             "relationshipName": "event"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "userExtra",
-            "otherEntityRelationshipName": "tournament",
             "relationshipName": "owner",
-            "otherEntityField": "id"
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "tournament"
         }
     ],
     "changelogDate": "20191022230138",
@@ -48,5 +48,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

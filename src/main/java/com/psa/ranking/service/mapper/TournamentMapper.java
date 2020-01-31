@@ -8,10 +8,11 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Tournament} and its DTO {@link TournamentDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UserExtraMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface TournamentMapper extends EntityMapper<TournamentDTO, Tournament> {
 
     @Mapping(source = "owner.id", target = "ownerId")
+    @Mapping(source = "owner.login", target = "ownerLogin")
     TournamentDTO toDto(Tournament tournament);
 
     @Mapping(target = "events", ignore = true)

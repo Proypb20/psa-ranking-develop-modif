@@ -63,6 +63,8 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if(this.tourId)
+  {
     this.eventService
       .query({
         'tournamentId.equals': this.tourId,
@@ -71,6 +73,16 @@ export class EventComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+  }
+  else
+  { this.eventService
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+      }
   }
 
   loadPage(page: number) {

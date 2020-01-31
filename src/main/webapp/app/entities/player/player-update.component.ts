@@ -9,10 +9,10 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
-import { IUserExtra } from 'app/shared/model/user-extra.model';
-import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
 import { IRoster } from 'app/shared/model/roster.model';
 import { RosterService } from 'app/entities/roster/roster.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-player-update',
@@ -21,22 +21,21 @@ import { RosterService } from 'app/entities/roster/roster.service';
 export class PlayerUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  userextras: IUserExtra[];
-
   rosters: IRoster[];
+
+  users: IUser[];
 
   editForm = this.fb.group({
     id: [],
     profile: [],
-    captainFlag: [],
-    userExtraId: []
+    userId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected playerService: PlayerService,
-    protected userExtraService: UserExtraService,
     protected rosterService: RosterService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -46,31 +45,6 @@ export class PlayerUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ player }) => {
       this.updateForm(player);
     });
-    this.userExtraService
-      .query({ filter: 'player-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUserExtra[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUserExtra[]>) => response.body)
-      )
-      .subscribe(
-        (res: IUserExtra[]) => {
-          if (!this.editForm.get('userExtraId').value) {
-            this.userextras = res;
-          } else {
-            this.userExtraService
-              .find(this.editForm.get('userExtraId').value)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IUserExtra>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IUserExtra>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IUserExtra) => (this.userextras = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
     this.rosterService
       .query()
       .pipe(
@@ -78,14 +52,20 @@ export class PlayerUpdateComponent implements OnInit {
         map((response: HttpResponse<IRoster[]>) => response.body)
       )
       .subscribe((res: IRoster[]) => (this.rosters = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.userService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
+      )
+      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(player: IPlayer) {
     this.editForm.patchValue({
       id: player.id,
       profile: player.profile,
-      captainFlag: player.captainFlag,
-      userExtraId: player.userExtraId
+      userId: player.userId
     });
   }
 
@@ -108,8 +88,7 @@ export class PlayerUpdateComponent implements OnInit {
       ...new Player(),
       id: this.editForm.get(['id']).value,
       profile: this.editForm.get(['profile']).value,
-      captainFlag: this.editForm.get(['captainFlag']).value,
-      userExtraId: this.editForm.get(['userExtraId']).value
+      userId: this.editForm.get(['userId']).value
     };
   }
 
@@ -129,11 +108,11 @@ export class PlayerUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackUserExtraById(index: number, item: IUserExtra) {
+  trackRosterById(index: number, item: IRoster) {
     return item.id;
   }
 
-  trackRosterById(index: number, item: IRoster) {
+  trackUserById(index: number, item: IUser) {
     return item.id;
   }
 
