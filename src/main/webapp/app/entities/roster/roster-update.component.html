@@ -63,7 +63,7 @@
 			            <td width=10%>{{playerOption.id}}</td>
 			            <td width=30%>{{playerOption.profile}}</td>
 			            <td width=30%>
-			               <button type="submit" id="player-staff" class="btn btn-primary">
+			               <button type="submit" id="player-staff" class="btn btn-primary" [routerLink]="['/roster', roster.id, 'edit']">
                              <span jhiTranslate="psaRankingApp.roster.button.staff">Staff</span>
                            </button>
                         </td>
