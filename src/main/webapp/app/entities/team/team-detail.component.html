@@ -13,19 +13,9 @@
                 <dd>
                     <span>{{team.active}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.team.createDate">Create Date</span></dt>
-                <dd>
-                    <span>{{team.createDate}}</span>
-                </dd>
-                <dt><span jhiTranslate="psaRankingApp.team.updatedDate">Updated Date</span></dt>
-                <dd>
-                    <span>{{team.updatedDate}}</span>
-                </dd>
                 <dt><span jhiTranslate="psaRankingApp.team.owner">Owner</span></dt>
                 <dd>
-                    <div *ngIf="team.ownerId">
-                        <a [routerLink]="['/user-extra', team.ownerId, 'view']">{{team.ownerId}}</a>
-                    </div>
+                    {{team.ownerLogin}}
                 </dd>
             </dl>
 

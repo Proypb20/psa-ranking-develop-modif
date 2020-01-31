@@ -4,7 +4,7 @@
             <h2 id="jhi-team-heading" jhiTranslate="psaRankingApp.team.home.createOrEditLabel">Create or edit a Team</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
+                <!--<div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -17,25 +17,15 @@
                 <div class="form-group">
                     <label *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control-label" jhiTranslate="psaRankingApp.team.owner" for="field_owner">Owner</label>
                     <select *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control" id="field_owner" name="owner" formControlName="ownerId">
-                        <option [ngValue]="userExtraOption.id" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
                     </select>
                 </div>
-                <!--<div class="form-group">
-                    <label *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control-label" jhiTranslate="psaRankingApp.team.active" for="field_active">Active</label>
-                    <input *jhiHasAnyAuthority="'ROLE_ADMIN'" type="checkbox" class="form-control" name="active" id="field_active" formControlName="active"/>
-                </div>-->
                 <!-- <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.team.createDate" for="field_createDate">Create Date</label>
-                    <div class="d-flex">
-                        <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" formControlName="createDate" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>-->
-                <!-- <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.team.updatedDate" for="field_updatedDate">Updated Date</label>
-                    <div class="d-flex">
-                        <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" formControlName="updatedDate" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>-->
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.team.active" for="field_active">Active</label>
+                    <input type="checkbox" class="form-control" name="active" id="field_active"
+                           formControlName="active"/>
+                </div> -->
             </div>
             <div>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">

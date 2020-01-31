@@ -18,35 +18,32 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--<th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.team.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.team.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.team.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="ownerId"><span jhiTranslate="psaRankingApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'"  jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let team of teams ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/team', team.id, 'view' ]">{{team.id}}</a></td>-->
+                <!--<td><a [routerLink]="['/team', team.id, 'view' ]">{{team.id}}</a></td>-->
                 <td>{{team.name}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{team.active}}</td>
-                <!-- <td>{{team.createDate | date:'medium'}}</td>-->
-                <!-- <td>{{team.updatedDate | date:'medium'}}</td>-->
-                <!-- <td>
-                    <div *ngIf="team.ownerId">
-                        <a [routerLink]="['/user-extra', team.ownerId , 'view' ]" >{{team.ownerId}}</a>
-                    </div>
-                </td>-->
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{team.ownerLogin}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                         <button type="submit"
+                        <button type="submit"
                                 [routerLink]="['/roster']"
                                 class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.roster">Ver Jugadores</span>
                         </button>
+                        <!-- <button type="submit"
+                                [routerLink]="['/team', team.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>-->
                         <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                 type="submit"
                                 [routerLink]="['/team', team.id, 'edit']"

@@ -22,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
@@ -43,12 +41,6 @@ public class TeamResourceIT {
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
-
-    private static final Instant DEFAULT_CREATE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_UPDATED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private TeamRepository teamRepository;
@@ -99,9 +91,7 @@ public class TeamResourceIT {
     public static Team createEntity(EntityManager em) {
         Team team = new Team()
             .name(DEFAULT_NAME)
-            .active(DEFAULT_ACTIVE)
-            .createDate(DEFAULT_CREATE_DATE)
-            .updatedDate(DEFAULT_UPDATED_DATE);
+            .active(DEFAULT_ACTIVE);
         return team;
     }
     /**
@@ -113,9 +103,7 @@ public class TeamResourceIT {
     public static Team createUpdatedEntity(EntityManager em) {
         Team team = new Team()
             .name(UPDATED_NAME)
-            .active(UPDATED_ACTIVE)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .active(UPDATED_ACTIVE);
         return team;
     }
 
@@ -142,8 +130,6 @@ public class TeamResourceIT {
         Team testTeam = teamList.get(teamList.size() - 1);
         assertThat(testTeam.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testTeam.isActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testTeam.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
-        assertThat(testTeam.getUpdatedDate()).isEqualTo(DEFAULT_UPDATED_DATE);
     }
 
     @Test
@@ -179,9 +165,7 @@ public class TeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(team.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
     
     @Test
@@ -196,9 +180,7 @@ public class TeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(team.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -223,9 +205,7 @@ public class TeamResourceIT {
         em.detach(updatedTeam);
         updatedTeam
             .name(UPDATED_NAME)
-            .active(UPDATED_ACTIVE)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .active(UPDATED_ACTIVE);
         TeamDTO teamDTO = teamMapper.toDto(updatedTeam);
 
         restTeamMockMvc.perform(put("/api/teams")
@@ -239,8 +219,6 @@ public class TeamResourceIT {
         Team testTeam = teamList.get(teamList.size() - 1);
         assertThat(testTeam.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTeam.isActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testTeam.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testTeam.getUpdatedDate()).isEqualTo(UPDATED_UPDATED_DATE);
     }
 
     @Test

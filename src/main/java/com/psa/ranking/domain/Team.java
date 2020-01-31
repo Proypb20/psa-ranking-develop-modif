@@ -6,7 +6,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 /**
  * Team entity.\n@author Marcelo Miño
@@ -28,15 +27,9 @@ public class Team implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @Column(name = "create_date")
-    private Instant createDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
-
     @ManyToOne
     @JsonIgnoreProperties("teams")
-    private UserExtra owner;
+    private User owner;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -73,43 +66,17 @@ public class Team implements Serializable {
         this.active = active;
     }
 
-    public Instant getCreateDate() {
-        return createDate;
-    }
-
-    public Team createDate(Instant createDate) {
-        this.createDate = createDate;
-        return this;
-    }
-
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Instant getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public Team updatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
-        return this;
-    }
-
-    public void setUpdatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public UserExtra getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public Team owner(UserExtra userExtra) {
-        this.owner = userExtra;
+    public Team owner(User user) {
+        this.owner = user;
         return this;
     }
 
-    public void setOwner(UserExtra userExtra) {
-        this.owner = userExtra;
+    public void setOwner(User user) {
+        this.owner = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -135,8 +102,6 @@ public class Team implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", active='" + isActive() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updatedDate='" + getUpdatedDate() + "'" +
             "}";
     }
 }

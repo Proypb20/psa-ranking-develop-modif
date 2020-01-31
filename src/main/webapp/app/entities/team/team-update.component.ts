@@ -6,13 +6,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { ITeam, Team } from 'app/shared/model/team.model';
 import { TeamService } from './team.service';
-import { IUserExtra } from 'app/shared/model/user-extra.model';
-import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-team-update',
@@ -21,21 +19,19 @@ import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
 export class TeamUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  userextras: IUserExtra[];
+  users: IUser[];
 
   editForm = this.fb.group({
     id: [],
     name: [],
     active: [],
-    createDate: [],
-    updatedDate: [],
     ownerId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected teamService: TeamService,
-    protected userExtraService: UserExtraService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -45,13 +41,13 @@ export class TeamUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ team }) => {
       this.updateForm(team);
     });
-    this.userExtraService
+    this.userService
       .query()
       .pipe(
-        filter((mayBeOk: HttpResponse<IUserExtra[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUserExtra[]>) => response.body)
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
       )
-      .subscribe((res: IUserExtra[]) => (this.userextras = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(team: ITeam) {
@@ -59,8 +55,6 @@ export class TeamUpdateComponent implements OnInit {
       id: team.id,
       name: team.name,
       active: team.active,
-      createDate: team.createDate != null ? team.createDate.format(DATE_TIME_FORMAT) : null,
-      updatedDate: team.updatedDate != null ? team.updatedDate.format(DATE_TIME_FORMAT) : null,
       ownerId: team.ownerId
     });
   }
@@ -85,10 +79,6 @@ export class TeamUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       name: this.editForm.get(['name']).value,
       active: this.editForm.get(['active']).value,
-      createDate:
-        this.editForm.get(['createDate']).value != null ? moment(this.editForm.get(['createDate']).value, DATE_TIME_FORMAT) : undefined,
-      updatedDate:
-        this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
       ownerId: this.editForm.get(['ownerId']).value
     };
   }
@@ -109,7 +99,7 @@ export class TeamUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackUserExtraById(index: number, item: IUserExtra) {
+  trackUserById(index: number, item: IUser) {
     return item.id;
   }
 }
