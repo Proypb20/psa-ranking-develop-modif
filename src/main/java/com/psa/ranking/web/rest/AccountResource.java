@@ -27,6 +27,7 @@ import com.psa.ranking.service.MailService;
 import com.psa.ranking.service.UserService;
 import com.psa.ranking.service.dto.PasswordChangeDTO;
 import com.psa.ranking.service.dto.UserDTO;
+import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.web.rest.errors.EmailAlreadyUsedException;
 import com.psa.ranking.web.rest.errors.EmailNotFoundException;
 import com.psa.ranking.web.rest.errors.InvalidPasswordException;
@@ -55,6 +56,8 @@ public class AccountResource {
 
 	private final MailService mailService;
 
+	private static final String ENTITY_NAME = "Account";
+
 	public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
 
 		this.userRepository = userRepository;
@@ -76,15 +79,22 @@ public class AccountResource {
 	 */
 	@PostMapping("/register")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<String> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+	public ResponseEntity<?> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
 		HttpHeaders textPlainHeaders = new HttpHeaders();
 		textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
 
+		if (!checkEmail(managedUserVM.getEmail())) {
+			new ResponseEntity<>("register.error.emailformat", textPlainHeaders, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (!checkPasswordLength(managedUserVM.getPassword())) {
+			throw new InvalidPasswordException();
+		}
+
 		return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-				.map(user -> new ResponseEntity<>("login already in use", textPlainHeaders, HttpStatus.BAD_REQUEST))
-				.orElseGet(() -> userRepository.findOneWithAuthoritiesByEmailIgnoreCase(managedUserVM.getEmail())
-						.map(user -> new ResponseEntity<>("e-mail address already in use", textPlainHeaders,
-								HttpStatus.BAD_REQUEST))
+				.map(user -> new ResponseEntity<>("register.error.userexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
+				.orElseGet(() -> userRepository.findOneWithAuthoritiesByEmailIgnoreCase(managedUserVM.getEmail()).map(
+						user -> new ResponseEntity<>("register.error.emailexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
 						.orElseGet(() -> {
 							User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
 									managedUserVM.getFirstName(), managedUserVM.getLastName(),
@@ -217,5 +227,10 @@ public class AccountResource {
 	private static boolean checkPasswordLength(String password) {
 		return !StringUtils.isEmpty(password) && password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH
 				&& password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH;
+	}
+
+	private static boolean checkEmail(String email) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return email.matches(regex);
 	}
 }

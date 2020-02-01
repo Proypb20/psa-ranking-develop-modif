@@ -58,10 +58,9 @@ public class ManagedUserVM extends UserDTO {
 	public void setBornDate(LocalDate bornDate) {
 		this.bornDate = bornDate;
 	}
-    
-    /*	@Override
-    public String toString() {
-        return "ManagedUserVM{" + super.toString() + "} ";
-    }*/
-    
+
+	@Override
+	public String toString() {
+		return "ManagedUserVM [phone=" + phone + ", numDoc=" + numDoc + ", bornDate=" + bornDate + "]";
+	}
 }
