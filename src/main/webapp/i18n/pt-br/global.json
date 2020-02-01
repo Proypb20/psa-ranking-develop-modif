@@ -91,6 +91,12 @@
           "invalid": "E-mail inválido.",
           "minlength": "O e-mail deve ter pelo menos 5 caracteres",
           "maxlength": "O e-mail não pode ter mais de 50 caracteres"
+        },
+        "phone": {
+          "required": "O telefone é obrigatório.",
+          "invalid": "Telefone inválido.",
+          "minlength": "O telefone deve ter pelo menos 10 caracteres",
+          "maxlength": "O telefone não pode ter mais de 10 caracteres"
         }
       }
     },

@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    phone: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
     numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
   });
