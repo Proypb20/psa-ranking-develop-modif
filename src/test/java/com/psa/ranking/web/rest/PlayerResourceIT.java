@@ -175,7 +175,7 @@ public class PlayerResourceIT {
         em.detach(updatedPlayer);
 
         // Update the User with new association value
-        updatedPlayer.setUser();
+        updatedPlayer.setUser(UserResourceIT.createEntity(em));
         PlayerDTO updatedPlayerDTO = playerMapper.toDto(updatedPlayer);
 
         // Update the entity
