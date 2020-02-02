@@ -83,10 +83,6 @@ public class AccountResource {
 		HttpHeaders textPlainHeaders = new HttpHeaders();
 		textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
 
-		if (!checkEmail(managedUserVM.getEmail())) {
-			new ResponseEntity<>("register.error.emailformat", textPlainHeaders, HttpStatus.BAD_REQUEST);
-		}
-		
 		if (!checkPasswordLength(managedUserVM.getPassword())) {
 			throw new InvalidPasswordException();
 		}
@@ -227,10 +223,5 @@ public class AccountResource {
 	private static boolean checkPasswordLength(String password) {
 		return !StringUtils.isEmpty(password) && password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH
 				&& password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH;
-	}
-
-	private static boolean checkEmail(String email) {
-		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-		return email.matches(regex);
 	}
 }
