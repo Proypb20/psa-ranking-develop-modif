@@ -1,6 +1,5 @@
 package com.psa.ranking.service.dto;
 import io.swagger.annotations.ApiModel;
-import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -16,10 +15,6 @@ public class RosterDTO implements Serializable {
     private Long id;
 
     private Boolean active;
-
-    private Instant createDate;
-
-    private Instant updatedDate;
 
 
     private Long categoryId;
@@ -44,22 +39,6 @@ public class RosterDTO implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Instant getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Instant getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
     }
 
     public Long getCategoryId() {
@@ -120,8 +99,6 @@ public class RosterDTO implements Serializable {
         return "RosterDTO{" +
             "id=" + getId() +
             ", active='" + isActive() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updatedDate='" + getUpdatedDate() + "'" +
             ", category=" + getCategoryId() +
             ", team=" + getTeamId() +
             ", team='" + getTeamName() + "'" +

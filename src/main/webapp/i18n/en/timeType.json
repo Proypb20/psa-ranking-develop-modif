@@ -1,0 +1,9 @@
+{
+  "psaRankingApp": {
+    "TimeType": {
+      "null": "",
+      "MINUTES": "MINUTES",
+      "SECONDS": "SECONDS"
+    }
+  }
+}

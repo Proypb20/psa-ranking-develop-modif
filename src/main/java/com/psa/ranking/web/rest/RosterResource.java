@@ -58,7 +58,6 @@ public class RosterResource {
         if (rosterDTO.getId() != null) {
             throw new BadRequestAlertException("A new roster cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        rosterDTO.setActive(true);
         RosterDTO result = rosterService.save(rosterDTO);
         return ResponseEntity.created(new URI("/api/rosters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

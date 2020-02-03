@@ -29,10 +29,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./doc-type/doc-type.module').then(m => m.PsaRankingDocTypeModule)
       },
       {
-        path: 'person',
-        loadChildren: () => import('./person/person.module').then(m => m.PsaRankingPersonModule)
-      },
-      {
         path: 'tournament',
         loadChildren: () => import('./tournament/tournament.module').then(m => m.PsaRankingTournamentModule)
       },

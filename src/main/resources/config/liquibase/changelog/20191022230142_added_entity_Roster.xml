@@ -19,12 +19,6 @@
             <column name="active" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="create_date" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="updated_date" type="datetime">
-                <constraints nullable="true" />
-            </column>
             <column name="category_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -33,8 +27,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="roster" columnName="create_date" columnDataType="datetime"/>
-        <dropDefaultValue tableName="roster" columnName="updated_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20191022230142-1-relations" author="jhipster">
@@ -68,8 +60,6 @@
                   tableName="roster">
             <column name="id" type="numeric"/>
             <column name="active" type="boolean"/>
-            <column name="create_date" type="datetime"/>
-            <column name="updated_date" type="datetime"/>
             <column name="team_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

@@ -4,14 +4,6 @@
         {
             "fieldName": "active",
             "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "createDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "updatedDate",
-            "fieldType": "Instant"
         }
     ],
     "relationships": [

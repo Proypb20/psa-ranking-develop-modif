@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { take, map } from 'rxjs/operators';
 import { CategoryService } from 'app/entities/category/category.service';
 import { ICategory, Category } from 'app/shared/model/category.model';
+import { TimeType } from 'app/shared/model/enumerations/time-type.model';
 
 describe('Service Tests', () => {
   describe('Category Service', () => {
@@ -20,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(CategoryService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Category(0, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Category(0, 'AAAAAAA', 'AAAAAAA', TimeType.MINUTES, 0, TimeType.MINUTES, 0, 0, 0, 0);
     });
 
     describe('Service methods', () => {
@@ -57,7 +58,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
-            description: 'BBBBBB'
+            description: 'BBBBBB',
+            gameTimeType: 'BBBBBB',
+            gameTime: 1,
+            stopTimeType: 'BBBBBB',
+            stopTime: 1,
+            totalPoints: 1,
+            difPoints: 1,
+            order: 1
           },
           elemDefault
         );
@@ -76,7 +84,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
-            description: 'BBBBBB'
+            description: 'BBBBBB',
+            gameTimeType: 'BBBBBB',
+            gameTime: 1,
+            stopTimeType: 'BBBBBB',
+            stopTime: 1,
+            totalPoints: 1,
+            difPoints: 1,
+            order: 1
           },
           elemDefault
         );

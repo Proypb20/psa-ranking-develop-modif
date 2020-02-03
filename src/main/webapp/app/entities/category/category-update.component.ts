@@ -11,6 +11,8 @@ import { ICategory, Category } from 'app/shared/model/category.model';
 import { CategoryService } from './category.service';
 import { IEvent } from 'app/shared/model/event.model';
 import { EventService } from 'app/entities/event/event.service';
+import { ITournament } from 'app/shared/model/tournament.model';
+import { TournamentService } from 'app/entities/tournament/tournament.service';
 
 @Component({
   selector: 'jhi-category-update',
@@ -21,16 +23,27 @@ export class CategoryUpdateComponent implements OnInit {
 
   events: IEvent[];
 
+  tournaments: ITournament[];
+
   editForm = this.fb.group({
     id: [],
     name: [],
-    description: []
+    description: [],
+    gameTimeType: [null, [Validators.required]],
+    gameTime: [null, [Validators.required]],
+    stopTimeType: [null, [Validators.required]],
+    stopTime: [null, [Validators.required]],
+    totalPoints: [null, [Validators.required]],
+    difPoints: [null, [Validators.required]],
+    order: [null, [Validators.required]],
+    tournamentId: [null, Validators.required]
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected categoryService: CategoryService,
     protected eventService: EventService,
+    protected tournamentService: TournamentService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -47,13 +60,28 @@ export class CategoryUpdateComponent implements OnInit {
         map((response: HttpResponse<IEvent[]>) => response.body)
       )
       .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.tournamentService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITournament[]>) => response.body)
+      )
+      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(category: ICategory) {
     this.editForm.patchValue({
       id: category.id,
       name: category.name,
-      description: category.description
+      description: category.description,
+      gameTimeType: category.gameTimeType,
+      gameTime: category.gameTime,
+      stopTimeType: category.stopTimeType,
+      stopTime: category.stopTime,
+      totalPoints: category.totalPoints,
+      difPoints: category.difPoints,
+      order: category.order,
+      tournamentId: category.tournamentId
     });
   }
 
@@ -76,7 +104,15 @@ export class CategoryUpdateComponent implements OnInit {
       ...new Category(),
       id: this.editForm.get(['id']).value,
       name: this.editForm.get(['name']).value,
-      description: this.editForm.get(['description']).value
+      description: this.editForm.get(['description']).value,
+      gameTimeType: this.editForm.get(['gameTimeType']).value,
+      gameTime: this.editForm.get(['gameTime']).value,
+      stopTimeType: this.editForm.get(['stopTimeType']).value,
+      stopTime: this.editForm.get(['stopTime']).value,
+      totalPoints: this.editForm.get(['totalPoints']).value,
+      difPoints: this.editForm.get(['difPoints']).value,
+      order: this.editForm.get(['order']).value,
+      tournamentId: this.editForm.get(['tournamentId']).value
     };
   }
 
@@ -97,6 +133,10 @@ export class CategoryUpdateComponent implements OnInit {
   }
 
   trackEventById(index: number, item: IEvent) {
+    return item.id;
+  }
+
+  trackTournamentById(index: number, item: ITournament) {
     return item.id;
   }
 

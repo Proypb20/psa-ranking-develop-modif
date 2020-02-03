@@ -1,8 +1,6 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { take, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { RosterService } from 'app/entities/roster/roster.service';
 import { IRoster, Roster } from 'app/shared/model/roster.model';
 
@@ -13,7 +11,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IRoster;
     let expectedResult;
-    let currentDate: moment.Moment;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
@@ -22,20 +19,13 @@ describe('Service Tests', () => {
       injector = getTestBed();
       service = injector.get(RosterService);
       httpMock = injector.get(HttpTestingController);
-      currentDate = moment();
 
-      elemDefault = new Roster(0, false, currentDate, currentDate);
+      elemDefault = new Roster(0, false);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign(
-          {
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         service
           .find(123)
           .pipe(take(1))
@@ -49,19 +39,11 @@ describe('Service Tests', () => {
       it('should create a Roster', () => {
         const returnedFromService = Object.assign(
           {
-            id: 0,
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            id: 0
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .create(new Roster(null))
           .pipe(take(1))
@@ -74,20 +56,12 @@ describe('Service Tests', () => {
       it('should update a Roster', () => {
         const returnedFromService = Object.assign(
           {
-            active: true,
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            active: true
           },
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .update(expected)
           .pipe(take(1))
@@ -100,19 +74,11 @@ describe('Service Tests', () => {
       it('should return a list of Roster', () => {
         const returnedFromService = Object.assign(
           {
-            active: true,
-            createDate: currentDate.format(DATE_TIME_FORMAT),
-            updatedDate: currentDate.format(DATE_TIME_FORMAT)
+            active: true
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            createDate: currentDate,
-            updatedDate: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .query(expected)
           .pipe(

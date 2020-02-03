@@ -18,7 +18,15 @@
       },
       "name": "Name",
       "description": "Description",
-      "event": "Event"
+      "gameTimeType": "Game Time Type",
+      "gameTime": "Game Time",
+      "stopTimeType": "Stop Time Type",
+      "stopTime": "Stop Time",
+      "totalPoints": "Total Points",
+      "difPoints": "Dif Points",
+      "order": "Order",
+      "event": "Event",
+      "tournament": "Tournament"
     }
   }
 }

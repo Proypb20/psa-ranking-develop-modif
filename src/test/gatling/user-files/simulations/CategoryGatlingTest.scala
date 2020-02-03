@@ -74,6 +74,13 @@ class CategoryGatlingTest extends Simulation {
                 "id":null
                 , "name":"SAMPLE_TEXT"
                 , "description":"SAMPLE_TEXT"
+                , "gameTimeType":"MINUTES"
+                , "gameTime":"0"
+                , "stopTimeType":"MINUTES"
+                , "stopTime":"0"
+                , "totalPoints":"0"
+                , "difPoints":"0"
+                , "order":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_category_url"))).exitHereIfFailed

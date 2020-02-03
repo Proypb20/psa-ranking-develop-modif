@@ -103,11 +103,40 @@
             </li>
             
             <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-item" routerLink="tournament" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()" jhiTranslate="global.menu.entities.tournament">
+                <a class="nav-link dropdown-item" 
+                   routerLink="tournament" 
+                   [queryParams]="{st:'CREATED',st2:'IN_PROGRESS'}"
+                   routerLinkActive="active" 
+                   [routerLinkActiveOptions]="{ exact: true }" 
+                   (click)="collapseNavbar()" 
+                   jhiTranslate="global.menu.entities.tournament">
                 </a>
                 
             </li>
             <!-- FIn Agregado Edu Menu USER -->
+            <!-- Inicio Agregado Edu Menu Owner Tournament -->
+            <li *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-item" 
+                   routerLink="tournament" 
+                   routerLinkActive="active" 
+                   [routerLinkActiveOptions]="{ exact: true }" 
+                   (click)="collapseNavbar()" 
+                   jhiTranslate="global.menu.entities.tournament">
+                </a>
+            </li>
+            
+            <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-item" 
+                   routerLink="tournament" 
+                   [queryParams]="{st:'CREATED',st2:'IN_PROGRESS'}"
+                   routerLinkActive="active" 
+                   [routerLinkActiveOptions]="{ exact: true }" 
+                   (click)="collapseNavbar()" 
+                   jhiTranslate="global.menu.entities.tournament">
+                </a>
+                
+            </li>
+            <!-- Fin Agregado Edu Menu Owner Tournament -->
             <!-- Inicio Agregado Edu Menu ScoreKeeper -->
             <li *jhiHasAnyAuthority="'ROLE_SCOREKEEPER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-item" routerLink="tournament" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()" jhiTranslate="global.menu.entities.console"></a>
@@ -148,12 +177,6 @@
                             <span jhiTranslate="global.menu.entities.docType">Doc Type</span>
                         </a>
                     </li>-->
-                    <li>
-                        <a class="dropdown-item" routerLink="person" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.person">Person</span>
-                        </a>
-                    </li>
                     <!-- <li>
                         <a class="dropdown-item" routerLink="tournament" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -183,24 +206,6 @@
                         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.roster">Roster</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="player" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.player">Player</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="user-extra" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.userExtra">User Extra</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="tournament" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.tournament">Tournament</span>
                         </a>
                     </li>
                     <li>

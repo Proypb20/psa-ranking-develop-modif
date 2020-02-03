@@ -22,6 +22,30 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="game_time_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="game_time" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="stop_time_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="stop_time" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="total_points" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="dif_points" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="jhi_order" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="tournament_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData
@@ -31,6 +55,14 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="description" type="string"/>
+            <column name="game_time_type" type="string"/>
+            <column name="game_time" type="numeric"/>
+            <column name="stop_time_type" type="string"/>
+            <column name="stop_time" type="numeric"/>
+            <column name="total_points" type="numeric"/>
+            <column name="dif_points" type="numeric"/>
+            <column name="jhi_order" type="numeric"/>
+            <column name="tournament_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
@@ -56,6 +88,14 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="description" type="string"/>
+            <column name="game_time_type" type="string"/>
+            <column name="game_time" type="numeric"/>
+            <column name="stop_time_type" type="string"/>
+            <column name="stop_time" type="numeric"/>
+            <column name="total_points" type="numeric"/>
+            <column name="dif_points" type="numeric"/>
+            <column name="jhi_order" type="numeric"/>
+            <column name="tournament_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

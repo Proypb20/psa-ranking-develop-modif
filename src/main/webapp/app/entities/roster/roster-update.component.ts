@@ -6,8 +6,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRoster, Roster } from 'app/shared/model/roster.model';
 import { RosterService } from './roster.service';
@@ -35,9 +33,7 @@ export class RosterUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     active: [],
-    createDate: [],
-    updatedDate: [],
-    categoryId: [null, Validators.required],
+    categoryId: [],
     players: [],
     staffs: [],
     teamId: [null, Validators.required]
@@ -93,8 +89,6 @@ export class RosterUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: roster.id,
       active: roster.active,
-      createDate: roster.createDate != null ? roster.createDate.format(DATE_TIME_FORMAT) : null,
-      updatedDate: roster.updatedDate != null ? roster.updatedDate.format(DATE_TIME_FORMAT) : null,
       categoryId: roster.categoryId,
       players: roster.players,
       teamId: roster.teamId
@@ -120,10 +114,6 @@ export class RosterUpdateComponent implements OnInit {
       ...new Roster(),
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
-      createDate:
-        this.editForm.get(['createDate']).value != null ? moment(this.editForm.get(['createDate']).value, DATE_TIME_FORMAT) : undefined,
-      updatedDate:
-        this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
       categoryId: this.editForm.get(['categoryId']).value,
       players: this.editForm.get(['players']).value,
       teamId: this.editForm.get(['teamId']).value

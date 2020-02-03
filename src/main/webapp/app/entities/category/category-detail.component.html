@@ -13,6 +13,40 @@
                 <dd>
                     <span>{{category.description}}</span>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.gameTimeType">Game Time Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.gameTime">Game Time</span></dt>
+                <dd>
+                    <span>{{category.gameTime}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.stopTimeType">Stop Time Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.stopTime">Stop Time</span></dt>
+                <dd>
+                    <span>{{category.stopTime}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.totalPoints">Total Points</span></dt>
+                <dd>
+                    <span>{{category.totalPoints}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.difPoints">Dif Points</span></dt>
+                <dd>
+                    <span>{{category.difPoints}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.order">Order</span></dt>
+                <dd>
+                    <span>{{category.order}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.category.tournament">Tournament</span></dt>
+                <dd>
+                    <div *ngIf="category.tournamentId">
+                        <a [routerLink]="['/tournament', category.tournamentId, 'view']">{{category.tournamentName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

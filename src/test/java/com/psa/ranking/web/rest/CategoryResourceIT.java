@@ -2,6 +2,7 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Category;
+import com.psa.ranking.domain.Tournament;
 import com.psa.ranking.repository.CategoryRepository;
 import com.psa.ranking.service.CategoryService;
 import com.psa.ranking.service.dto.CategoryDTO;
@@ -30,6 +31,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.psa.ranking.domain.enumeration.TimeType;
+import com.psa.ranking.domain.enumeration.TimeType;
 /**
  * Integration tests for the {@link CategoryResource} REST controller.
  */
@@ -41,6 +44,27 @@ public class CategoryResourceIT {
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final TimeType DEFAULT_GAME_TIME_TYPE = TimeType.MINUTES;
+    private static final TimeType UPDATED_GAME_TIME_TYPE = TimeType.SECONDS;
+
+    private static final Integer DEFAULT_GAME_TIME = 1;
+    private static final Integer UPDATED_GAME_TIME = 2;
+
+    private static final TimeType DEFAULT_STOP_TIME_TYPE = TimeType.MINUTES;
+    private static final TimeType UPDATED_STOP_TIME_TYPE = TimeType.SECONDS;
+
+    private static final Integer DEFAULT_STOP_TIME = 1;
+    private static final Integer UPDATED_STOP_TIME = 2;
+
+    private static final Integer DEFAULT_TOTAL_POINTS = 1;
+    private static final Integer UPDATED_TOTAL_POINTS = 2;
+
+    private static final Integer DEFAULT_DIF_POINTS = 1;
+    private static final Integer UPDATED_DIF_POINTS = 2;
+
+    private static final Integer DEFAULT_ORDER = 1;
+    private static final Integer UPDATED_ORDER = 2;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -91,7 +115,24 @@ public class CategoryResourceIT {
     public static Category createEntity(EntityManager em) {
         Category category = new Category()
             .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .gameTimeType(DEFAULT_GAME_TIME_TYPE)
+            .gameTime(DEFAULT_GAME_TIME)
+            .stopTimeType(DEFAULT_STOP_TIME_TYPE)
+            .stopTime(DEFAULT_STOP_TIME)
+            .totalPoints(DEFAULT_TOTAL_POINTS)
+            .difPoints(DEFAULT_DIF_POINTS)
+            .order(DEFAULT_ORDER);
+        // Add required entity
+        Tournament tournament;
+        if (TestUtil.findAll(em, Tournament.class).isEmpty()) {
+            tournament = TournamentResourceIT.createEntity(em);
+            em.persist(tournament);
+            em.flush();
+        } else {
+            tournament = TestUtil.findAll(em, Tournament.class).get(0);
+        }
+        category.setTournament(tournament);
         return category;
     }
     /**
@@ -103,7 +144,24 @@ public class CategoryResourceIT {
     public static Category createUpdatedEntity(EntityManager em) {
         Category category = new Category()
             .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .gameTimeType(UPDATED_GAME_TIME_TYPE)
+            .gameTime(UPDATED_GAME_TIME)
+            .stopTimeType(UPDATED_STOP_TIME_TYPE)
+            .stopTime(UPDATED_STOP_TIME)
+            .totalPoints(UPDATED_TOTAL_POINTS)
+            .difPoints(UPDATED_DIF_POINTS)
+            .order(UPDATED_ORDER);
+        // Add required entity
+        Tournament tournament;
+        if (TestUtil.findAll(em, Tournament.class).isEmpty()) {
+            tournament = TournamentResourceIT.createUpdatedEntity(em);
+            em.persist(tournament);
+            em.flush();
+        } else {
+            tournament = TestUtil.findAll(em, Tournament.class).get(0);
+        }
+        category.setTournament(tournament);
         return category;
     }
 
@@ -130,6 +188,13 @@ public class CategoryResourceIT {
         Category testCategory = categoryList.get(categoryList.size() - 1);
         assertThat(testCategory.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCategory.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testCategory.getGameTimeType()).isEqualTo(DEFAULT_GAME_TIME_TYPE);
+        assertThat(testCategory.getGameTime()).isEqualTo(DEFAULT_GAME_TIME);
+        assertThat(testCategory.getStopTimeType()).isEqualTo(DEFAULT_STOP_TIME_TYPE);
+        assertThat(testCategory.getStopTime()).isEqualTo(DEFAULT_STOP_TIME);
+        assertThat(testCategory.getTotalPoints()).isEqualTo(DEFAULT_TOTAL_POINTS);
+        assertThat(testCategory.getDifPoints()).isEqualTo(DEFAULT_DIF_POINTS);
+        assertThat(testCategory.getOrder()).isEqualTo(DEFAULT_ORDER);
     }
 
     @Test
@@ -155,6 +220,139 @@ public class CategoryResourceIT {
 
     @Test
     @Transactional
+    public void checkGameTimeTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setGameTimeType(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkGameTimeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setGameTime(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStopTimeTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setStopTimeType(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStopTimeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setStopTime(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkTotalPointsIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setTotalPoints(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDifPointsIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setDifPoints(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkOrderIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoryRepository.findAll().size();
+        // set the field null
+        category.setOrder(null);
+
+        // Create the Category, which fails.
+        CategoryDTO categoryDTO = categoryMapper.toDto(category);
+
+        restCategoryMockMvc.perform(post("/api/categories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Category> categoryList = categoryRepository.findAll();
+        assertThat(categoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCategories() throws Exception {
         // Initialize the database
         categoryRepository.saveAndFlush(category);
@@ -165,7 +363,14 @@ public class CategoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(category.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].gameTimeType").value(hasItem(DEFAULT_GAME_TIME_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].gameTime").value(hasItem(DEFAULT_GAME_TIME)))
+            .andExpect(jsonPath("$.[*].stopTimeType").value(hasItem(DEFAULT_STOP_TIME_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].stopTime").value(hasItem(DEFAULT_STOP_TIME)))
+            .andExpect(jsonPath("$.[*].totalPoints").value(hasItem(DEFAULT_TOTAL_POINTS)))
+            .andExpect(jsonPath("$.[*].difPoints").value(hasItem(DEFAULT_DIF_POINTS)))
+            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
     }
     
     @Test
@@ -180,7 +385,14 @@ public class CategoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(category.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.gameTimeType").value(DEFAULT_GAME_TIME_TYPE.toString()))
+            .andExpect(jsonPath("$.gameTime").value(DEFAULT_GAME_TIME))
+            .andExpect(jsonPath("$.stopTimeType").value(DEFAULT_STOP_TIME_TYPE.toString()))
+            .andExpect(jsonPath("$.stopTime").value(DEFAULT_STOP_TIME))
+            .andExpect(jsonPath("$.totalPoints").value(DEFAULT_TOTAL_POINTS))
+            .andExpect(jsonPath("$.difPoints").value(DEFAULT_DIF_POINTS))
+            .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
     }
 
     @Test
@@ -205,7 +417,14 @@ public class CategoryResourceIT {
         em.detach(updatedCategory);
         updatedCategory
             .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .gameTimeType(UPDATED_GAME_TIME_TYPE)
+            .gameTime(UPDATED_GAME_TIME)
+            .stopTimeType(UPDATED_STOP_TIME_TYPE)
+            .stopTime(UPDATED_STOP_TIME)
+            .totalPoints(UPDATED_TOTAL_POINTS)
+            .difPoints(UPDATED_DIF_POINTS)
+            .order(UPDATED_ORDER);
         CategoryDTO categoryDTO = categoryMapper.toDto(updatedCategory);
 
         restCategoryMockMvc.perform(put("/api/categories")
@@ -219,6 +438,13 @@ public class CategoryResourceIT {
         Category testCategory = categoryList.get(categoryList.size() - 1);
         assertThat(testCategory.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCategory.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testCategory.getGameTimeType()).isEqualTo(UPDATED_GAME_TIME_TYPE);
+        assertThat(testCategory.getGameTime()).isEqualTo(UPDATED_GAME_TIME);
+        assertThat(testCategory.getStopTimeType()).isEqualTo(UPDATED_STOP_TIME_TYPE);
+        assertThat(testCategory.getStopTime()).isEqualTo(UPDATED_STOP_TIME);
+        assertThat(testCategory.getTotalPoints()).isEqualTo(UPDATED_TOTAL_POINTS);
+        assertThat(testCategory.getDifPoints()).isEqualTo(UPDATED_DIF_POINTS);
+        assertThat(testCategory.getOrder()).isEqualTo(UPDATED_ORDER);
     }
 
     @Test

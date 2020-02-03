@@ -18,27 +18,28 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!--<th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.team.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'"  jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="active"><span jhiTranslate="psaRankingApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let team of teams ;trackBy: trackId">
-                <!--<td><a [routerLink]="['/team', team.id, 'view' ]">{{team.id}}</a></td>-->
+                <!-- <td><a [routerLink]="['/team', team.id, 'view' ]">{{team.id}}</a></td> -->
                 <td>{{team.name}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{team.active}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{team.ownerLogin}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{team.ownerLogin}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/roster']"
+                                [queryParams]="{teamId:team.id}"
                                 class="btn btn-info btn-sm">
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.roster">Ver Jugadores</span>
                         </button>
-                        <!-- <button type="submit"
+                         <!-- <button type="submit"
                                 [routerLink]="['/team', team.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>

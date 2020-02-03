@@ -17,8 +17,6 @@
         "title": "Roster"
                 },
       "active": "Activo",
-      "createDate": "Fecha de Creacion",
-      "updatedDate": "Fecha Actualizado",
       "category": "Categoria",
       "player": "Jugador",
       "team": "Equipo",
@@ -30,7 +28,7 @@
       "button": {
         "players": "Jugadores",
         "staff": "Staff",
-        "others": "Otros"
+        "others": "Otros Jugadores"
       }
     }
   }

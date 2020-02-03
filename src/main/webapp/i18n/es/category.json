@@ -18,7 +18,15 @@
       },
       "name": "Nombre",
       "description": "Descripcion",
-      "event": "Evento"
+      "gameTimeType": "Tipo Duracion Partido",
+      "gameTime": "Duracion Partido",
+      "stopTimeType": "Tipo Duracion Entretiempo",
+      "stopTime": "Duracion Entretiempo",
+      "totalPoints": "Total Puntos",
+      "difPoints": "Diferencia Puntos",
+      "order": "Orden",
+      "event": "Evento",
+      "tournament": "Torneo"
     }
   }
 }

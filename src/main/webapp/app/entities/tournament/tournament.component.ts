@@ -30,6 +30,9 @@ export class TournamentComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  tourStatus1: any;
+  tourStatus2: any;
+  private sub: any;
 
   constructor(
     protected tournamentService: TournamentService,
@@ -49,14 +52,27 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-    
+    if (this.tourStatus1)
+    {
     this.tournamentService
+      .query({
+       'status.in': [this.tourStatus1,this.tourStatus2],
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+      }
+      else
+      {
+      this.tournamentService
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+      }
   }
 
   loadPage(page: number) {
@@ -90,6 +106,12 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.tourStatus1 = params['st'];
+        this.tourStatus2 = params['st2']; 
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

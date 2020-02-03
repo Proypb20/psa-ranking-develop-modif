@@ -73,8 +73,6 @@ class RosterGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "active":null
-                , "createDate":"2020-01-01T00:00:00.000Z"
-                , "updatedDate":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_roster_url"))).exitHereIfFailed

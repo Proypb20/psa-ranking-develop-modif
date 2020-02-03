@@ -48,7 +48,6 @@ public class CacheConfiguration {
             createCache(cm, com.psa.ranking.domain.Province.class.getName() + ".cities");
             createCache(cm, com.psa.ranking.domain.City.class.getName());
             createCache(cm, com.psa.ranking.domain.DocType.class.getName());
-            createCache(cm, com.psa.ranking.domain.Person.class.getName());
             createCache(cm, com.psa.ranking.domain.Tournament.class.getName());
             createCache(cm, com.psa.ranking.domain.Tournament.class.getName() + ".events");
             createCache(cm, com.psa.ranking.domain.Event.class.getName());

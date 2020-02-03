@@ -17,8 +17,6 @@
         "title": "Roster"
       },
       "active": "Active",
-      "createDate": "Create Date",
-      "updatedDate": "Updated Date",
       "category": "Category",
       "player": "Player",
       "team": "Team"

@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,12 +26,6 @@ public class Roster implements Serializable {
 
     @Column(name = "active")
     private Boolean active;
-
-    @Column(name = "create_date")
-    private Instant createDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
 
     @ManyToOne
     @JsonIgnoreProperties("rosters")
@@ -70,32 +63,6 @@ public class Roster implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Instant getCreateDate() {
-        return createDate;
-    }
-
-    public Roster createDate(Instant createDate) {
-        this.createDate = createDate;
-        return this;
-    }
-
-    public void setCreateDate(Instant createDate) {
-        this.createDate = createDate;
-    }
-
-    public Instant getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public Roster updatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
-        return this;
-    }
-
-    public void setUpdatedDate(Instant updatedDate) {
-        this.updatedDate = updatedDate;
     }
 
     public Category getCategory() {
@@ -171,8 +138,6 @@ public class Roster implements Serializable {
         return "Roster{" +
             "id=" + getId() +
             ", active='" + isActive() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            ", updatedDate='" + getUpdatedDate() + "'" +
             "}";
     }
 }

@@ -74,8 +74,6 @@ class TeamGatlingTest extends Simulation {
                 "id":null
                 , "name":"SAMPLE_TEXT"
                 , "active":null
-                , "createDate":"2020-01-01T00:00:00.000Z"
-                , "updatedDate":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_team_url"))).exitHereIfFailed

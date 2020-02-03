@@ -6,7 +6,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUserExtra, UserExtra } from 'app/shared/model/user-extra.model';
 import { UserExtraService } from './user-extra.service';

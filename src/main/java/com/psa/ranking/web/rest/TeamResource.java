@@ -57,7 +57,6 @@ public class TeamResource {
         if (teamDTO.getId() != null) {
             throw new BadRequestAlertException("A new team cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        teamDTO.setActive(true);
         TeamDTO result = teamService.save(teamDTO);
         return ResponseEntity.created(new URI("/api/teams/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

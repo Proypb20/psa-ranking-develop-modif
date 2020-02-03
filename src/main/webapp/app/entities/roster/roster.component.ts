@@ -137,7 +137,6 @@ export class RosterComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.rosters = data;
   }
-  
   trackCategoryById(index: number, item: ICategory) {
 	    return item.name;
   }

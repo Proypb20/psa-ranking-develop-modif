@@ -18,30 +18,27 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
-            <!-- <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.roster.createDate">Create Date</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <!-- <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.roster.updatedDate">Updated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryId"><span jhiTranslate="psaRankingApp.roster.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let roster of rosters ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td> -->
+                <!-- <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td>-->
                 <td>
                     <div *ngIf="roster.teamId">
                         <a>{{roster.teamName}}</a>
                     </div>
                 </td>
-                <!-- <td>{{roster.createDate | date:'medium'}}</td> -->
-                <!-- <td>{{roster.updatedDate | date:'medium'}}</td> -->
                 <td>
                     <div *ngIf="roster.categoryId">
-                        <div *ngFor="let item of categories">
-                          <a *ngIf="(item.id == roster.categoryId)" >{{item.name}}</a>
-                        </div>
+                       <div *ngFor="let item of categories">
+                        <a *ngIf="(item.id == roster.categoryId)" >{{item.name}}</a>
+                     </div>
                     </div>
                 </td>
                 <td>{{roster.active}}</td>
@@ -59,14 +56,14 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <!-- <button type="submit"
                                 [routerLink]="['/roster', { outlets: { popup: roster.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                        </button> -->
                     </div>
                 </td>
             </tr>

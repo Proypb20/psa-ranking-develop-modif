@@ -13,7 +13,6 @@
         "city": "City",
         "address": "Address",
         "docType": "Doc Type",
-        "person": "Person",
         "tournament": "Tournament",
         "event": "Event",
         "team": "Team",

@@ -18,17 +18,38 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <!--  <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.category.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.category.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.category.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--  <th scope="col"  jhiSortBy="gameTimeType"><span jhiTranslate="psaRankingApp.category.gameTimeType">Game Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="gameTime"><span jhiTranslate="psaRankingApp.category.gameTime">Game Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="stopTimeType"><span jhiTranslate="psaRankingApp.category.stopTimeType">Stop Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="stopTime"><span jhiTranslate="psaRankingApp.category.stopTime">Stop Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="totalPoints"><span jhiTranslate="psaRankingApp.category.totalPoints">Total Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="difPoints"><span jhiTranslate="psaRankingApp.category.difPoints">Dif Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--  <th scope="col"  jhiSortBy="order"><span jhiTranslate="psaRankingApp.category.order">Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-             <tr *ngFor="let category of categories ;trackBy: trackId">
-               <!-- <td><a [routerLink]="['/category', category.id, 'view' ]">{{category.id}}</a></td> -->
+            <tr *ngFor="let category of categories ;trackBy: trackId">
+                <!--  <td><a [routerLink]="['/category', category.id, 'view' ]">{{category.id}}</a></td>-->
+                <td>
+                    <div *ngIf="category.tournamentId">
+                        <a [routerLink]="['/tournament', category.tournamentId , 'view' ]" >{{category.tournamentName}}</a>
+                    </div>
+                </td>
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
+                <!--  <td jhiTranslate="{{'psaRankingApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>-->
+                <!--  <td>{{category.gameTime}}</td>-->
+                <!--  <td jhiTranslate="{{'psaRankingApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</td>-->
+                <!--  <td>{{category.stopTime}}</td>-->
+                <!--  <td>{{category.totalPoints}}</td>-->
+                <!--  <td>{{category.difPoints}}</td>-->
+                <!--  <td>{{category.order}}</td>-->
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"
@@ -36,14 +57,16 @@
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>-->
-                        <button type="submit"
+                        </button> -->
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/category', category.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/category', { outlets: { popup: category.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

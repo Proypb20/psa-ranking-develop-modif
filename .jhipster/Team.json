@@ -8,23 +8,16 @@
         {
             "fieldName": "active",
             "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "createDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "updatedDate",
-            "fieldType": "Instant"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "userExtra",
-            "otherEntityRelationshipName": "team",
             "relationshipName": "owner",
-            "otherEntityField": "id"
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "team"
         }
     ],
     "changelogDate": "20191022230140",
@@ -37,5 +30,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

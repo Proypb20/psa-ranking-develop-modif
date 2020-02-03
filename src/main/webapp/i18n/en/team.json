@@ -18,8 +18,6 @@
       },
       "name": "Name",
       "active": "Active",
-      "createDate": "Create Date",
-      "updatedDate": "Updated Date",
       "owner": "Owner"
     }
   }

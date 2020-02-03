@@ -18,7 +18,6 @@
     <include file="config/liquibase/changelog/20191022230132_added_entity_Province.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_City.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230136_added_entity_DocType.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230137_added_entity_Person.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230138_added_entity_Tournament.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230139_added_entity_Event.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230140_added_entity_Team.xml" relativeToChangelogFile="false"/>
@@ -29,12 +28,12 @@
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191022230132_added_entity_constraints_Province.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_constraints_City.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191022230137_added_entity_constraints_Person.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230138_added_entity_constraints_Tournament.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230139_added_entity_constraints_Event.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230140_added_entity_constraints_Team.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230142_added_entity_constraints_Roster.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230143_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191023204539_added_entity_constraints_UserExtra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191022230141_added_entity_constraints_Category.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

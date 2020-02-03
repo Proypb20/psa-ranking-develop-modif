@@ -26,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +44,6 @@ public class RosterResourceIT {
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
-
-    private static final Instant DEFAULT_CREATE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_UPDATED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private RosterRepository rosterRepository;
@@ -107,9 +99,7 @@ public class RosterResourceIT {
      */
     public static Roster createEntity(EntityManager em) {
         Roster roster = new Roster()
-            .active(DEFAULT_ACTIVE)
-            .createDate(DEFAULT_CREATE_DATE)
-            .updatedDate(DEFAULT_UPDATED_DATE);
+            .active(DEFAULT_ACTIVE);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -130,9 +120,7 @@ public class RosterResourceIT {
      */
     public static Roster createUpdatedEntity(EntityManager em) {
         Roster roster = new Roster()
-            .active(UPDATED_ACTIVE)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .active(UPDATED_ACTIVE);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -168,8 +156,6 @@ public class RosterResourceIT {
         assertThat(rosterList).hasSize(databaseSizeBeforeCreate + 1);
         Roster testRoster = rosterList.get(rosterList.size() - 1);
         assertThat(testRoster.isActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testRoster.getCreateDate()).isEqualTo(DEFAULT_CREATE_DATE);
-        assertThat(testRoster.getUpdatedDate()).isEqualTo(DEFAULT_UPDATED_DATE);
     }
 
     @Test
@@ -204,9 +190,7 @@ public class RosterResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(roster.getId().intValue())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].createDate").value(hasItem(DEFAULT_CREATE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -253,9 +237,7 @@ public class RosterResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(roster.getId().intValue()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.createDate").value(DEFAULT_CREATE_DATE.toString()))
-            .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -279,9 +261,7 @@ public class RosterResourceIT {
         // Disconnect from session so that the updates on updatedRoster are not directly saved in db
         em.detach(updatedRoster);
         updatedRoster
-            .active(UPDATED_ACTIVE)
-            .createDate(UPDATED_CREATE_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE);
+            .active(UPDATED_ACTIVE);
         RosterDTO rosterDTO = rosterMapper.toDto(updatedRoster);
 
         restRosterMockMvc.perform(put("/api/rosters")
@@ -294,8 +274,6 @@ public class RosterResourceIT {
         assertThat(rosterList).hasSize(databaseSizeBeforeUpdate);
         Roster testRoster = rosterList.get(rosterList.size() - 1);
         assertThat(testRoster.isActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testRoster.getCreateDate()).isEqualTo(UPDATED_CREATE_DATE);
-        assertThat(testRoster.getUpdatedDate()).isEqualTo(UPDATED_UPDATED_DATE);
     }
 
     @Test
