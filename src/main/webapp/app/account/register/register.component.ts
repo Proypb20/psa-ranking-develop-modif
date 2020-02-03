@@ -4,9 +4,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 
-import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared/constants/error.constants';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { Register } from './register.service';
+
 
 @Component({
   selector: 'jhi-register',
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-    phone: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
     numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
   });
@@ -80,10 +80,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   private processError(response: HttpErrorResponse) {
+    console.error(
+      `Backend returned code ${response.status}, ` +
+      `body was: ${response.error}`);
     this.success = null;
-    if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
+    if (response.status === 400 && response.error === 'error.userexists') {
       this.errorUserExists = 'ERROR';
-    } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
+    } else if (response.status === 400 && response.error === 'error.emailexists') {
       this.errorEmailExists = 'ERROR';
     } else {
       this.error = 'ERROR';

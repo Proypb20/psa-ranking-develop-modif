@@ -128,6 +128,12 @@
           "invalid": "Su correo electrónico no es válido.",
           "minlength": "Se requiere que su correo electrónico tenga por lo menos 5 caracteres",
           "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
+        },
+          "phone": {
+          "required": "Se requiere un teléfono.",
+          "invalid": "Su teléfono no es válido.",
+          "minlength": "Se requiere que su teléfono tenga por lo menos 10 caracteres",
+          "maxlength": "Su teléfono no puede tener más de 10 caracteres"
         }
       }
     },
