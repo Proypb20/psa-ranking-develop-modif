@@ -12,7 +12,6 @@
         "location": "Location",
         "city": "City",
         "docType": "Doc Type",
-        "person": "Person",
         "tournament": "Tournament",
         "event": "Event",
         "team": "Team",
