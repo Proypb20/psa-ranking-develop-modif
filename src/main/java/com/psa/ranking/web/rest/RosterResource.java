@@ -90,18 +90,13 @@ public class RosterResource {
      *
 
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
      */
     @GetMapping("/rosters")
-    public ResponseEntity<List<RosterDTO>> getAllRosters(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<RosterDTO>> getAllRosters(Pageable pageable) {
         log.debug("REST request to get a page of Rosters");
-        Page<RosterDTO> page;
-        if (eagerload) {
-            page = rosterService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = rosterService.findAll(pageable);
-        }
+        Page<RosterDTO> page = rosterService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

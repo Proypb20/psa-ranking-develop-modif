@@ -19,6 +19,7 @@
         "roster": "Roster",
         "player": "Player",
         "userExtra": "User Extra",
+        "format": "Format",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

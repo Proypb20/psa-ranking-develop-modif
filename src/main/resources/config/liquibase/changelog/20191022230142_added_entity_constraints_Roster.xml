@@ -14,18 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="category"/>
 
-        <addForeignKeyConstraint baseColumnNames="roster_id"
-                                 baseTableName="roster_player"
-                                 constraintName="fk_roster_player_roster_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="roster"/>
-
-        <addForeignKeyConstraint baseColumnNames="player_id"
-                                 baseTableName="roster_player"
-                                 constraintName="fk_roster_player_player_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="player"/>
-        
         <addForeignKeyConstraint baseColumnNames="team_id"
                                  baseTableName="roster"
                                  constraintName="fk_roster_team_id"

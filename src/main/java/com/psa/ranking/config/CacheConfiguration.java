@@ -61,6 +61,7 @@ public class CacheConfiguration {
             createCache(cm, com.psa.ranking.domain.Player.class.getName() + ".rosters");
             createCache(cm, com.psa.ranking.domain.UserExtra.class.getName());
             createCache(cm, com.psa.ranking.domain.UserExtra.class.getName() + ".cities");
+            createCache(cm, com.psa.ranking.domain.Format.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

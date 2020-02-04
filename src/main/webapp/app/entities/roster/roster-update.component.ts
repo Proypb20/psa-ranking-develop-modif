@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,8 +11,6 @@ import { IRoster, Roster } from 'app/shared/model/roster.model';
 import { RosterService } from './roster.service';
 import { ICategory } from 'app/shared/model/category.model';
 import { CategoryService } from 'app/entities/category/category.service';
-import { IPlayer } from 'app/shared/model/player.model';
-import { PlayerService } from 'app/entities/player/player.service';
 import { ITeam } from 'app/shared/model/team.model';
 import { TeamService } from 'app/entities/team/team.service';
 
@@ -25,17 +23,12 @@ export class RosterUpdateComponent implements OnInit {
 
   categories: ICategory[];
 
-  players: IPlayer[];
-  staffs: IPlayer[];
-
   teams: ITeam[];
 
   editForm = this.fb.group({
     id: [],
     active: [],
     categoryId: [],
-    players: [],
-    staffs: [],
     teamId: [null, Validators.required]
   });
 
@@ -43,8 +36,6 @@ export class RosterUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected rosterService: RosterService,
     protected categoryService: CategoryService,
-    protected playerService: PlayerService,
-    protected staffService: PlayerService,
     protected teamService: TeamService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -62,20 +53,6 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<ICategory[]>) => response.body)
       )
       .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.playerService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IPlayer[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IPlayer[]>) => response.body)
-      )
-      .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
-      this.staffService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IPlayer[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IPlayer[]>) => response.body)
-      )
-      .subscribe((res: IPlayer[]) => (this.staffs = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.teamService
       .query()
       .pipe(
@@ -90,7 +67,6 @@ export class RosterUpdateComponent implements OnInit {
       id: roster.id,
       active: roster.active,
       categoryId: roster.categoryId,
-      players: roster.players,
       teamId: roster.teamId
     });
   }
@@ -115,7 +91,6 @@ export class RosterUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
       categoryId: this.editForm.get(['categoryId']).value,
-      players: this.editForm.get(['players']).value,
       teamId: this.editForm.get(['teamId']).value
     };
   }
@@ -140,22 +115,7 @@ export class RosterUpdateComponent implements OnInit {
     return item.id;
   }
 
-  trackPlayerById(index: number, item: IPlayer) {
-    return item.id;
-  }
-
   trackTeamById(index: number, item: ITeam) {
     return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

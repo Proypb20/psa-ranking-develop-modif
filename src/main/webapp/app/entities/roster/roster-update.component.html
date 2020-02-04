@@ -16,23 +16,23 @@
                         <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
                     </select>
                 </div>
+                <div *ngIf="editForm.get('teamId').invalid && (editForm.get('teamId').dirty || editForm.get('teamId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.category" for="field_category">Category</label>
                     <select class="form-control" id="field_category" name="category" formControlName="categoryId">
                         <!-- <option [ngValue]="null"></option>-->
-                        <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option>-->
                         <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.name}}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('categoryId').invalid && (editForm.get('categoryId').dirty || editForm.get('categoryId').touched)">
                     <small class="form-text text-danger"
                            *ngIf="editForm.get('categoryId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                </div>
-                <div *ngIf="editForm.get('teamId').invalid && (editForm.get('teamId').dirty || editForm.get('teamId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('teamId').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
                 </div>
@@ -45,17 +45,18 @@
                 <table class="table table-striped" aria-describedby="page-heading">
                    <tr>
                      <th width=10%>ID</th>
-                     <th width=90%>Nombre</th>
+                     <th width=90% colspan= 3>Nombre</th>
                    </tr>
 			       <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			            <a *ngIf="playerOption.profile == 'PLAYER'">
 			            <td width=10%>{{playerOption.id}}</td>
-			            <td width=30%>{{playerOption.profile}}</td>
-			            <td width=30%>
-			               <button type="submit" id="player-staff" class="btn btn-primary" [routerLink]="['/roster', roster.id, 'edit']">
+			            <td width=40%>{{playerOption.profile}}</td>
+			            <td width=25%>
+			               <button type="submit" id="player-staff" class="btn btn-primary">
                              <span jhiTranslate="psaRankingApp.roster.button.staff">Staff</span>
                            </button>
                         </td>
-	                    <td width=30%>
+	                    <td width=25%>
 			               <button type="submit" id="player-others" class="btn btn-primary">
                              <span jhiTranslate="psaRankingApp.roster.button.others">Others</span>
                            </button>
@@ -69,41 +70,47 @@
                   <th width=10%>ID</th>
                   <th width=90%>Nombre</th>
                 </tr>
-			         <tr *ngFor="let playerOption of staffs; trackBy: trackPlayerById">
+                    <tbody>
+			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			            <div *ngIf="playerOption.profile == 'STAFF'">
 			              <td width=10%>{{playerOption.id}}</td>
-			              <td width=30%>{{playerOption.profile}}</td>
-			              <td width=30%>
+			              <td width=40%>{{playerOption.profile}}</td>
+			              <td width=25%>
 			                 <button type="submit" id="staff-player" class="btn btn-primary">
                                 <span jhiTranslate="psaRankingApp.roster.button.players">Players</span>
                              </button>
                           </td>
-			              <td width=30%>
+			              <td width=25%>
 			                 <button type="submit" id="staff-others" class="btn btn-primary">
                                 <span jhiTranslate="psaRankingApp.roster.button.others">Others</span>
                              </button>
                           </td>
-                   </tr>
+			            </div>
+                      </tr>
+                    </tbody>
                 </table>
                 <div jhiTranslate="psaRankingApp.roster.groups.others"> Otros</div>
                 <table class="table table-striped" aria-describedby="page-heading">
-                <tr>
                 <th width=10%>ID</th>
                 <th width=90%>Nombre</th>
-                </tr>
-			    <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+                    <tbody>
+			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
+			           <div *ngIf="playerOption.profile != 'STAFF' && playerOption.profile != 'PLAYER'">
 			            <td width=10%>{{playerOption.id}}</td>
-			              <td width=30%>{{playerOption.profile}}</td>
-			              <td width=30%>
+			              <td width=40%>{{playerOption.profile}}</td>
+			              <td width=25%>
 			                 <button type="submit" id="others-players" class="btn btn-primary">
                                 <span jhiTranslate="psaRankingApp.roster.button.players">Players</span>
                              </button>
                           </td>
-			              <td width=30%>
+			              <td width=25%>
 			                 <button type="submit" id="others-staff" class="btn btn-primary">
                                 <span jhiTranslate="psaRankingApp.roster.button.staff">Staff</span>
                              </button>
                           </td>
+			            </div>
                       </tr>
+                    </tbody>
                 </table>
                 <!-- <div class="form-group">
                     <label jhiTranslate="psaRankingApp.roster.player" for="field_players">Player</label>

@@ -2,8 +2,6 @@ package com.psa.ranking.service.dto;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -18,8 +16,6 @@ public class RosterDTO implements Serializable {
 
 
     private Long categoryId;
-
-    private Set<PlayerDTO> players = new HashSet<>();
 
     private Long teamId;
 
@@ -47,14 +43,6 @@ public class RosterDTO implements Serializable {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Set<PlayerDTO> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Set<PlayerDTO> players) {
-        this.players = players;
     }
 
     public Long getTeamId() {

@@ -1,4 +1,4 @@
 id;name;close_inscr_days;status;categorize;owner_id
 1;Torneo 1;30;DONE;true;1
-2;Torneo 2;30;PENDING;false;1
+2;Torneo 2;30;CREATED;false;1
 3;Torneo 3;30;PENDING;false;1

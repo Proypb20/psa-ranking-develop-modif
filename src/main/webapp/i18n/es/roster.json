@@ -3,8 +3,8 @@
     "roster": {
       "home": {
         "title": "Rosters",
-        "createLabel": "Nuevo Roster",
-        "createOrEditLabel": "Roster",
+        "createLabel": "Crear nuevo Roster",
+        "createOrEditLabel": "Crear o editar Roster",
         "notFound": "No Rosters found"
       },
       "created": "El Roster {{ param }} ha sido creado",
@@ -18,14 +18,8 @@
                 },
       "active": "Activo",
       "category": "Categoria",
-      "player": "Jugador",
       "team": "Equipo",
       "groups": {
-        "players": "Jugadores",
-        "staff": "Staff",
-        "others": "Otros Jugadores"
-      },
-      "button": {
         "players": "Jugadores",
         "staff": "Staff",
         "others": "Otros Jugadores"

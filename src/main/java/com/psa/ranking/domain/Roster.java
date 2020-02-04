@@ -7,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Roster entity.\n@author Marcelo Miño
@@ -30,13 +28,6 @@ public class Roster implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("rosters")
     private Category category;
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "roster_player",
-               joinColumns = @JoinColumn(name = "roster_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"))
-    private Set<Player> players = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -76,31 +67,6 @@ public class Roster implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Set<Player> getPlayers() {
-        return players;
-    }
-
-    public Roster players(Set<Player> players) {
-        this.players = players;
-        return this;
-    }
-
-    public Roster addPlayer(Player player) {
-        this.players.add(player);
-        player.getRosters().add(this);
-        return this;
-    }
-
-    public Roster removePlayer(Player player) {
-        this.players.remove(player);
-        player.getRosters().remove(this);
-        return this;
-    }
-
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
     }
 
     public Team getTeam() {

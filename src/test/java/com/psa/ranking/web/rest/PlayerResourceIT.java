@@ -2,7 +2,7 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Player;
-import com.psa.ranking.domain.User;
+import com.psa.ranking.domain.Roster;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.service.PlayerService;
 import com.psa.ranking.service.dto.PlayerDTO;
@@ -91,10 +91,15 @@ public class PlayerResourceIT {
         Player player = new Player()
             .profile(DEFAULT_PROFILE);
         // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        player.setUser(user);
+        Roster roster;
+        if (TestUtil.findAll(em, Roster.class).isEmpty()) {
+            roster = RosterResourceIT.createEntity(em);
+            em.persist(roster);
+            em.flush();
+        } else {
+            roster = TestUtil.findAll(em, Roster.class).get(0);
+        }
+        player.setRoster(roster);
         return player;
     }
     /**
@@ -107,10 +112,15 @@ public class PlayerResourceIT {
         Player player = new Player()
             .profile(UPDATED_PROFILE);
         // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        player.setUser(user);
+        Roster roster;
+        if (TestUtil.findAll(em, Roster.class).isEmpty()) {
+            roster = RosterResourceIT.createUpdatedEntity(em);
+            em.persist(roster);
+            em.flush();
+        } else {
+            roster = TestUtil.findAll(em, Roster.class).get(0);
+        }
+        player.setRoster(roster);
         return player;
     }
 
@@ -136,9 +146,6 @@ public class PlayerResourceIT {
         assertThat(playerList).hasSize(databaseSizeBeforeCreate + 1);
         Player testPlayer = playerList.get(playerList.size() - 1);
         assertThat(testPlayer.getProfile()).isEqualTo(DEFAULT_PROFILE);
-
-        // Validate the id for MapsId, the ids must be same
-        assertThat(testPlayer.getId()).isEqualTo(testPlayer.getUser().getId());
     }
 
     @Test
@@ -161,39 +168,6 @@ public class PlayerResourceIT {
         assertThat(playerList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
-    @Transactional
-    public void updatePlayerMapsIdAssociationWithNewId() throws Exception {
-        // Initialize the database
-        playerRepository.saveAndFlush(player);
-        int databaseSizeBeforeCreate = playerRepository.findAll().size();
-
-
-        // Load the player
-        Player updatedPlayer = playerRepository.findById(player.getId()).get();
-        // Disconnect from session so that the updates on updatedPlayer are not directly saved in db
-        em.detach(updatedPlayer);
-
-        // Update the User with new association value
-        updatedPlayer.setUser(UserResourceIT.createEntity(em));
-        PlayerDTO updatedPlayerDTO = playerMapper.toDto(updatedPlayer);
-
-        // Update the entity
-        restPlayerMockMvc.perform(put("/api/players")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPlayerDTO)))
-            .andExpect(status().isOk());
-
-        // Validate the Player in the database
-        List<Player> playerList = playerRepository.findAll();
-        assertThat(playerList).hasSize(databaseSizeBeforeCreate);
-        Player testPlayer = playerList.get(playerList.size() - 1);
-
-        // Validate the id for MapsId, the ids must be same
-        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
-        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
-        // assertThat(testPlayer.getId()).isEqualTo(testPlayer.getUser().getId());
-    }
 
     @Test
     @Transactional

@@ -52,6 +52,7 @@
         "player": "Player",
         "userExtra": "User Extra",
         "console": "Abrir Consola",
+        "format": "Formatos",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

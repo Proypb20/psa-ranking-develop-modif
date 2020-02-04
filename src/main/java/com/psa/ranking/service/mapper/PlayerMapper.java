@@ -8,16 +8,16 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Player} and its DTO {@link PlayerDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, RosterMapper.class})
 public interface PlayerMapper extends EntityMapper<PlayerDTO, Player> {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
+    @Mapping(source = "roster.id", target = "rosterId")
     PlayerDTO toDto(Player player);
 
-    @Mapping(target = "rosters", ignore = true)
-    @Mapping(target = "removeRoster", ignore = true)
     @Mapping(source = "userId", target = "user")
+    @Mapping(source = "rosterId", target = "roster")
     Player toEntity(PlayerDTO playerDTO);
 
     default Player fromId(Long id) {

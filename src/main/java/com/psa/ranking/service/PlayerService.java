@@ -2,7 +2,6 @@ package com.psa.ranking.service;
 
 import com.psa.ranking.domain.Player;
 import com.psa.ranking.repository.PlayerRepository;
-import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
 import org.slf4j.Logger;
@@ -28,12 +27,9 @@ public class PlayerService {
 
     private final PlayerMapper playerMapper;
 
-    private final UserRepository userRepository;
-
-    public PlayerService(PlayerRepository playerRepository, PlayerMapper playerMapper, UserRepository userRepository) {
+    public PlayerService(PlayerRepository playerRepository, PlayerMapper playerMapper) {
         this.playerRepository = playerRepository;
         this.playerMapper = playerMapper;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -45,8 +41,6 @@ public class PlayerService {
     public PlayerDTO save(PlayerDTO playerDTO) {
         log.debug("Request to save Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
-        long userId = playerDTO.getUserId();
-        userRepository.findById(userId).ifPresent(player::user);
         player = playerRepository.save(player);
         return playerMapper.toDto(player);
     }

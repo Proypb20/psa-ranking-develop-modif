@@ -10,6 +10,19 @@
                         readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.roster" for="field_roster">Roster</label>
+                    <select class="form-control" id="field_roster" name="roster" formControlName="rosterId">
+                        <option *ngIf="!editForm.get('rosterId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="rosterOption.id" *ngFor="let rosterOption of rosters; trackBy: trackRosterById">{{rosterOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('rosterId').invalid && (editForm.get('rosterId').dirty || editForm.get('rosterId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('rosterId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
                     <select class="form-control" name="profile" formControlName="profile" id="field_profile">
                         <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>

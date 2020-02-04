@@ -1,0 +1,24 @@
+{
+  "psaRankingApp": {
+    "format": {
+      "home": {
+        "title": "Formats",
+        "createLabel": "Criar novo Format",
+        "createOrEditLabel": "Criar ou editar Format",
+        "notFound": "Nenhum Format encontrado"
+      },
+      "created": "Um novo Format foi criado com o identificador {{ param }}",
+      "updated": "Um Format foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Format foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Format {{ id }}?"
+      },
+      "detail": {
+        "title": "Format"
+      },
+      "name": "Name",
+      "description": "Description",
+      "coeficient": "Coeficient"
+    }
+  }
+}

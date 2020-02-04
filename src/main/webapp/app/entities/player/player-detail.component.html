@@ -13,6 +13,12 @@
                 <dd>
                     {{player.userLogin}}
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.player.roster">Roster</span></dt>
+                <dd>
+                    <div *ngIf="player.rosterId">
+                        <a [routerLink]="['/roster', player.rosterId, 'view']">{{player.rosterId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

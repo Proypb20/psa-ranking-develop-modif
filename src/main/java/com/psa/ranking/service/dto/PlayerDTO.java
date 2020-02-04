@@ -1,4 +1,5 @@
 package com.psa.ranking.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import com.psa.ranking.domain.enumeration.ProfileUser;
@@ -16,6 +17,8 @@ public class PlayerDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
+
+    private Long rosterId;
 
     public Long getId() {
         return id;
@@ -49,6 +52,14 @@ public class PlayerDTO implements Serializable {
         this.userLogin = userLogin;
     }
 
+    public Long getRosterId() {
+        return rosterId;
+    }
+
+    public void setRosterId(Long rosterId) {
+        this.rosterId = rosterId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,6 +88,7 @@ public class PlayerDTO implements Serializable {
             ", profile='" + getProfile() + "'" +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
+            ", roster=" + getRosterId() +
             "}";
     }
 }

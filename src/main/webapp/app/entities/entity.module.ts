@@ -55,6 +55,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'user-extra',
         loadChildren: () => import('./user-extra/user-extra.module').then(m => m.PsaRankingUserExtraModule)
+      },
+      {
+        path: 'format',
+        loadChildren: () => import('./format/format.module').then(m => m.PsaRankingFormatModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

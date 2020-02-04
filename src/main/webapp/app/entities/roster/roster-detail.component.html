@@ -15,12 +15,6 @@
                         <a [routerLink]="['/category', roster.categoryId, 'view']">{{roster.categoryId}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.roster.player">Player</span></dt>
-                <dd>
-                    <span *ngFor="let player of roster.players; let last = last">
-                        <a [routerLink]="['/player', player?.id, 'view' ]">{{player.id}}</a>{{last ? '' : ', '}}
-                    </span>
-                </dd>
                 <dt><span jhiTranslate="psaRankingApp.roster.team">Team</span></dt>
                 <dd>
                     <div *ngIf="roster.teamId">

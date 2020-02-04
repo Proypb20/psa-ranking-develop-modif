@@ -9,10 +9,10 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
-import { IRoster } from 'app/shared/model/roster.model';
-import { RosterService } from 'app/entities/roster/roster.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { IRoster } from 'app/shared/model/roster.model';
+import { RosterService } from 'app/entities/roster/roster.service';
 
 @Component({
   selector: 'jhi-player-update',
@@ -21,21 +21,22 @@ import { UserService } from 'app/core/user/user.service';
 export class PlayerUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  rosters: IRoster[];
-
   users: IUser[];
+
+  rosters: IRoster[];
 
   editForm = this.fb.group({
     id: [],
     profile: [],
-    userId: []
+    userId: [],
+    rosterId: [null, Validators.required]
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected playerService: PlayerService,
-    protected rosterService: RosterService,
     protected userService: UserService,
+    protected rosterService: RosterService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -45,13 +46,6 @@ export class PlayerUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ player }) => {
       this.updateForm(player);
     });
-    this.rosterService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IRoster[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IRoster[]>) => response.body)
-      )
-      .subscribe((res: IRoster[]) => (this.rosters = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.userService
       .query()
       .pipe(
@@ -59,13 +53,21 @@ export class PlayerUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.rosterService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IRoster[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IRoster[]>) => response.body)
+      )
+      .subscribe((res: IRoster[]) => (this.rosters = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(player: IPlayer) {
     this.editForm.patchValue({
       id: player.id,
       profile: player.profile,
-      userId: player.userId
+      userId: player.userId,
+      rosterId: player.rosterId
     });
   }
 
@@ -88,7 +90,8 @@ export class PlayerUpdateComponent implements OnInit {
       ...new Player(),
       id: this.editForm.get(['id']).value,
       profile: this.editForm.get(['profile']).value,
-      userId: this.editForm.get(['userId']).value
+      userId: this.editForm.get(['userId']).value,
+      rosterId: this.editForm.get(['rosterId']).value
     };
   }
 
@@ -108,22 +111,11 @@ export class PlayerUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackRosterById(index: number, item: IRoster) {
-    return item.id;
-  }
-
   trackUserById(index: number, item: IUser) {
     return item.id;
   }
 
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
+  trackRosterById(index: number, item: IRoster) {
+    return item.id;
   }
 }

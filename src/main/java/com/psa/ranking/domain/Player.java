@@ -1,13 +1,12 @@
 package com.psa.ranking.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.psa.ranking.domain.enumeration.ProfileUser;
 
@@ -22,21 +21,21 @@ public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "profile")
     private ProfileUser profile;
 
-    @ManyToMany(mappedBy = "players")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
-    private Set<Roster> rosters = new HashSet<>();
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JsonIgnoreProperties("players")
     private User user;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("players")
+    private Roster roster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -60,31 +59,6 @@ public class Player implements Serializable {
         this.profile = profile;
     }
 
-    public Set<Roster> getRosters() {
-        return rosters;
-    }
-
-    public Player rosters(Set<Roster> rosters) {
-        this.rosters = rosters;
-        return this;
-    }
-
-    public Player addRoster(Roster roster) {
-        this.rosters.add(roster);
-        roster.getPlayers().add(this);
-        return this;
-    }
-
-    public Player removeRoster(Roster roster) {
-        this.rosters.remove(roster);
-        roster.getPlayers().remove(this);
-        return this;
-    }
-
-    public void setRosters(Set<Roster> rosters) {
-        this.rosters = rosters;
-    }
-
     public User getUser() {
         return user;
     }
@@ -96,6 +70,19 @@ public class Player implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Roster getRoster() {
+        return roster;
+    }
+
+    public Player roster(Roster roster) {
+        this.roster = roster;
+        return this;
+    }
+
+    public void setRoster(Roster roster) {
+        this.roster = roster;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

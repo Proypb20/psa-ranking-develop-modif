@@ -92,14 +92,16 @@ public class AccountResource {
 				.orElseGet(() -> userRepository.findOneWithAuthoritiesByEmailIgnoreCase(managedUserVM.getEmail()).map(
 						user -> new ResponseEntity<>("register.error.emailexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
 						.orElseGet(() -> {
-							User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
+							User user = userService
+							     .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
 									managedUserVM.getFirstName(), managedUserVM.getLastName(),
 									managedUserVM.getEmail().toLowerCase(), managedUserVM.getLangKey(),
 									managedUserVM.getPhone());
 
 							mailService.sendActivationEmail(user);
 							return new ResponseEntity<>(HttpStatus.CREATED);
-						}));
+						})
+						);
 	}
 
 	/**
@@ -139,7 +141,8 @@ public class AccountResource {
 	 */
 	@GetMapping("/account")
 	public UserDTO getAccount() {
-		return userService.getUserWithAuthorities().map(UserDTO::new)
+		return userService.getUserWithAuthorities()
+		        .map(UserDTO::new)
 				.orElseThrow(() -> new AccountResourceException("User could not be found"));
 	}
 
@@ -154,8 +157,7 @@ public class AccountResource {
 	 */
 	@PostMapping("/account")
 	public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
-		String userLogin = SecurityUtils.getCurrentUserLogin()
-				.orElseThrow(() -> new AccountResourceException("Current user login not found"));
+		String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
 		Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
 		if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
 			throw new EmailAlreadyUsedException();
@@ -164,8 +166,8 @@ public class AccountResource {
 		if (!user.isPresent()) {
 			throw new AccountResourceException("User could not be found");
 		}
-		userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getLangKey(),
-				userDTO.getImageUrl());
+		userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+		    userDTO.getLangKey(), userDTO.getImageUrl());
 	}
 
 	/**
@@ -193,8 +195,10 @@ public class AccountResource {
 	 */
 	@PostMapping(path = "/account/reset-password/init")
 	public void requestPasswordReset(@RequestBody String mail) {
-		mailService
-				.sendPasswordResetMail(userService.requestPasswordReset(mail).orElseThrow(EmailNotFoundException::new));
+		mailService.sendPasswordResetMail(
+		   userService.requestPasswordReset(mail)
+		       .orElseThrow(EmailNotFoundException::new)
+			   );
 	}
 
 	/**
@@ -212,8 +216,8 @@ public class AccountResource {
 		if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
 			throw new InvalidPasswordException();
 		}
-		Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(),
-				keyAndPassword.getKey());
+		Optional<User> user = 
+		userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
 		if (!user.isPresent()) {
 			throw new AccountResourceException("No user was found for this reset key");
@@ -221,7 +225,8 @@ public class AccountResource {
 	}
 
 	private static boolean checkPasswordLength(String password) {
-		return !StringUtils.isEmpty(password) && password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH
-				&& password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH;
+		return !StringUtils.isEmpty(password) &&
+		 password.length() >= ManagedUserVM.PASSWORD_MIN_LENGTH && 
+		 password.length() <= ManagedUserVM.PASSWORD_MAX_LENGTH;
 	}
 }

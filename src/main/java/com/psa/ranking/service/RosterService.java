@@ -58,15 +58,6 @@ public class RosterService {
             .map(rosterMapper::toDto);
     }
 
-    /**
-     * Get all the rosters with eager load of many-to-many relationships.
-     *
-     * @return the list of entities.
-     */
-    public Page<RosterDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return rosterRepository.findAllWithEagerRelationships(pageable).map(rosterMapper::toDto);
-    }
-    
 
     /**
      * Get one roster by id.
@@ -77,7 +68,7 @@ public class RosterService {
     @Transactional(readOnly = true)
     public Optional<RosterDTO> findOne(Long id) {
         log.debug("Request to get Roster : {}", id);
-        return rosterRepository.findOneWithEagerRelationships(id)
+        return rosterRepository.findById(id)
             .map(rosterMapper::toDto);
     }
 
