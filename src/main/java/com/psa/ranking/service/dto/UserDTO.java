@@ -70,9 +70,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
-            .collect(Collectors.toSet());
+        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -181,19 +179,28 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+        return "UserDTO [id=" + id + ", login=" + login + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", email=" + email + ", imageUrl=" + imageUrl + ", activated=" + activated + ", langKey=" + langKey
+                + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", lastModifiedBy=" + lastModifiedBy
+                + ", lastModifiedDate=" + lastModifiedDate + ", authorities=" + authorities + "]";
     }
+
+//    @Override
+//    public String toString() {
+//        return "UserDTO{" +
+//            "login='" + login + '\'' +
+//            ", firstName='" + firstName + '\'' +
+//            ", lastName='" + lastName + '\'' +
+//            ", email='" + email + '\'' +
+//            ", imageUrl='" + imageUrl + '\'' +
+//            ", activated=" + activated +
+//            ", langKey='" + langKey + '\'' +
+//            ", createdBy=" + createdBy +
+//            ", createdDate=" + createdDate +
+//            ", lastModifiedBy='" + lastModifiedBy + '\'' +
+//            ", lastModifiedDate=" + lastModifiedDate +
+//            ", authorities=" + authorities +
+//            "}";
+//    }
+
 }

@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.errorUserExists = null;
       this.errorEmailExists = null;
       this.languageService.getCurrent().then(langKey => {
-        registerAccount = { ...registerAccount, langKey };
+        registerAccount = { ...registerAccount, langKey, phone, numDoc, bornDate };
         this.registerService.save(registerAccount).subscribe(
           () => {
             this.success = true;
