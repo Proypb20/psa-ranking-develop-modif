@@ -132,55 +132,6 @@ public class UserService {
 		return newUser;
 	}
 
-	/* Modificado Edu 20191023 */
-	public User registerUser(UserDTO userDTO, String password, String phone, String numDoc, LocalDate bornDate) {
-		userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
-			boolean removed = removeNonActivatedUser(existingUser);
-			if (!removed) {
-				throw new UsernameAlreadyUsedException();
-			}
-		});
-		userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
-			boolean removed = removeNonActivatedUser(existingUser);
-			if (!removed) {
-				throw new EmailAlreadyUsedException();
-			}
-		});
-		User newUser = new User();
-		String encryptedPassword = passwordEncoder.encode(password);
-		newUser.setLogin(userDTO.getLogin().toLowerCase());
-		// new user gets initially a generated password
-		newUser.setPassword(encryptedPassword);
-		newUser.setFirstName(userDTO.getFirstName());
-		newUser.setLastName(userDTO.getLastName());
-		newUser.setEmail(userDTO.getEmail().toLowerCase());
-		newUser.setImageUrl(userDTO.getImageUrl());
-		newUser.setLangKey(userDTO.getLangKey());
-		// new user is not active
-		newUser.setActivated(false);
-		// new user gets registration key
-		newUser.setActivationKey(RandomUtil.generateActivationKey());
-		Set<Authority> authorities = new HashSet<>();
-		authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-		newUser.setAuthorities(authorities);
-		userRepository.save(newUser);
-		this.clearUserCaches(newUser);
-		log.debug("Created Information for User: {}", newUser);
-
-		/* Agregado Edu 20191023 */
-		// Create and save the UserExtra entity
-		UserExtra newUserExtra = new UserExtra();
-		newUserExtra.setId(newUser.getId());
-		newUserExtra.setPhone(phone);
-		newUserExtra.setNumDoc(numDoc);
-		newUserExtra.setBornDate(bornDate);
-		newUserExtra.setUser(newUser);
-		log.debug("Information for UserExtra: {}", newUserExtra);
-		userExtraRepository.save(newUserExtra);
-		log.debug("Created Information for UserExtra: {}", newUserExtra);
-		return newUser;
-	}
-
 	private boolean removeNonActivatedUser(User existingUser) {
 		if (existingUser.getActivated()) {
 			return false;
@@ -361,7 +312,7 @@ public class UserService {
 	}
 
 	public User createUser(String login, String password, String firstName, String lastName, String email,
-			String langKey, String phone) {
+			String langKey, String phone, String numDoc, LocalDate bornDate) {
 
 		User newUser = new User();
 		Authority authority = authorityRepository.findByName(AuthoritiesConstants.USER);
@@ -387,6 +338,8 @@ public class UserService {
 		UserExtra newUserExtra = new UserExtra();
 		newUserExtra.setUser(newUser);
 		newUserExtra.setPhone(phone);
+		newUserExtra.setNumDoc(numDoc);
+		newUserExtra.setBornDate(bornDate);
 		userExtraRepository.save(newUserExtra);
 		log.debug("Created Information for UserExtra: {}", newUserExtra);
 

@@ -89,6 +89,8 @@
       "username.placeholder": "Nombre de usuario",
       "phone.label": "Telefono",
       "phone.placeholder": "Telefono",
+      "docType.label": "Tipo de Documento",
+      "docType.placeholder": "Tipo de Documento",
       "numDoc.label": "Nro de Documento",
       "numDoc.placeholder": "Nro de Documento",
       "bornDate.label": "Fecha de Nacimiento",

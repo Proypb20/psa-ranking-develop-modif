@@ -34,13 +34,15 @@ describe('Component Tests', () => {
       const accountValues: Account = {
         firstName: 'John',
         lastName: 'Doe',
-
         activated: true,
         email: 'john.doe@mail.com',
         langKey: 'es',
         login: 'john',
         authorities: [],
-        imageUrl: ''
+        imageUrl: '',
+        numDoc: '',
+        phone: '',
+        bornDate: ''
       };
       mockAuth.setIdentityResponse(accountValues);
 

@@ -27,7 +27,6 @@ import com.psa.ranking.service.MailService;
 import com.psa.ranking.service.UserService;
 import com.psa.ranking.service.dto.PasswordChangeDTO;
 import com.psa.ranking.service.dto.UserDTO;
-import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.web.rest.errors.EmailAlreadyUsedException;
 import com.psa.ranking.web.rest.errors.EmailNotFoundException;
 import com.psa.ranking.web.rest.errors.InvalidPasswordException;
@@ -96,7 +95,7 @@ public class AccountResource {
 							     .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
 									managedUserVM.getFirstName(), managedUserVM.getLastName(),
 									managedUserVM.getEmail().toLowerCase(), managedUserVM.getLangKey(),
-									managedUserVM.getPhone());
+									managedUserVM.getPhone(), managedUserVM.getNumDoc(), managedUserVM.getBornDate());
 
 							mailService.sendActivationEmail(user);
 							return new ResponseEntity<>(HttpStatus.CREATED);

@@ -128,7 +128,28 @@
                         </small>
                         <small class="form-text text-danger" *ngIf="registerForm.get('phone').errors.maxlength"
                                jhiTranslate="global.messages.validate.phone.maxlength">
-                            Your phone cannot be longer than 10 characters.
+                            Your phone cannot be longer than 15 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="docTypeId" jhiTranslate="global.form.docType.label" >DocType</label>
+                    <select class="form-control" ng-model="docTypeId" id="docTypeId" name="docTypeId" formControlName="docTypeId">
+                        <!-- <option [ngValue]="null"></option> -->
+                        <option [ngValue]="doctypeOption.id" *ngFor="let doctypeOption of docTypes; trackBy: trackDocTypeById">{{doctypeOption.name}}</option>
+                    </select>
+                    <div *ngIf="registerForm.get('docTypeId').invalid && (registerForm.get('phone').dirty || registerForm.get('docTypeId').touched)">
+                        <small class="form-text text-danger" *ngIf="registerForm.get('docTypeId').errors.required"
+                               jhiTranslate="global.messages.validate.docTypeId.required">
+                            Your phone is required.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('docTypeId').errors.minlength"
+                              jhiTranslate="global.messages.validate.docTypeId.minlength">
+                            Your phone is required to be at least 10 characters.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('docTypeId').errors.maxlength"
+                               jhiTranslate="global.messages.validate.docTypeId.maxlength">
+                            Your phone cannot be longer than 15 characters.
                         </small>
                     </div>
                 </div>
