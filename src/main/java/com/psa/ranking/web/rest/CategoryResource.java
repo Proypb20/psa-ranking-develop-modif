@@ -60,7 +60,8 @@ public class CategoryResource {
         }
         CategoryDTO result = categoryService.save(categoryDTO);
         return ResponseEntity.created(new URI("/api/categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -81,7 +82,8 @@ public class CategoryResource {
         }
         CategoryDTO result = categoryService.save(categoryDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categoryDTO.getId().toString()))
+            //.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categoryDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, categoryDTO.getName()))
             .body(result);
     }
 

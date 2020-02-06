@@ -7,9 +7,9 @@
         "createOrEditLabel": "Ciudades",
         "notFound": "No hay ciudades"
       },
-      "created": "La nuevo Ciudad {{ param }} ha sido creada",
-      "updated": "La Ciudad ha sido actualizado",
-      "deleted": "La Ciudad ha sido eliminada",
+      "created": "La nueva Ciudad {{ param }} ha sido creada",
+      "updated": "La Ciudad {{ param }} ha sido actualizada",
+      "deleted": "La Ciudad {{ param }} ha sido eliminada",
       "delete": {
         "question": "¿Seguro que quiere eliminar la Ciudad {{ id }}?"
       },

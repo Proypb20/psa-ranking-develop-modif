@@ -26,6 +26,10 @@
     <include file="config/liquibase/changelog/20191022230143_added_entity_Player.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191023204539_added_entity_UserExtra.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200204002143_added_entity_Format.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014155_added_entity_PlayerPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014350_added_entity_PlayerDetailPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014615_added_entity_TeamPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014818_added_entity_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191022230132_added_entity_constraints_Province.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_constraints_City.xml" relativeToChangelogFile="false"/>
@@ -36,5 +40,9 @@
     <include file="config/liquibase/changelog/20191022230143_added_entity_constraints_Player.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191023204539_added_entity_constraints_UserExtra.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230141_added_entity_constraints_Category.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014155_added_entity_constraints_PlayerPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014350_added_entity_constraints_PlayerDetailPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014615_added_entity_constraints_TeamPoint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200205014818_added_entity_constraints_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

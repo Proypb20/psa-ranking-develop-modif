@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.RosterService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.RosterDTO;
+import com.psa.ranking.service.dto.RosterCriteria;
+import com.psa.ranking.service.RosterQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -41,8 +43,11 @@ public class RosterResource {
 
     private final RosterService rosterService;
 
-    public RosterResource(RosterService rosterService) {
+    private final RosterQueryService rosterQueryService;
+
+    public RosterResource(RosterService rosterService, RosterQueryService rosterQueryService) {
         this.rosterService = rosterService;
+        this.rosterQueryService = rosterQueryService;
     }
 
     /**
@@ -58,6 +63,7 @@ public class RosterResource {
         if (rosterDTO.getId() != null) {
             throw new BadRequestAlertException("A new roster cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        rosterDTO.setActive(true);
         RosterDTO result = rosterService.save(rosterDTO);
         return ResponseEntity.created(new URI("/api/rosters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -91,14 +97,27 @@ public class RosterResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
      */
     @GetMapping("/rosters")
-    public ResponseEntity<List<RosterDTO>> getAllRosters(Pageable pageable) {
-        log.debug("REST request to get a page of Rosters");
-        Page<RosterDTO> page = rosterService.findAll(pageable);
+    public ResponseEntity<List<RosterDTO>> getAllRosters(RosterCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Rosters by criteria: {}", criteria);
+        Page<RosterDTO> page = rosterQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /rosters/count} : count all the rosters.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/rosters/count")
+    public ResponseEntity<Long> countRosters(RosterCriteria criteria) {
+        log.debug("REST request to count Rosters by criteria: {}", criteria);
+        return ResponseEntity.ok().body(rosterQueryService.countByCriteria(criteria));
     }
 
     /**

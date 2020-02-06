@@ -19,6 +19,8 @@
       "active": "Activo",
       "category": "Categoria",
       "team": "Equipo",
+      "tournament": "Torneo",
+      "event": "Torneo - Evento",
       "groups": {
         "players": "Jugadores",
         "staff": "Staff",

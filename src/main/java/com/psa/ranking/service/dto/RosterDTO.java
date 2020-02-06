@@ -21,6 +21,14 @@ public class RosterDTO implements Serializable {
 
     private String teamName;
 
+    private Long tournamentId;
+
+    private String tournamentName;
+
+    private Long eventId;
+
+    private String eventName;
+
     public Long getId() {
         return id;
     }
@@ -61,6 +69,38 @@ public class RosterDTO implements Serializable {
         this.teamName = teamName;
     }
 
+    public Long getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
+    }
+
+    public String getTournamentName() {
+        return tournamentName;
+    }
+
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,6 +130,10 @@ public class RosterDTO implements Serializable {
             ", category=" + getCategoryId() +
             ", team=" + getTeamId() +
             ", team='" + getTeamName() + "'" +
+            ", tournament=" + getTournamentId() +
+            ", tournament='" + getTournamentName() + "'" +
+            ", event=" + getEventId() +
+            ", event='" + getEventName() + "'" +
             "}";
     }
 }

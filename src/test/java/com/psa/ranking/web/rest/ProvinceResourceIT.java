@@ -2,11 +2,15 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Province;
+import com.psa.ranking.domain.Country;
+import com.psa.ranking.domain.City;
 import com.psa.ranking.repository.ProvinceRepository;
 import com.psa.ranking.service.ProvinceService;
 import com.psa.ranking.service.dto.ProvinceDTO;
 import com.psa.ranking.service.mapper.ProvinceMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.ProvinceCriteria;
+import com.psa.ranking.service.ProvinceQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +53,9 @@ public class ProvinceResourceIT {
     private ProvinceService provinceService;
 
     @Autowired
+    private ProvinceQueryService provinceQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -70,7 +77,7 @@ public class ProvinceResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProvinceResource provinceResource = new ProvinceResource(provinceService);
+        final ProvinceResource provinceResource = new ProvinceResource(provinceService, provinceQueryService);
         this.restProvinceMockMvc = MockMvcBuilders.standaloneSetup(provinceResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -174,6 +181,158 @@ public class ProvinceResourceIT {
             .andExpect(jsonPath("$.id").value(province.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
+
+    @Test
+    @Transactional
+    public void getAllProvincesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name equals to DEFAULT_NAME
+        defaultProvinceShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the provinceList where name equals to UPDATED_NAME
+        defaultProvinceShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProvincesByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name not equals to DEFAULT_NAME
+        defaultProvinceShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the provinceList where name not equals to UPDATED_NAME
+        defaultProvinceShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProvincesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultProvinceShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the provinceList where name equals to UPDATED_NAME
+        defaultProvinceShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProvincesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name is not null
+        defaultProvinceShouldBeFound("name.specified=true");
+
+        // Get all the provinceList where name is null
+        defaultProvinceShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllProvincesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name contains DEFAULT_NAME
+        defaultProvinceShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the provinceList where name contains UPDATED_NAME
+        defaultProvinceShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProvincesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+
+        // Get all the provinceList where name does not contain DEFAULT_NAME
+        defaultProvinceShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the provinceList where name does not contain UPDATED_NAME
+        defaultProvinceShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProvincesByCountryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+        Country country = CountryResourceIT.createEntity(em);
+        em.persist(country);
+        em.flush();
+        province.setCountry(country);
+        provinceRepository.saveAndFlush(province);
+        Long countryId = country.getId();
+
+        // Get all the provinceList where country equals to countryId
+        defaultProvinceShouldBeFound("countryId.equals=" + countryId);
+
+        // Get all the provinceList where country equals to countryId + 1
+        defaultProvinceShouldNotBeFound("countryId.equals=" + (countryId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProvincesByCityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        provinceRepository.saveAndFlush(province);
+        City city = CityResourceIT.createEntity(em);
+        em.persist(city);
+        em.flush();
+        province.addCity(city);
+        provinceRepository.saveAndFlush(province);
+        Long cityId = city.getId();
+
+        // Get all the provinceList where city equals to cityId
+        defaultProvinceShouldBeFound("cityId.equals=" + cityId);
+
+        // Get all the provinceList where city equals to cityId + 1
+        defaultProvinceShouldNotBeFound("cityId.equals=" + (cityId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultProvinceShouldBeFound(String filter) throws Exception {
+        restProvinceMockMvc.perform(get("/api/provinces?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(province.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+
+        // Check, that the count call also returns 1
+        restProvinceMockMvc.perform(get("/api/provinces/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultProvinceShouldNotBeFound(String filter) throws Exception {
+        restProvinceMockMvc.perform(get("/api/provinces?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restProvinceMockMvc.perform(get("/api/provinces/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

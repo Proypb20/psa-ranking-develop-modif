@@ -9,26 +9,16 @@
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
                 </div>
-				<div>
-				<table>
-				<tr>
-                <td width=70%>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.team.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
                 </div>
-                </td>
-                <td width=30%>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control-label" jhiTranslate="psaRankingApp.team.active" for="field_active">Active</label>
                     <input *jhiHasAnyAuthority="'ROLE_ADMIN'" type="checkbox" class="form-control" name="active" id="field_active"
                            formControlName="active"/>
-                </div>
-</td>
-</tr>
-</table>
-</div>
+                </div>-->
                 <div class="form-group">
                     <label *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control-label" jhiTranslate="psaRankingApp.team.owner" for="field_owner">Owner</label>
                     <select *jhiHasAnyAuthority="'ROLE_ADMIN'" class="form-control" id="field_owner" name="owner" formControlName="ownerId">

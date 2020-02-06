@@ -58,7 +58,8 @@ public class DocTypeResource {
         }
         DocTypeDTO result = docTypeService.save(docTypeDTO);
         return ResponseEntity.created(new URI("/api/doc-types/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -79,7 +80,8 @@ public class DocTypeResource {
         }
         DocTypeDTO result = docTypeService.save(docTypeDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, docTypeDTO.getId().toString()))
+            //.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, docTypeDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, docTypeDTO.getName()))
             .body(result);
     }
 

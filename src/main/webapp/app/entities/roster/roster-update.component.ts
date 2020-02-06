@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse} from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,8 +11,14 @@ import { IRoster, Roster } from 'app/shared/model/roster.model';
 import { RosterService } from './roster.service';
 import { ICategory } from 'app/shared/model/category.model';
 import { CategoryService } from 'app/entities/category/category.service';
+import { IPlayer } from 'app/shared/model/player.model';
+import { PlayerService } from 'app/entities/player/player.service';
 import { ITeam } from 'app/shared/model/team.model';
 import { TeamService } from 'app/entities/team/team.service';
+import { ITournament } from 'app/shared/model/tournament.model';
+import { TournamentService } from 'app/entities/tournament/tournament.service';
+import { IEvent } from 'app/shared/model/event.model';
+import { EventService } from 'app/entities/event/event.service';
 
 @Component({
   selector: 'jhi-roster-update',
@@ -23,20 +29,32 @@ export class RosterUpdateComponent implements OnInit {
 
   categories: ICategory[];
 
+  players: IPlayer[];
+
   teams: ITeam[];
+
+  tournaments: ITournament[];
+
+  events: IEvent[];
 
   editForm = this.fb.group({
     id: [],
     active: [],
     categoryId: [],
-    teamId: [null, Validators.required]
+    players: [],
+    teamId: [null, Validators.required],
+    tournamentId: [],
+    eventId: []
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected rosterService: RosterService,
     protected categoryService: CategoryService,
+    protected playerService: PlayerService,
     protected teamService: TeamService,
+    protected tournamentService: TournamentService,
+    protected eventService: EventService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -53,6 +71,13 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<ICategory[]>) => response.body)
       )
       .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.playerService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IPlayer[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IPlayer[]>) => response.body)
+      )
+      .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.teamService
       .query()
       .pipe(
@@ -60,6 +85,20 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<ITeam[]>) => response.body)
       )
       .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.tournamentService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITournament[]>) => response.body)
+      )
+      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.eventService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IEvent[]>) => response.body)
+      )
+      .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(roster: IRoster) {
@@ -67,7 +106,10 @@ export class RosterUpdateComponent implements OnInit {
       id: roster.id,
       active: roster.active,
       categoryId: roster.categoryId,
-      teamId: roster.teamId
+      players: roster.players,
+      teamId: roster.teamId,
+      tournamentId: roster.tournamentId,
+      eventId: roster.eventId
     });
   }
 
@@ -91,7 +133,9 @@ export class RosterUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
       categoryId: this.editForm.get(['categoryId']).value,
-      teamId: this.editForm.get(['teamId']).value
+      teamId: this.editForm.get(['teamId']).value,
+      tournamentId: this.editForm.get(['tournamentId']).value,
+      eventId: this.editForm.get(['eventId']).value
     };
   }
 
@@ -115,7 +159,30 @@ export class RosterUpdateComponent implements OnInit {
     return item.id;
   }
 
+  trackPlayerById(index: number, item: IPlayer) {
+    return item.id;
+  }
+
   trackTeamById(index: number, item: ITeam) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: any[], option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
+  }
+
+  trackTournamentById(index: number, item: ITournament) {
+    return item.id;
+  }
+
+  trackEventById(index: number, item: IEvent) {
     return item.id;
   }
 }

@@ -20,6 +20,10 @@
         "player": "Player",
         "userExtra": "User Extra",
         "format": "Format",
+        "playerPoint": "Player Point",
+        "playerDetailPoint": "Player Detail Point",
+        "teamPoint": "Team Point",
+        "teamDetailPoint": "Team Detail Point",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

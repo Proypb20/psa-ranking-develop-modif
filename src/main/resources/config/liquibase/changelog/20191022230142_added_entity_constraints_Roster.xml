@@ -20,5 +20,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="team"/>
 
+        <addForeignKeyConstraint baseColumnNames="tournament_id"
+                                 baseTableName="roster"
+                                 constraintName="fk_roster_tournament_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tournament"/>
+
+        <addForeignKeyConstraint baseColumnNames="event_id"
+                                 baseTableName="roster"
+                                 constraintName="fk_roster_event_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="event"/>
+
     </changeSet>
 </databaseChangeLog>

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TeamRepository extends JpaRepository<Team, Long> {
+public interface TeamRepository extends JpaRepository<Team, Long>, JpaSpecificationExecutor<Team> {
 
     @Query("select team from Team team where team.owner.login = ?#{principal.username}")
     List<Team> findByOwnerIsCurrentUser();

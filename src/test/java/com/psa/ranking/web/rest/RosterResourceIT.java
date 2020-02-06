@@ -2,12 +2,17 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.Category;
 import com.psa.ranking.domain.Team;
+import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.domain.Event;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.RosterService;
 import com.psa.ranking.service.dto.RosterDTO;
 import com.psa.ranking.service.mapper.RosterMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.RosterCriteria;
+import com.psa.ranking.service.RosterQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +55,9 @@ public class RosterResourceIT {
     private RosterService rosterService;
 
     @Autowired
+    private RosterQueryService rosterQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -71,7 +79,7 @@ public class RosterResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final RosterResource rosterResource = new RosterResource(rosterService);
+        final RosterResource rosterResource = new RosterResource(rosterService, rosterQueryService);
         this.restRosterMockMvc = MockMvcBuilders.standaloneSetup(rosterResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -195,6 +203,168 @@ public class RosterResourceIT {
             .andExpect(jsonPath("$.id").value(roster.getId().intValue()))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
+
+    @Test
+    @Transactional
+    public void getAllRostersByActiveIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+
+        // Get all the rosterList where active equals to DEFAULT_ACTIVE
+        defaultRosterShouldBeFound("active.equals=" + DEFAULT_ACTIVE);
+
+        // Get all the rosterList where active equals to UPDATED_ACTIVE
+        defaultRosterShouldNotBeFound("active.equals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRostersByActiveIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+
+        // Get all the rosterList where active not equals to DEFAULT_ACTIVE
+        defaultRosterShouldNotBeFound("active.notEquals=" + DEFAULT_ACTIVE);
+
+        // Get all the rosterList where active not equals to UPDATED_ACTIVE
+        defaultRosterShouldBeFound("active.notEquals=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRostersByActiveIsInShouldWork() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+
+        // Get all the rosterList where active in DEFAULT_ACTIVE or UPDATED_ACTIVE
+        defaultRosterShouldBeFound("active.in=" + DEFAULT_ACTIVE + "," + UPDATED_ACTIVE);
+
+        // Get all the rosterList where active equals to UPDATED_ACTIVE
+        defaultRosterShouldNotBeFound("active.in=" + UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRostersByActiveIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+
+        // Get all the rosterList where active is not null
+        defaultRosterShouldBeFound("active.specified=true");
+
+        // Get all the rosterList where active is null
+        defaultRosterShouldNotBeFound("active.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRostersByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+        Category category = CategoryResourceIT.createEntity(em);
+        em.persist(category);
+        em.flush();
+        roster.setCategory(category);
+        rosterRepository.saveAndFlush(roster);
+        Long categoryId = category.getId();
+
+        // Get all the rosterList where category equals to categoryId
+        defaultRosterShouldBeFound("categoryId.equals=" + categoryId);
+
+        // Get all the rosterList where category equals to categoryId + 1
+        defaultRosterShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRostersByTeamIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Team team = roster.getTeam();
+        rosterRepository.saveAndFlush(roster);
+        Long teamId = team.getId();
+
+        // Get all the rosterList where team equals to teamId
+        defaultRosterShouldBeFound("teamId.equals=" + teamId);
+
+        // Get all the rosterList where team equals to teamId + 1
+        defaultRosterShouldNotBeFound("teamId.equals=" + (teamId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRostersByTournamentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+        Tournament tournament = TournamentResourceIT.createEntity(em);
+        em.persist(tournament);
+        em.flush();
+        roster.setTournament(tournament);
+        rosterRepository.saveAndFlush(roster);
+        Long tournamentId = tournament.getId();
+
+        // Get all the rosterList where tournament equals to tournamentId
+        defaultRosterShouldBeFound("tournamentId.equals=" + tournamentId);
+
+        // Get all the rosterList where tournament equals to tournamentId + 1
+        defaultRosterShouldNotBeFound("tournamentId.equals=" + (tournamentId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRostersByEventIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+        Event event = EventResourceIT.createEntity(em);
+        em.persist(event);
+        em.flush();
+        roster.setEvent(event);
+        rosterRepository.saveAndFlush(roster);
+        Long eventId = event.getId();
+
+        // Get all the rosterList where event equals to eventId
+        defaultRosterShouldBeFound("eventId.equals=" + eventId);
+
+        // Get all the rosterList where event equals to eventId + 1
+        defaultRosterShouldNotBeFound("eventId.equals=" + (eventId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultRosterShouldBeFound(String filter) throws Exception {
+        restRosterMockMvc.perform(get("/api/rosters?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(roster.getId().intValue())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+
+        // Check, that the count call also returns 1
+        restRosterMockMvc.perform(get("/api/rosters/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultRosterShouldNotBeFound(String filter) throws Exception {
+        restRosterMockMvc.perform(get("/api/rosters?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restRosterMockMvc.perform(get("/api/rosters/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

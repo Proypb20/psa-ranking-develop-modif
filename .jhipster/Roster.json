@@ -15,20 +15,26 @@
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "player",
-            "otherEntityRelationshipName": "roster",
-            "relationshipName": "player",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
             "relationshipName": "team",
             "otherEntityName": "team",
             "relationshipType": "many-to-one",
             "relationshipValidateRules": [
                 "required"
             ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "roster"
+        },
+        {
+            "relationshipName": "tournament",
+            "otherEntityName": "tournament",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "roster"
+        },
+        {
+            "relationshipName": "event",
+            "otherEntityName": "event",
+            "relationshipType": "many-to-one",
             "otherEntityField": "name",
             "otherEntityRelationshipName": "roster"
         }
@@ -39,7 +45,7 @@
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",

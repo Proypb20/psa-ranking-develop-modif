@@ -53,6 +53,10 @@
         "userExtra": "User Extra",
         "console": "Abrir Consola",
         "format": "Formatos",
+        "playerPoint": "Puntos por Jugador",
+        "playerDetailPoint": "Detalle Puntos por Jugador",
+        "teamPoint": "Puntos por Equipo",
+        "teamDetailPoint": "Detalle Puntos por Equipo",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
@@ -62,7 +66,8 @@
         "sessions": "Sesiones",
         "login": "Iniciar sesión",
         "logout": "Cerrar la sesión",
-        "register": "Crear una cuenta"
+        "register": "Crear una cuenta",
+        "playerPoint": "Mis Puntos"
       },
       "admin": {
         "main": "Administración",

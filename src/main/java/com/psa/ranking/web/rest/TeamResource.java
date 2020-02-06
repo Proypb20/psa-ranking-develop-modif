@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.TeamService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.TeamDTO;
+import com.psa.ranking.service.dto.TeamCriteria;
+import com.psa.ranking.service.TeamQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +42,11 @@ public class TeamResource {
 
     private final TeamService teamService;
 
-    public TeamResource(TeamService teamService) {
+    private final TeamQueryService teamQueryService;
+
+    public TeamResource(TeamService teamService, TeamQueryService teamQueryService) {
         this.teamService = teamService;
+        this.teamQueryService = teamQueryService;
     }
 
     /**
@@ -57,9 +62,11 @@ public class TeamResource {
         if (teamDTO.getId() != null) {
             throw new BadRequestAlertException("A new team cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        teamDTO.setActive(true);
         TeamDTO result = teamService.save(teamDTO);
         return ResponseEntity.created(new URI("/api/teams/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+        	.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -80,7 +87,8 @@ public class TeamResource {
         }
         TeamDTO result = teamService.save(teamDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, teamDTO.getId().toString()))
+            //.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, teamDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, teamDTO.getName()))
             .body(result);
     }
 
@@ -90,14 +98,27 @@ public class TeamResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of teams in body.
      */
     @GetMapping("/teams")
-    public ResponseEntity<List<TeamDTO>> getAllTeams(Pageable pageable) {
-        log.debug("REST request to get a page of Teams");
-        Page<TeamDTO> page = teamService.findAll(pageable);
+    public ResponseEntity<List<TeamDTO>> getAllTeams(TeamCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Teams by criteria: {}", criteria);
+        Page<TeamDTO> page = teamQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /teams/count} : count all the teams.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/teams/count")
+    public ResponseEntity<Long> countTeams(TeamCriteria criteria) {
+        log.debug("REST request to count Teams by criteria: {}", criteria);
+        return ResponseEntity.ok().body(teamQueryService.countByCriteria(criteria));
     }
 
     /**

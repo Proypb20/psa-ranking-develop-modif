@@ -21,6 +21,18 @@
                         <a [routerLink]="['/team', roster.teamId, 'view']">{{roster.teamName}}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.tournament">Tournament</span></dt>
+                <dd>
+                    <div *ngIf="roster.tournamentId">
+                        <a [routerLink]="['/tournament', roster.tournamentId, 'view']">{{roster.tournamentName}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.roster.event">Event</span></dt>
+                <dd>
+                    <div *ngIf="roster.eventId">
+                        <a [routerLink]="['/event', roster.eventId, 'view']">{{roster.eventName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

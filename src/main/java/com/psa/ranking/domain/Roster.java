@@ -34,6 +34,14 @@ public class Roster implements Serializable {
     @JsonIgnoreProperties("rosters")
     private Team team;
 
+    @ManyToOne
+    @JsonIgnoreProperties("rosters")
+    private Tournament tournament;
+
+    @ManyToOne
+    @JsonIgnoreProperties("rosters")
+    private Event event;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -80,6 +88,32 @@ public class Roster implements Serializable {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public Roster tournament(Tournament tournament) {
+        this.tournament = tournament;
+        return this;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public Roster event(Event event) {
+        this.event = event;
+        return this;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

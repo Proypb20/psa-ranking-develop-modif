@@ -17,9 +17,9 @@
         "title": "Evento"
       },
       "name": "Nombre",
-      "fromDate": "Fecha Inicio",
-      "endDate": "Fecha Fin",
-      "endInscriptionDate": "Fecha Cierre Inscripcion",
+      "fromDate": "Desde",
+      "endDate": "Hasta",
+      "endInscriptionDate": "Cierre Inscripcion",
       "status": "Estado",
       "createDate": "Fecha Creado",
       "updatedDate": "Fecha Actualizado",

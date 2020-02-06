@@ -49,7 +49,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-    this.teamService
+  this.teamService
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,

@@ -59,6 +59,22 @@ import { RouterModule } from '@angular/router';
       {
         path: 'format',
         loadChildren: () => import('./format/format.module').then(m => m.PsaRankingFormatModule)
+      },
+      {
+        path: 'player-point',
+        loadChildren: () => import('./player-point/player-point.module').then(m => m.PsaRankingPlayerPointModule)
+      },
+      {
+        path: 'player-detail-point',
+        loadChildren: () => import('./player-detail-point/player-detail-point.module').then(m => m.PsaRankingPlayerDetailPointModule)
+      },
+      {
+        path: 'team-point',
+        loadChildren: () => import('./team-point/team-point.module').then(m => m.PsaRankingTeamPointModule)
+      },
+      {
+        path: 'team-detail-point',
+        loadChildren: () => import('./team-detail-point/team-detail-point.module').then(m => m.PsaRankingTeamDetailPointModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

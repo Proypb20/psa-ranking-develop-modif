@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.ProvinceService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.ProvinceDTO;
+import com.psa.ranking.service.dto.ProvinceCriteria;
+import com.psa.ranking.service.ProvinceQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +42,11 @@ public class ProvinceResource {
 
     private final ProvinceService provinceService;
 
-    public ProvinceResource(ProvinceService provinceService) {
+    private final ProvinceQueryService provinceQueryService;
+
+    public ProvinceResource(ProvinceService provinceService, ProvinceQueryService provinceQueryService) {
         this.provinceService = provinceService;
+        this.provinceQueryService = provinceQueryService;
     }
 
     /**
@@ -59,7 +64,8 @@ public class ProvinceResource {
         }
         ProvinceDTO result = provinceService.save(provinceDTO);
         return ResponseEntity.created(new URI("/api/provinces/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -80,7 +86,7 @@ public class ProvinceResource {
         }
         ProvinceDTO result = provinceService.save(provinceDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, provinceDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, provinceDTO.getName().toString()))
             .body(result);
     }
 
@@ -90,14 +96,27 @@ public class ProvinceResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of provinces in body.
      */
     @GetMapping("/provinces")
-    public ResponseEntity<List<ProvinceDTO>> getAllProvinces(Pageable pageable) {
-        log.debug("REST request to get a page of Provinces");
-        Page<ProvinceDTO> page = provinceService.findAll(pageable);
+    public ResponseEntity<List<ProvinceDTO>> getAllProvinces(ProvinceCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Provinces by criteria: {}", criteria);
+        Page<ProvinceDTO> page = provinceQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /provinces/count} : count all the provinces.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/provinces/count")
+    public ResponseEntity<Long> countProvinces(ProvinceCriteria criteria) {
+        log.debug("REST request to count Provinces by criteria: {}", criteria);
+        return ResponseEntity.ok().body(provinceQueryService.countByCriteria(criteria));
     }
 
     /**

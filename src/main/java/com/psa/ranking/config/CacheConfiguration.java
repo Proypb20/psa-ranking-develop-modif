@@ -62,6 +62,10 @@ public class CacheConfiguration {
             createCache(cm, com.psa.ranking.domain.UserExtra.class.getName());
             createCache(cm, com.psa.ranking.domain.UserExtra.class.getName() + ".cities");
             createCache(cm, com.psa.ranking.domain.Format.class.getName());
+            createCache(cm, com.psa.ranking.domain.PlayerPoint.class.getName());
+            createCache(cm, com.psa.ranking.domain.PlayerDetailPoint.class.getName());
+            createCache(cm, com.psa.ranking.domain.TeamPoint.class.getName());
+            createCache(cm, com.psa.ranking.domain.TeamDetailPoint.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

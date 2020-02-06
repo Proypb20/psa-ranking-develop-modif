@@ -21,7 +21,6 @@ import { JhiAlertService } from 'ng-jhipster';
   templateUrl: './province.component.html'
 })
 export class ProvinceComponent implements OnInit, OnDestroy {
-
   currentAccount: any;
   provinces: IProvince[];
   error: any;
@@ -139,7 +138,7 @@ export class ProvinceComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.provinces = data;
   }
-  
+
   trackCountryById(index: number, item: ICountry) {
 	    return item.name;
   }
