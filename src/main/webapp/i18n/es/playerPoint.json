@@ -1,0 +1,24 @@
+{
+  "psaRankingApp": {
+    "playerPoint": {
+      "home": {
+        "title": "Puntos por Jugador",
+        "createLabel": "Nuevo Puntos por Jugador",
+        "createOrEditLabel": "Puntos por Jugador",
+        "notFound": "No hay Puntos por Jugador"
+      },
+      "created": "Un nuevo Player Point ha sido creado con el identificador {{ param }}",
+      "updated": "Un Player Point ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Player Point ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Player Point {{ id }}?"
+      },
+      "detail": {
+        "title": "Puntos por Jugador"
+      },
+      "points": "Puntos",
+      "tournament": "Torneo",
+      "user": "Usuario"
+    }
+  }
+}

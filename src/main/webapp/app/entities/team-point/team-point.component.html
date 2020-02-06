@@ -1,0 +1,78 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="psaRankingApp.teamPoint.home.title">Team Points</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team-point" [routerLink]="['/team-point/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="psaRankingApp.teamPoint.home.createLabel">
+            Create a new Team Point
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="teamPoints?.length === 0">
+        <span jhiTranslate="psaRankingApp.teamPoint.home.notFound">No teamPoints found</span>
+    </div>
+    <div class="table-responsive" *ngIf="teamPoints?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.teamPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.teamPoint.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.teamPoint.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let teamPoint of teamPoints ;trackBy: trackId">
+                <td><a [routerLink]="['/team-point', teamPoint.id, 'view' ]">{{teamPoint.id}}</a></td>
+                <td>{{teamPoint.points}}</td>
+                <td>
+                    <div *ngIf="teamPoint.teamId">
+                        <a [routerLink]="['/team', teamPoint.teamId , 'view' ]" >{{teamPoint.teamName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="teamPoint.tournamentId">
+                        <a [routerLink]="['/tournament', teamPoint.tournamentId , 'view' ]" >{{teamPoint.tournamentName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/team-point', teamPoint.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/team-point', teamPoint.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/team-point', { outlets: { popup: teamPoint.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div [hidden]="teamPoints?.length === 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

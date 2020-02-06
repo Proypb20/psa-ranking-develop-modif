@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity TeamPoint.
+    -->
+    <changeSet id="20200205014615-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="team_point"
+                                 constraintName="fk_team_point_team_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+
+        <addForeignKeyConstraint baseColumnNames="tournament_id"
+                                 baseTableName="team_point"
+                                 constraintName="fk_team_point_tournament_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tournament"/>
+
+    </changeSet>
+</databaseChangeLog>
