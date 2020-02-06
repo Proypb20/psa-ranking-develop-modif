@@ -18,6 +18,9 @@ export class SettingsComponent implements OnInit {
     firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     email: [undefined, [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     activated: [false],
     authorities: [[]],
     langKey: ['en'],
@@ -72,7 +75,10 @@ export class SettingsComponent implements OnInit {
       authorities: this.settingsForm.get('authorities').value,
       langKey: this.settingsForm.get('langKey').value,
       login: this.settingsForm.get('login').value,
-      imageUrl: this.settingsForm.get('imageUrl').value
+      imageUrl: this.settingsForm.get('imageUrl').value,
+      phone: this.settingsForm.get(['phone']).value,
+      numDoc: this.settingsForm.get(['numDoc']).value,
+      bornDate: this.settingsForm.get(['bornDate']).value
     };
   }
 
@@ -85,7 +91,10 @@ export class SettingsComponent implements OnInit {
       authorities: account.authorities,
       langKey: account.langKey,
       login: account.login,
-      imageUrl: account.imageUrl
+      imageUrl: account.imageUrl,
+      phone: account.phone,
+      numDoc: account.numDoc,
+      bornDate: account.bornDate,
     });
   }
 }

@@ -10,6 +10,7 @@ import com.psa.ranking.service.dto.UserDTO;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.web.rest.errors.EmailAlreadyUsedException;
 import com.psa.ranking.web.rest.errors.LoginAlreadyUsedException;
+import com.psa.ranking.web.rest.vm.ManagedUserVM;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -121,20 +122,20 @@ public class UserResource {
      */
     @PutMapping("/users")
     @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
-        log.debug("REST request to update User : {}", userDTO);
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        log.debug("REST request to update User : {}", managedUserVM);
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             throw new EmailAlreadyUsedException();
         }
-        existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
+        existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
+        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             throw new LoginAlreadyUsedException();
         }
-        Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
+        Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
 
         return ResponseUtil.wrapOrNotFound(updatedUser,
-            HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin()));
+            HeaderUtil.createAlert(applicationName, "userManagement.updated", managedUserVM.getLogin()));
     }
 
     /**

@@ -156,7 +156,8 @@ public class AccountResource {
 	 *                                   user login wasn't found.
 	 */
 	@PostMapping("/account")
-	public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
+	public void saveAccount(@Valid @RequestBody ManagedUserVM userDTO) {
+	    log.debug(userDTO.toString());
 		String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
 		Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
 		if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
