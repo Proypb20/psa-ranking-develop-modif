@@ -51,17 +51,6 @@
 
     <changeSet id="20191022230139-1-relations" author="jhipster">
 
-        <createTable tableName="event_category">
-            <column name="category_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="event_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="event_id, category_id" tableName="event_category"/>
-        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

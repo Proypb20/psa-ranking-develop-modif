@@ -1,5 +1,4 @@
 package com.psa.ranking.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.psa.ranking.domain.enumeration.TimeType;
 
@@ -62,11 +59,6 @@ public class Category implements Serializable {
     @NotNull
     @Column(name = "jhi_order", nullable = false)
     private Integer order;
-
-    @ManyToMany(mappedBy = "categories")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
-    private Set<Event> events = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -197,31 +189,6 @@ public class Category implements Serializable {
 
     public void setOrder(Integer order) {
         this.order = order;
-    }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public Category events(Set<Event> events) {
-        this.events = events;
-        return this;
-    }
-
-    public Category addEvent(Event event) {
-        this.events.add(event);
-        event.getCategories().add(this);
-        return this;
-    }
-
-    public Category removeEvent(Event event) {
-        this.events.remove(event);
-        event.getCategories().remove(this);
-        return this;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
     }
 
     public Tournament getTournament() {

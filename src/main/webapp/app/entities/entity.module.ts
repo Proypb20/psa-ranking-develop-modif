@@ -75,6 +75,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'team-detail-point',
         loadChildren: () => import('./team-detail-point/team-detail-point.module').then(m => m.PsaRankingTeamDetailPointModule)
+      },
+      {
+        path: 'event-category',
+        loadChildren: () => import('./event-category/event-category.module').then(m => m.PsaRankingEventCategoryModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

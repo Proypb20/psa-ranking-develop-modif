@@ -24,6 +24,7 @@
         "playerDetailPoint": "Player Detail Point",
         "teamPoint": "Team Point",
         "teamDetailPoint": "Team Detail Point",
+        "eventCategory": "Event Category",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

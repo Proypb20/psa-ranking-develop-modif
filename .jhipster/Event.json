@@ -36,21 +36,15 @@
             "relationshipName": "tournament",
             "otherEntityName": "tournament",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "event"
         },
         {
             "relationshipName": "city",
             "otherEntityName": "city",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "category",
-            "otherEntityRelationshipName": "event",
-            "relationshipName": "category",
             "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityRelationshipName": "event"
         }
     ],
     "changelogDate": "20191022230139",
@@ -63,5 +57,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

@@ -15,8 +15,6 @@ public interface CategoryMapper extends EntityMapper<CategoryDTO, Category> {
     @Mapping(source = "tournament.name", target = "tournamentName")
     CategoryDTO toDto(Category category);
 
-    @Mapping(target = "events", ignore = true)
-    @Mapping(target = "removeEvent", ignore = true)
     @Mapping(source = "tournamentId", target = "tournament")
     Category toEntity(CategoryDTO categoryDTO);
 

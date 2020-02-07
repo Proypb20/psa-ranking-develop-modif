@@ -63,14 +63,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "event",
-            "otherEntityRelationshipName": "category",
-            "relationshipName": "event",
-            "otherEntityField": "id",
-            "ownerSide": false
-        },
-        {
             "relationshipName": "tournament",
             "otherEntityName": "tournament",
             "relationshipType": "many-to-one",

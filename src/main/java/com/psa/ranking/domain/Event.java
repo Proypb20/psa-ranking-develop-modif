@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.psa.ranking.domain.enumeration.Status;
 
@@ -56,13 +54,6 @@ public class Event implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("events")
     private City city;
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "event_category",
-               joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
-    private Set<Category> categories = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -188,31 +179,6 @@ public class Event implements Serializable {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public Event categories(Set<Category> categories) {
-        this.categories = categories;
-        return this;
-    }
-
-    public Event addCategory(Category category) {
-        this.categories.add(category);
-        category.getEvents().add(this);
-        return this;
-    }
-
-    public Event removeCategory(Category category) {
-        this.categories.remove(category);
-        category.getEvents().remove(this);
-        return this;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

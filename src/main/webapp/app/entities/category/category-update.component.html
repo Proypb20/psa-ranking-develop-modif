@@ -4,23 +4,10 @@
             <h2 id="jhi-category-heading" jhiTranslate="psaRankingApp.category.home.createOrEditLabel">Create or edit a Category</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
-                </div> -->
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.category.tournament" for="field_tournament">Tournament</label>
-                    <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
-                        <option *ngIf="!editForm.get('tournamentId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('tournamentId').invalid && (editForm.get('tournamentId').dirty || editForm.get('tournamentId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('tournamentId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.name" for="field_name">Name</label>
@@ -32,9 +19,6 @@
                     <input type="text" class="form-control" name="description" id="field_description"
                            formControlName="description"/>
                 </div>
-                <div>
-                <table>
-                <td width=20%>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.gameTimeType" for="field_gameTimeType">Game Time Type</label>
                     <select class="form-control" name="gameTimeType" formControlName="gameTimeType" id="field_gameTimeType">
@@ -48,8 +32,6 @@
                         </small>
                     </div>
                 </div>
-                </td>
-                <td width=30%>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.gameTime" for="field_gameTime">Game Time</label>
                     <input type="number" class="form-control" name="gameTime" id="field_gameTime"
@@ -64,9 +46,7 @@
                             This field should be a number.
                         </small>
                     </div>
-                   </div>
-                   </td>
-                <td width=20%>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.stopTimeType" for="field_stopTimeType">Stop Time Type</label>
                     <select class="form-control" name="stopTimeType" formControlName="stopTimeType" id="field_stopTimeType">
@@ -80,8 +60,6 @@
                         </small>
                     </div>
                 </div>
-                </td>
-                <td width=30%>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.stopTime" for="field_stopTime">Stop Time</label>
                     <input type="number" class="form-control" name="stopTime" id="field_stopTime"
@@ -96,9 +74,6 @@
                             This field should be a number.
                         </small>
                     </div>
-                </div>
-                </td>
-                   </table>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.category.totalPoints" for="field_totalPoints">Total Points</label>
@@ -146,13 +121,26 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.category.tournament" for="field_tournament">Tournament</label>
+                    <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
+                        <option *ngIf="!editForm.get('tournamentId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('tournamentId').invalid && (editForm.get('tournamentId').dirty || editForm.get('tournamentId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('tournamentId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
             <div>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                </button>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>
         </form>

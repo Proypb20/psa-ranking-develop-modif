@@ -3,8 +3,6 @@ import io.swagger.annotations.ApiModel;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import com.psa.ranking.domain.enumeration.Status;
 
@@ -34,8 +32,6 @@ public class EventDTO implements Serializable {
     private Long tournamentId;
 
     private Long cityId;
-
-    private Set<CategoryDTO> categories = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -115,14 +111,6 @@ public class EventDTO implements Serializable {
 
     public void setCityId(Long cityId) {
         this.cityId = cityId;
-    }
-
-    public Set<CategoryDTO> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<CategoryDTO> categories) {
-        this.categories = categories;
     }
 
     @Override

@@ -9,8 +9,6 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICategory, Category } from 'app/shared/model/category.model';
 import { CategoryService } from './category.service';
-import { IEvent } from 'app/shared/model/event.model';
-import { EventService } from 'app/entities/event/event.service';
 import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 
@@ -20,8 +18,6 @@ import { TournamentService } from 'app/entities/tournament/tournament.service';
 })
 export class CategoryUpdateComponent implements OnInit {
   isSaving: boolean;
-
-  events: IEvent[];
 
   tournaments: ITournament[];
 
@@ -42,7 +38,6 @@ export class CategoryUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected categoryService: CategoryService,
-    protected eventService: EventService,
     protected tournamentService: TournamentService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -53,13 +48,6 @@ export class CategoryUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ category }) => {
       this.updateForm(category);
     });
-    this.eventService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IEvent[]>) => response.body)
-      )
-      .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.tournamentService
       .query()
       .pipe(
@@ -132,22 +120,7 @@ export class CategoryUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackEventById(index: number, item: IEvent) {
-    return item.id;
-  }
-
   trackTournamentById(index: number, item: ITournament) {
     return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

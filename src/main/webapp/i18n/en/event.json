@@ -24,8 +24,7 @@
       "createDate": "Create Date",
       "updatedDate": "Updated Date",
       "tournament": "Tournament",
-      "city": "City",
-      "category": "Category"
+      "city": "City"
     }
   }
 }

@@ -4,7 +4,6 @@ import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Event;
 import com.psa.ranking.domain.Tournament;
 import com.psa.ranking.domain.City;
-import com.psa.ranking.domain.Category;
 import com.psa.ranking.repository.EventRepository;
 import com.psa.ranking.service.EventService;
 import com.psa.ranking.service.dto.EventDTO;
@@ -15,12 +14,9 @@ import com.psa.ranking.service.EventQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -34,13 +30,11 @@ import java.time.LocalDate;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -78,14 +72,8 @@ public class EventResourceIT {
     @Autowired
     private EventRepository eventRepository;
 
-    @Mock
-    private EventRepository eventRepositoryMock;
-
     @Autowired
     private EventMapper eventMapper;
-
-    @Mock
-    private EventService eventServiceMock;
 
     @Autowired
     private EventService eventService;
@@ -230,39 +218,6 @@ public class EventResourceIT {
             .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())));
     }
     
-    @SuppressWarnings({"unchecked"})
-    public void getAllEventsWithEagerRelationshipsIsEnabled() throws Exception {
-        EventResource eventResource = new EventResource(eventServiceMock, eventQueryService);
-        when(eventServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        MockMvc restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restEventMockMvc.perform(get("/api/events?eagerload=true"))
-        .andExpect(status().isOk());
-
-        verify(eventServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void getAllEventsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        EventResource eventResource = new EventResource(eventServiceMock, eventQueryService);
-            when(eventServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-            MockMvc restEventMockMvc = MockMvcBuilders.standaloneSetup(eventResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restEventMockMvc.perform(get("/api/events?eagerload=true"))
-        .andExpect(status().isOk());
-
-            verify(eventServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
     @Test
     @Transactional
     public void getEvent() throws Exception {
@@ -869,26 +824,6 @@ public class EventResourceIT {
 
         // Get all the eventList where city equals to cityId + 1
         defaultEventShouldNotBeFound("cityId.equals=" + (cityId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEventsByCategoryIsEqualToSomething() throws Exception {
-        // Initialize the database
-        eventRepository.saveAndFlush(event);
-        Category category = CategoryResourceIT.createEntity(em);
-        em.persist(category);
-        em.flush();
-        event.addCategory(category);
-        eventRepository.saveAndFlush(event);
-        Long categoryId = category.getId();
-
-        // Get all the eventList where category equals to categoryId
-        defaultEventShouldBeFound("categoryId.equals=" + categoryId);
-
-        // Get all the eventList where category equals to categoryId + 1
-        defaultEventShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
     }
 
     /**

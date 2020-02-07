@@ -120,10 +120,6 @@ public class EventQueryService extends QueryService<Event> {
                 specification = specification.and(buildSpecification(criteria.getCityId(),
                     root -> root.join(Event_.city, JoinType.LEFT).get(City_.id)));
             }
-            if (criteria.getCategoryId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCategoryId(),
-                    root -> root.join(Event_.categories, JoinType.LEFT).get(Category_.id)));
-            }
         }
         return specification;
     }

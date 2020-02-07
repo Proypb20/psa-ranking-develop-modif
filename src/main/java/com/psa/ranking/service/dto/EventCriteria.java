@@ -65,8 +65,6 @@ public class EventCriteria implements Serializable, Criteria {
 
     private LongFilter cityId;
 
-    private LongFilter categoryId;
-
     public EventCriteria(){
     }
 
@@ -81,7 +79,6 @@ public class EventCriteria implements Serializable, Criteria {
         this.updatedDate = other.updatedDate == null ? null : other.updatedDate.copy();
         this.tournamentId = other.tournamentId == null ? null : other.tournamentId.copy();
         this.cityId = other.cityId == null ? null : other.cityId.copy();
-        this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
     }
 
     @Override
@@ -169,14 +166,6 @@ public class EventCriteria implements Serializable, Criteria {
         this.cityId = cityId;
     }
 
-    public LongFilter getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(LongFilter categoryId) {
-        this.categoryId = categoryId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -197,8 +186,7 @@ public class EventCriteria implements Serializable, Criteria {
             Objects.equals(createDate, that.createDate) &&
             Objects.equals(updatedDate, that.updatedDate) &&
             Objects.equals(tournamentId, that.tournamentId) &&
-            Objects.equals(cityId, that.cityId) &&
-            Objects.equals(categoryId, that.categoryId);
+            Objects.equals(cityId, that.cityId);
     }
 
     @Override
@@ -213,8 +201,7 @@ public class EventCriteria implements Serializable, Criteria {
         createDate,
         updatedDate,
         tournamentId,
-        cityId,
-        categoryId
+        cityId
         );
     }
 
@@ -231,7 +218,6 @@ public class EventCriteria implements Serializable, Criteria {
                 (updatedDate != null ? "updatedDate=" + updatedDate + ", " : "") +
                 (tournamentId != null ? "tournamentId=" + tournamentId + ", " : "") +
                 (cityId != null ? "cityId=" + cityId + ", " : "") +
-                (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
             "}";
     }
 

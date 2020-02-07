@@ -45,12 +45,6 @@
                         <a [routerLink]="['/city', event.cityId, 'view']">{{event.cityId}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.event.category">Category</span></dt>
-                <dd>
-                    <span *ngFor="let category of event.categories; let last = last">
-                        <a [routerLink]="['/category', category?.id, 'view' ]">{{category.id}}</a>{{last ? '' : ', '}}
-                    </span>
-                </dd>
             </dl>
 
             <button type="submit"

@@ -1,4 +1,3 @@
-import { IEvent } from 'app/shared/model/event.model';
 import { TimeType } from 'app/shared/model/enumerations/time-type.model';
 
 export interface ICategory {
@@ -12,7 +11,6 @@ export interface ICategory {
   totalPoints?: number;
   difPoints?: number;
   order?: number;
-  events?: IEvent[];
   tournamentName?: string;
   tournamentId?: number;
 }
@@ -29,7 +27,6 @@ export class Category implements ICategory {
     public totalPoints?: number,
     public difPoints?: number,
     public order?: number,
-    public events?: IEvent[],
     public tournamentName?: string,
     public tournamentId?: number
   ) {}

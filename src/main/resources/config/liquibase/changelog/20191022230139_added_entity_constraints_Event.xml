@@ -20,17 +20,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="city"/>
 
-        <addForeignKeyConstraint baseColumnNames="event_id"
-                                 baseTableName="event_category"
-                                 constraintName="fk_event_category_event_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="event"/>
-
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="event_category"
-                                 constraintName="fk_event_category_category_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
-        
     </changeSet>
 </databaseChangeLog>

@@ -15,8 +15,6 @@ import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { ICity } from 'app/shared/model/city.model';
 import { CityService } from 'app/entities/city/city.service';
-import { ICategory } from 'app/shared/model/category.model';
-import { CategoryService } from 'app/entities/category/category.service';
 
 @Component({
   selector: 'jhi-event-update',
@@ -28,8 +26,6 @@ export class EventUpdateComponent implements OnInit {
   tournaments: ITournament[];
 
   cities: ICity[];
-
-  categories: ICategory[];
   fromDateDp: any;
   endDateDp: any;
   endInscriptionDateDp: any;
@@ -44,8 +40,7 @@ export class EventUpdateComponent implements OnInit {
     createDate: [],
     updatedDate: [],
     tournamentId: [],
-    cityId: [],
-    categories: []
+    cityId: []
   });
 
   constructor(
@@ -53,7 +48,6 @@ export class EventUpdateComponent implements OnInit {
     protected eventService: EventService,
     protected tournamentService: TournamentService,
     protected cityService: CityService,
-    protected categoryService: CategoryService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -77,13 +71,6 @@ export class EventUpdateComponent implements OnInit {
         map((response: HttpResponse<ICity[]>) => response.body)
       )
       .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.categoryService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ICategory[]>) => response.body)
-      )
-      .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(event: IEvent) {
@@ -97,8 +84,7 @@ export class EventUpdateComponent implements OnInit {
       createDate: event.createDate != null ? event.createDate.format(DATE_TIME_FORMAT) : null,
       updatedDate: event.updatedDate != null ? event.updatedDate.format(DATE_TIME_FORMAT) : null,
       tournamentId: event.tournamentId,
-      cityId: event.cityId,
-      categories: event.categories
+      cityId: event.cityId
     });
   }
 
@@ -130,8 +116,7 @@ export class EventUpdateComponent implements OnInit {
       updatedDate:
         this.editForm.get(['updatedDate']).value != null ? moment(this.editForm.get(['updatedDate']).value, DATE_TIME_FORMAT) : undefined,
       tournamentId: this.editForm.get(['tournamentId']).value,
-      cityId: this.editForm.get(['cityId']).value,
-      categories: this.editForm.get(['categories']).value
+      cityId: this.editForm.get(['cityId']).value
     };
   }
 
@@ -157,20 +142,5 @@ export class EventUpdateComponent implements OnInit {
 
   trackCityById(index: number, item: ICity) {
     return item.id;
-  }
-
-  trackCategoryById(index: number, item: ICategory) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }
