@@ -3,8 +3,8 @@
     "roster": {
       "home": {
         "title": "Rosters",
-        "createLabel": "Crear nuevo Roster",
-        "createOrEditLabel": "Crear o editar Roster",
+        "createLabel": "Nuevo Roster",
+        "createOrEditLabel": "Roster",
         "notFound": "No Rosters found"
       },
       "created": "El Roster {{ param }} ha sido creado",
@@ -22,6 +22,11 @@
       "tournament": "Torneo",
       "event": "Torneo - Evento",
       "groups": {
+        "players": "Jugadores",
+        "staff": "Staff",
+        "others": "Otros Jugadores"
+      },
+      "button": {
         "players": "Jugadores",
         "staff": "Staff",
         "others": "Otros Jugadores"

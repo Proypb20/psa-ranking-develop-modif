@@ -57,9 +57,7 @@
         "playerDetailPoint": "Detalle Puntos por Jugador",
         "teamPoint": "Puntos por Equipo",
         "teamDetailPoint": "Detalle Puntos por Equipo",
-        "event": "Event",
         "eventCategory": "Event Category",
-        "category": "Category",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

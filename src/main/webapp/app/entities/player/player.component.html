@@ -19,9 +19,10 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.player.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.player.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.player.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
             
             <th scope="col"></th>
             </tr>
@@ -29,13 +30,11 @@
             <tbody>
             <tr *ngFor="let player of players ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
-                <td>
-                    <div *ngIf="player.rosterId">
-                        <a [routerLink]="['/roster', player.rosterId , 'view' ]" >{{player.rosterId}}</a>
-                    </div>
-                </td>
-                <td>{{player.userLogin}}</td>
                 <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
+                <td>{{player.userLogin}}</td>
+                <td>
+                    <div *ngIf="player.rosterId">{{player.rosterId}}</div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

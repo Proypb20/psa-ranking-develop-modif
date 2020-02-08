@@ -9,10 +9,10 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
-import { IUser } from 'app/core/user/user.model';
-import { UserService } from 'app/core/user/user.service';
 import { IRoster } from 'app/shared/model/roster.model';
 import { RosterService } from 'app/entities/roster/roster.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-player-update',
@@ -21,9 +21,9 @@ import { RosterService } from 'app/entities/roster/roster.service';
 export class PlayerUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  users: IUser[];
-
   rosters: IRoster[];
+
+  users: IUser[];
 
   editForm = this.fb.group({
     id: [],
@@ -35,8 +35,8 @@ export class PlayerUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected playerService: PlayerService,
-    protected userService: UserService,
     protected rosterService: RosterService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -46,13 +46,6 @@ export class PlayerUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ player }) => {
       this.updateForm(player);
     });
-    this.userService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.rosterService
       .query()
       .pipe(
@@ -60,6 +53,13 @@ export class PlayerUpdateComponent implements OnInit {
         map((response: HttpResponse<IRoster[]>) => response.body)
       )
       .subscribe((res: IRoster[]) => (this.rosters = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.userService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
+      )
+      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(player: IPlayer) {
@@ -111,11 +111,23 @@ export class PlayerUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackUserById(index: number, item: IUser) {
-    return item.id;
-  }
+
 
   trackRosterById(index: number, item: IRoster) {
     return item.id;
+  }
+    trackUserById(index: number, item: IUser) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: any[], option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

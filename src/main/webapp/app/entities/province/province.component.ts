@@ -21,6 +21,7 @@ import { JhiAlertService } from 'ng-jhipster';
   templateUrl: './province.component.html'
 })
 export class ProvinceComponent implements OnInit, OnDestroy {
+
   currentAccount: any;
   provinces: IProvince[];
   error: any;
