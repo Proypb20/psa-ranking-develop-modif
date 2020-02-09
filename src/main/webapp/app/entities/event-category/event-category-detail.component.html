@@ -5,6 +5,10 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span></dt>
+                <dd>
+                    <span>{{eventCategory.splitDeck}}</span>
+                </dd>
                 <dt><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span></dt>
                 <dd>
                     <div *ngIf="eventCategory.eventId">

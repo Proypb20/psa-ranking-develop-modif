@@ -9,7 +9,8 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "eventCategory"
         },
         {
             "relationshipName": "category",
@@ -18,7 +19,8 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "eventCategory"
         },
         {
             "relationshipName": "format",
@@ -27,10 +29,16 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "eventCategory"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "splitDeck",
+            "fieldType": "Boolean"
+        }
+    ],
     "changelogDate": "20200207225605",
     "dto": "mapstruct",
     "searchEngine": false,

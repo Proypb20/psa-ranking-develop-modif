@@ -41,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PsaRankingApp.class)
 public class EventCategoryResourceIT {
 
+    private static final Boolean DEFAULT_SPLIT_DECK = false;
+    private static final Boolean UPDATED_SPLIT_DECK = true;
+
     @Autowired
     private EventCategoryRepository eventCategoryRepository;
 
@@ -91,7 +94,8 @@ public class EventCategoryResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static EventCategory createEntity(EntityManager em) {
-        EventCategory eventCategory = new EventCategory();
+        EventCategory eventCategory = new EventCategory()
+            .splitDeck(DEFAULT_SPLIT_DECK);
         // Add required entity
         Event event;
         if (TestUtil.findAll(em, Event.class).isEmpty()) {
@@ -131,7 +135,8 @@ public class EventCategoryResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static EventCategory createUpdatedEntity(EntityManager em) {
-        EventCategory eventCategory = new EventCategory();
+        EventCategory eventCategory = new EventCategory()
+            .splitDeck(UPDATED_SPLIT_DECK);
         // Add required entity
         Event event;
         if (TestUtil.findAll(em, Event.class).isEmpty()) {
@@ -186,6 +191,7 @@ public class EventCategoryResourceIT {
         List<EventCategory> eventCategoryList = eventCategoryRepository.findAll();
         assertThat(eventCategoryList).hasSize(databaseSizeBeforeCreate + 1);
         EventCategory testEventCategory = eventCategoryList.get(eventCategoryList.size() - 1);
+        assertThat(testEventCategory.isSplitDeck()).isEqualTo(DEFAULT_SPLIT_DECK);
     }
 
     @Test
@@ -219,7 +225,8 @@ public class EventCategoryResourceIT {
         restEventCategoryMockMvc.perform(get("/api/event-categories?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(eventCategory.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(eventCategory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].splitDeck").value(hasItem(DEFAULT_SPLIT_DECK.booleanValue())));
     }
     
     @Test
@@ -232,7 +239,60 @@ public class EventCategoryResourceIT {
         restEventCategoryMockMvc.perform(get("/api/event-categories/{id}", eventCategory.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(eventCategory.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(eventCategory.getId().intValue()))
+            .andExpect(jsonPath("$.splitDeck").value(DEFAULT_SPLIT_DECK.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventCategoriesBySplitDeckIsEqualToSomething() throws Exception {
+        // Initialize the database
+        eventCategoryRepository.saveAndFlush(eventCategory);
+
+        // Get all the eventCategoryList where splitDeck equals to DEFAULT_SPLIT_DECK
+        defaultEventCategoryShouldBeFound("splitDeck.equals=" + DEFAULT_SPLIT_DECK);
+
+        // Get all the eventCategoryList where splitDeck equals to UPDATED_SPLIT_DECK
+        defaultEventCategoryShouldNotBeFound("splitDeck.equals=" + UPDATED_SPLIT_DECK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventCategoriesBySplitDeckIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        eventCategoryRepository.saveAndFlush(eventCategory);
+
+        // Get all the eventCategoryList where splitDeck not equals to DEFAULT_SPLIT_DECK
+        defaultEventCategoryShouldNotBeFound("splitDeck.notEquals=" + DEFAULT_SPLIT_DECK);
+
+        // Get all the eventCategoryList where splitDeck not equals to UPDATED_SPLIT_DECK
+        defaultEventCategoryShouldBeFound("splitDeck.notEquals=" + UPDATED_SPLIT_DECK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventCategoriesBySplitDeckIsInShouldWork() throws Exception {
+        // Initialize the database
+        eventCategoryRepository.saveAndFlush(eventCategory);
+
+        // Get all the eventCategoryList where splitDeck in DEFAULT_SPLIT_DECK or UPDATED_SPLIT_DECK
+        defaultEventCategoryShouldBeFound("splitDeck.in=" + DEFAULT_SPLIT_DECK + "," + UPDATED_SPLIT_DECK);
+
+        // Get all the eventCategoryList where splitDeck equals to UPDATED_SPLIT_DECK
+        defaultEventCategoryShouldNotBeFound("splitDeck.in=" + UPDATED_SPLIT_DECK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventCategoriesBySplitDeckIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        eventCategoryRepository.saveAndFlush(eventCategory);
+
+        // Get all the eventCategoryList where splitDeck is not null
+        defaultEventCategoryShouldBeFound("splitDeck.specified=true");
+
+        // Get all the eventCategoryList where splitDeck is null
+        defaultEventCategoryShouldNotBeFound("splitDeck.specified=false");
     }
 
     @Test
@@ -289,7 +349,8 @@ public class EventCategoryResourceIT {
         restEventCategoryMockMvc.perform(get("/api/event-categories?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(eventCategory.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(eventCategory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].splitDeck").value(hasItem(DEFAULT_SPLIT_DECK.booleanValue())));
 
         // Check, that the count call also returns 1
         restEventCategoryMockMvc.perform(get("/api/event-categories/count?sort=id,desc&" + filter))
@@ -336,6 +397,8 @@ public class EventCategoryResourceIT {
         EventCategory updatedEventCategory = eventCategoryRepository.findById(eventCategory.getId()).get();
         // Disconnect from session so that the updates on updatedEventCategory are not directly saved in db
         em.detach(updatedEventCategory);
+        updatedEventCategory
+            .splitDeck(UPDATED_SPLIT_DECK);
         EventCategoryDTO eventCategoryDTO = eventCategoryMapper.toDto(updatedEventCategory);
 
         restEventCategoryMockMvc.perform(put("/api/event-categories")
@@ -347,6 +410,7 @@ public class EventCategoryResourceIT {
         List<EventCategory> eventCategoryList = eventCategoryRepository.findAll();
         assertThat(eventCategoryList).hasSize(databaseSizeBeforeUpdate);
         EventCategory testEventCategory = eventCategoryList.get(eventCategoryList.size() - 1);
+        assertThat(testEventCategory.isSplitDeck()).isEqualTo(UPDATED_SPLIT_DECK);
     }
 
     @Test

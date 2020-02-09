@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(EventCategoryService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new EventCategory(0);
+      elemDefault = new EventCategory(0, false);
     });
 
     describe('Service methods', () => {
@@ -54,7 +54,12 @@ describe('Service Tests', () => {
       });
 
       it('should update a EventCategory', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            splitDeck: true
+          },
+          elemDefault
+        );
 
         const expected = Object.assign({}, returnedFromService);
         service
@@ -67,7 +72,12 @@ describe('Service Tests', () => {
       });
 
       it('should return a list of EventCategory', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            splitDeck: true
+          },
+          elemDefault
+        );
         const expected = Object.assign({}, returnedFromService);
         service
           .query(expected)

@@ -10,6 +10,8 @@ public class EventCategoryDTO implements Serializable {
 
     private Long id;
 
+    private Boolean splitDeck;
+
 
     private Long eventId;
 
@@ -29,6 +31,14 @@ public class EventCategoryDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isSplitDeck() {
+        return splitDeck;
+    }
+
+    public void setSplitDeck(Boolean splitDeck) {
+        this.splitDeck = splitDeck;
     }
 
     public Long getEventId() {
@@ -104,6 +114,7 @@ public class EventCategoryDTO implements Serializable {
     public String toString() {
         return "EventCategoryDTO{" +
             "id=" + getId() +
+            ", splitDeck='" + isSplitDeck() + "'" +
             ", event=" + getEventId() +
             ", event='" + getEventName() + "'" +
             ", category=" + getCategoryId() +

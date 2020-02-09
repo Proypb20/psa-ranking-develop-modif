@@ -31,6 +31,7 @@ export class EventCategoryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    splitDeck: [],
     eventId: [null, Validators.required],
     categoryId: [null, Validators.required],
     formatId: [null, Validators.required]
@@ -77,6 +78,7 @@ export class EventCategoryUpdateComponent implements OnInit {
   updateForm(eventCategory: IEventCategory) {
     this.editForm.patchValue({
       id: eventCategory.id,
+      splitDeck: eventCategory.splitDeck,
       eventId: eventCategory.eventId,
       categoryId: eventCategory.categoryId,
       formatId: eventCategory.formatId
@@ -101,6 +103,7 @@ export class EventCategoryUpdateComponent implements OnInit {
     return {
       ...new EventCategory(),
       id: this.editForm.get(['id']).value,
+      splitDeck: this.editForm.get(['splitDeck']).value,
       eventId: this.editForm.get(['eventId']).value,
       categoryId: this.editForm.get(['categoryId']).value,
       formatId: this.editForm.get(['formatId']).value

@@ -26,6 +26,8 @@ public class EventCategoryCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private BooleanFilter splitDeck;
+
     private LongFilter eventId;
 
     private LongFilter categoryId;
@@ -37,6 +39,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
 
     public EventCategoryCriteria(EventCategoryCriteria other){
         this.id = other.id == null ? null : other.id.copy();
+        this.splitDeck = other.splitDeck == null ? null : other.splitDeck.copy();
         this.eventId = other.eventId == null ? null : other.eventId.copy();
         this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
         this.formatId = other.formatId == null ? null : other.formatId.copy();
@@ -53,6 +56,14 @@ public class EventCategoryCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public BooleanFilter getSplitDeck() {
+        return splitDeck;
+    }
+
+    public void setSplitDeck(BooleanFilter splitDeck) {
+        this.splitDeck = splitDeck;
     }
 
     public LongFilter getEventId() {
@@ -91,6 +102,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
         final EventCategoryCriteria that = (EventCategoryCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(splitDeck, that.splitDeck) &&
             Objects.equals(eventId, that.eventId) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(formatId, that.formatId);
@@ -100,6 +112,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        splitDeck,
         eventId,
         categoryId,
         formatId
@@ -110,6 +123,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
     public String toString() {
         return "EventCategoryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (splitDeck != null ? "splitDeck=" + splitDeck + ", " : "") +
                 (eventId != null ? "eventId=" + eventId + ", " : "") +
                 (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
                 (formatId != null ? "formatId=" + formatId + ", " : "") +

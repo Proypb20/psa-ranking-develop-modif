@@ -91,6 +91,9 @@ public class EventCategoryQueryService extends QueryService<EventCategory> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), EventCategory_.id));
             }
+            if (criteria.getSplitDeck() != null) {
+                specification = specification.and(buildSpecification(criteria.getSplitDeck(), EventCategory_.splitDeck));
+            }
             if (criteria.getEventId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEventId(),
                     root -> root.join(EventCategory_.event, JoinType.LEFT).get(Event_.id)));

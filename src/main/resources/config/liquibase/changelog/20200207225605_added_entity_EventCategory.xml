@@ -16,6 +16,9 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="split_deck" type="boolean">
+                <constraints nullable="true" />
+            </column>
             <column name="event_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -48,6 +51,7 @@
                   separator=";"
                   tableName="event_category">
             <column name="id" type="numeric"/>
+            <column name="split_deck" type="boolean"/>
             <column name="event_id" type="numeric"/>
             <column name="category_id" type="numeric"/>
             <column name="format_id" type="numeric"/>

@@ -22,16 +22,22 @@ public class EventCategory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "split_deck")
+    private Boolean splitDeck;
+
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("eventCategories")
     private Event event;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("eventCategories")
     private Category category;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("eventCategories")
     private Format format;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -41,6 +47,19 @@ public class EventCategory implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isSplitDeck() {
+        return splitDeck;
+    }
+
+    public EventCategory splitDeck(Boolean splitDeck) {
+        this.splitDeck = splitDeck;
+        return this;
+    }
+
+    public void setSplitDeck(Boolean splitDeck) {
+        this.splitDeck = splitDeck;
     }
 
     public Event getEvent() {
@@ -103,6 +122,7 @@ public class EventCategory implements Serializable {
     public String toString() {
         return "EventCategory{" +
             "id=" + getId() +
+            ", splitDeck='" + isSplitDeck() + "'" +
             "}";
     }
 }

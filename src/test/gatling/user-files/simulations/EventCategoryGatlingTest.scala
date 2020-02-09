@@ -72,6 +72,7 @@ class EventCategoryGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "splitDeck":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_eventCategory_url"))).exitHereIfFailed

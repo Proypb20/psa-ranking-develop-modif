@@ -19,6 +19,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -28,6 +29,7 @@
             <tbody>
             <tr *ngFor="let eventCategory of eventCategories ;trackBy: trackId">
                 <td><a [routerLink]="['/event-category', eventCategory.id, 'view' ]">{{eventCategory.id}}</a></td>
+                <td>{{eventCategory.splitDeck}}</td>
                 <td>
                     <div *ngIf="eventCategory.eventId">
                         <a [routerLink]="['/event', eventCategory.eventId , 'view' ]" >{{eventCategory.eventName}}</a>

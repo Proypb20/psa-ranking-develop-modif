@@ -16,6 +16,7 @@
       "detail": {
         "title": "Event Category"
       },
+      "splitDeck": "Split Deck",
       "event": "Event",
       "category": "Category",
       "format": "Format"
