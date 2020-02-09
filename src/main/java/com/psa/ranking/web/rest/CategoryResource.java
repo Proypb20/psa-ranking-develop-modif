@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.CategoryService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.CategoryDTO;
+import com.psa.ranking.service.dto.CategoryCriteria;
+import com.psa.ranking.service.CategoryQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -41,8 +43,11 @@ public class CategoryResource {
 
     private final CategoryService categoryService;
 
-    public CategoryResource(CategoryService categoryService) {
+    private final CategoryQueryService categoryQueryService;
+
+    public CategoryResource(CategoryService categoryService, CategoryQueryService categoryQueryService) {
         this.categoryService = categoryService;
+        this.categoryQueryService = categoryQueryService;
     }
 
     /**
@@ -91,14 +96,27 @@ public class CategoryResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of categories in body.
      */
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDTO>> getAllCategories(Pageable pageable) {
-        log.debug("REST request to get a page of Categories");
-        Page<CategoryDTO> page = categoryService.findAll(pageable);
+    public ResponseEntity<List<CategoryDTO>> getAllCategories(CategoryCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Categories by criteria: {}", criteria);
+        Page<CategoryDTO> page = categoryQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /categories/count} : count all the categories.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/categories/count")
+    public ResponseEntity<Long> countCategories(CategoryCriteria criteria) {
+        log.debug("REST request to count Categories by criteria: {}", criteria);
+        return ResponseEntity.ok().body(categoryQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -23,7 +23,8 @@
           "province": "Ver Provincias",
           "doctype": "Ver Tipos de Documento",
           "country": "Ver Paises",
-          "city": "Ver Ciudades"
+          "city": "Ver Ciudades",
+          "category": "Ver Categorias"
         },
         "admin": {
           "admin": "Administrar",
@@ -58,6 +59,7 @@
         "teamPoint": "Puntos por Equipo",
         "teamDetailPoint": "Detalle Puntos por Equipo",
         "eventCategory": "Event Category",
+        "category": "Category",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

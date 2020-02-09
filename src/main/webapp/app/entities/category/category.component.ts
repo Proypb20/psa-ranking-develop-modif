@@ -30,6 +30,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  tourId: number;
+  private sub: any;
 
   constructor(
     protected categoryService: CategoryService,
@@ -49,13 +51,27 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if(this.tourId)
+  {
     this.categoryService
+      .query({
+       'tournamentId.equals': this.tourId,
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<ICategory[]>) => this.paginateCategories(res.body, res.headers));
+   }
+   else
+   {
+      this.categoryService
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ICategory[]>) => this.paginateCategories(res.body, res.headers));
+   }
   }
 
   loadPage(page: number) {
@@ -89,6 +105,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.tourId = +params['tourId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

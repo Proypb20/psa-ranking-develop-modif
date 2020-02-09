@@ -12,6 +12,8 @@ import { EventDetailComponent } from './event-detail.component';
 import { EventUpdateComponent } from './event-update.component';
 import { EventDeletePopupComponent } from './event-delete-dialog.component';
 import { IEvent } from 'app/shared/model/event.model';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class EventResolve implements Resolve<IEvent> {
@@ -96,3 +98,10 @@ export const eventPopupRoute: Routes = [
     outlet: 'popup'
   }
 ];
+
+const ROUTE = [...eventRoute, ...eventPopupRoute];
+@NgModule({
+    imports: [RouterModule.forChild(ROUTE)],
+    exports: [RouterModule]
+})
+export class EvRoute { }

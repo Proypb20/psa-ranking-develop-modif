@@ -19,6 +19,7 @@ const ENTITY_STATES = [...eventCategoryRoute, ...eventCategoryPopupRoute];
     EventCategoryDeleteDialogComponent,
     EventCategoryDeletePopupComponent
   ],
-  entryComponents: [EventCategoryDeleteDialogComponent]
+  entryComponents: [EventCategoryDeleteDialogComponent],
+  exports: [EventCategoryUpdateComponent]
 })
 export class PsaRankingEventCategoryModule {}
