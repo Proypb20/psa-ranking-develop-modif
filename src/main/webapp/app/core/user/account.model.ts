@@ -1,3 +1,4 @@
+
 export class Account {
   constructor(
     public activated: boolean,
@@ -10,6 +11,6 @@ export class Account {
     public imageUrl: string,
     public numDoc: string,
     public phone: string,
-    public bornDate: string
+    public bornDate: any
   ) {}
 }

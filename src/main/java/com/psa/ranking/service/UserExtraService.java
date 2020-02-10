@@ -85,12 +85,13 @@ public class UserExtraService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserExtra getUserWithAuthorities() {
+	public Optional<UserExtra> getUserWithAuthorities() {
 		User user = Optional.of(userService.getUserWithAuthorities()
 				.orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
-		UserExtra userExtra = Optional.of(userExtraRepository.findById(user.getId()))
-				.orElseThrow(() -> new IllegalArgumentException("No existe el userExtra con los datos ingresados"))
-				.get();
+		Optional<UserExtra> userExtra = userExtraRepository.findById(user.getId());
+		if (!userExtra.isPresent()) {
+			userExtra = Optional.of(new UserExtra(user));
+		}
 		log.debug(userExtra.toString());
 		return userExtra;
 	}

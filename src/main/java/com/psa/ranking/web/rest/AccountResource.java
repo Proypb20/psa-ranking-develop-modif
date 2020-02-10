@@ -24,9 +24,10 @@ import com.psa.ranking.domain.User;
 import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.security.SecurityUtils;
 import com.psa.ranking.service.MailService;
+import com.psa.ranking.service.UserExtraService;
 import com.psa.ranking.service.UserService;
 import com.psa.ranking.service.dto.PasswordChangeDTO;
-import com.psa.ranking.service.dto.UserDTO;
+import com.psa.ranking.service.mapper.UserExtraMapper;
 import com.psa.ranking.web.rest.errors.EmailAlreadyUsedException;
 import com.psa.ranking.web.rest.errors.EmailNotFoundException;
 import com.psa.ranking.web.rest.errors.InvalidPasswordException;
@@ -54,14 +55,18 @@ public class AccountResource {
 	private final UserService userService;
 
 	private final MailService mailService;
+	
+	private final UserExtraService userExtraService;
+	
+	private final UserExtraMapper userExtraMapper;
 
-	private static final String ENTITY_NAME = "Account";
-
-	public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+	public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, UserExtraService userExtraService, UserExtraMapper userExtraMapper) {
 
 		this.userRepository = userRepository;
 		this.userService = userService;
 		this.mailService = mailService;
+		this.userExtraService = userExtraService;
+		this.userExtraMapper = userExtraMapper;
 	}
 
 	/**
@@ -139,9 +144,9 @@ public class AccountResource {
 	 *                          couldn't be returned.
 	 */
 	@GetMapping("/account")
-	public UserDTO getAccount() {
-		return userService.getUserWithAuthorities()
-		        .map(UserDTO::new)
+	public ManagedUserVM getAccount() {
+		return userExtraService.getUserWithAuthorities()
+		        .map(x -> userExtraMapper.toManagedUserVM(x))
 				.orElseThrow(() -> new AccountResourceException("User could not be found"));
 	}
 
@@ -166,8 +171,8 @@ public class AccountResource {
 		if (!user.isPresent()) {
 			throw new AccountResourceException("User could not be found");
 		}
-		userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
-		    userDTO.getLangKey(), userDTO.getImageUrl());
+		userDTO.setId(user.get().getId());
+		userService.updateUser(userDTO);
 	}
 
 	/**

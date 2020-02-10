@@ -8,9 +8,11 @@ import com.psa.ranking.repository.AuthorityRepository;
 import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.security.AuthoritiesConstants;
 import com.psa.ranking.service.MailService;
+import com.psa.ranking.service.UserExtraService;
 import com.psa.ranking.service.UserService;
 import com.psa.ranking.service.dto.PasswordChangeDTO;
 import com.psa.ranking.service.dto.UserDTO;
+import com.psa.ranking.service.mapper.UserExtraMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 import com.psa.ranking.web.rest.vm.KeyAndPasswordVM;
 import com.psa.ranking.web.rest.vm.ManagedUserVM;
@@ -63,6 +65,12 @@ public class AccountResourceIT {
 
     @Autowired
     private ExceptionTranslator exceptionTranslator;
+    
+    @Mock
+    private UserExtraService userExtraService;
+    
+    @Mock
+	private UserExtraMapper userExtraMapper;
 
     @Mock
     private UserService mockUserService;
@@ -79,10 +87,10 @@ public class AccountResourceIT {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService);
+            new AccountResource(userRepository, userService, mockMailService, userExtraService, userExtraMapper);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService);
+            new AccountResource(userRepository, mockUserService, mockMailService, userExtraService, userExtraMapper);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)
@@ -398,7 +406,17 @@ public class AccountResourceIT {
         assertThat(testUser4.get().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
 
         testUser4.get().setActivated(true);
-        userService.updateUser((new UserDTO(testUser4.get())));
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        managedUserVM.setId(testUser4.get().getId());
+        managedUserVM.setLogin(testUser4.get().getLogin());
+        managedUserVM.setPassword(firstUser.getPassword());
+        managedUserVM.setFirstName(testUser4.get().getFirstName());
+        managedUserVM.setLastName(testUser4.get().getLastName());
+        managedUserVM.setEmail(testUser4.get().getEmail());
+        managedUserVM.setImageUrl(testUser4.get().getImageUrl());
+        managedUserVM.setLangKey(testUser4.get().getLangKey());
+        managedUserVM.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
+        userService.updateUser(managedUserVM);
 
         // Register 4th (already activated) user
         restMvc.perform(

@@ -94,7 +94,7 @@ export class SettingsComponent implements OnInit {
       imageUrl: account.imageUrl,
       phone: account.phone,
       numDoc: account.numDoc,
-      bornDate: account.bornDate,
+      bornDate: account.bornDate
     });
   }
 }

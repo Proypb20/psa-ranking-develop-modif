@@ -21,15 +21,18 @@ import java.util.Optional;
 @Transactional
 public class TournamentService {
 
-    private final Logger log = LoggerFactory.getLogger(TournamentService.class);
+	private final Logger log = LoggerFactory.getLogger(TournamentService.class);
 
     private final TournamentRepository tournamentRepository;
 
     private final TournamentMapper tournamentMapper;
+    
+    private final UserService userService;
 
-    public TournamentService(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper) {
+    public TournamentService(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper, UserService userService) {
         this.tournamentRepository = tournamentRepository;
         this.tournamentMapper = tournamentMapper;
+        this.userService = userService;
     }
 
     /**
@@ -41,6 +44,7 @@ public class TournamentService {
     public TournamentDTO save(TournamentDTO tournamentDTO) {
         log.debug("Request to save Tournament : {}", tournamentDTO);
         Tournament tournament = tournamentMapper.toEntity(tournamentDTO);
+        tournament.setOwner(userService.getUserWithAuthorities().get());
         tournament = tournamentRepository.save(tournament);
         return tournamentMapper.toDto(tournament);
     }

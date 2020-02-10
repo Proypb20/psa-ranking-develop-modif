@@ -26,10 +26,13 @@ public class TeamService {
     private final TeamRepository teamRepository;
 
     private final TeamMapper teamMapper;
+    
+    private final UserService userService;
 
-    public TeamService(TeamRepository teamRepository, TeamMapper teamMapper) {
+    public TeamService(TeamRepository teamRepository, TeamMapper teamMapper, UserService userService) {
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
+        this.userService = userService;
     }
 
     /**
@@ -42,6 +45,7 @@ public class TeamService {
         log.debug("Request to save Team : {}", teamDTO);
         Team team = teamMapper.toEntity(teamDTO);
         team = teamRepository.save(team);
+        team.setOwner(userService.getUserWithAuthorities().get());
         return teamMapper.toDto(team);
     }
 

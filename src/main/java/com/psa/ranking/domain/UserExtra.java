@@ -40,7 +40,16 @@ public class UserExtra implements Serializable {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
+    
+    public UserExtra() {
+    	super();
+    }
 
+    public UserExtra (User user) {
+    	super();
+    	this.user = user;
+    }
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -132,13 +141,10 @@ public class UserExtra implements Serializable {
         return 31;
     }
 
-    @Override
-    public String toString() {
-        return "UserExtra{" +
-            "id=" + getId() +
-            ", numDoc='" + getNumDoc() + "'" +
-            ", phone='" + getPhone() + "'" +
-            ", bornDate='" + getBornDate() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "UserExtra [id=" + id + ", numDoc=" + numDoc + ", phone=" + phone + ", bornDate=" + bornDate
+				+ ", docType=" + docType + ", user=" + user + "]";
+	}
+
 }

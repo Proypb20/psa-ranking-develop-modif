@@ -98,8 +98,8 @@
                 <div class="form-group">
                     <label class="form-control-label" for="bornDate" jhiTranslate="global.form.bornDate.label">bornDate</label>
                     <div class="input-group">
-                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
-                        <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDate="ngbDatepicker" formControlName="bornDate"/>
+                        <button type="button" class="btn btn-secondary" (click)="bornDate.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                     </div>
                 </div>
                 <div class="form-group" *ngIf="languages && languages.length > 0">

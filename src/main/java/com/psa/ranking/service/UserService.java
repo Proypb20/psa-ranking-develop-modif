@@ -51,7 +51,7 @@ public class UserService {
 	private final CacheManager cacheManager;
 
 	private final UserExtraRepository userExtraRepository;
-	
+
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
 			AuthorityRepository authorityRepository, CacheManager cacheManager,
 			UserExtraRepository userExtraRepository) {
@@ -195,32 +195,37 @@ public class UserService {
 	/**
 	 * Update all information for a specific user, and return the modified user.
 	 *
-	 * @param userDTO user to update.
+	 * @param ManagedUserVM user to update.
 	 * @return updated user.
 	 */
 	public Optional<UserDTO> updateUser(ManagedUserVM managedUserVM) {
-	    return Optional.of(userExtraRepository.findById(managedUserVM.getId())).filter(Optional::isPresent).map(Optional::get)
-	            .map(u -> {
-	                u.setNumDoc(managedUserVM.getNumDoc());
-	                u.setPhone(managedUserVM.getPhone());
-	                u.setBornDate(managedUserVM.getBornDate());
-	                User user = u.getUser();
-	                this.clearUserCaches(user);
-                    user.setLogin(managedUserVM.getLogin().toLowerCase());
-                    user.setFirstName(managedUserVM.getFirstName());
-                    user.setLastName(managedUserVM.getLastName());
-                    user.setEmail(managedUserVM.getEmail().toLowerCase());
-                    user.setImageUrl(managedUserVM.getImageUrl());
-                    user.setActivated(managedUserVM.isActivated());
-                    user.setLangKey(managedUserVM.getLangKey());
-                    Set<Authority> managedAuthorities = user.getAuthorities();
-                    managedAuthorities.clear();
-                    managedUserVM.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent)
-                            .map(Optional::get).forEach(managedAuthorities::add);
-                    this.clearUserCaches(user);
-                    log.debug("Changed Information for User: {}", user);
-	                return u.getUser();
-	            }).map(UserDTO::new);
+		Optional<UserExtra> userExtra = userExtraRepository.findById(managedUserVM.getId());
+		if (!userExtra.isPresent()) {
+			User user = userRepository.getOne(managedUserVM.getId());
+			userExtra = Optional.of(new UserExtra(user));
+		}
+		return userExtra.map(u -> {
+			u.setNumDoc(managedUserVM.getNumDoc());
+			u.setPhone(managedUserVM.getPhone());
+			u.setBornDate(managedUserVM.getBornDate());
+			User user = u.getUser();
+			this.clearUserCaches(user);
+			user.setLogin(managedUserVM.getLogin().toLowerCase());
+			user.setFirstName(managedUserVM.getFirstName());
+			user.setLastName(managedUserVM.getLastName());
+			user.setEmail(managedUserVM.getEmail().toLowerCase());
+			user.setImageUrl(managedUserVM.getImageUrl());
+			user.setActivated(managedUserVM.isActivated());
+			user.setLangKey(managedUserVM.getLangKey());
+			Set<Authority> managedAuthorities = user.getAuthorities();
+			managedAuthorities.clear();
+			managedUserVM.getAuthorities().stream().map(authorityRepository::findById).filter(Optional::isPresent)
+					.map(Optional::get).forEach(managedAuthorities::add);
+			this.clearUserCaches(user);
+			userExtraRepository.save(u);
+			log.debug("Changed Information for User: {}", u);
+			return u.getUser();
+		}).map(UserDTO::new);
 //		return Optional.of(userRepository.findById(managedUserVM.getId())).filter(Optional::isPresent).map(Optional::get)
 //				.map(user -> {
 //					this.clearUserCaches(user);

@@ -15,4 +15,5 @@ import com.psa.ranking.domain.UserExtra;
 public interface UserExtraRepository extends JpaRepository<UserExtra, Long> {
 
 	public Optional<UserExtra> findByUser (User user);
+	
 }
