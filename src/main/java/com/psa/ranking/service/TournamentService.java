@@ -21,7 +21,7 @@ import java.util.Optional;
 @Transactional
 public class TournamentService {
 
-	private final Logger log = LoggerFactory.getLogger(TournamentService.class);
+    private final Logger log = LoggerFactory.getLogger(TournamentService.class);
 
     private final TournamentRepository tournamentRepository;
 

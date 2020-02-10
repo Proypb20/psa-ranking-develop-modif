@@ -18,6 +18,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th scope="col"  jhiSortBy="logo"><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="closeInscrDays"><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -30,6 +31,12 @@
             <tbody>
             <tr *ngFor="let tournament of tournaments ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/tournament', tournament.id, 'view' ]">{{tournament.id}}</a></td>-->
+                <td>
+                    <a *ngIf="tournament.logo" (click)="openFile(tournament.logoContentType, tournament.logo)">
+                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
+                    </a>
+                    <span *ngIf="tournament.logo">{{tournament.logoContentType}}, {{byteSize(tournament.logo)}}</span>
+                </td>
                 <td>{{tournament.name}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.closeInscrDays}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td>

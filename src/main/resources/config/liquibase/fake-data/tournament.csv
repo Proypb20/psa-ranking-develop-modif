@@ -1,4 +1,11 @@
-id;name;close_inscr_days;status;categorize;owner_id
-1;Torneo 1;30;CREATED;true;1
-2;Torneo 2;30;CREATED;false;1
-3;Torneo 3;30;CREATED;false;1
+id;name;close_inscr_days;status;categorize;logo;logo_content_type;owner_id
+1;mobile Fish;77969;DONE;false;../fake-data/blob/hipster.png;image/png;1
+2;FTP Savings Account;70807;IN_PROGRESS;true;../fake-data/blob/hipster.png;image/png;2
+3;Electronics;99221;DONE;true;../fake-data/blob/hipster.png;image/png;2
+4;web-readiness;29122;DONE;false;../fake-data/blob/hipster.png;image/png;2
+5;Multi-channelled Licensed;61838;DONE;true;../fake-data/blob/hipster.png;image/png;2
+6;Refined Rubber Chicken Table;6505;IN_PROGRESS;true;../fake-data/blob/hipster.png;image/png;2
+7;envisioneer Music Public-key;24102;DONE;true;../fake-data/blob/hipster.png;image/png;1
+8;Regional;25877;DONE;false;../fake-data/blob/hipster.png;image/png;1
+9;sky blue Georgia;3131;IN_PROGRESS;true;../fake-data/blob/hipster.png;image/png;2
+10;National Awesome sky blue;4522;CREATED;true;../fake-data/blob/hipster.png;image/png;2

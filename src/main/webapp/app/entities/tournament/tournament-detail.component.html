@@ -21,6 +21,15 @@
                 <dd>
                     <span>{{tournament.categorize}}</span>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span></dt>
+                <dd>
+                    <div *ngIf="tournament.logo">
+                        <a (click)="openFile(tournament.logoContentType, tournament.logo)">
+                            <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-width: 100%;" alt="tournament image"/>
+                        </a>
+                        {{tournament.logoContentType}}, {{byteSize(tournament.logo)}}
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></dt>
                 <dd>
                     {{tournament.ownerLogin}}

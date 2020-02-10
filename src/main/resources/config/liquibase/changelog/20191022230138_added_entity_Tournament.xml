@@ -28,6 +28,12 @@
             <column name="categorize" type="boolean">
                 <constraints nullable="true" />
             </column>
+            <column name="logo" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="logo_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="owner_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -70,6 +76,8 @@
             <column name="close_inscr_days" type="numeric"/>
             <column name="status" type="string"/>
             <column name="categorize" type="boolean"/>
+            <column name="logo" type="blob"/>
+            <column name="logo_content_type" type="string"/>
             <column name="owner_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

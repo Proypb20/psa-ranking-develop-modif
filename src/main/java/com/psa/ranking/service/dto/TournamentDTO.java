@@ -3,6 +3,7 @@ import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 import com.psa.ranking.domain.enumeration.Status;
 
 /**
@@ -21,6 +22,10 @@ public class TournamentDTO implements Serializable {
 
     private Boolean categorize;
 
+    @Lob
+    private byte[] logo;
+
+    private String logoContentType;
 
     private Long ownerId;
 
@@ -64,6 +69,22 @@ public class TournamentDTO implements Serializable {
 
     public void setCategorize(Boolean categorize) {
         this.categorize = categorize;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
     }
 
     public Long getOwnerId() {
@@ -111,6 +132,7 @@ public class TournamentDTO implements Serializable {
             ", closeInscrDays=" + getCloseInscrDays() +
             ", status='" + getStatus() + "'" +
             ", categorize='" + isCategorize() + "'" +
+            ", logo='" + getLogo() + "'" +
             ", owner=" + getOwnerId() +
             ", owner='" + getOwnerLogin() + "'" +
             "}";

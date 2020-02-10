@@ -39,6 +39,13 @@ public class Tournament implements Serializable {
     @Column(name = "categorize")
     private Boolean categorize;
 
+    @Lob
+    @Column(name = "logo")
+    private byte[] logo;
+
+    @Column(name = "logo_content_type")
+    private String logoContentType;
+
     @OneToMany(mappedBy = "tournament")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Event> events = new HashSet<>();
@@ -109,6 +116,32 @@ public class Tournament implements Serializable {
         this.categorize = categorize;
     }
 
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public Tournament logo(byte[] logo) {
+        this.logo = logo;
+        return this;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public Tournament logoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+        return this;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
+
     public Set<Event> getEvents() {
         return events;
     }
@@ -172,6 +205,8 @@ public class Tournament implements Serializable {
             ", closeInscrDays=" + getCloseInscrDays() +
             ", status='" + getStatus() + "'" +
             ", categorize='" + isCategorize() + "'" +
+            ", logo='" + getLogo() + "'" +
+            ", logoContentType='" + getLogoContentType() + "'" +
             "}";
     }
 }

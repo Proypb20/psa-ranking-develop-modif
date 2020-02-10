@@ -76,6 +76,7 @@ class TournamentGatlingTest extends Simulation {
                 , "closeInscrDays":"0"
                 , "status":"CREATED"
                 , "categorize":null
+                , "logo":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_tournament_url"))).exitHereIfFailed

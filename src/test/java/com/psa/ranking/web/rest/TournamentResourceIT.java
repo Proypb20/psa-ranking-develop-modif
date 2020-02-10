@@ -23,6 +23,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -53,6 +54,11 @@ public class TournamentResourceIT {
 
     private static final Boolean DEFAULT_CATEGORIZE = false;
     private static final Boolean UPDATED_CATEGORIZE = true;
+
+    private static final byte[] DEFAULT_LOGO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_LOGO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_LOGO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_LOGO_CONTENT_TYPE = "image/png";
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -108,7 +114,9 @@ public class TournamentResourceIT {
             .name(DEFAULT_NAME)
             .closeInscrDays(DEFAULT_CLOSE_INSCR_DAYS)
             .status(DEFAULT_STATUS)
-            .categorize(DEFAULT_CATEGORIZE);
+            .categorize(DEFAULT_CATEGORIZE)
+            .logo(DEFAULT_LOGO)
+            .logoContentType(DEFAULT_LOGO_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -127,7 +135,9 @@ public class TournamentResourceIT {
             .name(UPDATED_NAME)
             .closeInscrDays(UPDATED_CLOSE_INSCR_DAYS)
             .status(UPDATED_STATUS)
-            .categorize(UPDATED_CATEGORIZE);
+            .categorize(UPDATED_CATEGORIZE)
+            .logo(UPDATED_LOGO)
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -161,6 +171,8 @@ public class TournamentResourceIT {
         assertThat(testTournament.getCloseInscrDays()).isEqualTo(DEFAULT_CLOSE_INSCR_DAYS);
         assertThat(testTournament.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testTournament.isCategorize()).isEqualTo(DEFAULT_CATEGORIZE);
+        assertThat(testTournament.getLogo()).isEqualTo(DEFAULT_LOGO);
+        assertThat(testTournament.getLogoContentType()).isEqualTo(DEFAULT_LOGO_CONTENT_TYPE);
     }
 
     @Test
@@ -198,7 +210,9 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].closeInscrDays").value(hasItem(DEFAULT_CLOSE_INSCR_DAYS)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())));
+            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())))
+            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))));
     }
     
     @Test
@@ -215,7 +229,9 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.closeInscrDays").value(DEFAULT_CLOSE_INSCR_DAYS))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.categorize").value(DEFAULT_CATEGORIZE.booleanValue()));
+            .andExpect(jsonPath("$.categorize").value(DEFAULT_CATEGORIZE.booleanValue()))
+            .andExpect(jsonPath("$.logoContentType").value(DEFAULT_LOGO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)));
     }
 
     @Test
@@ -551,7 +567,9 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].closeInscrDays").value(hasItem(DEFAULT_CLOSE_INSCR_DAYS)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())));
+            .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())))
+            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))));
 
         // Check, that the count call also returns 1
         restTournamentMockMvc.perform(get("/api/tournaments/count?sort=id,desc&" + filter))
@@ -602,7 +620,9 @@ public class TournamentResourceIT {
             .name(UPDATED_NAME)
             .closeInscrDays(UPDATED_CLOSE_INSCR_DAYS)
             .status(UPDATED_STATUS)
-            .categorize(UPDATED_CATEGORIZE);
+            .categorize(UPDATED_CATEGORIZE)
+            .logo(UPDATED_LOGO)
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE);
         TournamentDTO tournamentDTO = tournamentMapper.toDto(updatedTournament);
 
         restTournamentMockMvc.perform(put("/api/tournaments")
@@ -618,6 +638,8 @@ public class TournamentResourceIT {
         assertThat(testTournament.getCloseInscrDays()).isEqualTo(UPDATED_CLOSE_INSCR_DAYS);
         assertThat(testTournament.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testTournament.isCategorize()).isEqualTo(UPDATED_CATEGORIZE);
+        assertThat(testTournament.getLogo()).isEqualTo(UPDATED_LOGO);
+        assertThat(testTournament.getLogoContentType()).isEqualTo(UPDATED_LOGO_CONTENT_TYPE);
     }
 
     @Test

@@ -7,6 +7,8 @@ export interface ITournament {
   closeInscrDays?: number;
   status?: Status;
   categorize?: boolean;
+  logoContentType?: string;
+  logo?: any;
   events?: IEvent[];
   ownerLogin?: string;
   ownerId?: number;
@@ -19,6 +21,8 @@ export class Tournament implements ITournament {
     public closeInscrDays?: number,
     public status?: Status,
     public categorize?: boolean,
+    public logoContentType?: string,
+    public logo?: any,
     public events?: IEvent[],
     public ownerLogin?: string,
     public ownerId?: number
