@@ -43,7 +43,7 @@ public class TournamentService {
      */
     public TournamentDTO save(TournamentDTO tournamentDTO) {
         log.debug("Request to save Tournament : {}", tournamentDTO);
-        if (tournamentDTO.getOwnerId() != 0)
+        if (tournamentDTO.getOwnerId() == 0)
         {
            tournamentDTO.setOwnerId(userService.getUserWithAuthorities().get().getId());
            log.debug("Request to save Tournament 2: {}", tournamentDTO);

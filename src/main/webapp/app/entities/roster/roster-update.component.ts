@@ -36,6 +36,10 @@ export class RosterUpdateComponent implements OnInit {
   tournaments: ITournament[];
 
   events: IEvent[];
+  
+  evId: number;
+  tId: number;
+  private sub: any;
 
   editForm = this.fb.group({
     id: [],
@@ -45,6 +49,7 @@ export class RosterUpdateComponent implements OnInit {
     teamId: [null, Validators.required],
     tournamentId: [],
     eventId: []
+    
   });
 
   constructor(
@@ -60,6 +65,12 @@ export class RosterUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.sub = this.activatedRoute
+        .queryParams
+        .subscribe(params => {
+           this.tId = +params['tId'] || 0;
+           this.evId = +params['evId'] || 0;
+      });
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ roster }) => {
       this.updateForm(roster);
@@ -86,14 +97,14 @@ export class RosterUpdateComponent implements OnInit {
       )
       .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.tournamentService
-      .query()
+      .query({'tournamentId.equals': this.tId})
       .pipe(
         filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITournament[]>) => response.body)
       )
       .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.eventService
-      .query()
+      .query({'eventId.equals': this.evId})
       .pipe(
         filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
         map((response: HttpResponse<IEvent[]>) => response.body)
@@ -108,8 +119,8 @@ export class RosterUpdateComponent implements OnInit {
       categoryId: roster.categoryId,
       players: roster.players,
       teamId: roster.teamId,
-      tournamentId: roster.tournamentId,
-      eventId: roster.eventId
+      tournamentId: this.tId || roster.tournamentId,
+      eventId: this.evId || roster.eventId
     });
   }
 
@@ -135,7 +146,7 @@ export class RosterUpdateComponent implements OnInit {
       categoryId: this.editForm.get(['categoryId']).value,
       teamId: this.editForm.get(['teamId']).value,
       tournamentId: this.editForm.get(['tournamentId']).value,
-      eventId: this.editForm.get(['eventId']).value
+      eventId: this.evId || this.editForm.get(['eventId']).value
     };
   }
 

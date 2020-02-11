@@ -27,6 +27,9 @@
           "category": "Ver Categorias",
           "playerDetailPoints": "Ver Detalle"
         },
+        "insert": {
+          "roster": "Inscribir a Evento"
+        },
         "admin": {
           "admin": "Administrar",
           "event": "Eventos",
