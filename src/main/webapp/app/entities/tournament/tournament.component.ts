@@ -55,25 +55,25 @@ export class TournamentComponent implements OnInit, OnDestroy {
   loadAll() {
     if (this.tourStatus1)
     {
-    this.tournamentService
-      .query({
-       'status.in': [this.tourStatus1,this.tourStatus2],
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
-      }
-      else
-      {
       this.tournamentService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
-      }
+          .query({
+          'status.in': [this.tourStatus1,this.tourStatus2],
+           page: this.page - 1,
+           size: this.itemsPerPage,
+           sort: this.sort()
+           })
+          .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+    }
+    else
+    {
+      this.tournamentService
+          .query({
+           page: this.page - 1,
+           size: this.itemsPerPage,
+           sort: this.sort()
+           })
+          .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+    }
   }
 
   loadPage(page: number) {

@@ -43,9 +43,12 @@ public class TeamService {
      */
     public TeamDTO save(TeamDTO teamDTO) {
         log.debug("Request to save Team : {}", teamDTO);
+        if (teamDTO.getOwnerId() == null)
+        {
+          teamDTO.setOwnerId(userService.getUserWithAuthorities().get().getId());
+        }
         Team team = teamMapper.toEntity(teamDTO);
         team = teamRepository.save(team);
-        team.setOwner(userService.getUserWithAuthorities().get());
         return teamMapper.toDto(team);
     }
 

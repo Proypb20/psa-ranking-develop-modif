@@ -30,6 +30,8 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  evId: number;
+  private sub: any;
 
   constructor(
     protected eventCategoryService: EventCategoryService,
@@ -49,6 +51,19 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if(this.evId)
+  {
+    this.eventCategoryService
+      .query({
+       'eventId.equals': this.evId,
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
+   }
+   else
+   {
     this.eventCategoryService
       .query({
         page: this.page - 1,
@@ -56,6 +71,7 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
+    }
   }
 
   loadPage(page: number) {
@@ -89,6 +105,11 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+      this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.evId = +params['evId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

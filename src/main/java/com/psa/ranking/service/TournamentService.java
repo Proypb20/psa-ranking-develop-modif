@@ -43,8 +43,12 @@ public class TournamentService {
      */
     public TournamentDTO save(TournamentDTO tournamentDTO) {
         log.debug("Request to save Tournament : {}", tournamentDTO);
+        if (tournamentDTO.getOwnerId() != 0)
+        {
+           tournamentDTO.setOwnerId(userService.getUserWithAuthorities().get().getId());
+           log.debug("Request to save Tournament 2: {}", tournamentDTO);
+        }
         Tournament tournament = tournamentMapper.toEntity(tournamentDTO);
-        tournament.setOwner(userService.getUserWithAuthorities().get());
         tournament = tournamentRepository.save(tournament);
         return tournamentMapper.toDto(tournament);
     }

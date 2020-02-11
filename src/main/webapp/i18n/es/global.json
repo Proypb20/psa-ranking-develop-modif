@@ -24,7 +24,8 @@
           "doctype": "Ver Tipos de Documento",
           "country": "Ver Paises",
           "city": "Ver Ciudades",
-          "category": "Ver Categorias"
+          "category": "Ver Categorias",
+          "playerDetailPoints": "Ver Detalle"
         },
         "admin": {
           "admin": "Administrar",

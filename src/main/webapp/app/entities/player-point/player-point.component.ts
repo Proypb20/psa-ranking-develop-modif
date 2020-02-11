@@ -30,6 +30,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  uId: number;
 
   constructor(
     protected playerPointService: PlayerPointService,
@@ -51,6 +52,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   loadAll() {
     this.playerPointService
       .query({
+       "userId.equals": this.uId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -89,6 +91,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.uId = +sessionStorage.getItem('userid');
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

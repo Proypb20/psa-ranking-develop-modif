@@ -39,7 +39,7 @@
                     <div *ngIf="event.tournamentId">
 		                <div *ngFor="let item of tournaments">
                         <!-- <a [routerLink]="['/tournament', event.tournamentId , 'view' ]" >{{event.tournamentId}}</a>-->
-		                	<a *ngIf="(item.id == event.tournamentId)" >{{item.name}}</a>
+		                	<div *ngIf="(item.id == event.tournamentId)" >{{item.name}}</div>
                     </div>
 					</div>
                 </td>
@@ -48,7 +48,7 @@
                     <div *ngIf="event.cityId">
                         <div *ngFor="let item of cities">
                             <!-- <a [routerLink]="['/city', event.cityId , 'view' ]" *ngIf="(item.id == event.cityId)" >{{item.name}}</a>-->
-                            <a *ngIf="(item.id == event.cityId)" >{{item.name}}</a>
+                            <div *ngIf="(item.id == event.cityId)" >{{item.name}}</div>
                         </div>
                     </div>
                 </td>
@@ -66,6 +66,14 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                [routerLink]="['/event-category']"
+                                [queryParams]="{evId:event.id}"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
+                        </button>
                         <button *jhiHasAnyAuthority="'ROLE_USER'" 
                                 type="submit"
                                 [routerLink]="['/roster/new']"

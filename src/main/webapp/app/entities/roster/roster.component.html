@@ -36,7 +36,7 @@
                 <td>{{roster.tournamentName}} - {{roster.eventName}}</td>
                 <td *ngIf="roster.categoryId">
 		                <div *ngFor="let item of categories">
-		                	<a *ngIf="(item.id == roster.categoryId)" >{{item.name}}</a>
+		                	<div *ngIf="(item.id == roster.categoryId)" >{{item.name}}</div>
 					    </div>
                 </td>
                 <td>{{roster.active}}</td>
