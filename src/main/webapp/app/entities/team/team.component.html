@@ -34,10 +34,16 @@
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/roster']"
-                                [queryParams]="{teamId:team.id}" 
+                                [routerLink]="['/roster/new']"
+                                [queryParams]="{teId:team.id}" 
                                 class="btn btn-info btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.insert.roster">Inscribir Equipo</span>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.subscribe.roster">Subs Team</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/team-point']"
+                                [queryParams]="{teId:team.id}" 
+                                class="btn btn-info btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.teamPoints">Subs Team</span>
                         </button>
                          <!-- <button type="submit"
                                 [routerLink]="['/team', team.id, 'view' ]"

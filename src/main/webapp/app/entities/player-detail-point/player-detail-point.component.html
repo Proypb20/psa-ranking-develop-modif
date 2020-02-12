@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.playerDetailPoint.home.title">Player Detail Points</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-detail-point" [routerLink]="['/player-detail-point/new']">
+        <!--  <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-detail-point" [routerLink]="['/player-detail-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.playerDetailPoint.home.createLabel">
             Create a new Player Detail Point
             </span>
-        </button>
+        </button>-->
     </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
@@ -18,29 +18,29 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.playerDetailPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.playerDetailPoint.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="playerPointId"><span jhiTranslate="psaRankingApp.playerDetailPoint.playerPoint">Player Point</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
+            <th class="text-right" scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.playerDetailPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--  <th scope="col"  jhiSortBy="playerPointId"><span jhiTranslate="psaRankingApp.playerDetailPoint.playerPoint">Player Point</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let playerDetailPoint of playerDetailPoints ;trackBy: trackId">
-                <td><a [routerLink]="['/player-detail-point', playerDetailPoint.id, 'view' ]">{{playerDetailPoint.id}}</a></td>
-                <td>{{playerDetailPoint.points}}</td>
+                <!-- <td><a [routerLink]="['/player-detail-point', playerDetailPoint.id, 'view' ]">{{playerDetailPoint.id}}</a></td> -->
                 <td>
                     <div *ngIf="playerDetailPoint.eventId">
-                        <a [routerLink]="['/event', playerDetailPoint.eventId , 'view' ]" >{{playerDetailPoint.eventName}}</a>
+                        <div>{{playerDetailPoint.eventName}}</div>
                     </div>
                 </td>
-                <td>
+                <!-- <td>
                     <div *ngIf="playerDetailPoint.playerPointId">
                         <a [routerLink]="['/player-point', playerDetailPoint.playerPointId , 'view' ]" >{{playerDetailPoint.playerPointId}}</a>
                     </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
+                </td> -->
+                 <td>
+                <!-- <div class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/player-detail-point', playerDetailPoint.id, 'view' ]"
                                 class="btn btn-info btn-sm">
@@ -61,8 +61,9 @@
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
-                    </div>
+                    </div>-->
                 </td>
+                <td class="text-right">{{playerDetailPoint.points}}</td> 
             </tr>
             </tbody>
         </table>

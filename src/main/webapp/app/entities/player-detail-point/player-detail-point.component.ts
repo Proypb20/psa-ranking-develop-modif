@@ -30,6 +30,8 @@ export class PlayerDetailPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  ppId: number;
+  private sub: any;
 
   constructor(
     protected playerDetailPointService: PlayerDetailPointService,
@@ -51,6 +53,7 @@ export class PlayerDetailPointComponent implements OnInit, OnDestroy {
   loadAll() {
     this.playerDetailPointService
       .query({
+       'playerPointId.equals': this.ppId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -89,6 +92,11 @@ export class PlayerDetailPointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.ppId = +params['ppId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

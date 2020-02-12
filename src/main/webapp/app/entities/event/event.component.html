@@ -20,7 +20,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="tournamentId"><span jhiTranslate="psaRankingApp.event.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="tournamentId"><span jhiTranslate="psaRankingApp.event.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.event.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="cityId"><span jhiTranslate="psaRankingApp.event.city">City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="fromDate"><span jhiTranslate="psaRankingApp.event.fromDate">From Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -35,14 +35,13 @@
             <tbody>
             <tr *ngFor="let event of events ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/event', event.id, 'view' ]">{{event.id}}</a></td>-->
-                <td>
+                 <!--<td>
                     <div *ngIf="event.tournamentId">
 		                <div *ngFor="let item of tournaments">
-                        <!-- <a [routerLink]="['/tournament', event.tournamentId , 'view' ]" >{{event.tournamentId}}</a>-->
 		                	<div *ngIf="(item.id == event.tournamentId)" >{{item.name}}</div>
-                    </div>
+                        </div>
 					</div>
-                </td>
+                </td>-->
                 <td>{{event.name}}</td>
                 <td>
                     <div *ngIf="event.cityId">
@@ -66,8 +65,7 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
+                        <button type="submit"
                                 [routerLink]="['/event-category']"
                                 [queryParams]="{evId:event.id}"
                                 class="btn btn-primary btn-sm">
@@ -79,7 +77,7 @@
                                 [routerLink]="['/roster/new']"
                                 [queryParams]="{tId:event.tournamentId,evId:event.id}"
                                 class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="psaRankingApp.roster.home.createLabel">Teams</span>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.subscribe.roster">Subs Team</span>
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
                                 type="submit"

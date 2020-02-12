@@ -37,8 +37,9 @@ export class RosterUpdateComponent implements OnInit {
 
   events: IEvent[];
   
-  evId: number;
   tId: number;
+  evId: number;
+  teId: number;
   private sub: any;
 
   editForm = this.fb.group({
@@ -70,6 +71,7 @@ export class RosterUpdateComponent implements OnInit {
         .subscribe(params => {
            this.tId = +params['tId'] || 0;
            this.evId = +params['evId'] || 0;
+           this.teId = +params['teId'] || 0;
       });
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ roster }) => {
@@ -90,14 +92,14 @@ export class RosterUpdateComponent implements OnInit {
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.teamService
-      .query()
+      .query({'teamId.equals': this.teId})
       .pipe(
         filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITeam[]>) => response.body)
       )
       .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.tournamentService
-      .query({'tournamentId.equals': this.tId})
+      .query({'tournamentId.equals': this.tId,'status.equals':"CREATED"})
       .pipe(
         filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITournament[]>) => response.body)
@@ -118,7 +120,7 @@ export class RosterUpdateComponent implements OnInit {
       active: roster.active,
       categoryId: roster.categoryId,
       players: roster.players,
-      teamId: roster.teamId,
+      teamId: this.teId || roster.teamId,
       tournamentId: this.tId || roster.tournamentId,
       eventId: this.evId || roster.eventId
     });
@@ -144,8 +146,8 @@ export class RosterUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
       categoryId: this.editForm.get(['categoryId']).value,
-      teamId: this.editForm.get(['teamId']).value,
-      tournamentId: this.editForm.get(['tournamentId']).value,
+      teamId: this.teId || this.editForm.get(['teamId']).value,
+      tournamentId: this.tId ||this.editForm.get(['tournamentId']).value,
       eventId: this.evId || this.editForm.get(['eventId']).value
     };
   }

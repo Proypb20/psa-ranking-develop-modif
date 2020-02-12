@@ -18,30 +18,38 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.teamPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.teamPoint.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.teamPoint.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"></th>
+            <th scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.teamPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.teamPoint.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"></th>            
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let teamPoint of teamPoints ;trackBy: trackId">
-                <td><a [routerLink]="['/team-point', teamPoint.id, 'view' ]">{{teamPoint.id}}</a></td>
-                <td>{{teamPoint.points}}</td>
-                <td>
-                    <div *ngIf="teamPoint.teamId">
-                        <a [routerLink]="['/team', teamPoint.teamId , 'view' ]" >{{teamPoint.teamName}}</a>
-                    </div>
-                </td>
+                <!-- <td><a [routerLink]="['/team-point', teamPoint.id, 'view' ]">{{teamPoint.id}}</a></td> -->
                 <td>
                     <div *ngIf="teamPoint.tournamentId">
-                        <a [routerLink]="['/tournament', teamPoint.tournamentId , 'view' ]" >{{teamPoint.tournamentName}}</a>
+                        <div [routerLink]="['/tournament', teamPoint.tournamentId , 'view' ]" >{{teamPoint.tournamentName}}</div>
                     </div>
                 </td>
+                <td>{{teamPoint.points}}</td>
+                <!-- <td>
+                    <div *ngIf="teamPoint.teamId">
+                        <div [routerLink]="['/team', teamPoint.teamId , 'view' ]" >{{teamPoint.teamName}}</div>
+                    </div>
+                </td> -->
+
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
+                                [routerLink]="['/team-detail-point']"
+                                [queryParams]="{tpId:teamPoint.id}"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.teamDetailPoints">View Details</span>
+                        </button>
+                        <!-- <button type="submit"
                                 [routerLink]="['/team-point', teamPoint.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
@@ -60,7 +68,7 @@
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                        </button>-->
                     </div>
                 </td>
             </tr>

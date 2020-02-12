@@ -30,6 +30,8 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  tpId: number;
+  private sub: any;
 
   constructor(
     protected teamDetailPointService: TeamDetailPointService,
@@ -51,6 +53,7 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
   loadAll() {
     this.teamDetailPointService
       .query({
+       'teamPointId.equals': this.tpId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -89,6 +92,11 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.tpId = +params['tpId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

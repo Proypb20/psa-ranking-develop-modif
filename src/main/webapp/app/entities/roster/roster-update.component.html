@@ -10,6 +10,13 @@
                         readonly />
                 </div>-->
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.team" for="field_team" readonly="editForm.get('teamId').value">Team</label>
+                    <select class="form-control" id="field_team" name="team" formControlName="teamId" readonly="editForm.get('teamId').value">
+                        <!-- <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option> -->
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById" hidden="editForm.get('teamId').value">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.tournament" for="field_tournament" [hidden]="editForm.get('tournamentId').value">Tournament</label>
                     <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId" [hidden]="editForm.get('tournamentId').value">
                         <!-- <option [ngValue]="null"></option> -->
@@ -21,13 +28,6 @@
                     <select class="form-control" id="field_event" name="event" formControlName="eventId" [hidden]="editForm.get('eventId').value">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="eventOption.id" *ngFor="let eventOption of events; trackBy: trackEventById">{{eventOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.roster.team" for="field_team">Team</label>
-                    <select class="form-control" id="field_team" name="team" formControlName="teamId">
-                        <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('teamId').invalid && (editForm.get('teamId').dirty || editForm.get('teamId').touched)">

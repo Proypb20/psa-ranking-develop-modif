@@ -30,6 +30,8 @@ export class TeamPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  teId: number;
+  private sub: any;
 
   constructor(
     protected teamPointService: TeamPointService,
@@ -51,6 +53,7 @@ export class TeamPointComponent implements OnInit, OnDestroy {
   loadAll() {
     this.teamPointService
       .query({
+       "teamId.equals": this.teId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -89,6 +92,11 @@ export class TeamPointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.teId = +params['teId']; 
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

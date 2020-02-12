@@ -2,10 +2,10 @@
   "psaRankingApp": {
     "playerDetailPoint": {
       "home": {
-        "title": "Player Detail Points",
+        "title": "Detalle de Puntos por Jugador",
         "createLabel": "Crear nuevo Player Detail Point",
-        "createOrEditLabel": "Crear o editar Player Detail Point",
-        "notFound": "No Player Detail Points found"
+        "createOrEditLabel": "Detalle de Puntos por Jugador",
+        "notFound": "No hay Detalle de Puntos por Jugador"
       },
       "created": "Un nuevo Player Detail Point ha sido creado con el identificador {{ param }}",
       "updated": "Un Player Detail Point ha sido actualizado con el identificador {{ param }}",
@@ -14,11 +14,11 @@
         "question": "¿Seguro que quiere eliminar Player Detail Point {{ id }}?"
       },
       "detail": {
-        "title": "Player Detail Point"
+        "title": "Detalle de Puntos por Jugador"
       },
-      "points": "Points",
-      "event": "Event",
-      "playerPoint": "Player Point"
+      "points": "Puntos",
+      "event": "Evento",
+      "playerPoint": "Puntos por Jugador"
     }
   }
 }

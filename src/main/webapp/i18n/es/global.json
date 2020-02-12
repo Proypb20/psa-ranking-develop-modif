@@ -25,10 +25,13 @@
           "country": "Ver Paises",
           "city": "Ver Ciudades",
           "category": "Ver Categorias",
-          "playerDetailPoints": "Ver Detalle"
+          "playerPoints": "Ver Detalle",
+          "playerDetailPoints": "Ver Detalle",
+          "teamPoints": "Ver Puntaje",
+          "teamDetailPoints": "Ver Detalle"
         },
-        "insert": {
-          "roster": "Inscribir a Evento"
+        "subscribe": {
+          "roster": "Anotar mi equipo"
         },
         "admin": {
           "admin": "Administrar",
@@ -203,5 +206,5 @@
     "idexists": "Un/a nuevo/a {{entityName}} no puede tener ID",
     "idnull": "ID inválido"
   },
-  "footer": "Pie de página"
+  "footer": "PBPoints"
 }

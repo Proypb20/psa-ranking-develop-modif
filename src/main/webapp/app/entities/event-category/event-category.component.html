@@ -22,7 +22,7 @@
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
             <th scope="col"></th>
             </tr>
             </thead>
@@ -38,7 +38,7 @@
                 <td>
                     <div *ngIf="eventCategory.formatId">{{eventCategory.formatName}}</div>
                 </td>
-                <td>{{eventCategory.splitDeck}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{eventCategory.splitDeck}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"
@@ -48,12 +48,20 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
                         <button type="submit"
+                                [routerLink]="['/roster']"
+                                [queryParams]="{evId:eventCategory.eventId,cId:eventCategory.categoryId}"
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.team">Ver Equipos</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/event-category', eventCategory.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/event-category', { outlets: { popup: eventCategory.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

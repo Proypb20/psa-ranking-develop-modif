@@ -52,7 +52,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   loadAll() {
     this.playerPointService
       .query({
-       "userId.equals": this.uId,
+       "userId.equals": 5,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
