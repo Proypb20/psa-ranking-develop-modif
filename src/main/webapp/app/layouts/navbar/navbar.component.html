@@ -227,6 +227,24 @@
                             <span jhiTranslate="global.menu.entities.teamDetailPoint">Team Detail Point</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="fixture" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.fixture">Fixture</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="game" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.game">Game</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="player" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.player">Player</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

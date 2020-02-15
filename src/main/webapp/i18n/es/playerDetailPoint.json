@@ -5,7 +5,7 @@
         "title": "Detalle de Puntos por Jugador",
         "createLabel": "Crear nuevo Player Detail Point",
         "createOrEditLabel": "Detalle de Puntos por Jugador",
-        "notFound": "No hay Detalle de Puntos por Jugador"
+        "notFound": "No hay Detalle de Puntos cargados"
       },
       "created": "Un nuevo Player Detail Point ha sido creado con el identificador {{ param }}",
       "updated": "Un Player Detail Point ha sido actualizado con el identificador {{ param }}",

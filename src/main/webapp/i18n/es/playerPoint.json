@@ -5,7 +5,7 @@
         "title": "Puntos por Jugador",
         "createLabel": "Nuevo Puntos por Jugador",
         "createOrEditLabel": "Puntos por Jugador",
-        "notFound": "No hay Puntos por Jugador"
+        "notFound": "No hay Puntos cargados"
       },
       "created": "Un nuevo Player Point ha sido creado con el identificador {{ param }}",
       "updated": "Un Player Point ha sido actualizado con el identificador {{ param }}",

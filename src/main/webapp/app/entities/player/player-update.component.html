@@ -4,12 +4,12 @@
             <h2 id="jhi-player-heading" jhiTranslate="psaRankingApp.player.home.createOrEditLabel">Create or edit a Player</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="editForm.get('Id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
                 </div>
-                <div class="form-group">
+                <div class="form-group" [hidden]="editForm.get('rosterId').value">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.player.roster" for="field_roster">Roster</label>
                     <select class="form-control" id="field_roster" name="roster" formControlName="rosterId">
                         <option *ngIf="!editForm.get('rosterId').value" [ngValue]="null" selected></option>
@@ -22,19 +22,18 @@
                         This field is required.
                     </small>
                 </div>
+                <div class="form-group" [hidden]="editForm.get('userId').value">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="userId">
+                        <!-- <option [ngValue]="null"></option> -->
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
                     <select class="form-control" name="profile" formControlName="profile" id="field_profile">
-                        <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
+                        <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}},hola</option>
                         <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.user" for="field_user">User</label>
-                    <select class="form-control" id="field_user" name="user" formControlName="userId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
                     </select>
                 </div>
             </div>

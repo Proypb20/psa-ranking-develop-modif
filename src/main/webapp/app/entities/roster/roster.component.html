@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.roster.home.title">Rosters</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-roster" [routerLink]="['/roster/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-roster" [routerLink]="['/roster/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.roster.home.createLabel">
             Create a new Roster
@@ -20,11 +20,11 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
  
-            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!-- <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.roster.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.roster.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryId"><span jhiTranslate="psaRankingApp.roster.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
 
             <th scope="col"></th>
             </tr>
@@ -32,23 +32,31 @@
             <tbody>
             <tr *ngFor="let roster of rosters ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td> -->
-                <td>{{roster.teamName}}</td>
                 <td>{{roster.tournamentName}} - {{roster.eventName}}</td>
                 <td *ngIf="roster.categoryId">
 		                <div *ngFor="let item of categories">
 		                	<div *ngIf="(item.id == roster.categoryId)" >{{item.name}}</div>
 					    </div>
                 </td>
-                <td>{{roster.active}}</td>
+                <td>{{roster.teamName}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{roster.active}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
+                                [routerLink]="['/player']"
+                                [queryParams]="{rId:roster.id}"
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.player">View Players</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/roster', roster.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
                                 [routerLink]="['/roster', { outlets: { popup: roster.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

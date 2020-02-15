@@ -15,6 +15,8 @@ public interface PlayerPointMapper extends EntityMapper<PlayerPointDTO, PlayerPo
     @Mapping(source = "tournament.name", target = "tournamentName")
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
+    @Mapping(source = "user.lastName", target = "userLastName")
+    @Mapping(source = "user.firstName", target = "userLastName")
     PlayerPointDTO toDto(PlayerPoint playerPoint);
 
     @Mapping(source = "tournamentId", target = "tournament")

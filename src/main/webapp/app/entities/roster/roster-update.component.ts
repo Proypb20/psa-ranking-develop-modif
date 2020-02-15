@@ -38,8 +38,9 @@ export class RosterUpdateComponent implements OnInit {
   events: IEvent[];
   
   tId: number;
-  evId: number;
   teId: number;
+  cId: number;
+  evId: number;
   private sub: any;
 
   editForm = this.fb.group({
@@ -70,15 +71,16 @@ export class RosterUpdateComponent implements OnInit {
         .queryParams
         .subscribe(params => {
            this.tId = +params['tId'] || 0;
-           this.evId = +params['evId'] || 0;
            this.teId = +params['teId'] || 0;
+           this.evId = +params['evId'] || 0;
+           this.cId = +params['cId'] || 0;
       });
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ roster }) => {
       this.updateForm(roster);
     });
     this.categoryService
-      .query()
+      .query({'categoryId.equals': this.cId})
       .pipe(
         filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
         map((response: HttpResponse<ICategory[]>) => response.body)
@@ -91,7 +93,7 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<IPlayer[]>) => response.body)
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.teamService
+  this.teamService
       .query({'teamId.equals': this.teId})
       .pipe(
         filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
@@ -118,7 +120,7 @@ export class RosterUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: roster.id,
       active: roster.active,
-      categoryId: roster.categoryId,
+      categoryId: this.cId || roster.categoryId,
       players: roster.players,
       teamId: this.teId || roster.teamId,
       tournamentId: this.tId || roster.tournamentId,
@@ -145,7 +147,7 @@ export class RosterUpdateComponent implements OnInit {
       ...new Roster(),
       id: this.editForm.get(['id']).value,
       active: this.editForm.get(['active']).value,
-      categoryId: this.editForm.get(['categoryId']).value,
+      categoryId: this.cId ||this.editForm.get(['categoryId']).value,
       teamId: this.teId || this.editForm.get(['teamId']).value,
       tournamentId: this.tId ||this.editForm.get(['tournamentId']).value,
       eventId: this.evId || this.editForm.get(['eventId']).value
@@ -189,6 +191,14 @@ export class RosterUpdateComponent implements OnInit {
       }
     }
     return option;
+  }
+  
+  getTournamentIdFromEventId(selectedVals: IEvent[], id: number) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (id === selectedVals[i].tournamentId) {
+          return selectedVals[i].tournamentId;
+        }
+      }
   }
 
   trackTournamentById(index: number, item: ITournament) {

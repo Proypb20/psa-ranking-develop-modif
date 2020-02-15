@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.teamPoint.home.title">Team Points</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team-point" [routerLink]="['/team-point/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team-point" [routerLink]="['/team-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.teamPoint.home.createLabel">
             Create a new Team Point

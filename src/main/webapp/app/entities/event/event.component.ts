@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse,HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

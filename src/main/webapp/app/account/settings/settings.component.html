@@ -98,7 +98,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="bornDate" jhiTranslate="global.form.bornDate.label">bornDate</label>
                     <div class="input-group">
-                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
+                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate" data-date-format="dd/mm/yyyy"/>
                         <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                     </div>
                 </div>

@@ -21,6 +21,10 @@ public class PlayerPointDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
+    
+    private String userLastName;
+    
+    private String userFirstName;
 
     public Long getId() {
         return id;
@@ -68,6 +72,22 @@ public class PlayerPointDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+    
+    public String getUserLastName() {
+        return userLastName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+    
+    public String getUserFirstName() {
+        return userFirstName;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
     }
 
     @Override

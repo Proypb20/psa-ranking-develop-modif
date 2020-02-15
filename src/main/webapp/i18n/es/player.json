@@ -17,8 +17,8 @@
         "title": "Player"
       },
       "profile": "Profile",
-      "roster": "Roster",
-      "user": "User"
+      "user": "User",
+      "roster": "Roster"
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,6 +11,10 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PlayerService } from './player.service';
+
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-player',
@@ -30,10 +34,17 @@ export class PlayerComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  rId: number;
+  private sub: any;
+	
+  users: IUser[];
+  private completeName : any;
 
   constructor(
+    protected jhiAlertService: JhiAlertService,
     protected playerService: PlayerService,
     protected parseLinks: JhiParseLinks,
+    protected userService: UserService,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
@@ -49,6 +60,19 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if (this.rId)
+  {
+    this.playerService
+      .query({
+       'rosterId.equals' : this.rId,
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
+  }
+  else
+  {
     this.playerService
       .query({
         page: this.page - 1,
@@ -56,6 +80,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
+   }
   }
 
   loadPage(page: number) {
@@ -89,7 +114,22 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.rId = +params['rId'] || 0;
+      });
     this.loadAll();
+    this.userService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<IUser[]>) => response.body)
+	    )
+	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -120,5 +160,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.players = data;
+  }
+  
+  protected onError(errorMessage: string) {
+	    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

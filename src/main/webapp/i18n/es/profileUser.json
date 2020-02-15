@@ -2,8 +2,8 @@
   "psaRankingApp": {
     "ProfileUser": {
       "null": "",
-      "PLAYER": "Jugador",
-      "STAFF": "Staff"
+      "PLAYER": "PLAYER",
+      "STAFF": "STAFF"
     }
   }
 }

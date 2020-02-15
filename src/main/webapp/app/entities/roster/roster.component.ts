@@ -34,6 +34,8 @@ export class RosterComponent implements OnInit, OnDestroy {
   previousPage: any;
   reverse: any;
   tId: number;
+  evId: number;
+  cId: number;
   private sub: any;
   
   categories: ICategory[];
@@ -58,27 +60,43 @@ export class RosterComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if(this.tId)
+  if (this.tId)
   {
     this.rosterService
       .query({
        'teamId.equals': this.tId,
+       'eventId.equals': this.evId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
-   }
-   else
-   {
+  }
+  else
+  {
+    if (this.evId && this.cId)
+    {
     this.rosterService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
-   }
+        .query({
+         'categoryId.equals': this.cId,
+         'eventId.equals': this.evId,
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+     }
+     else
+     {
+       this.rosterService
+           .query({
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+            })
+           .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+      }
+    }
   }
 
   loadPage(page: number) {
@@ -116,6 +134,8 @@ export class RosterComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         this.tId = +params['teamId'] || 0;
+        this.evId = +params['evId'] || 0;
+        this.cId = +params['cId'] || 0;
       });
     this.loadAll();
     this.accountService.identity().subscribe(account => {

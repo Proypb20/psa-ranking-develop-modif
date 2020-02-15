@@ -26,7 +26,7 @@
                     <label class="form-control-label" jhiTranslate="psaRankingApp.eventCategory.category" for="field_category">Category</label>
                     <select class="form-control" id="field_category" name="category" formControlName="categoryId">
                         <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories; trackBy: trackCategoryById">{{categoryOption.name}}</option>
+                        <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories | filterByTournament: 1 ; trackBy: trackCategoryById ">{{categoryOption.name}}</option>
                     </select>
                 </div>
                 <div *ngIf="editForm.get('categoryId').invalid && (editForm.get('categoryId').dirty || editForm.get('categoryId').touched)">

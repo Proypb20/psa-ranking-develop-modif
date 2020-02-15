@@ -67,6 +67,8 @@ public class CacheConfiguration {
             createCache(cm, com.psa.ranking.domain.TeamPoint.class.getName());
             createCache(cm, com.psa.ranking.domain.TeamDetailPoint.class.getName());
             createCache(cm, com.psa.ranking.domain.EventCategory.class.getName());
+            createCache(cm, com.psa.ranking.domain.Fixture.class.getName());
+            createCache(cm, com.psa.ranking.domain.Game.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -20,36 +20,82 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.player.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.player.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-
-            
+            <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.player.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let player of players ;trackBy: trackId">
+            <tr *ngFor="let player of players | filterByPlayerProfile:'PLAYER' ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
-                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
-                <td>{{player.userLogin}}</td>
                 <td>
-                    <div *ngIf="player.rosterId">{{player.rosterId}}</div>
+                  <div *ngIf="player.userId">
+                    <div *ngFor="let item of users">                        
+                     <div *ngIf="(item.id == player.userId)" >{{item.lastName}}, {{item.firstName}}</div>
+                    </div>
+                  </div>
                 </td>
+                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
+                <!-- <td>
+                    <div *ngIf="player.rosterId">{{player.rosterId}}</div>
+                </td> -->
                 <td class="text-right">
                     <div class="btn-group">
-                        <button type="submit"
+                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
                                 [routerLink]="['/player', player.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
+                        </button>-->
                         <button type="submit"
                                 [routerLink]="['/player', player.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
+                                [routerLink]="['/player', { outlets: { popup: player.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+              <tr *ngFor="let player of players | filterByPlayerProfile:'STAFF' ;trackBy: trackId">
+                <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
+                <td>
+                  <div *ngIf="player.userId">
+                    <div *ngFor="let item of users">                        
+                     <div *ngIf="(item.id == player.userId)" >{{item.lastName}}, {{item.firstName}}</div>
+                    </div>
+                  </div>
+                </td>
+                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
+                <!-- <td>
+                    <div *ngIf="player.rosterId">{{player.rosterId}}</div>
+                </td> -->
+                <td class="text-right">
+                    <div class="btn-group">
+                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
+                                [routerLink]="['/player', player.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>-->
                         <button type="submit"
+                                [routerLink]="['/player', player.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                                type="submit"
                                 [routerLink]="['/player', { outlets: { popup: player.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
