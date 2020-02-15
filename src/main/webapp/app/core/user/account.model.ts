@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 
 export class Account {
   constructor(
@@ -11,6 +12,6 @@ export class Account {
     public imageUrl: string,
     public numDoc: string,
     public phone: string,
-    public bornDate: any
+    public bornDate: Moment
   ) {}
 }

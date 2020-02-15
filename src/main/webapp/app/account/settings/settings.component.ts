@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { JhiLanguageService } from 'ng-jhipster';
-
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { JhiLanguageHelper } from 'app/core/language/language.helper';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 @Component({
   selector: 'jhi-settings',
@@ -14,6 +15,7 @@ export class SettingsComponent implements OnInit {
   error: string;
   success: string;
   languages: any[];
+  bornDateDp: any;
   settingsForm = this.fb.group({
     firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
@@ -62,6 +64,7 @@ export class SettingsComponent implements OnInit {
         this.error = 'ERROR';
       }
     );
+    this.previousState();
   }
 
   private accountFromForm(): any {
@@ -81,6 +84,11 @@ export class SettingsComponent implements OnInit {
       bornDate: this.settingsForm.get(['bornDate']).value
     };
   }
+  
+    previousState() {
+    window.history.back();
+  }
+  
 
   updateForm(account: Account): void {
     this.settingsForm.patchValue({
@@ -94,7 +102,7 @@ export class SettingsComponent implements OnInit {
       imageUrl: account.imageUrl,
       phone: account.phone,
       numDoc: account.numDoc,
-      bornDate: account.bornDate
+      bornDate: moment(account.bornDate,DATE_TIME_FORMAT)
     });
   }
 }

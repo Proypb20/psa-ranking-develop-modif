@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { throwError } from 'rxjs';
-
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PsaRankingTestModule } from '../../../test.module';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
@@ -42,7 +43,7 @@ describe('Component Tests', () => {
         imageUrl: '',
         numDoc: '',
         phone: '',
-        bornDate: ''
+        bornDate: moment('1990-00-00',DATE_TIME_FORMAT)
       };
       mockAuth.setIdentityResponse(accountValues);
 

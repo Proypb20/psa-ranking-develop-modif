@@ -66,7 +66,6 @@
         "teamPoint": "Puntos por Equipo",
         "teamDetailPoint": "Detalle Puntos por Equipo",
         "eventCategory": "Event Category",
-        "category": "Category",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
@@ -99,6 +98,10 @@
       "username.placeholder": "Nombre de usuario",
       "phone.label": "Telefono",
       "phone.placeholder": "Telefono",
+      "lastName.label": "Apellido",
+      "lastName.placeholder": "Apellido",
+      "firstName.label": "Nombre",
+      "firstName.placeholder": "Nombre",
       "docType.label": "Tipo de Documento",
       "docType.placeholder": "Tipo de Documento",
       "numDoc.label": "Nro de Documento",

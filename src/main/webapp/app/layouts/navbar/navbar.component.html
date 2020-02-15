@@ -74,6 +74,12 @@
                             <span jhiTranslate="global.menu.entities.team">Team</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="format" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <!--  <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>-->
+                            <span jhiTranslate="global.menu.entities.format">Format</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <!-- Fin Agregado Edu Menu ADMIN -->
@@ -198,12 +204,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="format" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.format">Format</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" routerLink="player-point" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.playerPoint">Player Point</span>
@@ -225,12 +225,6 @@
                         <a class="dropdown-item" routerLink="team-detail-point" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.teamDetailPoint">Team Detail Point</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.category">Category</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
