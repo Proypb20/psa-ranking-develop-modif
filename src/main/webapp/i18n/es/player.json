@@ -2,22 +2,22 @@
   "psaRankingApp": {
     "player": {
       "home": {
-        "title": "Players",
-        "createLabel": "Crear nuevo Player",
-        "createOrEditLabel": "Crear o editar Player",
-        "notFound": "No Players found"
+        "title": "Jugadores",
+        "createLabel": "Agregar Jugador",
+        "createOrEditLabel": "Jugadores",
+        "notFound": "No hay Jugadores Cargados"
       },
-      "created": "Un nuevo Player ha sido creado con el identificador {{ param }}",
-      "updated": "Un Player ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Player ha sido eliminado con el identificador {{ param }}",
+      "created": "El Jugador {{ param }} ha sido agregado con el identificador",
+      "updated": "El Jugador {{ param }} ha sido actualizado ",
+      "deleted": "El Jugador {{ param }} ha sido eliminado",
       "delete": {
         "question": "¿Seguro que quiere eliminar Player {{ id }}?"
       },
       "detail": {
-        "title": "Player"
+        "title": "Jugador"
       },
-      "profile": "Profile",
-      "user": "User",
+      "profile": "Perfil",
+      "user": "Usuario",
       "roster": "Roster"
     }
   }

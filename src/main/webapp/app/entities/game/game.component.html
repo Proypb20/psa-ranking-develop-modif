@@ -1,0 +1,86 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="psaRankingApp.game.home.title">Games</span>
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-game" [routerLink]="['/game/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="psaRankingApp.game.home.createLabel">
+            Create a new Game
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="games?.length === 0">
+        <span jhiTranslate="psaRankingApp.game.home.notFound">No games found</span>
+    </div>
+    <div class="table-responsive" *ngIf="games?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamAName"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="pointsA"><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamBName"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th scope="col"  jhiSortBy="timeLeft"><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let game of games ;trackBy: trackId">
+                <!-- <td><a [routerLink]="['/game', game.id, 'view' ]">{{game.id}}</a></td>-->
+                <td>{{game.splitDeckNum}}</td>
+                <td><div *ngIf="game.teamAId">{{game.teamAName}}</div></td>
+                <td>{{game.pointsA}}</td>
+                <td><div *ngIf="game.teamBId">{{game.teamBName}}</div></td>
+                <td>{{game.pointsB}}</td>
+                <td>{{((game.timeLeft-(game.timeLeft%60))/60)}}:{{(game.timeLeft%60)}}</td>
+                <td jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</td>
+                <!-- <td>
+                    <div *ngIf="game.fixtureId">
+                        <a [routerLink]="['/fixture', game.fixtureId , 'view' ]" >{{game.fixtureId}}</a>
+                    </div>
+                </td> -->
+                <td class="text-right">
+                    <div class="btn-group">
+                        <!-- <button type="submit"
+                                [routerLink]="['/game', game.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>-->
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                [routerLink]="['/game', game.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                [routerLink]="['/game', { outlets: { popup: game.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div [hidden]="games?.length === 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PlayerRepository extends JpaRepository<Player, Long> {
+public interface PlayerRepository extends JpaRepository<Player, Long>, JpaSpecificationExecutor<Player> {
 
     @Query("select player from Player player where player.user.login = ?#{principal.username}")
     List<Player> findByUserIsCurrentUser();

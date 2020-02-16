@@ -1,0 +1,24 @@
+{
+  "psaRankingApp": {
+    "fixture": {
+      "home": {
+        "title": "Fixtures",
+        "createLabel": "Crear nuevo Fixture",
+        "createOrEditLabel": "Fixture",
+        "notFound": "No hay Fixtures"
+      },
+      "created": "Un nuevo Fixture ha sido creado con el identificador {{ param }}",
+      "updated": "El Fixture {{ param }} ha sido actualizado",
+      "deleted": "El Fixture {{ param }} ha sido eliminado",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Fixture {{ id }}?"
+      },
+      "detail": {
+        "title": "Fixture"
+      },
+      "status": "Estado",
+      "event": "Evento",
+      "category": "Categoria"
+    }
+  }
+}

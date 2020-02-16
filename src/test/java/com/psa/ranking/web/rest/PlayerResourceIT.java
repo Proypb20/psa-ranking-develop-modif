@@ -2,12 +2,15 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Player;
+import com.psa.ranking.domain.User;
 import com.psa.ranking.domain.Roster;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.service.PlayerService;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.PlayerCriteria;
+import com.psa.ranking.service.PlayerQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +54,9 @@ public class PlayerResourceIT {
     private PlayerService playerService;
 
     @Autowired
+    private PlayerQueryService playerQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -72,7 +78,7 @@ public class PlayerResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PlayerResource playerResource = new PlayerResource(playerService);
+        final PlayerResource playerResource = new PlayerResource(playerService, playerQueryService);
         this.restPlayerMockMvc = MockMvcBuilders.standaloneSetup(playerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -196,6 +202,128 @@ public class PlayerResourceIT {
             .andExpect(jsonPath("$.id").value(player.getId().intValue()))
             .andExpect(jsonPath("$.profile").value(DEFAULT_PROFILE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllPlayersByProfileIsEqualToSomething() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where profile equals to DEFAULT_PROFILE
+        defaultPlayerShouldBeFound("profile.equals=" + DEFAULT_PROFILE);
+
+        // Get all the playerList where profile equals to UPDATED_PROFILE
+        defaultPlayerShouldNotBeFound("profile.equals=" + UPDATED_PROFILE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlayersByProfileIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where profile not equals to DEFAULT_PROFILE
+        defaultPlayerShouldNotBeFound("profile.notEquals=" + DEFAULT_PROFILE);
+
+        // Get all the playerList where profile not equals to UPDATED_PROFILE
+        defaultPlayerShouldBeFound("profile.notEquals=" + UPDATED_PROFILE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlayersByProfileIsInShouldWork() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where profile in DEFAULT_PROFILE or UPDATED_PROFILE
+        defaultPlayerShouldBeFound("profile.in=" + DEFAULT_PROFILE + "," + UPDATED_PROFILE);
+
+        // Get all the playerList where profile equals to UPDATED_PROFILE
+        defaultPlayerShouldNotBeFound("profile.in=" + UPDATED_PROFILE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlayersByProfileIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get all the playerList where profile is not null
+        defaultPlayerShouldBeFound("profile.specified=true");
+
+        // Get all the playerList where profile is null
+        defaultPlayerShouldNotBeFound("profile.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlayersByUserIsEqualToSomething() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        player.setUser(user);
+        playerRepository.saveAndFlush(player);
+        Long userId = user.getId();
+
+        // Get all the playerList where user equals to userId
+        defaultPlayerShouldBeFound("userId.equals=" + userId);
+
+        // Get all the playerList where user equals to userId + 1
+        defaultPlayerShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPlayersByRosterIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Roster roster = player.getRoster();
+        playerRepository.saveAndFlush(player);
+        Long rosterId = roster.getId();
+
+        // Get all the playerList where roster equals to rosterId
+        defaultPlayerShouldBeFound("rosterId.equals=" + rosterId);
+
+        // Get all the playerList where roster equals to rosterId + 1
+        defaultPlayerShouldNotBeFound("rosterId.equals=" + (rosterId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultPlayerShouldBeFound(String filter) throws Exception {
+        restPlayerMockMvc.perform(get("/api/players?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
+            .andExpect(jsonPath("$.[*].profile").value(hasItem(DEFAULT_PROFILE.toString())));
+
+        // Check, that the count call also returns 1
+        restPlayerMockMvc.perform(get("/api/players/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultPlayerShouldNotBeFound(String filter) throws Exception {
+        restPlayerMockMvc.perform(get("/api/players?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restPlayerMockMvc.perform(get("/api/players/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

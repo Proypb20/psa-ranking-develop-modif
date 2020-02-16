@@ -1,0 +1,29 @@
+{
+  "psaRankingApp": {
+    "game": {
+      "home": {
+        "title": "Partidos",
+        "createLabel": "Crear nuevo Partido",
+        "createOrEditLabel": "Partidos",
+        "notFound": "No hay Partidos"
+      },
+      "created": "El Partido {{ param }} ha sido creado",
+      "updated": "El Partido {{ param }} ha sido actualizado",
+      "deleted": "El Partido {{ param }} ha sido eliminado",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Game {{ id }}?"
+      },
+      "detail": {
+        "title": "Partidos"
+      },
+      "pointsA": "Puntos A",
+      "pointsB": "Puntos B",
+      "splitDeckNum": "Nro Serie",
+      "timeLeft": "Tiempo Restante",
+      "status": "Estado",
+      "fixture": "Fixture",
+      "teamA": "Equipo A",
+      "teamB": "Equipo B"
+    }
+  }
+}

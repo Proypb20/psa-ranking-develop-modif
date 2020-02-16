@@ -4,7 +4,7 @@
             <h2 id="jhi-player-heading" jhiTranslate="psaRankingApp.player.home.createOrEditLabel">Create or edit a Player</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="editForm.get('Id').value">
+                <div class="form-group" [hidden]="editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
                     <select class="form-control" name="profile" formControlName="profile" id="field_profile">
-                        <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}},hola</option>
+                        <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
                         <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
                     </select>
                 </div>

@@ -34,7 +34,7 @@
                     <div *ngIf="city.provinceId">
                         <div *ngFor="let item of provinces">
 		                	<!-- <a [routerLink]="['/province', city.provinceId , 'view' ]" *ngIf="(item.id == city.provinceId)" >{{item.name}}</a>-->
-		                	<a *ngIf="(item.id == city.provinceId)" >{{item.name}}</a>
+		                	<div *ngIf="(item.id == city.provinceId)" >{{item.name}}</div>
 						</div>
                     </div>
                 </td>

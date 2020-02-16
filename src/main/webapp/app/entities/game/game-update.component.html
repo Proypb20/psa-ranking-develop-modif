@@ -1,0 +1,98 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-game-heading" jhiTranslate="psaRankingApp.game.home.createOrEditLabel">Create or edit a Game</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsA" for="field_pointsA">Points A</label>
+                    <input type="number" class="form-control" name="pointsA" id="field_pointsA"
+                           formControlName="pointsA"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsB" for="field_pointsB">Points B</label>
+                    <input type="number" class="form-control" name="pointsB" id="field_pointsB"
+                           formControlName="pointsB"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.splitDeckNum" for="field_splitDeckNum">Split Deck Num</label>
+                    <input type="number" class="form-control" name="splitDeckNum" id="field_splitDeckNum"
+                           formControlName="splitDeckNum"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.timeLeft" for="field_timeLeft">Time Left</label>
+                    <input type="number" class="form-control" name="timeLeft" id="field_timeLeft"
+                           formControlName="timeLeft"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.status" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="PENDING">{{'psaRankingApp.Status.PENDING' | translate}}</option>
+                        <option value="CREATED">{{'psaRankingApp.Status.CREATED' | translate}}</option>
+                        <option value="IN_PROGRESS">{{'psaRankingApp.Status.IN_PROGRESS' | translate}}</option>
+                        <option value="DONE">{{'psaRankingApp.Status.DONE' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('status').invalid && (editForm.get('status').dirty || editForm.get('status').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.fixture" for="field_fixture">Fixture</label>
+                    <select class="form-control" id="field_fixture" name="fixture" formControlName="fixtureId">
+                        <option *ngIf="!editForm.get('fixtureId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="fixtureOption.id" *ngFor="let fixtureOption of fixtures; trackBy: trackFixtureById">{{fixtureOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('fixtureId').invalid && (editForm.get('fixtureId').dirty || editForm.get('fixtureId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('fixtureId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamA" for="field_teamA">Team A</label>
+                    <select class="form-control" id="field_teamA" name="teamA" formControlName="teamAId">
+                        <option *ngIf="!editForm.get('teamAId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('teamAId').invalid && (editForm.get('teamAId').dirty || editForm.get('teamAId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamAId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamB" for="field_teamB">Team B</label>
+                    <select class="form-control" id="field_teamB" name="teamB" formControlName="teamBId">
+                        <option *ngIf="!editForm.get('teamBId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('teamBId').invalid && (editForm.get('teamBId').dirty || editForm.get('teamBId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamBId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

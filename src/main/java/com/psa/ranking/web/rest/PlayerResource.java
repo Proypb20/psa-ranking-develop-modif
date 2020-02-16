@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.PlayerService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.PlayerDTO;
+import com.psa.ranking.service.dto.PlayerCriteria;
+import com.psa.ranking.service.PlayerQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -41,8 +43,11 @@ public class PlayerResource {
 
     private final PlayerService playerService;
 
-    public PlayerResource(PlayerService playerService) {
+    private final PlayerQueryService playerQueryService;
+
+    public PlayerResource(PlayerService playerService, PlayerQueryService playerQueryService) {
         this.playerService = playerService;
+        this.playerQueryService = playerQueryService;
     }
 
     /**
@@ -91,14 +96,27 @@ public class PlayerResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of players in body.
      */
     @GetMapping("/players")
-    public ResponseEntity<List<PlayerDTO>> getAllPlayers(Pageable pageable) {
-        log.debug("REST request to get a page of Players");
-        Page<PlayerDTO> page = playerService.findAll(pageable);
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers(PlayerCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Players by criteria: {}", criteria);
+        Page<PlayerDTO> page = playerQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /players/count} : count all the players.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/players/count")
+    public ResponseEntity<Long> countPlayers(PlayerCriteria criteria) {
+        log.debug("REST request to count Players by criteria: {}", criteria);
+        return ResponseEntity.ok().body(playerQueryService.countByCriteria(criteria));
     }
 
     /**

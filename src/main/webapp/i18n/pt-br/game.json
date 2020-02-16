@@ -1,0 +1,29 @@
+{
+  "psaRankingApp": {
+    "game": {
+      "home": {
+        "title": "Games",
+        "createLabel": "Criar novo Game",
+        "createOrEditLabel": "Criar ou editar Game",
+        "notFound": "Nenhum Game encontrado"
+      },
+      "created": "Um novo Game foi criado com o identificador {{ param }}",
+      "updated": "Um Game foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Game foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Game {{ id }}?"
+      },
+      "detail": {
+        "title": "Game"
+      },
+      "pointsA": "Points A",
+      "pointsB": "Points B",
+      "splitDeckNum": "Split Deck Num",
+      "timeLeft": "Time Left",
+      "status": "Status",
+      "fixture": "Fixture",
+      "teamA": "Team A",
+      "teamB": "Team B"
+    }
+  }
+}

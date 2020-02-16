@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="fixture">
+            <h2><span jhiTranslate="psaRankingApp.fixture.detail.title">Fixture</span> {{fixture.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="psaRankingApp.fixture.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'psaRankingApp.Status.' + fixture.status}}">{{fixture.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.fixture.event">Event</span></dt>
+                <dd>
+                    <div *ngIf="fixture.eventId">
+                        <a [routerLink]="['/event', fixture.eventId, 'view']">{{fixture.eventName}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="psaRankingApp.fixture.category">Category</span></dt>
+                <dd>
+                    <div *ngIf="fixture.categoryId">
+                        <a [routerLink]="['/category', fixture.categoryId, 'view']">{{fixture.categoryName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/fixture', fixture.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
