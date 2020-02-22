@@ -8,17 +8,11 @@
     -->
     <changeSet id="20200215194722-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="event_id"
+        <addForeignKeyConstraint baseColumnNames="event_category_id"
                                  baseTableName="fixture"
-                                 constraintName="fk_fixture_event_id"
+                                 constraintName="fk_fixture_event_category_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="event"/>
-
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="fixture"
-                                 constraintName="fk_fixture_category_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
+                                 referencedTableName="event_category"/>
 
     </changeSet>
 </databaseChangeLog>

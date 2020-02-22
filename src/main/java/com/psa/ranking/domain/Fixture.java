@@ -32,12 +32,7 @@ public class Fixture implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("fixtures")
-    private Event event;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("fixtures")
-    private Category category;
+    private EventCategory eventCategory;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -61,30 +56,17 @@ public class Fixture implements Serializable {
         this.status = status;
     }
 
-    public Event getEvent() {
-        return event;
+    public EventCategory getEventCategory() {
+        return eventCategory;
     }
 
-    public Fixture event(Event event) {
-        this.event = event;
+    public Fixture eventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
         return this;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public Fixture category(Category category) {
-        this.category = category;
-        return this;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

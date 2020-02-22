@@ -2,10 +2,10 @@
   "psaRankingApp": {
     "Status": {
       "null": "",
-      "PENDING": "Pendiente",
-      "CREATED": "Nuevo",
-      "IN_PROGRESS": "En Progreso",
-      "DONE": "Finalizado"
+      "PENDING": "PENDING",
+      "CREATED": "CREATED",
+      "IN_PROGRESS": "IN_PROGRESS",
+      "DONE": "DONE"
     }
   }
 }

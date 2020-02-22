@@ -106,6 +106,10 @@ public class EventCategoryQueryService extends QueryService<EventCategory> {
                 specification = specification.and(buildSpecification(criteria.getFormatId(),
                     root -> root.join(EventCategory_.format, JoinType.LEFT).get(Format_.id)));
             }
+            if (criteria.getGameId() != null) {
+                specification = specification.and(buildSpecification(criteria.getGameId(),
+                    root -> root.join(EventCategory_.games, JoinType.LEFT).get(Game_.id)));
+            }
         }
         return specification;
     }

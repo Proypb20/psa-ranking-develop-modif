@@ -3,22 +3,14 @@
     "clientRootFolder": "",
     "relationships": [
         {
-            "relationshipName": "event",
-            "otherEntityName": "event",
+            "relationshipName": "eventCategory",
+            "otherEntityName": "eventCategory",
             "relationshipType": "many-to-one",
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
-        },
-        {
-            "relationshipName": "category",
-            "otherEntityName": "category",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "fixture"
         }
     ],
     "fields": [

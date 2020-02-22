@@ -94,13 +94,9 @@ public class FixtureQueryService extends QueryService<Fixture> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Fixture_.status));
             }
-            if (criteria.getEventId() != null) {
-                specification = specification.and(buildSpecification(criteria.getEventId(),
-                    root -> root.join(Fixture_.event, JoinType.LEFT).get(Event_.id)));
-            }
-            if (criteria.getCategoryId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCategoryId(),
-                    root -> root.join(Fixture_.category, JoinType.LEFT).get(Category_.id)));
+            if (criteria.getEventCategoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEventCategoryId(),
+                    root -> root.join(Fixture_.eventCategory, JoinType.LEFT).get(EventCategory_.id)));
             }
         }
         return specification;

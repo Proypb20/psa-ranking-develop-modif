@@ -2,8 +2,7 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Fixture;
-import com.psa.ranking.domain.Event;
-import com.psa.ranking.domain.Category;
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.repository.FixtureRepository;
 import com.psa.ranking.service.FixtureService;
 import com.psa.ranking.service.dto.FixtureDTO;
@@ -97,25 +96,15 @@ public class FixtureResourceIT {
         Fixture fixture = new Fixture()
             .status(DEFAULT_STATUS);
         // Add required entity
-        Event event;
-        if (TestUtil.findAll(em, Event.class).isEmpty()) {
-            event = EventResourceIT.createEntity(em);
-            em.persist(event);
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createEntity(em);
+            em.persist(eventCategory);
             em.flush();
         } else {
-            event = TestUtil.findAll(em, Event.class).get(0);
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
         }
-        fixture.setEvent(event);
-        // Add required entity
-        Category category;
-        if (TestUtil.findAll(em, Category.class).isEmpty()) {
-            category = CategoryResourceIT.createEntity(em);
-            em.persist(category);
-            em.flush();
-        } else {
-            category = TestUtil.findAll(em, Category.class).get(0);
-        }
-        fixture.setCategory(category);
+        fixture.setEventCategory(eventCategory);
         return fixture;
     }
     /**
@@ -128,25 +117,15 @@ public class FixtureResourceIT {
         Fixture fixture = new Fixture()
             .status(UPDATED_STATUS);
         // Add required entity
-        Event event;
-        if (TestUtil.findAll(em, Event.class).isEmpty()) {
-            event = EventResourceIT.createUpdatedEntity(em);
-            em.persist(event);
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createUpdatedEntity(em);
+            em.persist(eventCategory);
             em.flush();
         } else {
-            event = TestUtil.findAll(em, Event.class).get(0);
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
         }
-        fixture.setEvent(event);
-        // Add required entity
-        Category category;
-        if (TestUtil.findAll(em, Category.class).isEmpty()) {
-            category = CategoryResourceIT.createUpdatedEntity(em);
-            em.persist(category);
-            em.flush();
-        } else {
-            category = TestUtil.findAll(em, Category.class).get(0);
-        }
-        fixture.setCategory(category);
+        fixture.setEventCategory(eventCategory);
         return fixture;
     }
 
@@ -296,33 +275,17 @@ public class FixtureResourceIT {
 
     @Test
     @Transactional
-    public void getAllFixturesByEventIsEqualToSomething() throws Exception {
+    public void getAllFixturesByEventCategoryIsEqualToSomething() throws Exception {
         // Get already existing entity
-        Event event = fixture.getEvent();
+        EventCategory eventCategory = fixture.getEventCategory();
         fixtureRepository.saveAndFlush(fixture);
-        Long eventId = event.getId();
+        Long eventCategoryId = eventCategory.getId();
 
-        // Get all the fixtureList where event equals to eventId
-        defaultFixtureShouldBeFound("eventId.equals=" + eventId);
+        // Get all the fixtureList where eventCategory equals to eventCategoryId
+        defaultFixtureShouldBeFound("eventCategoryId.equals=" + eventCategoryId);
 
-        // Get all the fixtureList where event equals to eventId + 1
-        defaultFixtureShouldNotBeFound("eventId.equals=" + (eventId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllFixturesByCategoryIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        Category category = fixture.getCategory();
-        fixtureRepository.saveAndFlush(fixture);
-        Long categoryId = category.getId();
-
-        // Get all the fixtureList where category equals to categoryId
-        defaultFixtureShouldBeFound("categoryId.equals=" + categoryId);
-
-        // Get all the fixtureList where category equals to categoryId + 1
-        defaultFixtureShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
+        // Get all the fixtureList where eventCategory equals to eventCategoryId + 1
+        defaultFixtureShouldNotBeFound("eventCategoryId.equals=" + (eventCategoryId + 1));
     }
 
     /**

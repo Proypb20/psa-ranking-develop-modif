@@ -5,6 +5,7 @@ import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Event;
 import com.psa.ranking.domain.Category;
 import com.psa.ranking.domain.Format;
+import com.psa.ranking.domain.Game;
 import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.service.EventCategoryService;
 import com.psa.ranking.service.dto.EventCategoryDTO;
@@ -340,6 +341,26 @@ public class EventCategoryResourceIT {
 
         // Get all the eventCategoryList where format equals to formatId + 1
         defaultEventCategoryShouldNotBeFound("formatId.equals=" + (formatId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEventCategoriesByGameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        eventCategoryRepository.saveAndFlush(eventCategory);
+        Game game = GameResourceIT.createEntity(em);
+        em.persist(game);
+        em.flush();
+        eventCategory.addGame(game);
+        eventCategoryRepository.saveAndFlush(eventCategory);
+        Long gameId = game.getId();
+
+        // Get all the eventCategoryList where game equals to gameId
+        defaultEventCategoryShouldBeFound("gameId.equals=" + gameId);
+
+        // Get all the eventCategoryList where game equals to gameId + 1
+        defaultEventCategoryShouldNotBeFound("gameId.equals=" + (gameId + 1));
     }
 
     /**

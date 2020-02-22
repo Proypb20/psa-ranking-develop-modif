@@ -34,6 +34,8 @@ public class EventCategoryCriteria implements Serializable, Criteria {
 
     private LongFilter formatId;
 
+    private LongFilter gameId;
+
     public EventCategoryCriteria(){
     }
 
@@ -43,6 +45,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
         this.eventId = other.eventId == null ? null : other.eventId.copy();
         this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
         this.formatId = other.formatId == null ? null : other.formatId.copy();
+        this.gameId = other.gameId == null ? null : other.gameId.copy();
     }
 
     @Override
@@ -90,6 +93,14 @@ public class EventCategoryCriteria implements Serializable, Criteria {
         this.formatId = formatId;
     }
 
+    public LongFilter getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(LongFilter gameId) {
+        this.gameId = gameId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -105,7 +116,8 @@ public class EventCategoryCriteria implements Serializable, Criteria {
             Objects.equals(splitDeck, that.splitDeck) &&
             Objects.equals(eventId, that.eventId) &&
             Objects.equals(categoryId, that.categoryId) &&
-            Objects.equals(formatId, that.formatId);
+            Objects.equals(formatId, that.formatId) &&
+            Objects.equals(gameId, that.gameId);
     }
 
     @Override
@@ -115,7 +127,8 @@ public class EventCategoryCriteria implements Serializable, Criteria {
         splitDeck,
         eventId,
         categoryId,
-        formatId
+        formatId,
+        gameId
         );
     }
 
@@ -127,6 +140,7 @@ public class EventCategoryCriteria implements Serializable, Criteria {
                 (eventId != null ? "eventId=" + eventId + ", " : "") +
                 (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
                 (formatId != null ? "formatId=" + formatId + ", " : "") +
+                (gameId != null ? "gameId=" + gameId + ", " : "") +
             "}";
     }
 

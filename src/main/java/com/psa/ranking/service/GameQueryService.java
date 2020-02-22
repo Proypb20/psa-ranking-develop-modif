@@ -118,6 +118,10 @@ public class GameQueryService extends QueryService<Game> {
                 specification = specification.and(buildSpecification(criteria.getTeamBId(),
                     root -> root.join(Game_.teamB, JoinType.LEFT).get(Team_.id)));
             }
+            if (criteria.getEventCategoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEventCategoryId(),
+                    root -> root.join(Game_.eventCategory, JoinType.LEFT).get(EventCategory_.id)));
+            }
         }
         return specification;
     }

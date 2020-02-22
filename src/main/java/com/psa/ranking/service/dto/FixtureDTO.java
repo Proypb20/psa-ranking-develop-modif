@@ -15,13 +15,7 @@ public class FixtureDTO implements Serializable {
     private Status status;
 
 
-    private Long eventId;
-
-    private String eventName;
-
-    private Long categoryId;
-
-    private String categoryName;
+    private Long eventCategoryId;
 
     public Long getId() {
         return id;
@@ -39,36 +33,12 @@ public class FixtureDTO implements Serializable {
         this.status = status;
     }
 
-    public Long getEventId() {
-        return eventId;
+    public Long getEventCategoryId() {
+        return eventCategoryId;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setEventCategoryId(Long eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
     }
 
     @Override
@@ -97,10 +67,7 @@ public class FixtureDTO implements Serializable {
         return "FixtureDTO{" +
             "id=" + getId() +
             ", status='" + getStatus() + "'" +
-            ", event=" + getEventId() +
-            ", event='" + getEventName() + "'" +
-            ", category=" + getCategoryId() +
-            ", category='" + getCategoryName() + "'" +
+            ", eventCategory=" + getEventCategoryId() +
             "}";
     }
 }

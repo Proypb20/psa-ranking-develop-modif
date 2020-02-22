@@ -33,6 +33,8 @@ public class GameDTO implements Serializable {
 
     private String teamBName;
 
+    private Long eventCategoryId;
+
     public Long getId() {
         return id;
     }
@@ -121,6 +123,14 @@ public class GameDTO implements Serializable {
         this.teamBName = teamName;
     }
 
+    public Long getEventCategoryId() {
+        return eventCategoryId;
+    }
+
+    public void setEventCategoryId(Long eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -156,6 +166,7 @@ public class GameDTO implements Serializable {
             ", teamA='" + getTeamAName() + "'" +
             ", teamB=" + getTeamBId() +
             ", teamB='" + getTeamBName() + "'" +
+            ", eventCategory=" + getEventCategoryId() +
             "}";
     }
 }

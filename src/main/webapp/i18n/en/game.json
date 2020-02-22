@@ -23,7 +23,8 @@
       "status": "Status",
       "fixture": "Fixture",
       "teamA": "Team A",
-      "teamB": "Team B"
+      "teamB": "Team B",
+      "eventCategory": "Event Category"
     }
   }
 }

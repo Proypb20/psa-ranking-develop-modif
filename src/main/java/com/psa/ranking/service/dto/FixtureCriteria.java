@@ -47,9 +47,7 @@ public class FixtureCriteria implements Serializable, Criteria {
 
     private StatusFilter status;
 
-    private LongFilter eventId;
-
-    private LongFilter categoryId;
+    private LongFilter eventCategoryId;
 
     public FixtureCriteria(){
     }
@@ -57,8 +55,7 @@ public class FixtureCriteria implements Serializable, Criteria {
     public FixtureCriteria(FixtureCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.eventId = other.eventId == null ? null : other.eventId.copy();
-        this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
+        this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
     }
 
     @Override
@@ -82,20 +79,12 @@ public class FixtureCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public LongFilter getEventId() {
-        return eventId;
+    public LongFilter getEventCategoryId() {
+        return eventCategoryId;
     }
 
-    public void setEventId(LongFilter eventId) {
-        this.eventId = eventId;
-    }
-
-    public LongFilter getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(LongFilter categoryId) {
-        this.categoryId = categoryId;
+    public void setEventCategoryId(LongFilter eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
     }
 
 
@@ -111,8 +100,7 @@ public class FixtureCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(eventId, that.eventId) &&
-            Objects.equals(categoryId, that.categoryId);
+            Objects.equals(eventCategoryId, that.eventCategoryId);
     }
 
     @Override
@@ -120,8 +108,7 @@ public class FixtureCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         status,
-        eventId,
-        categoryId
+        eventCategoryId
         );
     }
 
@@ -130,8 +117,7 @@ public class FixtureCriteria implements Serializable, Criteria {
         return "FixtureCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
-                (eventId != null ? "eventId=" + eventId + ", " : "") +
-                (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
+                (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +
             "}";
     }
 

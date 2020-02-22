@@ -43,15 +43,23 @@ public class Game implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("games")
     private Fixture fixture;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("games")
     private Team teamA;
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("games")
     private Team teamB;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("games")
+    private EventCategory eventCategory;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -164,6 +172,19 @@ public class Game implements Serializable {
 
     public void setTeamB(Team team) {
         this.teamB = team;
+    }
+
+    public EventCategory getEventCategory() {
+        return eventCategory;
+    }
+
+    public Game eventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
+        return this;
+    }
+
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

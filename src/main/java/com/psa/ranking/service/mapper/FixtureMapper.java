@@ -8,17 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Fixture} and its DTO {@link FixtureDTO}.
  */
-@Mapper(componentModel = "spring", uses = {EventMapper.class, CategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {EventCategoryMapper.class})
 public interface FixtureMapper extends EntityMapper<FixtureDTO, Fixture> {
 
-    @Mapping(source = "event.id", target = "eventId")
-    @Mapping(source = "event.name", target = "eventName")
-    @Mapping(source = "category.id", target = "categoryId")
-    @Mapping(source = "category.name", target = "categoryName")
+    @Mapping(source = "eventCategory.id", target = "eventCategoryId")
     FixtureDTO toDto(Fixture fixture);
 
-    @Mapping(source = "eventId", target = "event")
-    @Mapping(source = "categoryId", target = "category")
+    @Mapping(source = "eventCategoryId", target = "eventCategory")
     Fixture toEntity(FixtureDTO fixtureDTO);
 
     default Fixture fromId(Long id) {

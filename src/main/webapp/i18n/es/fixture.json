@@ -4,21 +4,20 @@
       "home": {
         "title": "Fixtures",
         "createLabel": "Crear nuevo Fixture",
-        "createOrEditLabel": "Fixture",
-        "notFound": "No hay Fixtures"
+        "createOrEditLabel": "Crear o editar Fixture",
+        "notFound": "No Fixtures found"
       },
       "created": "Un nuevo Fixture ha sido creado con el identificador {{ param }}",
-      "updated": "El Fixture {{ param }} ha sido actualizado",
-      "deleted": "El Fixture {{ param }} ha sido eliminado",
+      "updated": "Un Fixture ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Fixture ha sido eliminado con el identificador {{ param }}",
       "delete": {
         "question": "¿Seguro que quiere eliminar Fixture {{ id }}?"
       },
       "detail": {
         "title": "Fixture"
       },
-      "status": "Estado",
-      "event": "Evento",
-      "category": "Categoria"
+      "status": "Status",
+      "eventCategory": "Event Category"
     }
   }
 }

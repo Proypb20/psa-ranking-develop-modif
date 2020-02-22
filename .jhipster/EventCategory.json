@@ -31,6 +31,12 @@
             ],
             "otherEntityField": "name",
             "otherEntityRelationshipName": "eventCategory"
+        },
+        {
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "eventCategory"
         }
     ],
     "fields": [

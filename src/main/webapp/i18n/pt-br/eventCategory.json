@@ -19,7 +19,8 @@
       "splitDeck": "Split Deck",
       "event": "Event",
       "category": "Category",
-      "format": "Format"
+      "format": "Format",
+      "game": "Game"
     }
   }
 }

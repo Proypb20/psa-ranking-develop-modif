@@ -12,6 +12,7 @@ export interface IGame {
   teamAId?: number;
   teamBName?: string;
   teamBId?: number;
+  eventCategoryId?: number;
 }
 
 export class Game implements IGame {
@@ -26,6 +27,7 @@ export class Game implements IGame {
     public teamAName?: string,
     public teamAId?: number,
     public teamBName?: string,
-    public teamBId?: number
+    public teamBId?: number,
+    public eventCategoryId?: number
   ) {}
 }

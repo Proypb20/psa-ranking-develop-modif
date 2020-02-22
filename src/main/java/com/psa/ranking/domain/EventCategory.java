@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A EventCategory.
@@ -39,6 +41,10 @@ public class EventCategory implements Serializable {
     @NotNull
     @JsonIgnoreProperties("eventCategories")
     private Format format;
+
+    @OneToMany(mappedBy = "eventCategory")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Game> games = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -99,6 +105,31 @@ public class EventCategory implements Serializable {
 
     public void setFormat(Format format) {
         this.format = format;
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public EventCategory games(Set<Game> games) {
+        this.games = games;
+        return this;
+    }
+
+    public EventCategory addGame(Game game) {
+        this.games.add(game);
+        game.setEventCategory(this);
+        return this;
+    }
+
+    public EventCategory removeGame(Game game) {
+        this.games.remove(game);
+        game.setEventCategory(null);
+        return this;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -40,6 +40,9 @@
             <column name="teamb_id" type="bigint">
                 <constraints nullable="false" />
             </column>
+            <column name="event_category_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
@@ -71,6 +74,7 @@
             <column name="fixture_id" type="numeric"/>
             <column name="teama_id" type="numeric"/>
             <column name="teamb_id" type="numeric"/>
+            <column name="event_category_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

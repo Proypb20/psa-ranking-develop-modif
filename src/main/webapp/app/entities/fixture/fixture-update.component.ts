@@ -9,10 +9,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IFixture, Fixture } from 'app/shared/model/fixture.model';
 import { FixtureService } from './fixture.service';
-import { IEvent } from 'app/shared/model/event.model';
-import { EventService } from 'app/entities/event/event.service';
-import { ICategory } from 'app/shared/model/category.model';
-import { CategoryService } from 'app/entities/category/category.service';
+import { IEventCategory } from 'app/shared/model/event-category.model';
+import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 
 @Component({
   selector: 'jhi-fixture-update',
@@ -21,22 +19,18 @@ import { CategoryService } from 'app/entities/category/category.service';
 export class FixtureUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  events: IEvent[];
-
-  categories: ICategory[];
+  eventcategories: IEventCategory[];
 
   editForm = this.fb.group({
     id: [],
     status: [null, [Validators.required]],
-    eventId: [null, Validators.required],
-    categoryId: [null, Validators.required]
+    eventCategoryId: [null, Validators.required]
   });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected fixtureService: FixtureService,
-    protected eventService: EventService,
-    protected categoryService: CategoryService,
+    protected eventCategoryService: EventCategoryService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -46,28 +40,20 @@ export class FixtureUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ fixture }) => {
       this.updateForm(fixture);
     });
-    this.eventService
+    this.eventCategoryService
       .query()
       .pipe(
-        filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IEvent[]>) => response.body)
+        filter((mayBeOk: HttpResponse<IEventCategory[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IEventCategory[]>) => response.body)
       )
-      .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.categoryService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ICategory[]>) => response.body)
-      )
-      .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: IEventCategory[]) => (this.eventcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(fixture: IFixture) {
     this.editForm.patchValue({
       id: fixture.id,
       status: fixture.status,
-      eventId: fixture.eventId,
-      categoryId: fixture.categoryId
+      eventCategoryId: fixture.eventCategoryId
     });
   }
 
@@ -90,8 +76,7 @@ export class FixtureUpdateComponent implements OnInit {
       ...new Fixture(),
       id: this.editForm.get(['id']).value,
       status: this.editForm.get(['status']).value,
-      eventId: this.editForm.get(['eventId']).value,
-      categoryId: this.editForm.get(['categoryId']).value
+      eventCategoryId: this.editForm.get(['eventCategoryId']).value
     };
   }
 
@@ -111,11 +96,7 @@ export class FixtureUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackEventById(index: number, item: IEvent) {
-    return item.id;
-  }
-
-  trackCategoryById(index: number, item: ICategory) {
+  trackEventCategoryById(index: number, item: IEventCategory) {
     return item.id;
   }
 }

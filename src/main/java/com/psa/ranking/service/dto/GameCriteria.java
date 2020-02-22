@@ -61,6 +61,8 @@ public class GameCriteria implements Serializable, Criteria {
 
     private LongFilter teamBId;
 
+    private LongFilter eventCategoryId;
+
     public GameCriteria(){
     }
 
@@ -74,6 +76,7 @@ public class GameCriteria implements Serializable, Criteria {
         this.fixtureId = other.fixtureId == null ? null : other.fixtureId.copy();
         this.teamAId = other.teamAId == null ? null : other.teamAId.copy();
         this.teamBId = other.teamBId == null ? null : other.teamBId.copy();
+        this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
     }
 
     @Override
@@ -153,6 +156,14 @@ public class GameCriteria implements Serializable, Criteria {
         this.teamBId = teamBId;
     }
 
+    public LongFilter getEventCategoryId() {
+        return eventCategoryId;
+    }
+
+    public void setEventCategoryId(LongFilter eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -172,7 +183,8 @@ public class GameCriteria implements Serializable, Criteria {
             Objects.equals(status, that.status) &&
             Objects.equals(fixtureId, that.fixtureId) &&
             Objects.equals(teamAId, that.teamAId) &&
-            Objects.equals(teamBId, that.teamBId);
+            Objects.equals(teamBId, that.teamBId) &&
+            Objects.equals(eventCategoryId, that.eventCategoryId);
     }
 
     @Override
@@ -186,7 +198,8 @@ public class GameCriteria implements Serializable, Criteria {
         status,
         fixtureId,
         teamAId,
-        teamBId
+        teamBId,
+        eventCategoryId
         );
     }
 
@@ -202,6 +215,7 @@ public class GameCriteria implements Serializable, Criteria {
                 (fixtureId != null ? "fixtureId=" + fixtureId + ", " : "") +
                 (teamAId != null ? "teamAId=" + teamAId + ", " : "") +
                 (teamBId != null ? "teamBId=" + teamBId + ", " : "") +
+                (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +
             "}";
     }
 

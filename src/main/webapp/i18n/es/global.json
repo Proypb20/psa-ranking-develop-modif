@@ -70,6 +70,7 @@
         "eventCategory": "Event Category",
         "fixture": "Fixture",
         "game": "Partidos",
+        "game": "Game",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

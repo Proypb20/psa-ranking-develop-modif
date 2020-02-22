@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.game.home.title">Games</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-game" [routerLink]="['/game/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-game" [routerLink]="['/game/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.game.home.createLabel">
             Create a new Game
@@ -18,50 +18,62 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="teamAName"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="pointsA"><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="teamBName"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th scope="col"  jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="timeLeft"><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamAName"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="teamBName"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="eventCategoryId"><span jhiTranslate="psaRankingApp.game.eventCategory">Event Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let game of games ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/game', game.id, 'view' ]">{{game.id}}</a></td>-->
-                <td>{{game.splitDeckNum}}</td>
-                <td><div *ngIf="game.teamAId">{{game.teamAName}}</div></td>
+                <td><a [routerLink]="['/game', game.id, 'view' ]">{{game.id}}</a></td>
                 <td>{{game.pointsA}}</td>
-                <td><div *ngIf="game.teamBId">{{game.teamBName}}</div></td>
                 <td>{{game.pointsB}}</td>
-                <td>{{((game.timeLeft-(game.timeLeft%60))/60)}}:{{(game.timeLeft%60)}}</td>
+                <td>{{game.splitDeckNum}}</td>
+                <td>{{game.timeLeft}}</td>
                 <td jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</td>
-                <!-- <td>
+                <td>
                     <div *ngIf="game.fixtureId">
                         <a [routerLink]="['/fixture', game.fixtureId , 'view' ]" >{{game.fixtureId}}</a>
                     </div>
-                </td> -->
+                </td>
+                <td>
+                    <div *ngIf="game.teamAId">
+                        <a [routerLink]="['/team', game.teamAId , 'view' ]" >{{game.teamAName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="game.teamBId">
+                        <a [routerLink]="['/team', game.teamBId , 'view' ]" >{{game.teamBName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="game.eventCategoryId">
+                        <a [routerLink]="['/event-category', game.eventCategoryId , 'view' ]" >{{game.eventCategoryId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <!-- <button type="submit"
+                        <button type="submit"
                                 [routerLink]="['/game', game.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>-->
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
+                        </button>
+                        <button type="submit"
                                 [routerLink]="['/game', game.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
+                        <button type="submit"
                                 [routerLink]="['/game', { outlets: { popup: game.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

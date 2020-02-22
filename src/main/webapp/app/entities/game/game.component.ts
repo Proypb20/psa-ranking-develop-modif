@@ -30,8 +30,6 @@ export class GameComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
-  fId: number;
-  private sub: any;
 
   constructor(
     protected gameService: GameService,
@@ -51,28 +49,13 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if (this.fId)
-  {
     this.gameService
       .query({
-       'fixtureId.equals': this.fId,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IGame[]>) => this.paginateGames(res.body, res.headers));
-  }
-  else
-  {
-   this.gameService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IGame[]>) => this.paginateGames(res.body, res.headers));
-  }
-  
   }
 
   loadPage(page: number) {
@@ -106,11 +89,6 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  this.sub = this.activatedRoute
-      .queryParams
-      .subscribe(params => {
-        this.fId = +params['fId'] || 0;
-      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

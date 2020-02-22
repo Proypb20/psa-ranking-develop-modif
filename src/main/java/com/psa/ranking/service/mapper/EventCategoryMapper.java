@@ -22,6 +22,8 @@ public interface EventCategoryMapper extends EntityMapper<EventCategoryDTO, Even
     @Mapping(source = "eventId", target = "event")
     @Mapping(source = "categoryId", target = "category")
     @Mapping(source = "formatId", target = "format")
+    @Mapping(target = "games", ignore = true)
+    @Mapping(target = "removeGame", ignore = true)
     EventCategory toEntity(EventCategoryDTO eventCategoryDTO);
 
     default EventCategory fromId(Long id) {

@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.eventCategory.home.title">Event Categories</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event-category" [routerLink]="['/event-category/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event-category" [routerLink]="['/event-category/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.eventCategory.home.createLabel">
             Create a new Event Category
@@ -18,50 +18,48 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let eventCategory of eventCategories ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/event-category', eventCategory.id, 'view' ]">{{eventCategory.id}}</a></td> -->
+                <td><a [routerLink]="['/event-category', eventCategory.id, 'view' ]">{{eventCategory.id}}</a></td>
+                <td>{{eventCategory.splitDeck}}</td>
                 <td>
-                    <div *ngIf="eventCategory.eventId">{{eventCategory.eventName}}</div>
+                    <div *ngIf="eventCategory.eventId">
+                        <a [routerLink]="['/event', eventCategory.eventId , 'view' ]" >{{eventCategory.eventName}}</a>
+                    </div>
                 </td>
                 <td>
-                    <div *ngIf="eventCategory.categoryId">{{eventCategory.categoryName}}</div>
+                    <div *ngIf="eventCategory.categoryId">
+                        <a [routerLink]="['/category', eventCategory.categoryId , 'view' ]" >{{eventCategory.categoryName}}</a>
+                    </div>
                 </td>
                 <td>
-                    <div *ngIf="eventCategory.formatId">{{eventCategory.formatName}}</div>
+                    <div *ngIf="eventCategory.formatId">
+                        <a [routerLink]="['/format', eventCategory.formatId , 'view' ]" >{{eventCategory.formatName}}</a>
+                    </div>
                 </td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{eventCategory.splitDeck}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/roster/new']"
-                                [queryParams]="{evId:eventCategory.eventId,cId:eventCategory.categoryId}"
-                                class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.subscribe.roster">View</span>
+                                [routerLink]="['/event-category', eventCategory.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/roster']"
-                                [queryParams]="{evId:eventCategory.eventId,cId:eventCategory.categoryId}"
-                                class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.team">Ver Equipos</span>
-                        </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
                                 [routerLink]="['/event-category', eventCategory.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                                type="submit"
+                        <button type="submit"
                                 [routerLink]="['/event-category', { outlets: { popup: eventCategory.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

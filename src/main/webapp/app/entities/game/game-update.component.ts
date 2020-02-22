@@ -13,6 +13,8 @@ import { IFixture } from 'app/shared/model/fixture.model';
 import { FixtureService } from 'app/entities/fixture/fixture.service';
 import { ITeam } from 'app/shared/model/team.model';
 import { TeamService } from 'app/entities/team/team.service';
+import { IEventCategory } from 'app/shared/model/event-category.model';
+import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 
 @Component({
   selector: 'jhi-game-update',
@@ -25,6 +27,8 @@ export class GameUpdateComponent implements OnInit {
 
   teams: ITeam[];
 
+  eventcategories: IEventCategory[];
+
   editForm = this.fb.group({
     id: [],
     pointsA: [],
@@ -34,7 +38,8 @@ export class GameUpdateComponent implements OnInit {
     status: [null, [Validators.required]],
     fixtureId: [null, Validators.required],
     teamAId: [null, Validators.required],
-    teamBId: [null, Validators.required]
+    teamBId: [null, Validators.required],
+    eventCategoryId: [null, Validators.required]
   });
 
   constructor(
@@ -42,6 +47,7 @@ export class GameUpdateComponent implements OnInit {
     protected gameService: GameService,
     protected fixtureService: FixtureService,
     protected teamService: TeamService,
+    protected eventCategoryService: EventCategoryService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -65,6 +71,13 @@ export class GameUpdateComponent implements OnInit {
         map((response: HttpResponse<ITeam[]>) => response.body)
       )
       .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.eventCategoryService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IEventCategory[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IEventCategory[]>) => response.body)
+      )
+      .subscribe((res: IEventCategory[]) => (this.eventcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(game: IGame) {
@@ -77,7 +90,8 @@ export class GameUpdateComponent implements OnInit {
       status: game.status,
       fixtureId: game.fixtureId,
       teamAId: game.teamAId,
-      teamBId: game.teamBId
+      teamBId: game.teamBId,
+      eventCategoryId: game.eventCategoryId
     });
   }
 
@@ -106,7 +120,8 @@ export class GameUpdateComponent implements OnInit {
       status: this.editForm.get(['status']).value,
       fixtureId: this.editForm.get(['fixtureId']).value,
       teamAId: this.editForm.get(['teamAId']).value,
-      teamBId: this.editForm.get(['teamBId']).value
+      teamBId: this.editForm.get(['teamBId']).value,
+      eventCategoryId: this.editForm.get(['eventCategoryId']).value
     };
   }
 
@@ -131,6 +146,10 @@ export class GameUpdateComponent implements OnInit {
   }
 
   trackTeamById(index: number, item: ITeam) {
+    return item.id;
+  }
+
+  trackEventCategoryById(index: number, item: IEventCategory) {
     return item.id;
   }
 }

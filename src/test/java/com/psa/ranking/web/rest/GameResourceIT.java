@@ -4,6 +4,7 @@ import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Game;
 import com.psa.ranking.domain.Fixture;
 import com.psa.ranking.domain.Team;
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.repository.GameRepository;
 import com.psa.ranking.service.GameService;
 import com.psa.ranking.service.dto.GameDTO;
@@ -138,6 +139,16 @@ public class GameResourceIT {
         game.setTeamA(team);
         // Add required entity
         game.setTeamB(team);
+        // Add required entity
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createEntity(em);
+            em.persist(eventCategory);
+            em.flush();
+        } else {
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
+        }
+        game.setEventCategory(eventCategory);
         return game;
     }
     /**
@@ -175,6 +186,16 @@ public class GameResourceIT {
         game.setTeamA(team);
         // Add required entity
         game.setTeamB(team);
+        // Add required entity
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createUpdatedEntity(em);
+            em.persist(eventCategory);
+            em.flush();
+        } else {
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
+        }
+        game.setEventCategory(eventCategory);
         return game;
     }
 
@@ -799,6 +820,22 @@ public class GameResourceIT {
 
         // Get all the gameList where teamB equals to teamBId + 1
         defaultGameShouldNotBeFound("teamBId.equals=" + (teamBId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGamesByEventCategoryIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        EventCategory eventCategory = game.getEventCategory();
+        gameRepository.saveAndFlush(game);
+        Long eventCategoryId = eventCategory.getId();
+
+        // Get all the gameList where eventCategory equals to eventCategoryId
+        defaultGameShouldBeFound("eventCategoryId.equals=" + eventCategoryId);
+
+        // Get all the gameList where eventCategory equals to eventCategoryId + 1
+        defaultGameShouldNotBeFound("eventCategoryId.equals=" + (eventCategoryId + 1));
     }
 
     /**

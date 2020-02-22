@@ -9,16 +9,10 @@
                 <dd>
                     <span jhiTranslate="{{'psaRankingApp.Status.' + fixture.status}}">{{fixture.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.fixture.event">Event</span></dt>
+                <dt><span jhiTranslate="psaRankingApp.fixture.eventCategory">Event Category</span></dt>
                 <dd>
-                    <div *ngIf="fixture.eventId">
-                        <a [routerLink]="['/event', fixture.eventId, 'view']">{{fixture.eventName}}</a>
-                    </div>
-                </dd>
-                <dt><span jhiTranslate="psaRankingApp.fixture.category">Category</span></dt>
-                <dd>
-                    <div *ngIf="fixture.categoryId">
-                        <a [routerLink]="['/category', fixture.categoryId, 'view']">{{fixture.categoryName}}</a>
+                    <div *ngIf="fixture.eventCategoryId">
+                        <a [routerLink]="['/event-category', fixture.eventCategoryId, 'view']">{{fixture.eventCategoryId}}</a>
                     </div>
                 </dd>
             </dl>

@@ -1,3 +1,5 @@
+import { IGame } from 'app/shared/model/game.model';
+
 export interface IEventCategory {
   id?: number;
   splitDeck?: boolean;
@@ -7,6 +9,7 @@ export interface IEventCategory {
   categoryId?: number;
   formatName?: string;
   formatId?: number;
+  games?: IGame[];
 }
 
 export class EventCategory implements IEventCategory {
@@ -18,7 +21,8 @@ export class EventCategory implements IEventCategory {
     public categoryName?: string,
     public categoryId?: number,
     public formatName?: string,
-    public formatId?: number
+    public formatId?: number,
+    public games?: IGame[]
   ) {
     this.splitDeck = this.splitDeck || false;
   }

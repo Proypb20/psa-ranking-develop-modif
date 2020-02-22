@@ -9,7 +9,8 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "game"
         },
         {
             "relationshipName": "teamA",
@@ -18,7 +19,8 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "game"
         },
         {
             "relationshipName": "teamB",
@@ -27,7 +29,18 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "game"
+        },
+        {
+            "relationshipName": "eventCategory",
+            "otherEntityName": "eventCategory",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "game"
         }
     ],
     "fields": [

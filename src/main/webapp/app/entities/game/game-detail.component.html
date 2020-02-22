@@ -43,6 +43,12 @@
                         <a [routerLink]="['/team', game.teamBId, 'view']">{{game.teamBName}}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.game.eventCategory">Event Category</span></dt>
+                <dd>
+                    <div *ngIf="game.eventCategoryId">
+                        <a [routerLink]="['/event-category', game.eventCategoryId, 'view']">{{game.eventCategoryId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
