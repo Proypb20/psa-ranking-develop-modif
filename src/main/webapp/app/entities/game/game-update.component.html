@@ -10,19 +10,58 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsA" for="field_pointsA">Points A</label>
-                    <input type="number" class="form-control" name="pointsA" id="field_pointsA"
-                           formControlName="pointsA"/>
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.eventCategory" for="field_eventCategory">Event Category</label>
+                    <select class="form-control" id="field_eventCategory" name="eventCategory" formControlName="eventCategoryId">
+                        <option *ngIf="!editForm.get('eventCategoryId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="eventCategoryOption.id" *ngFor="let eventCategoryOption of eventcategories; trackBy: trackEventCategoryById">{{eventCategoryOption.id}}</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsB" for="field_pointsB">Points B</label>
-                    <input type="number" class="form-control" name="pointsB" id="field_pointsB"
-                           formControlName="pointsB"/>
+                <div *ngIf="editForm.get('eventCategoryId').invalid && (editForm.get('eventCategoryId').dirty || editForm.get('eventCategoryId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('eventCategoryId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.game.splitDeckNum" for="field_splitDeckNum">Split Deck Num</label>
                     <input type="number" class="form-control" name="splitDeckNum" id="field_splitDeckNum"
                            formControlName="splitDeckNum"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamA" for="field_teamA">Team A</label>
+                    <select class="form-control" id="field_teamA" name="teamA" formControlName="teamAId">
+                        <option *ngIf="!editForm.get('teamAId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('teamAId').invalid && (editForm.get('teamAId').dirty || editForm.get('teamAId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamAId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsA" for="field_pointsA">Points A</label>
+                    <input type="number" class="form-control" name="pointsA" id="field_pointsA"
+                           formControlName="pointsA"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamB" for="field_teamB">Team B</label>
+                    <select class="form-control" id="field_teamB" name="teamB" formControlName="teamBId">
+                        <option *ngIf="!editForm.get('teamBId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('teamBId').invalid && (editForm.get('teamBId').dirty || editForm.get('teamBId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('teamBId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.pointsB" for="field_pointsB">Points B</label>
+                    <input type="number" class="form-control" name="pointsB" id="field_pointsB"
+                           formControlName="pointsB"/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.game.timeLeft" for="field_timeLeft">Time Left</label>
@@ -44,53 +83,13 @@
                         </small>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamA" for="field_teamA">Team A</label>
-                    <select class="form-control" id="field_teamA" name="teamA" formControlName="teamAId">
-                        <option *ngIf="!editForm.get('teamAId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('teamAId').invalid && (editForm.get('teamAId').dirty || editForm.get('teamAId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('teamAId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamB" for="field_teamB">Team B</label>
-                    <select class="form-control" id="field_teamB" name="teamB" formControlName="teamBId">
-                        <option *ngIf="!editForm.get('teamBId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('teamBId').invalid && (editForm.get('teamBId').dirty || editForm.get('teamBId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('teamBId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.eventCategory" for="field_eventCategory">Event Category</label>
-                    <select class="form-control" id="field_eventCategory" name="eventCategory" formControlName="eventCategoryId">
-                        <option *ngIf="!editForm.get('eventCategoryId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="eventCategoryOption.id" *ngFor="let eventCategoryOption of eventcategories; trackBy: trackEventCategoryById">{{eventCategoryOption.id}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('eventCategoryId').invalid && (editForm.get('eventCategoryId').dirty || editForm.get('eventCategoryId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('eventCategoryId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </div>
         </form>

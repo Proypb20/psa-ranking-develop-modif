@@ -17,7 +17,7 @@
         "title": "Fixture"
       },
       "status": "Status",
-      "eventCategory": "Event Category"
+      "event": "Event"
     }
   }
 }

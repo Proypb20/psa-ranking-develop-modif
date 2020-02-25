@@ -2,10 +2,10 @@
   "psaRankingApp": {
     "eventCategory": {
       "home": {
-        "title": "Event Categories",
-        "createLabel": "Crear nuevo Event Category",
-        "createOrEditLabel": "Crear o editar Event Category",
-        "notFound": "No Event Categories found"
+        "title": "Categorias",
+        "createLabel": "Agregar Categorias al Evento",
+        "createOrEditLabel": "Categorias",
+        "notFound": "No hay Categorias seleccionadas"
       },
       "created": "Un nuevo Event Category ha sido creado con el identificador {{ param }}",
       "updated": "Un Event Category ha sido actualizado con el identificador {{ param }}",
@@ -14,13 +14,12 @@
         "question": "¿Seguro que quiere eliminar Event Category {{ id }}?"
       },
       "detail": {
-        "title": "Event Category"
+        "title": "Categorias"
       },
       "splitDeck": "Split Deck",
-      "event": "Event",
-      "category": "Category",
-      "format": "Format",
-      "game": "Game"
+      "event": "Evento",
+      "category": "Categoria",
+      "format": "Formato"
     }
   }
 }

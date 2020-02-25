@@ -18,40 +18,41 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let eventCategory of eventCategories ;trackBy: trackId">
-                <td><a [routerLink]="['/event-category', eventCategory.id, 'view' ]">{{eventCategory.id}}</a></td>
-                <td>{{eventCategory.splitDeck}}</td>
+                <!-- <td><a [routerLink]="['/event-category', eventCategory.id, 'view' ]">{{eventCategory.id}}</a></td> -->
                 <td>
                     <div *ngIf="eventCategory.eventId">
-                        <a [routerLink]="['/event', eventCategory.eventId , 'view' ]" >{{eventCategory.eventName}}</a>
+                        <div>{{eventCategory.eventName}}</div>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="eventCategory.categoryId">
-                        <a [routerLink]="['/category', eventCategory.categoryId , 'view' ]" >{{eventCategory.categoryName}}</a>
+                        <div >{{eventCategory.categoryName}}</div>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="eventCategory.formatId">
-                        <a [routerLink]="['/format', eventCategory.formatId , 'view' ]" >{{eventCategory.formatName}}</a>
+                        <div >{{eventCategory.formatName}}</div>
                     </div>
                 </td>
+                <td>{{eventCategory.splitDeck}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/event-category', eventCategory.id, 'view' ]"
+                                [routerLink]="['/game']"
+                                [queryParams]="{ecatId:eventCategory.id}"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.games">View Games</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/event-category', eventCategory.id, 'edit']"

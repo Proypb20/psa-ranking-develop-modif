@@ -1,47 +1,54 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.address.home.title">Addresses</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-address" [routerLink]="['/address/new']">
+        <span jhiTranslate="psaRankingApp.fixture.home.title">Fixtures</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-fixture" [routerLink]="['/fixture/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.address.home.createLabel">
-            Create a new Address
+            <span  jhiTranslate="psaRankingApp.fixture.home.createLabel">
+            Create a new Fixture
             </span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="alert alert-warning" *ngIf="addresses?.length === 0">
-        <span jhiTranslate="psaRankingApp.address.home.notFound">No addresses found</span>
+    <div class="alert alert-warning" *ngIf="fixtures?.length === 0">
+        <span jhiTranslate="psaRankingApp.fixture.home.notFound">No fixtures found</span>
     </div>
-    <div class="table-responsive" *ngIf="addresses?.length > 0">
+    <div class="table-responsive" *ngIf="fixtures?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="street"><span jhiTranslate="psaRankingApp.address.street">Street</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="zipCode"><span jhiTranslate="psaRankingApp.address.zipCode">Zip Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="cityId"><span jhiTranslate="psaRankingApp.address.city">City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="userExtraId"><span jhiTranslate="psaRankingApp.address.userExtra">User Extra</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.fixture.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.fixture.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let address of addresses ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/address', address.id, 'view' ]">{{address.id}}</a></td> -->
-                <td>{{address.street}}</td>
-                <td>{{address.zipCode}}</td>
-                <td>{{address.cityId}}</td>
+            <tr *ngFor="let fixture of fixtures ;trackBy: trackId">
+                <!-- <td><a [routerLink]="['/fixture', fixture.id, 'view' ]">{{fixture.id}}</a></td> -->
+                <td>
+                    <div *ngIf="fixture.eventId">
+                        <div>{{fixture.eventName}}</div>
+                    </div>
+                </td>
+                <td jhiTranslate="{{'psaRankingApp.Status.' + fixture.status}}">{{fixture.status}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/address', address.id, 'edit']"
+                                [routerLink]="['/fixture', fixture.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/fixture', fixture.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/address', { outlets: { popup: address.id + '/delete'} }]"
+                                [routerLink]="['/fixture', { outlets: { popup: fixture.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -54,7 +61,7 @@
             </tbody>
         </table>
     </div>
-    <div [hidden]="addresses?.length === 0">
+    <div [hidden]="fixtures?.length === 0">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>

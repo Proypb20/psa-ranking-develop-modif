@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.tournament" for="field_tournament" >Tournament</label>
-                    <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId" >
+                    <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId" (change)="onTournamentSelect()">
                         <!-- <option [ngValue]="null"></option> -->
                         <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
                     </select>
@@ -55,77 +55,6 @@
                     <input type="checkbox" class="form-control" name="active" id="field_active"
                            formControlName="active"/>
                 </div>-->
-                                <div jhiTranslate="psaRankingApp.roster.groups.players"> Jugadores</div>
-                <table class="table table-striped" aria-describedby="page-heading">
-                   <tr>
-                     <th width=10%>ID</th>
-                     <th width=90% colspan= 3>Nombre</th>
-                   </tr>
-			       <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
-			            <a *ngIf="playerOption.profile == 'PLAYER'">
-			            <td width=10%>{{playerOption.id}}</td>
-			            <td width=40%>{{playerOption.profile}}</td>
-			            <td width=25%>
-			               <button type="submit" id="player-staff" class="btn btn-primary">
-                             <span jhiTranslate="psaRankingApp.roster.button.staff">Staff</span>
-                           </button>
-                        </td>
-	                    <td width=25%>
-			               <button type="submit" id="player-others" class="btn btn-primary">
-                             <span jhiTranslate="psaRankingApp.roster.button.others">Others</span>
-                           </button>
-                        </td>
-			            </a>
-                   </tr>
-                </table>
-                <div jhiTranslate="psaRankingApp.roster.groups.staff"> Staff</div>
-                <table class="table table-striped" aria-describedby="page-heading">
-                <tr>
-                  <th width=10%>ID</th>
-                  <th width=90%>Nombre</th>
-                </tr>
-                    <tbody>
-			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
-			            <div *ngIf="playerOption.profile == 'STAFF'">
-			              <td width=10%>{{playerOption.id}}</td>
-			              <td width=40%>{{playerOption.profile}}</td>
-			              <td width=25%>
-			                 <button type="submit" id="staff-player" class="btn btn-primary">
-                                <span jhiTranslate="psaRankingApp.roster.button.players">Players</span>
-                             </button>
-                          </td>
-			              <td width=25%>
-			                 <button type="submit" id="staff-others" class="btn btn-primary">
-                                <span jhiTranslate="psaRankingApp.roster.button.others">Others</span>
-                             </button>
-                          </td>
-			            </div>
-                      </tr>
-                    </tbody>
-                </table>
-                <div jhiTranslate="psaRankingApp.roster.groups.others"> Otros</div>
-                <table class="table table-striped" aria-describedby="page-heading">
-                <th width=10%>ID</th>
-                <th width=90%>Nombre</th>
-                    <tbody>
-			          <tr *ngFor="let playerOption of players; trackBy: trackPlayerById">
-			           <div *ngIf="playerOption.profile != 'STAFF' && playerOption.profile != 'PLAYER'">
-			            <td width=10%>{{playerOption.id}}</td>
-			              <td width=40%>{{playerOption.profile}}</td>
-			              <td width=25%>
-			                 <button type="submit" id="others-players" class="btn btn-primary">
-                                <span jhiTranslate="psaRankingApp.roster.button.players">Players</span>
-                             </button>
-                          </td>
-			              <td width=25%>
-			                 <button type="submit" id="others-staff" class="btn btn-primary">
-                                <span jhiTranslate="psaRankingApp.roster.button.staff">Staff</span>
-                             </button>
-                          </td>
-			            </div>
-                      </tr>
-                    </tbody>
-                </table>
             </div>
             <div>
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">

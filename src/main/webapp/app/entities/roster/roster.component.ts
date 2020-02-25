@@ -34,6 +34,7 @@ export class RosterComponent implements OnInit, OnDestroy {
   previousPage: any;
   reverse: any;
   tId: number;
+  teId: number;
   evId: number;
   cId: number;
   private sub: any;
@@ -76,25 +77,39 @@ export class RosterComponent implements OnInit, OnDestroy {
   {
     if (this.evId && this.cId)
     {
-    this.rosterService
-        .query({
-         'categoryId.equals': this.cId,
-         'eventId.equals': this.evId,
-          page: this.page - 1,
-          size: this.itemsPerPage,
-          sort: this.sort()
-        })
-        .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
-     }
-     else
-     {
-       this.rosterService
-           .query({
+      this.rosterService
+          .query({
+           'categoryId.equals': this.cId,
+           'eventId.equals': this.evId,
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()
             })
-           .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+          .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+     }
+     else
+     {
+       if (this.teId)
+       {
+        this.rosterService
+            .query({
+             'teamId.equals': this.teId,
+              page: this.page - 1,
+              size: this.itemsPerPage,
+              sort: this.sort()
+              })
+            .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+        }
+        else
+        {
+         this.rosterService
+             .query({
+              page: this.page - 1,
+              size: this.itemsPerPage,
+              sort: this.sort()
+              })
+             .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+        }
       }
     }
   }
@@ -136,6 +151,7 @@ export class RosterComponent implements OnInit, OnDestroy {
         this.tId = +params['teamId'] || 0;
         this.evId = +params['evId'] || 0;
         this.cId = +params['cId'] || 0;
+        this.teId = +params['teId'] || 0;
       });
     this.loadAll();
     this.accountService.identity().subscribe(account => {

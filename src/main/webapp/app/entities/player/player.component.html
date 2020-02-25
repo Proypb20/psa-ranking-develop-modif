@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.player.home.title">Players</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']" [queryParams]="{rId:rosterId}">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.player.home.createLabel">
             Create a new Player

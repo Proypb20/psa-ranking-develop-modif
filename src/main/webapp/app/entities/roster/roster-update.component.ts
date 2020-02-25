@@ -208,4 +208,23 @@ export class RosterUpdateComponent implements OnInit {
   trackEventById(index: number, item: IEvent) {
     return item.id;
   }
+  
+  onTournamentSelect()
+  {
+     this.categoryService
+      .query({'tournamentId.equals': this.editForm.get(['tournamentId']).value})
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICategory[]>) => response.body)
+      )
+      .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
+     this.eventService
+      .query({'tournamentId.equals': this.editForm.get(['tournamentId']).value})
+      .pipe(
+        filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IEvent[]>) => response.body)
+      )
+      .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+  
 }

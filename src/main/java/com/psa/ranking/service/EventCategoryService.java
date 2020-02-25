@@ -114,9 +114,10 @@ public class EventCategoryService {
         }
         log.info("*** Generando fixture para el evento {} - categoria {}", eventCategory.getEvent(),
                 eventCategory.getCategory());
-        List<Roster> rosters = rosterRepository.findByEvent(eventCategory.getEvent())
-                .orElseThrow(() -> new NoResultException("No hay Rosters para el evento"));
+        List<Roster> rosters = rosterRepository.findByEventAndCategory(eventCategory.getEvent(),eventCategory.getCategory());
         log.debug(rosters.toString());
+        if (!rosters.isEmpty())
+        {
         // Creo un set para que se guarden los teams que sean diferentes
         Set<Team> teamsSet = new HashSet<Team>();
         rosters.forEach(r -> teamsSet.add(r.getTeam()));
@@ -135,10 +136,27 @@ public class EventCategoryService {
         FixtureUtils.mostrarPartidos(rondas, Boolean.FALSE);
         log.debug("Mapeando fixture a Games");
         Set<Game> games = new HashSet<Game>();
+        int serie = 1;
+        int cantSerie = 0;
         for (int i = 0; i < rondas.length; i++) {
             log.debug("Game " + (i + 1) + ": ");
             for (int j = 0; j < rondas[i].length; j++) {
                 Game game = new Game();
+                /*Agrego Logica de Nro se Series*/
+                if (eventCategory.isSplitDeck())
+                {
+                	cantSerie = cantSerie + 1;
+                	if (cantSerie == 3)
+                	{
+                		cantSerie = 1;
+                		serie = serie + 1;
+                	}
+                	game.setSplitDeckNum(serie);
+                }
+                else
+                {
+                	game.setSplitDeckNum(0);
+                }
                 game.setTeamA(teams.get((rondas[i][j].local)));
                 game.setTeamB(teams.get((rondas[i][j].visitante)));
                 log.info("   " + game.getTeamA().toString() + "-" + game.getTeamB().toString());
@@ -148,6 +166,7 @@ public class EventCategoryService {
         }
         eventCategory.setGames(games);
         eventCategoryRepository.save(eventCategory);
+        }
     }
 
     public void generarFixture(Long idEventCategory) throws NoResultException{

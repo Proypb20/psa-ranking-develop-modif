@@ -6,19 +6,19 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { IAddress } from 'app/shared/model/address.model';
+import { IFixture } from 'app/shared/model/fixture.model';
 import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
-import { AddressService } from './address.service';
+import { FixtureService } from './fixture.service';
 
 @Component({
-  selector: 'jhi-address',
-  templateUrl: './address.component.html'
+  selector: 'jhi-fixture',
+  templateUrl: './fixture.component.html'
 })
-export class AddressComponent implements OnInit, OnDestroy {
+export class FixtureComponent implements OnInit, OnDestroy {
   currentAccount: any;
-  addresses: IAddress[];
+  fixtures: IFixture[];
   error: any;
   success: any;
   eventSubscriber: Subscription;
@@ -30,9 +30,12 @@ export class AddressComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  evId: any;
+  private sub: any;
+  
 
   constructor(
-    protected addressService: AddressService,
+    protected fixtureService: FixtureService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
@@ -49,13 +52,27 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-    this.addressService
+  if(this.evId)
+  {
+    this.fixtureService
+      .query({
+        'eventId.equals': this.evId,
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IFixture[]>) => this.paginateFixtures(res.body, res.headers));
+    }
+    else
+    {
+    this.fixtureService
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe((res: HttpResponse<IAddress[]>) => this.paginateAddresses(res.body, res.headers));
+      .subscribe((res: HttpResponse<IFixture[]>) => this.paginateFixtures(res.body, res.headers));
+      }
   }
 
   loadPage(page: number) {
@@ -66,7 +83,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   transition() {
-    this.router.navigate(['/address'], {
+    this.router.navigate(['/fixture'], {
       queryParams: {
         page: this.page,
         size: this.itemsPerPage,
@@ -79,7 +96,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   clear() {
     this.page = 0;
     this.router.navigate([
-      '/address',
+      '/fixture',
       {
         page: this.page,
         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -89,23 +106,29 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        this.evId = +params['evId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
-    this.registerChangeInAddresses();
+    this.registerChangeInFixtures();
   }
 
   ngOnDestroy() {
     this.eventManager.destroy(this.eventSubscriber);
   }
 
-  trackId(index: number, item: IAddress) {
+  trackId(index: number, item: IFixture) {
     return item.id;
   }
 
-  registerChangeInAddresses() {
-    this.eventSubscriber = this.eventManager.subscribe('addressListModification', response => this.loadAll());
+  registerChangeInFixtures() {
+    this.eventSubscriber = this.eventManager.subscribe('fixtureListModification', response => this.loadAll());
   }
 
   sort() {
@@ -116,9 +139,9 @@ export class AddressComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected paginateAddresses(data: IAddress[], headers: HttpHeaders) {
+  protected paginateFixtures(data: IFixture[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.addresses = data;
+    this.fixtures = data;
   }
 }
