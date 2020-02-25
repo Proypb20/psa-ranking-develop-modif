@@ -1,0 +1,56 @@
+version: '3'
+services:
+    db:
+        # nombre de la imagen que se va a pullear
+        image:  mysql:8.0.17
+        restart: unless-stopped
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 3
+                window: 120s
+       # configuracion de la base de datos
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: pbpoints
+            MYSQL_USER: pbpoints
+            MYSQL_PASSWORD: qazwsx1234
+        volumes:
+            # exporta los datos fisicos de la base de datos, al directorio fisico del host que se indique
+            # MODO LINUX
+            - /home/pbpoints/mysql/:/var/lib/mysql/
+            # MODO WINDOWS
+            #- C:/pbpoints/mysql/:/var/lib/mysql/
+        # puertos que se van a exponer para acceder desde afuera de docker
+        ports:
+            - 3306:3306
+        expose:
+            - 3306
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+    adminer:
+        image: adminer
+        restart: unless-stopped
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 3
+                window: 120s
+        ports:
+            - 8088:8080
+    pbpoints-app:
+        image: pbpoints:latest
+        depends_on:
+           - db
+        environment:
+            - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=false
+            - SPRING_DATASOURCE_URL=jdbc:mysql://db/pbpoints?createDatabaseIfNotExist=true
+            - JHIPSTER_SLEEP=60 # gives time for other services to boot before the application
+        ports:
+             - 8080:8080
