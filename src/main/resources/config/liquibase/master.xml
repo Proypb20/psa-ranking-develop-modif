@@ -31,7 +31,6 @@
     <include file="config/liquibase/changelog/20200205014615_added_entity_TeamPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200205014818_added_entity_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200207225605_added_entity_EventCategory.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200215194722_added_entity_Fixture.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200215200053_added_entity_Game.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191022230132_added_entity_constraints_Province.xml" relativeToChangelogFile="false"/>
@@ -48,7 +47,6 @@
     <include file="config/liquibase/changelog/20200205014615_added_entity_constraints_TeamPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200205014818_added_entity_constraints_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200207225605_added_entity_constraints_EventCategory.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200215194722_added_entity_constraints_Fixture.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200215200053_added_entity_constraints_Game.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

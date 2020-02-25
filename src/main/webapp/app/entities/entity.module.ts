@@ -81,10 +81,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./event-category/event-category.module').then(m => m.PsaRankingEventCategoryModule)
       },
       {
-        path: 'fixture',
-        loadChildren: () => import('./fixture/fixture.module').then(m => m.PsaRankingFixtureModule)
-      },
-      {
         path: 'game',
         loadChildren: () => import('./game/game.module').then(m => m.PsaRankingGameModule)
       }
