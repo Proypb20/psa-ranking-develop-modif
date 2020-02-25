@@ -46,19 +46,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.game.fixture" for="field_fixture">Fixture</label>
-                    <select class="form-control" id="field_fixture" name="fixture" formControlName="fixtureId">
-                        <option *ngIf="!editForm.get('fixtureId').value" [ngValue]="null" selected></option>
-                        <option [ngValue]="fixtureOption.id" *ngFor="let fixtureOption of fixtures; trackBy: trackFixtureById">{{fixtureOption.id}}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('fixtureId').invalid && (editForm.get('fixtureId').dirty || editForm.get('fixtureId').touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('fixtureId').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.game.teamA" for="field_teamA">Team A</label>
                     <select class="form-control" id="field_teamA" name="teamA" formControlName="teamAId">
                         <option *ngIf="!editForm.get('teamAId').value" [ngValue]="null" selected></option>

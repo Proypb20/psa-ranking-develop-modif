@@ -42,7 +42,7 @@ public class EventCategory implements Serializable {
     @JsonIgnoreProperties("eventCategories")
     private Format format;
 
-    @OneToMany(mappedBy = "eventCategory")
+    @OneToMany(mappedBy = "eventCategory", cascade = CascadeType.MERGE)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Game> games = new HashSet<>();
 

@@ -9,8 +9,6 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IGame, Game } from 'app/shared/model/game.model';
 import { GameService } from './game.service';
-import { IFixture } from 'app/shared/model/fixture.model';
-import { FixtureService } from 'app/entities/fixture/fixture.service';
 import { ITeam } from 'app/shared/model/team.model';
 import { TeamService } from 'app/entities/team/team.service';
 import { IEventCategory } from 'app/shared/model/event-category.model';
@@ -23,8 +21,6 @@ import { EventCategoryService } from 'app/entities/event-category/event-category
 export class GameUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  fixtures: IFixture[];
-
   teams: ITeam[];
 
   eventcategories: IEventCategory[];
@@ -36,7 +32,6 @@ export class GameUpdateComponent implements OnInit {
     splitDeckNum: [],
     timeLeft: [],
     status: [null, [Validators.required]],
-    fixtureId: [null, Validators.required],
     teamAId: [null, Validators.required],
     teamBId: [null, Validators.required],
     eventCategoryId: [null, Validators.required]
@@ -45,7 +40,6 @@ export class GameUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected gameService: GameService,
-    protected fixtureService: FixtureService,
     protected teamService: TeamService,
     protected eventCategoryService: EventCategoryService,
     protected activatedRoute: ActivatedRoute,
@@ -57,13 +51,6 @@ export class GameUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ game }) => {
       this.updateForm(game);
     });
-    this.fixtureService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFixture[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFixture[]>) => response.body)
-      )
-      .subscribe((res: IFixture[]) => (this.fixtures = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.teamService
       .query()
       .pipe(
@@ -88,7 +75,6 @@ export class GameUpdateComponent implements OnInit {
       splitDeckNum: game.splitDeckNum,
       timeLeft: game.timeLeft,
       status: game.status,
-      fixtureId: game.fixtureId,
       teamAId: game.teamAId,
       teamBId: game.teamBId,
       eventCategoryId: game.eventCategoryId
@@ -118,7 +104,6 @@ export class GameUpdateComponent implements OnInit {
       splitDeckNum: this.editForm.get(['splitDeckNum']).value,
       timeLeft: this.editForm.get(['timeLeft']).value,
       status: this.editForm.get(['status']).value,
-      fixtureId: this.editForm.get(['fixtureId']).value,
       teamAId: this.editForm.get(['teamAId']).value,
       teamBId: this.editForm.get(['teamBId']).value,
       eventCategoryId: this.editForm.get(['eventCategoryId']).value
@@ -139,10 +124,6 @@ export class GameUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  trackFixtureById(index: number, item: IFixture) {
-    return item.id;
   }
 
   trackTeamById(index: number, item: ITeam) {

@@ -3,16 +3,6 @@
     "clientRootFolder": "",
     "relationships": [
         {
-            "relationshipName": "fixture",
-            "otherEntityName": "fixture",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "game"
-        },
-        {
             "relationshipName": "teamA",
             "otherEntityName": "team",
             "relationshipType": "many-to-one",

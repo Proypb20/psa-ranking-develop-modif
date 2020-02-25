@@ -24,7 +24,6 @@
             <th scope="col"  jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="timeLeft"><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="teamAName"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="teamBName"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="eventCategoryId"><span jhiTranslate="psaRankingApp.game.eventCategory">Event Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -39,11 +38,6 @@
                 <td>{{game.splitDeckNum}}</td>
                 <td>{{game.timeLeft}}</td>
                 <td jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</td>
-                <td>
-                    <div *ngIf="game.fixtureId">
-                        <a [routerLink]="['/fixture', game.fixtureId , 'view' ]" >{{game.fixtureId}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="game.teamAId">
                         <a [routerLink]="['/team', game.teamAId , 'view' ]" >{{game.teamAName}}</a>

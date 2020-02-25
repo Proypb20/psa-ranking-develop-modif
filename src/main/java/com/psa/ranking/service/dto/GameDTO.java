@@ -23,8 +23,6 @@ public class GameDTO implements Serializable {
     private Status status;
 
 
-    private Long fixtureId;
-
     private Long teamAId;
 
     private String teamAName;
@@ -81,14 +79,6 @@ public class GameDTO implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public Long getFixtureId() {
-        return fixtureId;
-    }
-
-    public void setFixtureId(Long fixtureId) {
-        this.fixtureId = fixtureId;
     }
 
     public Long getTeamAId() {
@@ -161,7 +151,6 @@ public class GameDTO implements Serializable {
             ", splitDeckNum=" + getSplitDeckNum() +
             ", timeLeft=" + getTimeLeft() +
             ", status='" + getStatus() + "'" +
-            ", fixture=" + getFixtureId() +
             ", teamA=" + getTeamAId() +
             ", teamA='" + getTeamAName() + "'" +
             ", teamB=" + getTeamBId() +

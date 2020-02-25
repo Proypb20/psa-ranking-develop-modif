@@ -106,10 +106,6 @@ public class GameQueryService extends QueryService<Game> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Game_.status));
             }
-            if (criteria.getFixtureId() != null) {
-                specification = specification.and(buildSpecification(criteria.getFixtureId(),
-                    root -> root.join(Game_.fixture, JoinType.LEFT).get(Fixture_.id)));
-            }
             if (criteria.getTeamAId() != null) {
                 specification = specification.and(buildSpecification(criteria.getTeamAId(),
                     root -> root.join(Game_.teamA, JoinType.LEFT).get(Team_.id)));

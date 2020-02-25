@@ -8,10 +8,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Game} and its DTO {@link GameDTO}.
  */
-@Mapper(componentModel = "spring", uses = {FixtureMapper.class, TeamMapper.class, EventCategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {TeamMapper.class, EventCategoryMapper.class})
 public interface GameMapper extends EntityMapper<GameDTO, Game> {
 
-    @Mapping(source = "fixture.id", target = "fixtureId")
     @Mapping(source = "teamA.id", target = "teamAId")
     @Mapping(source = "teamA.name", target = "teamAName")
     @Mapping(source = "teamB.id", target = "teamBId")
@@ -19,7 +18,6 @@ public interface GameMapper extends EntityMapper<GameDTO, Game> {
     @Mapping(source = "eventCategory.id", target = "eventCategoryId")
     GameDTO toDto(Game game);
 
-    @Mapping(source = "fixtureId", target = "fixture")
     @Mapping(source = "teamAId", target = "teamA")
     @Mapping(source = "teamBId", target = "teamB")
     @Mapping(source = "eventCategoryId", target = "eventCategory")

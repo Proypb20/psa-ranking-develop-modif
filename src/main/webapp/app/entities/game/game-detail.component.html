@@ -25,12 +25,6 @@
                 <dd>
                     <span jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span></dt>
-                <dd>
-                    <div *ngIf="game.fixtureId">
-                        <a [routerLink]="['/fixture', game.fixtureId, 'view']">{{game.fixtureId}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="psaRankingApp.game.teamA">Team A</span></dt>
                 <dd>
                     <div *ngIf="game.teamAId">

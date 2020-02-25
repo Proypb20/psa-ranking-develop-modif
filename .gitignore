@@ -147,3 +147,5 @@ Desktop.ini
 .eslintcache
 
 src/main/resources/.h2.server.properties
+/.apt_generated/
+/.apt_generated_tests/

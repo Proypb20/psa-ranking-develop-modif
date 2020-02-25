@@ -2,7 +2,6 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Game;
-import com.psa.ranking.domain.Fixture;
 import com.psa.ranking.domain.Team;
 import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.repository.GameRepository;
@@ -118,16 +117,6 @@ public class GameResourceIT {
             .timeLeft(DEFAULT_TIME_LEFT)
             .status(DEFAULT_STATUS);
         // Add required entity
-        Fixture fixture;
-        if (TestUtil.findAll(em, Fixture.class).isEmpty()) {
-            fixture = FixtureResourceIT.createEntity(em);
-            em.persist(fixture);
-            em.flush();
-        } else {
-            fixture = TestUtil.findAll(em, Fixture.class).get(0);
-        }
-        game.setFixture(fixture);
-        // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
             team = TeamResourceIT.createEntity(em);
@@ -164,16 +153,6 @@ public class GameResourceIT {
             .splitDeckNum(UPDATED_SPLIT_DECK_NUM)
             .timeLeft(UPDATED_TIME_LEFT)
             .status(UPDATED_STATUS);
-        // Add required entity
-        Fixture fixture;
-        if (TestUtil.findAll(em, Fixture.class).isEmpty()) {
-            fixture = FixtureResourceIT.createUpdatedEntity(em);
-            em.persist(fixture);
-            em.flush();
-        } else {
-            fixture = TestUtil.findAll(em, Fixture.class).get(0);
-        }
-        game.setFixture(fixture);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -774,22 +753,6 @@ public class GameResourceIT {
         // Get all the gameList where status is null
         defaultGameShouldNotBeFound("status.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllGamesByFixtureIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        Fixture fixture = game.getFixture();
-        gameRepository.saveAndFlush(game);
-        Long fixtureId = fixture.getId();
-
-        // Get all the gameList where fixture equals to fixtureId
-        defaultGameShouldBeFound("fixtureId.equals=" + fixtureId);
-
-        // Get all the gameList where fixture equals to fixtureId + 1
-        defaultGameShouldNotBeFound("fixtureId.equals=" + (fixtureId + 1));
-    }
-
 
     @Test
     @Transactional

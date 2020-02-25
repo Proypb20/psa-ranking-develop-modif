@@ -1,31 +1,39 @@
 package com.psa.ranking.web.rest;
 
-import com.psa.ranking.service.EventCategoryService;
-import com.psa.ranking.web.rest.errors.BadRequestAlertException;
-import com.psa.ranking.service.dto.EventCategoryDTO;
-import com.psa.ranking.service.dto.EventCategoryCriteria;
-import com.psa.ranking.service.EventCategoryQueryService;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import javax.persistence.NoResultException;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.psa.ranking.service.EventCategoryQueryService;
+import com.psa.ranking.service.EventCategoryService;
+import com.psa.ranking.service.dto.EventCategoryCriteria;
+import com.psa.ranking.service.dto.EventCategoryDTO;
+import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 
-import java.util.List;
-import java.util.Optional;
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.psa.ranking.domain.EventCategory}.
@@ -98,7 +106,7 @@ public class EventCategoryResource {
 
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of eventCategories in body.
-     */
+     */ 
     @GetMapping("/event-categories")
     public ResponseEntity<List<EventCategoryDTO>> getAllEventCategories(EventCategoryCriteria criteria, Pageable pageable) {
         log.debug("REST request to get EventCategories by criteria: {}", criteria);
@@ -143,5 +151,20 @@ public class EventCategoryResource {
         log.debug("REST request to delete EventCategory : {}", id);
         eventCategoryService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+    
+    @PostMapping("/event-categories/fixture({idEventCategory}")
+    public ResponseEntity<String> createEventCategoryFixture(@PathVariable Long idEventCategory) throws URISyntaxException {
+        log.debug("REST request to generar a fixture from: {}", idEventCategory);
+        if (idEventCategory == null) {
+            throw new BadRequestAlertException("A eventCategory cannot have an empty ID", ENTITY_NAME, "idexists");
+        }
+        try {
+            eventCategoryService.generarFixture(idEventCategory);
+        } catch (NoResultException e) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok().body("Fixture generado con éxito");
     }
 }

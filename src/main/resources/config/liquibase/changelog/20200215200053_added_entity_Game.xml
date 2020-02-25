@@ -31,9 +31,6 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="fixture_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <column name="teama_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -71,7 +68,6 @@
             <column name="split_deck_num" type="numeric"/>
             <column name="time_left" type="numeric"/>
             <column name="status" type="string"/>
-            <column name="fixture_id" type="numeric"/>
             <column name="teama_id" type="numeric"/>
             <column name="teamb_id" type="numeric"/>
             <column name="event_category_id" type="numeric"/>

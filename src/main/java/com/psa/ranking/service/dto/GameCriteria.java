@@ -55,8 +55,6 @@ public class GameCriteria implements Serializable, Criteria {
 
     private StatusFilter status;
 
-    private LongFilter fixtureId;
-
     private LongFilter teamAId;
 
     private LongFilter teamBId;
@@ -73,7 +71,6 @@ public class GameCriteria implements Serializable, Criteria {
         this.splitDeckNum = other.splitDeckNum == null ? null : other.splitDeckNum.copy();
         this.timeLeft = other.timeLeft == null ? null : other.timeLeft.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.fixtureId = other.fixtureId == null ? null : other.fixtureId.copy();
         this.teamAId = other.teamAId == null ? null : other.teamAId.copy();
         this.teamBId = other.teamBId == null ? null : other.teamBId.copy();
         this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
@@ -132,14 +129,6 @@ public class GameCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public LongFilter getFixtureId() {
-        return fixtureId;
-    }
-
-    public void setFixtureId(LongFilter fixtureId) {
-        this.fixtureId = fixtureId;
-    }
-
     public LongFilter getTeamAId() {
         return teamAId;
     }
@@ -181,7 +170,6 @@ public class GameCriteria implements Serializable, Criteria {
             Objects.equals(splitDeckNum, that.splitDeckNum) &&
             Objects.equals(timeLeft, that.timeLeft) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(fixtureId, that.fixtureId) &&
             Objects.equals(teamAId, that.teamAId) &&
             Objects.equals(teamBId, that.teamBId) &&
             Objects.equals(eventCategoryId, that.eventCategoryId);
@@ -196,7 +184,6 @@ public class GameCriteria implements Serializable, Criteria {
         splitDeckNum,
         timeLeft,
         status,
-        fixtureId,
         teamAId,
         teamBId,
         eventCategoryId
@@ -212,7 +199,6 @@ public class GameCriteria implements Serializable, Criteria {
                 (splitDeckNum != null ? "splitDeckNum=" + splitDeckNum + ", " : "") +
                 (timeLeft != null ? "timeLeft=" + timeLeft + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
-                (fixtureId != null ? "fixtureId=" + fixtureId + ", " : "") +
                 (teamAId != null ? "teamAId=" + teamAId + ", " : "") +
                 (teamBId != null ? "teamBId=" + teamBId + ", " : "") +
                 (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +

@@ -81,4 +81,8 @@ public class FixtureService {
         log.debug("Request to delete Fixture : {}", id);
         fixtureRepository.deleteById(id);
     }
+
+    public void generateFixture() {
+        
+    }
 }

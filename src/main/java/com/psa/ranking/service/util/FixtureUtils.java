@@ -100,7 +100,7 @@ public class FixtureUtils {
             return calcularLigaNumEquiposImpar(numEquipos);
     }
 
-    public static void mostrarPartidos(Partido[][] rondas) {
+    public static void mostrarPartidos(Partido[][] rondas, Boolean MostrarVuelta) {
         System.out.println("IDA");
 
         for (int i = 0; i < rondas.length; i++) {
@@ -113,16 +113,18 @@ public class FixtureUtils {
             System.out.println();
         }
 
-        System.out.println("VUELTA");
-
-        for (int i = 0; i < rondas.length; i++) {
-            System.out.print("Ronda " + (i + 1) + ": ");
-
-            for (int j = 0; j < rondas[i].length; j++) {
-                System.out.print("   " + (1 + rondas[i][j].visitante) + "-" + (1 + rondas[i][j].local));
+        if (MostrarVuelta) {
+            System.out.println("VUELTA");
+    
+            for (int i = 0; i < rondas.length; i++) {
+                System.out.print("Ronda " + (i + 1) + ": ");
+    
+                for (int j = 0; j < rondas[i].length; j++) {
+                    System.out.print("   " + (1 + rondas[i][j].visitante) + "-" + (1 + rondas[i][j].local));
+                }
+    
+                System.out.println();
             }
-
-            System.out.println();
         }
     }
 }
