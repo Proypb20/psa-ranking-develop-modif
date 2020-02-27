@@ -3,14 +3,17 @@ import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/ht
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { IPlayer } from 'app/shared/model/player.model';
-import { AccountService } from 'app/core/auth/account.service';
 
-import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
+import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
+
+import { AccountService } from 'app/core/auth/account.service';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
@@ -22,6 +25,7 @@ import { JhiAlertService } from 'ng-jhipster';
 })
 export class PlayerComponent implements OnInit, OnDestroy {
   currentAccount: any;
+  isSaving: boolean;
   players: IPlayer[];
   error: any;
   success: any;
@@ -39,6 +43,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	
   users: IUser[];
   private completeName : any;
+  
+  addForm = this.fb.group({
+    id: [],
+    profile: [],
+    userId: [],
+    rosterId: []
+  });
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -48,7 +59,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    private fb: FormBuilder
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -82,6 +94,22 @@ export class PlayerComponent implements OnInit, OnDestroy {
       .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
    }
   }
+  
+  private createFromForm(): IPlayer {
+    return {
+      ...new Player(),
+      id: this.addForm.get(['id']).value,
+      profile: this.addForm.get(['profile']).value,
+      userId: this.addForm.get(['userId']).value,
+      rosterId: this.rId || this.addForm.get(['rosterId']).value
+    };
+  }
+  
+  save() {
+    this.isSaving = true;
+    const player = this.createFromForm();
+    this.subscribeToSaveResponse(this.playerService.create(player));
+  }
 
   loadPage(page: number) {
     if (page !== this.previousPage) {
@@ -114,12 +142,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  this.sub = this.activatedRoute
-      .queryParams
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        this.rId = +params['rId'] || 0;
-      });
+	  this.sub = this.activatedRoute
+	      .queryParams
+	      .subscribe(params => {
+	        this.rId = +params['rId'] || 0;
+	      });
     this.loadAll();
     this.userService
 	    .query({
@@ -160,6 +187,19 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.players = data;
+  }
+  
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPlayer>>) {
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess() {
+    this.isSaving = false;
+    window.location.reload();
+  }
+
+  protected onSaveError() {
+    this.isSaving = false;
   }
   
   protected onError(errorMessage: string) {

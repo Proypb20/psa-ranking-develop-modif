@@ -22,6 +22,7 @@ import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Game;
 import com.psa.ranking.domain.Roster;
 import com.psa.ranking.domain.Team;
+import com.psa.ranking.domain.enumeration.TimeType;
 import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.repository.GameRepository;
 import com.psa.ranking.repository.RosterRepository;
@@ -157,6 +158,10 @@ public class EventCategoryService {
                 {
                 	game.setSplitDeckNum(0);
                 }
+                if (eventCategory.getCategory().getGameTimeType() == TimeType.MINUTES)
+                	game.setTimeLeft(eventCategory.getCategory().getGameTime()*60);
+                if (eventCategory.getCategory().getGameTimeType() == TimeType.SECONDS)
+                	game.setTimeLeft(eventCategory.getCategory().getGameTime());
                 game.setTeamA(teams.get((rondas[i][j].local)));
                 game.setTeamB(teams.get((rondas[i][j].visitante)));
                 log.info("   " + game.getTeamA().toString() + "-" + game.getTeamB().toString());

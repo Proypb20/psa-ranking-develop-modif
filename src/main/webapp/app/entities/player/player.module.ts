@@ -14,6 +14,7 @@ const ENTITY_STATES = [...playerRoute, ...playerPopupRoute];
 @NgModule({
   imports: [PsaRankingSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [PlayerComponent, PlayerDetailComponent, PlayerUpdateComponent, PlayerDeleteDialogComponent, PlayerDeletePopupComponent,PlayerFilterPipe],
-  entryComponents: [PlayerDeleteDialogComponent]
+  entryComponents: [PlayerDeleteDialogComponent],
+  exports: [PlayerComponent, PlayerUpdateComponent]
 })
 export class PsaRankingPlayerModule {}

@@ -153,7 +153,7 @@ public class EventCategoryResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
     
-    @PostMapping("/event-categories/fixture({idEventCategory}")
+    @PostMapping("/event-categories/fixture({idEventCategory})")
     public ResponseEntity<String> createEventCategoryFixture(@PathVariable Long idEventCategory) throws URISyntaxException {
         log.debug("REST request to generar a fixture from: {}", idEventCategory);
         if (idEventCategory == null) {

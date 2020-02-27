@@ -33,6 +33,7 @@ describe('Component Tests', () => {
     it('should send the current identity upon save', () => {
       // GIVEN
       const accountValues: Account = {
+        id: 1,
         firstName: 'John',
         lastName: 'Doe',
         activated: true,

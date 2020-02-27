@@ -4,14 +4,13 @@
             <h2 id="jhi-player-heading" jhiTranslate="psaRankingApp.player.home.createOrEditLabel">Create or edit a Player</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" hidden>
-                    <label for="id" jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
+                <div class="form-group">
+                    <label for="id" jhiTranslate="global.field.id" hidden>ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" hidden/>
                 </div>
                 <div class="form-group" >
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.roster" for="field_roster">Roster</label>
-                    <select class="form-control" id="field_roster" name="roster" formControlName="rosterId">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.player.roster" for="field_roster" hidden>Roster</label>
+                    <select class="form-control" id="field_roster" name="roster" formControlName="rosterId" hidden>
                         <option *ngIf="!editForm.get('rosterId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="rosterOption.id" *ngFor="let rosterOption of rosters; trackBy: trackRosterById">{{rosterOption.id}}</option>
                     </select>

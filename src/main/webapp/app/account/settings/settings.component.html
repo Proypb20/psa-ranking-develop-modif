@@ -12,6 +12,9 @@
             <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.get('login').value" novalidate>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="id" jhiTranslate="settings.form.id">PBPoint ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                           formControlName="id" readonly>
                     <label class="form-control-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
                            formControlName="firstName">

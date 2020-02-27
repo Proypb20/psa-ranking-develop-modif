@@ -17,6 +17,7 @@ export class SettingsComponent implements OnInit {
   languages: any[];
   bornDateDp: any;
   settingsForm = this.fb.group({
+    id: [],
     firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     email: [undefined, [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
@@ -71,6 +72,7 @@ export class SettingsComponent implements OnInit {
     const account = {};
     return {
       ...account,
+      id: this.settingsForm.get('id').value,
       firstName: this.settingsForm.get('firstName').value,
       lastName: this.settingsForm.get('lastName').value,
       email: this.settingsForm.get('email').value,
@@ -92,6 +94,7 @@ export class SettingsComponent implements OnInit {
 
   updateForm(account: Account): void {
     this.settingsForm.patchValue({
+      id: account.id,
       firstName: account.firstName,
       lastName: account.lastName,
       email: account.email,

@@ -24,9 +24,6 @@ export class PlayerUpdateComponent implements OnInit {
   users: IUser[];
 
   rosters: IRoster[];
-  
-  rId: number;
-  private sub: any;
 
   editForm = this.fb.group({
     id: [],
@@ -45,11 +42,6 @@ export class PlayerUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-  this.sub = this.activatedRoute
-        .queryParams
-        .subscribe(params => {
-           this.rId = +params['rId'] || 0;
-      });
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ player }) => {
       this.updateForm(player);
@@ -75,7 +67,7 @@ export class PlayerUpdateComponent implements OnInit {
       id: player.id,
       profile: player.profile,
       userId: player.userId,
-      rosterId: this.rId || player.rosterId
+      rosterId: player.rosterId
     });
   }
 
@@ -99,7 +91,7 @@ export class PlayerUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       profile: this.editForm.get(['profile']).value,
       userId: this.editForm.get(['userId']).value,
-      rosterId: this.rId || this.editForm.get(['rosterId']).value
+      rosterId: this.editForm.get(['rosterId']).value
     };
   }
 

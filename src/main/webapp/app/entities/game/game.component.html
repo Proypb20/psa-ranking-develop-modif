@@ -19,13 +19,13 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="teamA"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="pointsA"><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="teamB"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th scope="col" ><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span></th>
+            <th scope="col" ><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!-- <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"></th>
             </tr>

@@ -26,6 +26,10 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+
 /**
  * REST controller for managing {@link com.psa.ranking.domain.Event}.
  */
@@ -144,5 +148,19 @@ public class EventResource {
         log.debug("REST request to delete Event : {}", id);
         eventService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+    @PostMapping("/events/createXML/{id}")
+    public ResponseEntity<String> createEventXML(@PathVariable Long id) throws URISyntaxException, ParserConfigurationException, TransformerConfigurationException {
+        log.debug("REST request to generar a fixture from: {}", id);
+        if (id == null) {
+            throw new BadRequestAlertException("A event cannot have an empty ID", ENTITY_NAME, "idexists");
+        }
+        try {
+            eventService.generaXML(id);
+        } catch (NoResultException e) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok().body("Archivo generado con éxito");
     }
 }

@@ -50,6 +50,7 @@ public interface UserExtraMapper extends EntityMapper<UserExtraDTO, UserExtra> {
 	@Mapping(source = "user.lastName",target = "lastName")
 	@Mapping(source = "user.login",target = "login")
 	@Mapping(source = "user.password",target = "password")
+    @Mapping(source = "user.id",target = "id")
 	ManagedUserVM toManagedUserVM (UserExtra userExtra);
 
     @Named("lalala")

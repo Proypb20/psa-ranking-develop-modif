@@ -1,5 +1,5 @@
 <div>
-    <h2 id="page-heading">
+    <!-- <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.player.home.title">Players</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']" [queryParams]="{rId:rosterId}">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -7,14 +7,47 @@
             Create a new Player
             </span>
         </button>
-    </h2>
+    </h2>-->
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
+    <form name="addForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="addForm">
+                <div class="form-group" class="row justify-content-center">
+                    <table class="table table-striped" aria-describedby="page-heading">
+                    <tr>
+                      <th>
+                        <label class="form-control-label" jhiTranslate="psaRankingApp.player.userId" for="field_user">PBPoint Id</label>
+                      </th>
+                      <th colspan=2>
+                        <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
+                      </th>
+                    </tr>
+                    <tr>
+                      <td>
+                         <input type="text" class="form-control" id="field_user" name="user" formControlName="userId"/>
+                      </td>
+                      <td>
+                        <select class="form-control" name="profile" formControlName="profile" id="field_profile">
+                          <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
+                          <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
+                        </select>
+                      </td>
+                      <td class="text-left">
+                        <div class="btn-group">
+                        <button type="submit" id="save-entity" [disabled]="addForm.invalid || isSaving" class="btn btn-primary">
+                          <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="global.menu.custom.add.player">add Player</span>
+                        </button>
+                        </div>
+                      </td>
+                     </tr>
+                    </table>                    
+                </div>
+    </form>
     <br/>
     <div class="alert alert-warning" *ngIf="players?.length === 0">
         <span jhiTranslate="psaRankingApp.player.home.notFound">No players found</span>
     </div>
     <div class="table-responsive" *ngIf="players?.length > 0">
+      <span jhiTranslate="psaRankingApp.player.detail.player">Players</span>
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -54,8 +87,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
-                                type="submit"
+                        <button type="submit"
                                 [routerLink]="['/player', { outlets: { popup: player.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
@@ -68,6 +100,7 @@
             </tr>
             </tbody>
             </table>
+            <span jhiTranslate="psaRankingApp.player.detail.staff">Staff</span>
             <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -107,8 +140,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
-                                type="submit"
+                        <button type="submit"
                                 [routerLink]="['/player', { outlets: { popup: player.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

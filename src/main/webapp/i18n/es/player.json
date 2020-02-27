@@ -14,10 +14,13 @@
         "question": "¿Seguro que quiere eliminar Player {{ id }}?"
       },
       "detail": {
-        "title": "Jugador"
+        "title": "Jugador",
+        "player": "Jugador",
+        "staff": "Staff"
       },
       "profile": "Perfil",
       "user": "Usuario",
+      "userId": "PBPoint ID",
       "roster": "Roster"
     }
   }
