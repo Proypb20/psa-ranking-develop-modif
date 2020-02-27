@@ -49,6 +49,8 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+  {
   this.teamService
       .query({
         page: this.page - 1,
@@ -56,6 +58,18 @@ export class TeamComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ITeam[]>) => this.paginateTeams(res.body, res.headers));
+  }
+  else
+  {
+  	this.teamService
+      .query({
+       "ownerId.equals": this.currentAccount.id,
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<ITeam[]>) => this.paginateTeams(res.body, res.headers));
+  }
   }
 
   loadPage(page: number) {
@@ -89,10 +103,10 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadAll();
-    this.accountService.identity().subscribe(account => {
+  this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    this.loadAll();
     this.registerChangeInTeams();
   }
 

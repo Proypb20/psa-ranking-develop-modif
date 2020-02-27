@@ -30,7 +30,6 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
-  uId: number;
 
   constructor(
     protected playerPointService: PlayerPointService,
@@ -50,14 +49,28 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+  if (this.currentAccount)
+  {
     this.playerPointService
       .query({
-       "userId.equals": 5,
+       "userId.equals": this.currentAccount.id,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IPlayerPoint[]>) => this.paginatePlayerPoints(res.body, res.headers));
+  }
+  else
+  {
+  	 this.playerPointService
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IPlayerPoint[]>) => this.paginatePlayerPoints(res.body, res.headers));
+  }
+  
   }
 
   loadPage(page: number) {
@@ -91,7 +104,9 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.uId = +sessionStorage.getItem('userid');
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
