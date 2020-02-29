@@ -101,6 +101,7 @@ public class PlayerDetailPointQueryService extends QueryService<PlayerDetailPoin
             if (criteria.getPlayerPointId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPlayerPointId(),
                     root -> root.join(PlayerDetailPoint_.playerPoint, JoinType.LEFT).get(PlayerPoint_.id)));
+            
             }
         }
         return specification;

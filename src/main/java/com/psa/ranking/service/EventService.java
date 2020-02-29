@@ -147,9 +147,6 @@ public class EventService {
 	        Element setup = document.createElement("SETUP");
 	        root.appendChild(setup);
 	        
-	        Element categorys = document.createElement("CATEGORY");
-	        setup.appendChild(categorys);
-	        
 	        List<EventCategory> eventCategories = eventCategoryRepository
 	                .findByEvent(event); 
 	        log.debug(eventCategories.toString());
@@ -159,6 +156,10 @@ public class EventService {
 	        }
 	        log.debug("Categorias a incluir: {}", eventCategories);
 	        for (EventCategory eventCategory : eventCategories) {
+	        	
+	        	Element categorys = document.createElement("CATEGORY");
+		        setup.appendChild(categorys);
+		        
 	        	Element name = document.createElement("NAME");
 	            name.appendChild(document.createTextNode(eventCategory.getCategory().getName()));
 	            categorys.appendChild(name);
