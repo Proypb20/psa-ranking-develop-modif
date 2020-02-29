@@ -26,7 +26,6 @@
             <th scope="col" jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
             <th scope="col" ><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span></th>
             <th scope="col" ><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="fixtureId"><span jhiTranslate="psaRankingApp.game.fixture">Fixture</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"></th>
             </tr>
             </thead>
@@ -40,11 +39,6 @@
                 <td>{{game.pointsB}}</td>
                 <td>{{((game.timeLeft-(game.timeLeft%60))/60)}}:{{(game.timeLeft%60)}}</td>
                 <td jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</td>
-                <!-- <td>
-                    <div *ngIf="game.fixtureId">
-                        <a [routerLink]="['/fixture', game.fixtureId , 'view' ]" >{{game.fixtureId}}</a>
-                    </div>
-                </td> -->
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"

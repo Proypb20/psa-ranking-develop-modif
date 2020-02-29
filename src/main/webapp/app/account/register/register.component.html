@@ -51,41 +51,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-
-                    <label class="form-control-label" for="lastName" jhiTranslate="global.form.lastName.label">lastName</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'global.form.lastName.placeholder' | translate}}"
-                           formControlName="lastName">
-                </div>
-                <div class="form-group">
-
-                    <label class="form-control-label" for="firstName" jhiTranslate="global.form.firstName.label">firstName</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'global.form.firstName.placeholder' | translate}}"
-                           formControlName="firstName">
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="email" jhiTranslate="global.form.email.label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
-                             formControlName="email">
-                    <div *ngIf="registerForm.get('email').invalid && (registerForm.get('email').dirty || registerForm.get('email').touched)">
-                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.required"
-                                jhiTranslate="global.messages.validate.email.required">
-                            Your email is required.
-                        </small>
-                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.invalid"
-                               jhiTranslate="global.messages.validate.email.invalid">
-                            Your email is invalid.
-                        </small>
-                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.minlength"
-                               jhiTranslate="global.messages.validate.email.minlength">
-                            Your email is required to be at least 5 characters.
-                        </small>
-                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.maxlength"
-                               jhiTranslate="global.messages.validate.email.maxlength">
-                            Your email cannot be longer than 100 characters.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="password" jhiTranslate="global.form.newpassword.label">New password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="{{'global.form.newpassword.placeholder' | translate}}"
                             formControlName="password">
@@ -125,6 +90,52 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="lastName" jhiTranslate="global.form.lastName.label">lastName</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'global.form.lastName.placeholder' | translate}}"
+                           formControlName="lastName">
+                </div>
+                <div class="form-group">
+
+                    <label class="form-control-label" for="firstName" jhiTranslate="global.form.firstName.label">firstName</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'global.form.firstName.placeholder' | translate}}"
+                           formControlName="firstName">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="numDoc" jhiTranslate="global.form.numDoc.label">numDoc</label>
+                    <input class="form-control" id="numDoc" name="numDoc" placeholder="{{'global.form.numDoc.placeholder' | translate}}"
+                            formControlName="numDoc"/> 
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="bornDate" jhiTranslate="global.form.bornDate.label">bornDate</label>
+                    <div class="input-group">
+                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate" placeholder="{{'global.form.bornDate.placeholder' | translate}}"/>
+                        <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="email" jhiTranslate="global.form.email.label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
+                             formControlName="email">
+                    <div *ngIf="registerForm.get('email').invalid && (registerForm.get('email').dirty || registerForm.get('email').touched)">
+                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.required"
+                                jhiTranslate="global.messages.validate.email.required">
+                            Your email is required.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.invalid"
+                               jhiTranslate="global.messages.validate.email.invalid">
+                            Your email is invalid.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.minlength"
+                               jhiTranslate="global.messages.validate.email.minlength">
+                            Your email is required to be at least 5 characters.
+                        </small>
+                        <small class="form-text text-danger" *ngIf="registerForm.get('email').errors.maxlength"
+                               jhiTranslate="global.messages.validate.email.maxlength">
+                            Your email cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="phone" jhiTranslate="global.form.phone.label">Phone</label>
                     <input class="form-control" id="phone" ng-model="phone" placeholder="{{'global.form.phone.label' | translate}}" formControlName="phone"/> 
                     <div *ngIf="registerForm.get('phone').invalid && (registerForm.get('phone').dirty || registerForm.get('phone').touched)">
@@ -140,18 +151,6 @@
                                jhiTranslate="global.messages.validate.phone.maxlength">
                             Your phone cannot be longer than 15 characters.
                         </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="numDoc" jhiTranslate="global.form.numDoc.label">numDoc</label>
-                    <input class="form-control" id="numDoc" name="numDoc" placeholder="{{'global.form.numDoc.placeholder' | translate}}"
-                            formControlName="numDoc"/> 
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="bornDate" jhiTranslate="global.form.bornDate.label">bornDate</label>
-                    <div class="input-group">
-                        <input id="bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
-                        <button type="button" class="btn btn-secondary" (click)="bornDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                     </div>
                 </div>
                 <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary" jhiTranslate="register.form.button">Register</button>

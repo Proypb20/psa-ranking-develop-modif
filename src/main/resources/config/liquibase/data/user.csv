@@ -5,4 +5,5 @@ id;login;password_hash;first_name;last_name;email;image_url;activated;lang_key;c
 4;user;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;User;User;user@localhost;;true;es;system;system
 5;proxy88;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;Eduardo;Sly;slyeduardo@gmail.com;;true;es;system;system
 6;mmiño;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;Marcelo;Miño;mmiño@gmail.com;;true;es;system;system
-7;AAP;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;Arg;Asociacion;otro@gmail.com;;true;es;system;system
+7;acatana;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;Alejandro;Catana;acatana@gmail.com;;true;es;system;system
+8;kecho;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;Sergio;Soliz;kecho@gmail.com;;true;es;system;system

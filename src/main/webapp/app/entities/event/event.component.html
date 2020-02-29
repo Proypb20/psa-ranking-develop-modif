@@ -65,19 +65,17 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
+                               (click)="generateXML()" 
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.add.xml">Generate XML</span>
+                        </button>
                         <button type="submit"
                                 [routerLink]="['/event-category']"
                                 [queryParams]="{evId:event.id}"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
-                        </button>
-                        <button *jhiHasAnyAuthority="'ROLE_USER'" 
-                                type="submit"
-                                [routerLink]="['/roster/new']"
-                                [queryParams]="{tId:event.tournamentId,evId:event.id}"
-                                class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.subscribe.roster">Subs Team</span>
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
                                 type="submit"

@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.playerPoint.home.title">Player Points</span>
-        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-point" [routerLink]="['/player-point/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-point" [routerLink]="['/player-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.playerPoint.home.createLabel">
             Create a new Player Point
             </span>
-        </button>-->
+        </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
@@ -18,18 +18,20 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></th>
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.tournament">Tournament</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.points">Points</span></th>            
+            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.points">Points</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let playerPoint of playerPoints ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/player-point', playerPoint.id, 'view' ]">{{playerPoint.id}}</a></td> -->
-                <td>{{playerPoint.userLogin}}</td>
+                <!-- <td><a [routerLink]="['/player-point', playerPoint.id, 'view' ]">{{playerPoint.id}}</a></td>-->
                 <td>{{playerPoint.tournamentName}}</td>
+                <td>{{playerPoint.userLogin}}</td>
+                <td>{{playerPoint.categoryName}}</td>
                 <td>{{playerPoint.points}}</td>
                 <td class="text-right">
                     <div class="btn-group">

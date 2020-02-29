@@ -13,6 +13,8 @@ import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { ICategory } from 'app/shared/model/category.model';
+import { CategoryService } from 'app/entities/category/category.service';
 
 @Component({
   selector: 'jhi-player-point-update',
@@ -25,11 +27,14 @@ export class PlayerPointUpdateComponent implements OnInit {
 
   users: IUser[];
 
+  categories: ICategory[];
+
   editForm = this.fb.group({
     id: [],
     points: [null, [Validators.required]],
     tournamentId: [null, Validators.required],
-    userId: [null, Validators.required]
+    userId: [null, Validators.required],
+    categoryId: []
   });
 
   constructor(
@@ -37,6 +42,7 @@ export class PlayerPointUpdateComponent implements OnInit {
     protected playerPointService: PlayerPointService,
     protected tournamentService: TournamentService,
     protected userService: UserService,
+    protected categoryService: CategoryService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -60,6 +66,13 @@ export class PlayerPointUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.categoryService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICategory[]>) => response.body)
+      )
+      .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(playerPoint: IPlayerPoint) {
@@ -67,7 +80,8 @@ export class PlayerPointUpdateComponent implements OnInit {
       id: playerPoint.id,
       points: playerPoint.points,
       tournamentId: playerPoint.tournamentId,
-      userId: playerPoint.userId
+      userId: playerPoint.userId,
+      categoryId: playerPoint.categoryId
     });
   }
 
@@ -91,7 +105,8 @@ export class PlayerPointUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       points: this.editForm.get(['points']).value,
       tournamentId: this.editForm.get(['tournamentId']).value,
-      userId: this.editForm.get(['userId']).value
+      userId: this.editForm.get(['userId']).value,
+      categoryId: this.editForm.get(['categoryId']).value
     };
   }
 
@@ -116,6 +131,10 @@ export class PlayerPointUpdateComponent implements OnInit {
   }
 
   trackUserById(index: number, item: IUser) {
+    return item.id;
+  }
+
+  trackCategoryById(index: number, item: ICategory) {
     return item.id;
   }
 }

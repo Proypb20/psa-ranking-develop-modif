@@ -2,7 +2,9 @@ package com.psa.ranking.service;
 
 import com.psa.ranking.domain.Event;
 import com.psa.ranking.domain.EventCategory;
+import com.psa.ranking.domain.Game;
 import com.psa.ranking.repository.EventRepository;
+import com.psa.ranking.repository.GameRepository;
 import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.service.dto.EventDTO;
 import com.psa.ranking.service.mapper.EventMapper;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Attr;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -46,12 +47,15 @@ public class EventService {
     private final EventRepository eventRepository;
     
     private final EventCategoryRepository eventCategoryRepository;
+    
+    private final GameRepository gameRepository;
 
     private final EventMapper eventMapper;
 
-    public EventService(EventRepository eventRepository, EventCategoryRepository eventCategoryRepository, EventMapper eventMapper) {
+    public EventService(EventRepository eventRepository, EventCategoryRepository eventCategoryRepository, GameRepository gameRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventCategoryRepository = eventCategoryRepository;
+        this.gameRepository = gameRepository;
         this.eventMapper = eventMapper;
     }
 
@@ -114,7 +118,7 @@ public class EventService {
      * @throws TransformerConfigurationException 
      */
     public void generarXML(Event event) throws ParserConfigurationException, TransformerConfigurationException {
-        if (event.getEndInscriptionDate().isBefore(LocalDate.now())) {
+        if (event.getEndInscriptionDate().isAfter(LocalDate.now())) {
             throw new NoResultException("La fecha de Inscripcion aun no ha finalizado");
         }
         log.info("*** Generando XML para el evento {}", event);
@@ -124,20 +128,21 @@ public class EventService {
 	        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 	        Document document = documentBuilder.newDocument();
+	        
 	        Element root = document.createElement("PBPOINTS");
 	        document.appendChild(root);
 	        
 	        Element eventId = document.createElement("EVENT_ID");
 	        eventId.appendChild(document.createTextNode(event.getId().toString()));
-	        document.appendChild(eventId);
+	        root.appendChild(eventId);
 	        
 	        Element ownerId = document.createElement("OWNER_ID");
 	        ownerId.appendChild(document.createTextNode(event.getTournament().getOwner().getId().toString()));
-	        document.appendChild(ownerId);
+	        root.appendChild(ownerId);
 	        
 	        Element hash = document.createElement("HASH");
 	        hash.appendChild(document.createTextNode(event.getTournament().getOwner().getLangKey()));
-	        document.appendChild(hash);
+	        root.appendChild(hash);
 	        
 	        Element setup = document.createElement("SETUP");
 	        root.appendChild(setup);
@@ -156,39 +161,39 @@ public class EventService {
 	        for (EventCategory eventCategory : eventCategories) {
 	        	Element name = document.createElement("NAME");
 	            name.appendChild(document.createTextNode(eventCategory.getCategory().getName()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(name);
 	            
 	            Element timeType = document.createElement("TIME_TYPE");
 	            timeType.appendChild(document.createTextNode(eventCategory.getCategory().getGameTimeType().name()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(timeType);
 	            
 	            Element time = document.createElement("TIME");
 	            time.appendChild(document.createTextNode(eventCategory.getCategory().getGameTime().toString()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(time);
 	            
 	            Element waitType = document.createElement("WAIT_TYPE");
 	            waitType.appendChild(document.createTextNode(eventCategory.getCategory().getStopTimeType().name()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(waitType);
 	            
 	            Element wait = document.createElement("WAIT");
 	            wait.appendChild(document.createTextNode(eventCategory.getCategory().getStopTime().toString()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(wait);
 	            
 	            Element waitSpType = document.createElement("WAIT_SP_TYPE");
-	            waitSpType.appendChild(document.createTextNode("M"));
-	            document.appendChild(categorys);
+	            waitSpType.appendChild(document.createTextNode("MINUTES"));
+	            categorys.appendChild(waitSpType);
 	            
 	            Element waitSp = document.createElement("WAIT_SP");
 	            waitSp.appendChild(document.createTextNode("1"));
-	            document.appendChild(categorys);
+	            categorys.appendChild(waitSp);
 	            
 	            Element points = document.createElement("POINTS");
 	            points.appendChild(document.createTextNode(eventCategory.getCategory().getTotalPoints().toString()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(points);
 	            
 	            Element dif = document.createElement("DIF");
 	            dif.appendChild(document.createTextNode(eventCategory.getCategory().getDifPoints().toString()));
-	            document.appendChild(categorys);
+	            categorys.appendChild(dif);
 			}
 	        Element fixture = document.createElement("FIXTURE");
 	        root.appendChild(fixture);
@@ -197,15 +202,50 @@ public class EventService {
 	        fixture.appendChild(categoryf);
 	        
 	        for (EventCategory eventCategory : eventCategories) {
+	        	
 	        	Element name = document.createElement("NAME");
 	        	name.appendChild(document.createTextNode(eventCategory.getCategory().getName()));
-	            document.appendChild(categoryf);
+	            categoryf.appendChild(name);
+	            
+	            Element gamesxml = document.createElement("GAMES");
+		        categoryf.appendChild(gamesxml);
+		        
+		        List<Game> games = gameRepository
+		        		.findByEventCategory(eventCategory); 
+		        
+		        log.debug(games.toString());
+		        
+		        for (Game gameloop : games)
+		        {
+		            Element gamexml = document.createElement("GAME");
+			        gamesxml.appendChild(gamexml);
+			        
+			        Element gameid = document.createElement("ID");
+		        	gameid.appendChild(document.createTextNode(gameloop.getId().toString()));
+		            gamexml.appendChild(gameid);
+			        
+		            Element spid = document.createElement("SD_ID");
+		        	spid.appendChild(document.createTextNode(gameloop.getSplitDeckNum().toString()));
+		            gamexml.appendChild(spid);
+		            
+		            Element clasif = document.createElement("CLASIF");
+		        	clasif.appendChild(document.createTextNode("1"));
+		            gamexml.appendChild(clasif);
+		            
+		            Element teama = document.createElement("TEAM_A");
+		        	teama.appendChild(document.createTextNode(gameloop.getTeamA().getName()));
+		            gamexml.appendChild(teama);
+		            
+		            Element teamb = document.createElement("TEAM_B");
+		        	teamb.appendChild(document.createTextNode(gameloop.getTeamB().getName()));
+		            gamexml.appendChild(teamb);
+		        }
 	        }
 	        
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        Transformer transformer = transformerFactory.newTransformer();
 	        DOMSource domSource = new DOMSource(document);
-	        String xmlFilePath = "C:\\PBPoints\\PBPOINTS" + event.getName().replace(" ", "").toUpperCase() + ".xml";
+	        String xmlFilePath = "C:\\PBPoints\\PBPOINTS_" + event.getName().replace(" ", "").toUpperCase() + ".pbp";
 			StreamResult streamResult = new StreamResult(new File(xmlFilePath));
             
 			transformer.transform(domSource, streamResult);
@@ -219,8 +259,9 @@ public class EventService {
 		    }
     }
 
-    public void generaXML(Long id) throws NoResultException, ParserConfigurationException, TransformerConfigurationException{
-        Optional<Event> event = eventRepository.findById(id);
+    public void generaXML(Long eventId) throws NoResultException, ParserConfigurationException, TransformerConfigurationException{
+    	
+        Optional<Event> event = eventRepository.findById(eventId);
         if (event.isPresent()) {
             this.generarXML(event.get());
         } else {

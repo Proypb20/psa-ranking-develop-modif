@@ -4,6 +4,7 @@ import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.PlayerPoint;
 import com.psa.ranking.domain.Tournament;
 import com.psa.ranking.domain.User;
+import com.psa.ranking.domain.Category;
 import com.psa.ranking.repository.PlayerPointRepository;
 import com.psa.ranking.service.PlayerPointService;
 import com.psa.ranking.service.dto.PlayerPointDTO;
@@ -366,6 +367,26 @@ public class PlayerPointResourceIT {
 
         // Get all the playerPointList where user equals to userId + 1
         defaultPlayerPointShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPlayerPointsByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        playerPointRepository.saveAndFlush(playerPoint);
+        Category category = CategoryResourceIT.createEntity(em);
+        em.persist(category);
+        em.flush();
+        playerPoint.setCategory(category);
+        playerPointRepository.saveAndFlush(playerPoint);
+        Long categoryId = category.getId();
+
+        // Get all the playerPointList where category equals to categoryId
+        defaultPlayerPointShouldBeFound("categoryId.equals=" + categoryId);
+
+        // Get all the playerPointList where category equals to categoryId + 1
+        defaultPlayerPointShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
     }
 
     /**

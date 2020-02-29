@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
@@ -183,5 +183,22 @@ export class EventComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
+  }
+  
+  generateXML()
+  {
+     this.subscribeToSaveResponse(this.eventService.generateXML());
+  }
+  
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>) {
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+  
+  protected onSaveSuccess() {
+    alert ("XML Generado con exito");
+  }
+
+  protected onSaveError() {
+    alert("Error al generar XML");
   }
 }

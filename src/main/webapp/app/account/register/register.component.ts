@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
@@ -7,9 +7,6 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { Register } from './register.service';
 import { JhiAlertService } from 'ng-jhipster';
-import { IDocType } from 'app/shared/model/doc-type.model';
-import { DocTypeService } from 'app/entities/doc-type/doc-type.service';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-register',
@@ -22,7 +19,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   errorUserExists: string;
   success: boolean;
   modalRef: NgbModalRef;
-  docTypes: IDocType[];
 
   registerForm = this.fb.group({
     login: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50), Validators.pattern('^[_.@A-Za-z0-9-]*$')]],
@@ -33,14 +29,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
     numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-    bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
-    docTypeId: []
+    bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
   });
 
   constructor(
     private languageService: JhiLanguageService,
     private loginModalService: LoginModalService,
-    private docTypeService: DocTypeService,
     protected jhiAlertService: JhiAlertService,
     private registerService: Register,
     private elementRef: ElementRef,
@@ -49,14 +43,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.docTypeService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IDocType[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IDocType[]>) => response.body)
-      )
-      .subscribe((res: IDocType[]) => (this.docTypes = res), (res: HttpErrorResponse) => this.onError(res.message));
-      this.success = false;
   }
 
   ngAfterViewInit() {
@@ -70,6 +56,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     const firstName = this.registerForm.get(['firstName']).value;
     const email = this.registerForm.get(['email']).value;
     const password = this.registerForm.get(['password']).value;
+    
     if (password !== this.registerForm.get(['confirmPassword']).value) {
       this.doNotMatch = 'ERROR';
     } else {
@@ -107,11 +94,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.error = 'ERROR';
     }
   }
-  
-  trackDocTypeById(index: number, item: IDocType) {
-    return item.id;
-  }
-  
+    
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }

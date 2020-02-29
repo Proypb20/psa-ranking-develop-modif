@@ -19,6 +19,12 @@
                 <dd>
                     {{playerPoint.userLogin}}
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.playerPoint.category">Category</span></dt>
+                <dd>
+                    <div *ngIf="playerPoint.categoryId">
+                        <a [routerLink]="['/category', playerPoint.categoryId, 'view']">{{playerPoint.categoryName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

@@ -18,7 +18,8 @@
       },
       "points": "Points",
       "tournament": "Tournament",
-      "user": "User"
+      "user": "User",
+      "category": "Category"
     }
   }
 }

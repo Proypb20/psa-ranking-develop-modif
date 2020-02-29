@@ -28,12 +28,17 @@ public class PlayerPoint implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("playerPoints")
     private Tournament tournament;
 
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("playerPoints")
     private User user;
+
+    @ManyToOne
+    @JsonIgnoreProperties("playerPoints")
+    private Category category;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -81,6 +86,19 @@ public class PlayerPoint implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public PlayerPoint category(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -26,7 +26,6 @@
         "teamPoint": "Team Point",
         "teamDetailPoint": "Team Detail Point",
         "eventCategory": "Event Category",
-        "fixture": "Fixture",
         "game": "Game",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },

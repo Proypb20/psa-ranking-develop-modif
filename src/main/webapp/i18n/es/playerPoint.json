@@ -18,7 +18,8 @@
       },
       "points": "Puntos",
       "tournament": "Torneo",
-      "user": "Usuario"
+      "user": "Usuario",
+      "category": "Categoria"
     }
   }
 }

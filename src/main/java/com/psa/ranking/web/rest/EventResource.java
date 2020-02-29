@@ -149,7 +149,8 @@ public class EventResource {
         eventService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
-    @PostMapping("/events/createXML/{id}")
+    
+    @GetMapping("/events/generateXML/{id}")
     public ResponseEntity<String> createEventXML(@PathVariable Long id) throws URISyntaxException, ParserConfigurationException, TransformerConfigurationException {
         log.debug("REST request to generar a fixture from: {}", id);
         if (id == null) {

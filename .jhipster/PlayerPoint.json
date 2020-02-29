@@ -9,7 +9,8 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "playerPoint"
         },
         {
             "relationshipName": "user",
@@ -20,6 +21,13 @@
             ],
             "otherEntityField": "login",
             "ownerSide": true,
+            "otherEntityRelationshipName": "playerPoint"
+        },
+        {
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name",
             "otherEntityRelationshipName": "playerPoint"
         }
     ],

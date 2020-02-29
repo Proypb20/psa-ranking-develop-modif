@@ -1,7 +1,6 @@
 package com.psa.ranking.repository;
 import com.psa.ranking.domain.Event;
 import com.psa.ranking.domain.EventCategory;
-import com.psa.ranking.domain.Roster;
 
 import java.time.LocalDate;
 import java.util.List;

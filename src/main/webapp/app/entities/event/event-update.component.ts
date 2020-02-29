@@ -15,6 +15,7 @@ import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { ICity } from 'app/shared/model/city.model';
 import { CityService } from 'app/entities/city/city.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-event-update',
@@ -22,7 +23,7 @@ import { CityService } from 'app/entities/city/city.service';
 })
 export class EventUpdateComponent implements OnInit {
   isSaving: boolean;
-
+  currentAccount: any;
   tournaments: ITournament[];
 
   cities: ICity[];
@@ -47,6 +48,7 @@ export class EventUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected eventService: EventService,
     protected tournamentService: TournamentService,
+    protected accountService: AccountService,
     protected cityService: CityService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -54,16 +56,32 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.activatedRoute.data.subscribe(({ event }) => {
       this.updateForm(event);
     });
-    this.tournamentService
+    if (this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT') && !this.currentAccount.authorities.includes('ROLE_ADMIN'))
+    {
+      this.tournamentService
+      .query({'ownerId.equals': this.currentAccount.id})
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITournament[]>) => response.body)
+      )
+      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+    else
+    {
+      this.tournamentService
       .query()
       .pipe(
         filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITournament[]>) => response.body)
       )
       .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
     this.cityService
       .query()
       .pipe(

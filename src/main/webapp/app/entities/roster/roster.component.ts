@@ -61,20 +61,7 @@ export class RosterComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if (this.tId)
-  {
-    this.rosterService
-      .query({
-       'teamId.equals': this.tId,
-       'eventId.equals': this.evId,
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
-  }
-  else
-  {
+  
     if (this.evId && this.cId)
     {
       this.rosterService
@@ -102,16 +89,29 @@ export class RosterComponent implements OnInit, OnDestroy {
         }
         else
         {
-         this.rosterService
-             .query({
-              page: this.page - 1,
-              size: this.itemsPerPage,
-              sort: this.sort()
-              })
-             .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+          if (this.cId)
+          {
+		      this.rosterService
+		          .query({
+		           'categoryId.equals': this.cId,
+		            page: this.page - 1,
+		            size: this.itemsPerPage,
+		            sort: this.sort()
+		            })
+		          .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+          }
+          else
+          {
+            this.rosterService
+                .query({
+	              page: this.page - 1,
+	              size: this.itemsPerPage,
+	              sort: this.sort()
+	              })
+	             .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
+	      }
         }
       }
-    }
   }
 
   loadPage(page: number) {

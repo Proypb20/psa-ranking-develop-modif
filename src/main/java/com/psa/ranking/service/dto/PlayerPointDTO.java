@@ -21,10 +21,10 @@ public class PlayerPointDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
-    
-    private String userLastName;
-    
-    private String userFirstName;
+
+    private Long categoryId;
+
+    private String categoryName;
 
     public Long getId() {
         return id;
@@ -73,21 +73,21 @@ public class PlayerPointDTO implements Serializable {
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
     }
-    
-    public String getUserLastName() {
-        return userLastName;
+
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
-    }
-    
-    public String getUserFirstName() {
-        return userFirstName;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @Override
@@ -120,6 +120,8 @@ public class PlayerPointDTO implements Serializable {
             ", tournament='" + getTournamentName() + "'" +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
+            ", category=" + getCategoryId() +
+            ", category='" + getCategoryName() + "'" +
             "}";
     }
 }

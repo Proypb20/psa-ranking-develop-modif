@@ -13,14 +13,16 @@
           "province": "Agregar Provincia",
           "team": "Agregar Equipo",
           "player": "Agregar Jugador",
-          "add": "Agregar"
+          "add": "Agregar",
+          "xml": "Generar XML"
         },
         "view": {
           "view": "Ver Todo",
           "event": "Ver Eventos",
           "tournament": "Ver Torneos",
+          "tournament": "Mis Torneos",
           "team": "Ver Equipos",
-          "roster": "Ver Jugadores",
+          "roster": "Ver Equipos Anotados",
           "province": "Ver Provincias",
           "doctype": "Ver Tipos de Documento",
           "country": "Ver Paises",
@@ -42,6 +44,7 @@
           "tournament": "Torneos",
           "team": "Equipos",
           "myteam": "Mis Equipos",
+          "mytournament": "Mis Torneos",
           "roster": "Jugadores",
           "province": "Provincias",
           "doctype": "Tipos de Documento",
@@ -69,7 +72,6 @@
         "teamPoint": "Puntos por Equipo",
         "teamDetailPoint": "Detalle Puntos por Equipo",
         "eventCategory": "Event Category",
-        "fixture": "Fixture",
         "game": "Partidos",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },

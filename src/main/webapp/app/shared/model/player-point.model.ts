@@ -5,6 +5,8 @@ export interface IPlayerPoint {
   tournamentId?: number;
   userLogin?: string;
   userId?: number;
+  categoryName?: string;
+  categoryId?: number;
 }
 
 export class PlayerPoint implements IPlayerPoint {
@@ -14,6 +16,8 @@ export class PlayerPoint implements IPlayerPoint {
     public tournamentName?: string,
     public tournamentId?: number,
     public userLogin?: string,
-    public userId?: number
+    public userId?: number,
+    public categoryName?: string,
+    public categoryId?: number
   ) {}
 }

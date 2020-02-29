@@ -30,9 +30,6 @@ export class TournamentComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
-  tourStatus1: any;
-  tourStatus2: any;
-  private sub: any;
 
   constructor(
     protected tournamentService: TournamentService,
@@ -53,11 +50,10 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-    if (this.tourStatus1)
+    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
     {
-      this.tournamentService
+        this.tournamentService
           .query({
-          'status.in': [this.tourStatus1,this.tourStatus2],
            page: this.page - 1,
            size: this.itemsPerPage,
            sort: this.sort()
@@ -66,13 +62,41 @@ export class TournamentComponent implements OnInit, OnDestroy {
     }
     else
     {
-      this.tournamentService
-          .query({
-           page: this.page - 1,
-           size: this.itemsPerPage,
-           sort: this.sort()
-           })
-          .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+      if (this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
+      {
+        this.tournamentService
+            .query({
+            "ownerId.equals": this.currentAccount.id,
+             page: this.page - 1,
+             size: this.itemsPerPage,
+             sort: this.sort()
+             })
+            .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+      }
+      else
+      {
+        if (this.currentAccount.authorities.includes('ROLE_USER'))
+        {
+          this.tournamentService
+              .query({
+              'status.in': ['CREATED','IN_PROGRESS'],
+               page: this.page - 1,
+               size: this.itemsPerPage,
+               sort: this.sort()
+               })
+              .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+        }
+        else
+        {
+          this.tournamentService
+              .query({
+               page: this.page - 1,
+               size: this.itemsPerPage,
+               sort: this.sort()
+               })
+             .subscribe((res: HttpResponse<ITournament[]>) => this.paginateTournaments(res.body, res.headers));
+        }
+      }
     }
   }
 
@@ -107,16 +131,10 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  this.sub = this.activatedRoute
-      .queryParams
-      .subscribe(params => {
-        this.tourStatus1 = params['st'];
-        this.tourStatus2 = params['st2']; 
-      });
-    this.loadAll();
-    this.accountService.identity().subscribe(account => {
+      this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    this.loadAll();
     this.registerChangeInTournaments();
   }
 

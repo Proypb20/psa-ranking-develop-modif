@@ -32,7 +32,13 @@ export class EventService {
       .put<IEvent>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
-
+  
+  generateXML(): Observable<EntityResponseType> {
+    return this.http
+      .get<IEvent>(`${this.resourceUrl}/generateXML/1`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+  
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IEvent>(`${this.resourceUrl}/${id}`, { observe: 'response' })

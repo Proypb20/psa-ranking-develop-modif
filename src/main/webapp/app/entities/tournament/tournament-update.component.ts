@@ -11,6 +11,7 @@ import { ITournament, Tournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from './tournament.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-tournament-update',
@@ -18,7 +19,7 @@ import { UserService } from 'app/core/user/user.service';
 })
 export class TournamentUpdateComponent implements OnInit {
   isSaving: boolean;
-
+  currentAccount: any;
   users: IUser[];
 
   editForm = this.fb.group({
@@ -36,6 +37,7 @@ export class TournamentUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected jhiAlertService: JhiAlertService,
     protected tournamentService: TournamentService,
+    protected accountService: AccountService,
     protected userService: UserService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
@@ -44,6 +46,9 @@ export class TournamentUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.isSaving = false;
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.activatedRoute.data.subscribe(({ tournament }) => {
       this.updateForm(tournament);
     });
@@ -54,6 +59,12 @@ export class TournamentUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    
+    if (this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
+    {
+      this.editForm.patchValue({
+      ownerId: this.currentAccount.id});
+    }  
   }
 
   updateForm(tournament: ITournament) {

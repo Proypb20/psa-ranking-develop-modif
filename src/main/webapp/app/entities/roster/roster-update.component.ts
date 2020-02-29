@@ -19,12 +19,14 @@ import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { IEvent } from 'app/shared/model/event.model';
 import { EventService } from 'app/entities/event/event.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-roster-update',
   templateUrl: './roster-update.component.html'
 })
 export class RosterUpdateComponent implements OnInit {
+  currentAccount: any;
   isSaving: boolean;
 
   categories: ICategory[];
@@ -62,6 +64,7 @@ export class RosterUpdateComponent implements OnInit {
     protected teamService: TeamService,
     protected tournamentService: TournamentService,
     protected eventService: EventService,
+    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -75,6 +78,9 @@ export class RosterUpdateComponent implements OnInit {
            this.evId = +params['evId'] || 0;
            this.cId = +params['cId'] || 0;
       });
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ roster }) => {
       this.updateForm(roster);
@@ -94,14 +100,16 @@ export class RosterUpdateComponent implements OnInit {
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
   this.teamService
-      .query({'teamId.equals': this.teId})
+      .query({"teamId.equals": this.teId,
+             "ownerId.equals": this.currentAccount.id
+            })
       .pipe(
         filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITeam[]>) => response.body)
       )
       .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.tournamentService
-      .query({'tournamentId.equals': this.tId,'status.equals':"CREATED"})
+      .query({'tournamentId.equals': this.tId,"status.equals":"CREATED"})
       .pipe(
         filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
         map((response: HttpResponse<ITournament[]>) => response.body)
