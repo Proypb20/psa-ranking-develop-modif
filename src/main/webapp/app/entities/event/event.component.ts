@@ -185,9 +185,9 @@ export class EventComponent implements OnInit, OnDestroy {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
   
-  generateXML()
+  generateXML(id: number)
   {
-     this.subscribeToSaveResponse(this.eventService.generateXML());
+     this.subscribeToSaveResponse(this.eventService.generateXML(id));
   }
   
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>) {

@@ -99,15 +99,28 @@ export class RosterUpdateComponent implements OnInit {
         map((response: HttpResponse<IPlayer[]>) => response.body)
       )
       .subscribe((res: IPlayer[]) => (this.players = res), (res: HttpErrorResponse) => this.onError(res.message));
-  this.teamService
-      .query({"teamId.equals": this.teId,
-             "ownerId.equals": this.currentAccount.id
-            })
-      .pipe(
-        filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ITeam[]>) => response.body)
-      )
-      .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
+      if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+      {      
+		  this.teamService
+		      .query({"teamId.equals": this.teId
+		            })
+		      .pipe(
+		        filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
+		        map((response: HttpResponse<ITeam[]>) => response.body)
+		      )
+		      .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
+	  }
+	  else
+      {
+		  this.teamService
+	      .query({"teamId.equals": this.teId,
+	             "ownerId.equals": this.currentAccount.id
+	            })
+	      .pipe(
+	            filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
+	            map((response: HttpResponse<ITeam[]>) => response.body))
+	      .subscribe((res: ITeam[]) => (this.teams = res), (res: HttpErrorResponse) => this.onError(res.message));
+		      }
     this.tournamentService
       .query({'tournamentId.equals': this.tId,"status.equals":"CREATED"})
       .pipe(

@@ -66,7 +66,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
                         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
-                               (click)="generateXML()" 
+                               (click)="generateXML(event.id)" 
                                 class="btn btn-primary btn-sm">
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.add.xml">Generate XML</span>
                         </button>
