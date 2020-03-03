@@ -21,7 +21,8 @@
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.format.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.format.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="coeficient"><span jhiTranslate="psaRankingApp.format.coeficient">Coeficient</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" scope="col"  jhiSortBy="playersQty"><span jhiTranslate="psaRankingApp.format.playersQty">Players Qty</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" scope="col"  jhiSortBy="coeficient"><span jhiTranslate="psaRankingApp.format.coeficient">Coeficient</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -30,7 +31,8 @@
                 <!-- <td><a [routerLink]="['/format', format.id, 'view' ]">{{format.id}}</a></td>-->
                 <td>{{format.name}}</td>
                 <td>{{format.description}}</td>
-                <!-- <td>{{format.coeficient}}</td>-->
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" >{{format.playersQty}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" >{{format.coeficient}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"

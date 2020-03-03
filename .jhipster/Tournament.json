@@ -12,7 +12,7 @@
         {
             "fieldName": "status",
             "fieldType": "Status",
-            "fieldValues": "CREATED,IN_PROGRESS,DONE"
+            "fieldValues": "CREATED,PENDING,IN_PROGRESS,DONE,CANCEL"
         },
         {
             "fieldName": "categorize",
@@ -22,6 +22,10 @@
             "fieldName": "logo",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "cantPlayersNextCategory",
+            "fieldType": "Integer"
         }
     ],
     "relationships": [

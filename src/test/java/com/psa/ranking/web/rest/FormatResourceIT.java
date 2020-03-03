@@ -48,6 +48,10 @@ public class FormatResourceIT {
     private static final Float UPDATED_COEFICIENT = 2F;
     private static final Float SMALLER_COEFICIENT = 1F - 1F;
 
+    private static final Integer DEFAULT_PLAYERS_QTY = 1;
+    private static final Integer UPDATED_PLAYERS_QTY = 2;
+    private static final Integer SMALLER_PLAYERS_QTY = 1 - 1;
+
     @Autowired
     private FormatRepository formatRepository;
 
@@ -101,7 +105,8 @@ public class FormatResourceIT {
         Format format = new Format()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
-            .coeficient(DEFAULT_COEFICIENT);
+            .coeficient(DEFAULT_COEFICIENT)
+            .playersQty(DEFAULT_PLAYERS_QTY);
         return format;
     }
     /**
@@ -114,7 +119,8 @@ public class FormatResourceIT {
         Format format = new Format()
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
-            .coeficient(UPDATED_COEFICIENT);
+            .coeficient(UPDATED_COEFICIENT)
+            .playersQty(UPDATED_PLAYERS_QTY);
         return format;
     }
 
@@ -142,6 +148,7 @@ public class FormatResourceIT {
         assertThat(testFormat.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testFormat.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testFormat.getCoeficient()).isEqualTo(DEFAULT_COEFICIENT);
+        assertThat(testFormat.getPlayersQty()).isEqualTo(DEFAULT_PLAYERS_QTY);
     }
 
     @Test
@@ -216,7 +223,8 @@ public class FormatResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(format.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].coeficient").value(hasItem(DEFAULT_COEFICIENT.doubleValue())));
+            .andExpect(jsonPath("$.[*].coeficient").value(hasItem(DEFAULT_COEFICIENT.doubleValue())))
+            .andExpect(jsonPath("$.[*].playersQty").value(hasItem(DEFAULT_PLAYERS_QTY)));
     }
     
     @Test
@@ -232,7 +240,8 @@ public class FormatResourceIT {
             .andExpect(jsonPath("$.id").value(format.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.coeficient").value(DEFAULT_COEFICIENT.doubleValue()));
+            .andExpect(jsonPath("$.coeficient").value(DEFAULT_COEFICIENT.doubleValue()))
+            .andExpect(jsonPath("$.playersQty").value(DEFAULT_PLAYERS_QTY));
     }
 
     @Test
@@ -495,6 +504,111 @@ public class FormatResourceIT {
         defaultFormatShouldBeFound("coeficient.greaterThan=" + SMALLER_COEFICIENT);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty equals to DEFAULT_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.equals=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty equals to UPDATED_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.equals=" + UPDATED_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty not equals to DEFAULT_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.notEquals=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty not equals to UPDATED_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.notEquals=" + UPDATED_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsInShouldWork() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty in DEFAULT_PLAYERS_QTY or UPDATED_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.in=" + DEFAULT_PLAYERS_QTY + "," + UPDATED_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty equals to UPDATED_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.in=" + UPDATED_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty is not null
+        defaultFormatShouldBeFound("playersQty.specified=true");
+
+        // Get all the formatList where playersQty is null
+        defaultFormatShouldNotBeFound("playersQty.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty is greater than or equal to DEFAULT_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.greaterThanOrEqual=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty is greater than or equal to UPDATED_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.greaterThanOrEqual=" + UPDATED_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty is less than or equal to DEFAULT_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.lessThanOrEqual=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty is less than or equal to SMALLER_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.lessThanOrEqual=" + SMALLER_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsLessThanSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty is less than DEFAULT_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.lessThan=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty is less than UPDATED_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.lessThan=" + UPDATED_PLAYERS_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFormatsByPlayersQtyIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        formatRepository.saveAndFlush(format);
+
+        // Get all the formatList where playersQty is greater than DEFAULT_PLAYERS_QTY
+        defaultFormatShouldNotBeFound("playersQty.greaterThan=" + DEFAULT_PLAYERS_QTY);
+
+        // Get all the formatList where playersQty is greater than SMALLER_PLAYERS_QTY
+        defaultFormatShouldBeFound("playersQty.greaterThan=" + SMALLER_PLAYERS_QTY);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -505,7 +619,8 @@ public class FormatResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(format.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].coeficient").value(hasItem(DEFAULT_COEFICIENT.doubleValue())));
+            .andExpect(jsonPath("$.[*].coeficient").value(hasItem(DEFAULT_COEFICIENT.doubleValue())))
+            .andExpect(jsonPath("$.[*].playersQty").value(hasItem(DEFAULT_PLAYERS_QTY)));
 
         // Check, that the count call also returns 1
         restFormatMockMvc.perform(get("/api/formats/count?sort=id,desc&" + filter))
@@ -555,7 +670,8 @@ public class FormatResourceIT {
         updatedFormat
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
-            .coeficient(UPDATED_COEFICIENT);
+            .coeficient(UPDATED_COEFICIENT)
+            .playersQty(UPDATED_PLAYERS_QTY);
         FormatDTO formatDTO = formatMapper.toDto(updatedFormat);
 
         restFormatMockMvc.perform(put("/api/formats")
@@ -570,6 +686,7 @@ public class FormatResourceIT {
         assertThat(testFormat.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testFormat.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testFormat.getCoeficient()).isEqualTo(UPDATED_COEFICIENT);
+        assertThat(testFormat.getPlayersQty()).isEqualTo(UPDATED_PLAYERS_QTY);
     }
 
     @Test

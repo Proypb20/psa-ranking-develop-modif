@@ -21,10 +21,11 @@
             <th scope="col"  jhiSortBy="logo"><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="closeInscrDays"><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="status"><span jhiTranslate="psaRankingApp.tournament.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="categorize"><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="closeInscrDays"><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="status"><span jhiTranslate="psaRankingApp.tournament.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="cantPlayersNextCategory"><span jhiTranslate="psaRankingApp.tournament.cantPlayersNextCategory">Cant Players Next Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="categorize"><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -38,13 +39,14 @@
                     <!-- <span *ngIf="tournament.logo">{{tournament.logoContentType}}</span>-->
                 </td>
                 <td>{{tournament.name}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.closeInscrDays}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.categorize}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{tournament.ownerLogin}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.closeInscrDays}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.cantPlayersNextCategory}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.categorize}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.ownerLogin}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <!-- <button type="submit"
+                        <!--<button type="submit"
                                 [routerLink]="['/tournament', tournament.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>

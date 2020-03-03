@@ -32,6 +32,9 @@ public class Format implements Serializable {
     @Column(name = "coeficient", nullable = false)
     private Float coeficient;
 
+    @Column(name = "players_qty")
+    private Integer playersQty;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -79,6 +82,19 @@ public class Format implements Serializable {
     public void setCoeficient(Float coeficient) {
         this.coeficient = coeficient;
     }
+
+    public Integer getPlayersQty() {
+        return playersQty;
+    }
+
+    public Format playersQty(Integer playersQty) {
+        this.playersQty = playersQty;
+        return this;
+    }
+
+    public void setPlayersQty(Integer playersQty) {
+        this.playersQty = playersQty;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -104,6 +120,7 @@ public class Format implements Serializable {
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", coeficient=" + getCoeficient() +
+            ", playersQty=" + getPlayersQty() +
             "}";
     }
 }

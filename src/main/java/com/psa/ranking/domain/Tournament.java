@@ -46,6 +46,9 @@ public class Tournament implements Serializable {
     @Column(name = "logo_content_type")
     private String logoContentType;
 
+    @Column(name = "cant_players_next_category")
+    private Integer cantPlayersNextCategory;
+
     @OneToMany(mappedBy = "tournament")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Event> events = new HashSet<>();
@@ -142,6 +145,19 @@ public class Tournament implements Serializable {
         this.logoContentType = logoContentType;
     }
 
+    public Integer getCantPlayersNextCategory() {
+        return cantPlayersNextCategory;
+    }
+
+    public Tournament cantPlayersNextCategory(Integer cantPlayersNextCategory) {
+        this.cantPlayersNextCategory = cantPlayersNextCategory;
+        return this;
+    }
+
+    public void setCantPlayersNextCategory(Integer cantPlayersNextCategory) {
+        this.cantPlayersNextCategory = cantPlayersNextCategory;
+    }
+
     public Set<Event> getEvents() {
         return events;
     }
@@ -207,6 +223,7 @@ public class Tournament implements Serializable {
             ", categorize='" + isCategorize() + "'" +
             ", logo='" + getLogo() + "'" +
             ", logoContentType='" + getLogoContentType() + "'" +
+            ", cantPlayersNextCategory=" + getCantPlayersNextCategory() +
             "}";
     }
 }

@@ -20,6 +20,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "playersQty",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20200204002143",

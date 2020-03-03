@@ -564,10 +564,10 @@
                     <version>${jib-maven-plugin.version}</version>
                     <executions>
                         <execution>
-                            <!-- <phase>package</phase>
+                            <phase>package</phase>
                             <goals>
                                 <goal>dockerBuild</goal>
-                            </goals>-->
+                            </goals>
                         </execution>
                     </executions>
                     <configuration>

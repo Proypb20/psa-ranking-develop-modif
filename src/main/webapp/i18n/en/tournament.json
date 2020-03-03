@@ -21,6 +21,7 @@
       "status": "Status",
       "categorize": "Categorize",
       "logo": "Logo",
+      "cantPlayersNextCategory": "Cant Players Next Category",
       "event": "Event",
       "owner": "Owner"
     }

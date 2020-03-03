@@ -34,12 +34,15 @@
             <column name="logo_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="cant_players_next_category" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="owner_id" type="bigint">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-           <loadData
+        <loadData
                   file="config/liquibase/data/tournament.csv"
                   separator=";"
                   tableName="tournament">
@@ -49,6 +52,7 @@
             <column name="status" type="string"/>
             <column name="categorize" type="boolean"/>
             <column name="owner_id" type="numeric"/>
+            <column name="cant_players_next_category" type="integer">
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
@@ -78,6 +82,7 @@
             <column name="categorize" type="boolean"/>
             <column name="logo" type="blob"/>
             <column name="logo_content_type" type="string"/>
+            <column name="cant_players_next_category" type="numeric"/>
             <column name="owner_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

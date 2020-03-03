@@ -53,6 +53,8 @@ public class TournamentCriteria implements Serializable, Criteria {
 
     private BooleanFilter categorize;
 
+    private IntegerFilter cantPlayersNextCategory;
+
     private LongFilter eventId;
 
     private LongFilter ownerId;
@@ -66,6 +68,7 @@ public class TournamentCriteria implements Serializable, Criteria {
         this.closeInscrDays = other.closeInscrDays == null ? null : other.closeInscrDays.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.categorize = other.categorize == null ? null : other.categorize.copy();
+        this.cantPlayersNextCategory = other.cantPlayersNextCategory == null ? null : other.cantPlayersNextCategory.copy();
         this.eventId = other.eventId == null ? null : other.eventId.copy();
         this.ownerId = other.ownerId == null ? null : other.ownerId.copy();
     }
@@ -115,6 +118,14 @@ public class TournamentCriteria implements Serializable, Criteria {
         this.categorize = categorize;
     }
 
+    public IntegerFilter getCantPlayersNextCategory() {
+        return cantPlayersNextCategory;
+    }
+
+    public void setCantPlayersNextCategory(IntegerFilter cantPlayersNextCategory) {
+        this.cantPlayersNextCategory = cantPlayersNextCategory;
+    }
+
     public LongFilter getEventId() {
         return eventId;
     }
@@ -147,6 +158,7 @@ public class TournamentCriteria implements Serializable, Criteria {
             Objects.equals(closeInscrDays, that.closeInscrDays) &&
             Objects.equals(status, that.status) &&
             Objects.equals(categorize, that.categorize) &&
+            Objects.equals(cantPlayersNextCategory, that.cantPlayersNextCategory) &&
             Objects.equals(eventId, that.eventId) &&
             Objects.equals(ownerId, that.ownerId);
     }
@@ -159,6 +171,7 @@ public class TournamentCriteria implements Serializable, Criteria {
         closeInscrDays,
         status,
         categorize,
+        cantPlayersNextCategory,
         eventId,
         ownerId
         );
@@ -172,6 +185,7 @@ public class TournamentCriteria implements Serializable, Criteria {
                 (closeInscrDays != null ? "closeInscrDays=" + closeInscrDays + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (categorize != null ? "categorize=" + categorize + ", " : "") +
+                (cantPlayersNextCategory != null ? "cantPlayersNextCategory=" + cantPlayersNextCategory + ", " : "") +
                 (eventId != null ? "eventId=" + eventId + ", " : "") +
                 (ownerId != null ? "ownerId=" + ownerId + ", " : "") +
             "}";

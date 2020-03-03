@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(FormatService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Format(0, 'AAAAAAA', 'AAAAAAA', 0);
+      elemDefault = new Format(0, 'AAAAAAA', 'AAAAAAA', 0, 0);
     });
 
     describe('Service methods', () => {
@@ -58,7 +58,8 @@ describe('Service Tests', () => {
           {
             name: 'BBBBBB',
             description: 'BBBBBB',
-            coeficient: 1
+            coeficient: 1,
+            playersQty: 1
           },
           elemDefault
         );
@@ -78,7 +79,8 @@ describe('Service Tests', () => {
           {
             name: 'BBBBBB',
             description: 'BBBBBB',
-            coeficient: 1
+            coeficient: 1,
+            playersQty: 1
           },
           elemDefault
         );

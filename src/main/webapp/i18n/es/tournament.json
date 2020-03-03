@@ -2,27 +2,28 @@
   "psaRankingApp": {
     "tournament": {
       "home": {
-        "title": "Torneos",
-        "createLabel": "Agregar Torneo",
-        "createOrEditLabel": "Torneos",
-        "notFound": "No se encontraron Torneos"
+        "title": "Tournaments",
+        "createLabel": "Crear nuevo Tournament",
+        "createOrEditLabel": "Crear o editar Tournament",
+        "notFound": "No Tournaments found"
       },
-      "created": "El torneo {{param}} ha sido creado",
-      "updated": "El torneo {{param}} ha sido actualizado",
-      "deleted": "El torneo {{param}} ha sido eliminado",
+      "created": "Un nuevo Tournament ha sido creado con el identificador {{ param }}",
+      "updated": "Un Tournament ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Tournament ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar el torneo {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Tournament {{ id }}?"
       },
       "detail": {
-        "title": "Torneo"
+        "title": "Tournament"
       },
-      "name": "Nombre",
-      "closeInscrDays": "Dias Cierre Inscripcion",
-      "status": "Estado",
-      "categorize": "Categorizar",
+      "name": "Name",
+      "closeInscrDays": "Close Inscr Days",
+      "status": "Status",
+      "categorize": "Categorize",
       "logo": "Logo",
-      "event": "Evento",
-      "owner": "Propietario"
+      "cantPlayersNextCategory": "Cant Players Next Category",
+      "event": "Event",
+      "owner": "Owner"
     }
   }
 }

@@ -65,7 +65,6 @@ public class FormatResource {
         }
         FormatDTO result = formatService.save(formatDTO);
         return ResponseEntity.created(new URI("/api/formats/" + result.getId()))
-            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
@@ -87,8 +86,7 @@ public class FormatResource {
         }
         FormatDTO result = formatService.save(formatDTO);
         return ResponseEntity.ok()
-            //.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, formatDTO.getId().toString()))
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, formatDTO.getName()))
+        		.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, formatDTO.getName()))
             .body(result);
     }
 

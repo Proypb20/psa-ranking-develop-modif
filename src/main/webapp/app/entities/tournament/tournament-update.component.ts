@@ -30,6 +30,7 @@ export class TournamentUpdateComponent implements OnInit {
     categorize: [],
     logo: [],
     logoContentType: [],
+    cantPlayersNextCategory: [],
     ownerId: [null, Validators.required]
   });
 
@@ -59,7 +60,6 @@ export class TournamentUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
-    
     if (this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
     {
       this.editForm.patchValue({
@@ -76,6 +76,7 @@ export class TournamentUpdateComponent implements OnInit {
       categorize: tournament.categorize,
       logo: tournament.logo,
       logoContentType: tournament.logoContentType,
+      cantPlayersNextCategory: tournament.cantPlayersNextCategory,
       ownerId: tournament.ownerId
     });
   }
@@ -147,6 +148,7 @@ export class TournamentUpdateComponent implements OnInit {
       categorize: this.editForm.get(['categorize']).value,
       logoContentType: this.editForm.get(['logoContentType']).value,
       logo: this.editForm.get(['logo']).value,
+      cantPlayersNextCategory: this.editForm.get(['cantPlayersNextCategory']).value,
       ownerId: this.editForm.get(['ownerId']).value
     };
   }

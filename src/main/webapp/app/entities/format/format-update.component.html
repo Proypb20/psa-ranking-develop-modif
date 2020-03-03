@@ -4,11 +4,11 @@
             <h2 id="jhi-format-heading" jhiTranslate="psaRankingApp.format.home.createOrEditLabel">Create or edit a Format</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" hidden>
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
-                </div> -->
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.format.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
@@ -24,6 +24,11 @@
                     <label class="form-control-label" jhiTranslate="psaRankingApp.format.description" for="field_description">Description</label>
                     <input type="text" class="form-control" name="description" id="field_description"
                            formControlName="description"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.format.playersQty" for="field_playersQty">Players Qty</label>
+                    <input type="number" class="form-control" name="playersQty" id="field_playersQty"
+                           formControlName="playersQty"/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.format.coeficient" for="field_coeficient">Coeficient</label>

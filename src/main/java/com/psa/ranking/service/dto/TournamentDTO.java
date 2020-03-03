@@ -26,6 +26,8 @@ public class TournamentDTO implements Serializable {
     private byte[] logo;
 
     private String logoContentType;
+    private Integer cantPlayersNextCategory;
+
 
     private Long ownerId;
 
@@ -87,6 +89,14 @@ public class TournamentDTO implements Serializable {
         this.logoContentType = logoContentType;
     }
 
+    public Integer getCantPlayersNextCategory() {
+        return cantPlayersNextCategory;
+    }
+
+    public void setCantPlayersNextCategory(Integer cantPlayersNextCategory) {
+        this.cantPlayersNextCategory = cantPlayersNextCategory;
+    }
+
     public Long getOwnerId() {
         return ownerId;
     }
@@ -133,6 +143,7 @@ public class TournamentDTO implements Serializable {
             ", status='" + getStatus() + "'" +
             ", categorize='" + isCategorize() + "'" +
             ", logo='" + getLogo() + "'" +
+            ", cantPlayersNextCategory=" + getCantPlayersNextCategory() +
             ", owner=" + getOwnerId() +
             ", owner='" + getOwnerLogin() + "'" +
             "}";

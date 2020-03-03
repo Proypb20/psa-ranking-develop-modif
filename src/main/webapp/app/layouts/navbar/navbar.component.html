@@ -84,7 +84,7 @@
             </li>
             <!-- Fin Agregado Edu Menu ADMIN -->
             <!-- Agregado Edu Menu USER -->
-            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-item" 
                    routerLink="team/new" 
                    routerLinkActive="active" 
@@ -93,7 +93,7 @@
                    <span jhiTranslate="global.menu.custom.add.team">Agregar</span>
                 </a>
             </li>
-            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-item" 
                    routerLink="tournament" 
                    routerLinkActive="active" 
@@ -101,7 +101,6 @@
                    (click)="collapseNavbar()" 
                    jhiTranslate="global.menu.entities.tournament">
                 </a>
-                
             </li>
             <!-- FIn Agregado Edu Menu USER -->
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->

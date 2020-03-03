@@ -50,7 +50,7 @@ public class TournamentResourceIT {
     private static final Integer SMALLER_CLOSE_INSCR_DAYS = 1 - 1;
 
     private static final Status DEFAULT_STATUS = Status.CREATED;
-    private static final Status UPDATED_STATUS = Status.IN_PROGRESS;
+    private static final Status UPDATED_STATUS = Status.PENDING;
 
     private static final Boolean DEFAULT_CATEGORIZE = false;
     private static final Boolean UPDATED_CATEGORIZE = true;
@@ -59,6 +59,10 @@ public class TournamentResourceIT {
     private static final byte[] UPDATED_LOGO = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_LOGO_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_LOGO_CONTENT_TYPE = "image/png";
+
+    private static final Integer DEFAULT_CANT_PLAYERS_NEXT_CATEGORY = 1;
+    private static final Integer UPDATED_CANT_PLAYERS_NEXT_CATEGORY = 2;
+    private static final Integer SMALLER_CANT_PLAYERS_NEXT_CATEGORY = 1 - 1;
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -116,7 +120,8 @@ public class TournamentResourceIT {
             .status(DEFAULT_STATUS)
             .categorize(DEFAULT_CATEGORIZE)
             .logo(DEFAULT_LOGO)
-            .logoContentType(DEFAULT_LOGO_CONTENT_TYPE);
+            .logoContentType(DEFAULT_LOGO_CONTENT_TYPE)
+            .cantPlayersNextCategory(DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -137,7 +142,8 @@ public class TournamentResourceIT {
             .status(UPDATED_STATUS)
             .categorize(UPDATED_CATEGORIZE)
             .logo(UPDATED_LOGO)
-            .logoContentType(UPDATED_LOGO_CONTENT_TYPE);
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
+            .cantPlayersNextCategory(UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -173,6 +179,7 @@ public class TournamentResourceIT {
         assertThat(testTournament.isCategorize()).isEqualTo(DEFAULT_CATEGORIZE);
         assertThat(testTournament.getLogo()).isEqualTo(DEFAULT_LOGO);
         assertThat(testTournament.getLogoContentType()).isEqualTo(DEFAULT_LOGO_CONTENT_TYPE);
+        assertThat(testTournament.getCantPlayersNextCategory()).isEqualTo(DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
     }
 
     @Test
@@ -212,7 +219,8 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())))
             .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))));
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+            .andExpect(jsonPath("$.[*].cantPlayersNextCategory").value(hasItem(DEFAULT_CANT_PLAYERS_NEXT_CATEGORY)));
     }
     
     @Test
@@ -231,7 +239,8 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.categorize").value(DEFAULT_CATEGORIZE.booleanValue()))
             .andExpect(jsonPath("$.logoContentType").value(DEFAULT_LOGO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)));
+            .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)))
+            .andExpect(jsonPath("$.cantPlayersNextCategory").value(DEFAULT_CANT_PLAYERS_NEXT_CATEGORY));
     }
 
     @Test
@@ -523,6 +532,111 @@ public class TournamentResourceIT {
 
     @Test
     @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory equals to DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.equals=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory equals to UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.equals=" + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory not equals to DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.notEquals=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory not equals to UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.notEquals=" + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory in DEFAULT_CANT_PLAYERS_NEXT_CATEGORY or UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.in=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY + "," + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory equals to UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.in=" + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory is not null
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.specified=true");
+
+        // Get all the tournamentList where cantPlayersNextCategory is null
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory is greater than or equal to DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.greaterThanOrEqual=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory is greater than or equal to UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.greaterThanOrEqual=" + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory is less than or equal to DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.lessThanOrEqual=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory is less than or equal to SMALLER_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.lessThanOrEqual=" + SMALLER_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsLessThanSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory is less than DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.lessThan=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory is less than UPDATED_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.lessThan=" + UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTournamentsByCantPlayersNextCategoryIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        tournamentRepository.saveAndFlush(tournament);
+
+        // Get all the tournamentList where cantPlayersNextCategory is greater than DEFAULT_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldNotBeFound("cantPlayersNextCategory.greaterThan=" + DEFAULT_CANT_PLAYERS_NEXT_CATEGORY);
+
+        // Get all the tournamentList where cantPlayersNextCategory is greater than SMALLER_CANT_PLAYERS_NEXT_CATEGORY
+        defaultTournamentShouldBeFound("cantPlayersNextCategory.greaterThan=" + SMALLER_CANT_PLAYERS_NEXT_CATEGORY);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllTournamentsByEventIsEqualToSomething() throws Exception {
         // Initialize the database
         tournamentRepository.saveAndFlush(tournament);
@@ -569,7 +683,8 @@ public class TournamentResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].categorize").value(hasItem(DEFAULT_CATEGORIZE.booleanValue())))
             .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))));
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+            .andExpect(jsonPath("$.[*].cantPlayersNextCategory").value(hasItem(DEFAULT_CANT_PLAYERS_NEXT_CATEGORY)));
 
         // Check, that the count call also returns 1
         restTournamentMockMvc.perform(get("/api/tournaments/count?sort=id,desc&" + filter))
@@ -622,7 +737,8 @@ public class TournamentResourceIT {
             .status(UPDATED_STATUS)
             .categorize(UPDATED_CATEGORIZE)
             .logo(UPDATED_LOGO)
-            .logoContentType(UPDATED_LOGO_CONTENT_TYPE);
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
+            .cantPlayersNextCategory(UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
         TournamentDTO tournamentDTO = tournamentMapper.toDto(updatedTournament);
 
         restTournamentMockMvc.perform(put("/api/tournaments")
@@ -640,6 +756,7 @@ public class TournamentResourceIT {
         assertThat(testTournament.isCategorize()).isEqualTo(UPDATED_CATEGORIZE);
         assertThat(testTournament.getLogo()).isEqualTo(UPDATED_LOGO);
         assertThat(testTournament.getLogoContentType()).isEqualTo(UPDATED_LOGO_CONTENT_TYPE);
+        assertThat(testTournament.getCantPlayersNextCategory()).isEqualTo(UPDATED_CANT_PLAYERS_NEXT_CATEGORY);
     }
 
     @Test

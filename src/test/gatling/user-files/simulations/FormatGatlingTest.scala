@@ -75,6 +75,7 @@ class FormatGatlingTest extends Simulation {
                 , "name":"SAMPLE_TEXT"
                 , "description":"SAMPLE_TEXT"
                 , "coeficient":null
+                , "playersQty":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_format_url"))).exitHereIfFailed

@@ -32,6 +32,8 @@ public class FormatCriteria implements Serializable, Criteria {
 
     private FloatFilter coeficient;
 
+    private IntegerFilter playersQty;
+
     public FormatCriteria(){
     }
 
@@ -40,6 +42,7 @@ public class FormatCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.description = other.description == null ? null : other.description.copy();
         this.coeficient = other.coeficient == null ? null : other.coeficient.copy();
+        this.playersQty = other.playersQty == null ? null : other.playersQty.copy();
     }
 
     @Override
@@ -79,6 +82,14 @@ public class FormatCriteria implements Serializable, Criteria {
         this.coeficient = coeficient;
     }
 
+    public IntegerFilter getPlayersQty() {
+        return playersQty;
+    }
+
+    public void setPlayersQty(IntegerFilter playersQty) {
+        this.playersQty = playersQty;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -93,7 +104,8 @@ public class FormatCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(description, that.description) &&
-            Objects.equals(coeficient, that.coeficient);
+            Objects.equals(coeficient, that.coeficient) &&
+            Objects.equals(playersQty, that.playersQty);
     }
 
     @Override
@@ -102,7 +114,8 @@ public class FormatCriteria implements Serializable, Criteria {
         id,
         name,
         description,
-        coeficient
+        coeficient,
+        playersQty
         );
     }
 
@@ -113,6 +126,7 @@ public class FormatCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (description != null ? "description=" + description + ", " : "") +
                 (coeficient != null ? "coeficient=" + coeficient + ", " : "") +
+                (playersQty != null ? "playersQty=" + playersQty + ", " : "") +
             "}";
     }
 

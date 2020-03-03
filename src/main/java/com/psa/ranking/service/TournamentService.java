@@ -24,10 +24,10 @@ public class TournamentService {
     private final Logger log = LoggerFactory.getLogger(TournamentService.class);
 
     private final TournamentRepository tournamentRepository;
-
-    private final TournamentMapper tournamentMapper;
     
     private final UserService userService;
+
+    private final TournamentMapper tournamentMapper;
 
     public TournamentService(TournamentRepository tournamentRepository, TournamentMapper tournamentMapper, UserService userService) {
         this.tournamentRepository = tournamentRepository;

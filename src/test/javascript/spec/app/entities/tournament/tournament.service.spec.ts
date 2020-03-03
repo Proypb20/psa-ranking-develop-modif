@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(TournamentService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Tournament(0, 'AAAAAAA', 0, Status.CREATED, false, 'image/png', 'AAAAAAA');
+      elemDefault = new Tournament(0, 'AAAAAAA', 0, Status.CREATED, false, 'image/png', 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -61,7 +61,8 @@ describe('Service Tests', () => {
             closeInscrDays: 1,
             status: 'BBBBBB',
             categorize: true,
-            logo: 'BBBBBB'
+            logo: 'BBBBBB',
+            cantPlayersNextCategory: 1
           },
           elemDefault
         );
@@ -83,7 +84,8 @@ describe('Service Tests', () => {
             closeInscrDays: 1,
             status: 'BBBBBB',
             categorize: true,
-            logo: 'BBBBBB'
+            logo: 'BBBBBB',
+            cantPlayersNextCategory: 1
           },
           elemDefault
         );

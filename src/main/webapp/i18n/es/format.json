@@ -18,7 +18,8 @@
       },
       "name": "Nombre",
       "description": "Descripcion",
-      "coeficient": "Coeficiente"
+      "coeficient": "Coeficiente",
+      "playersQty": "Cantidad Jugadores"
     }
   }
 }

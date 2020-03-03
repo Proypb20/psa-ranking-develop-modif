@@ -18,6 +18,8 @@ public class FormatDTO implements Serializable {
     @NotNull
     private Float coeficient;
 
+    private Integer playersQty;
+
 
     public Long getId() {
         return id;
@@ -51,6 +53,14 @@ public class FormatDTO implements Serializable {
         this.coeficient = coeficient;
     }
 
+    public Integer getPlayersQty() {
+        return playersQty;
+    }
+
+    public void setPlayersQty(Integer playersQty) {
+        this.playersQty = playersQty;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,6 +89,7 @@ public class FormatDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", coeficient=" + getCoeficient() +
+            ", playersQty=" + getPlayersQty() +
             "}";
     }
 }

@@ -18,7 +18,8 @@
       },
       "name": "Name",
       "description": "Description",
-      "coeficient": "Coeficient"
+      "coeficient": "Coeficient",
+      "playersQty": "Players Qty"
     }
   }
 }

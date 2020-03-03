@@ -9,6 +9,7 @@ export interface ITournament {
   categorize?: boolean;
   logoContentType?: string;
   logo?: any;
+  cantPlayersNextCategory?: number;
   events?: IEvent[];
   ownerLogin?: string;
   ownerId?: number;
@@ -23,6 +24,7 @@ export class Tournament implements ITournament {
     public categorize?: boolean,
     public logoContentType?: string,
     public logo?: any,
+    public cantPlayersNextCategory?: number,
     public events?: IEvent[],
     public ownerLogin?: string,
     public ownerId?: number
