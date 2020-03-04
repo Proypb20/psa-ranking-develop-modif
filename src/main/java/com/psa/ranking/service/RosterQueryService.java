@@ -102,6 +102,10 @@ public class RosterQueryService extends QueryService<Roster> {
                 specification = specification.and(buildSpecification(criteria.getEventCategoryId(),
                     root -> root.join(Roster_.eventCategory, JoinType.LEFT).get(EventCategory_.id)));
             }
+            if (criteria.getPlayerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPlayerId(),
+                    root -> root.join(Roster_.players, JoinType.LEFT).get(Player_.id)));
+            }
         }
         return specification;
     }

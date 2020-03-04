@@ -18,7 +18,8 @@
       },
       "active": "Active",
       "team": "Team",
-      "eventCategory": "Event Category"
+      "eventCategory": "Event Category",
+      "player": "Player"
     }
   }
 }

@@ -4,6 +4,7 @@ import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Roster;
 import com.psa.ranking.domain.Team;
 import com.psa.ranking.domain.EventCategory;
+import com.psa.ranking.domain.Player;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.RosterService;
 import com.psa.ranking.service.dto.RosterDTO;
@@ -303,6 +304,26 @@ public class RosterResourceIT {
 
         // Get all the rosterList where eventCategory equals to eventCategoryId + 1
         defaultRosterShouldNotBeFound("eventCategoryId.equals=" + (eventCategoryId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRostersByPlayerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+        Player player = PlayerResourceIT.createEntity(em);
+        em.persist(player);
+        em.flush();
+        roster.addPlayer(player);
+        rosterRepository.saveAndFlush(roster);
+        Long playerId = player.getId();
+
+        // Get all the rosterList where player equals to playerId
+        defaultRosterShouldBeFound("playerId.equals=" + playerId);
+
+        // Get all the rosterList where player equals to playerId + 1
+        defaultRosterShouldNotBeFound("playerId.equals=" + (playerId + 1));
     }
 
     /**

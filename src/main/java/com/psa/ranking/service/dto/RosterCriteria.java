@@ -32,6 +32,8 @@ public class RosterCriteria implements Serializable, Criteria {
 
     private LongFilter eventCategoryId;
 
+    private LongFilter playerId;
+
     public RosterCriteria(){
     }
 
@@ -40,6 +42,7 @@ public class RosterCriteria implements Serializable, Criteria {
         this.active = other.active == null ? null : other.active.copy();
         this.teamId = other.teamId == null ? null : other.teamId.copy();
         this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
+        this.playerId = other.playerId == null ? null : other.playerId.copy();
     }
 
     @Override
@@ -79,6 +82,14 @@ public class RosterCriteria implements Serializable, Criteria {
         this.eventCategoryId = eventCategoryId;
     }
 
+    public LongFilter getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(LongFilter playerId) {
+        this.playerId = playerId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -93,7 +104,8 @@ public class RosterCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(active, that.active) &&
             Objects.equals(teamId, that.teamId) &&
-            Objects.equals(eventCategoryId, that.eventCategoryId);
+            Objects.equals(eventCategoryId, that.eventCategoryId) &&
+            Objects.equals(playerId, that.playerId);
     }
 
     @Override
@@ -102,7 +114,8 @@ public class RosterCriteria implements Serializable, Criteria {
         id,
         active,
         teamId,
-        eventCategoryId
+        eventCategoryId,
+        playerId
         );
     }
 
@@ -113,6 +126,7 @@ public class RosterCriteria implements Serializable, Criteria {
                 (active != null ? "active=" + active + ", " : "") +
                 (teamId != null ? "teamId=" + teamId + ", " : "") +
                 (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +
+                (playerId != null ? "playerId=" + playerId + ", " : "") +
             "}";
     }
 

@@ -18,6 +18,8 @@ public interface RosterMapper extends EntityMapper<RosterDTO, Roster> {
 
     @Mapping(source = "teamId", target = "team")
     @Mapping(source = "eventCategoryId", target = "eventCategory")
+    @Mapping(target = "players", ignore = true)
+    @Mapping(target = "removePlayer", ignore = true)
     Roster toEntity(RosterDTO rosterDTO);
 
     default Roster fromId(Long id) {

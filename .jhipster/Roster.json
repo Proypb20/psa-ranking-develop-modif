@@ -26,6 +26,12 @@
             ],
             "otherEntityField": "id",
             "otherEntityRelationshipName": "roster"
+        },
+        {
+            "relationshipName": "player",
+            "otherEntityName": "player",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "roster"
         }
     ],
     "changelogDate": "20191022230142",

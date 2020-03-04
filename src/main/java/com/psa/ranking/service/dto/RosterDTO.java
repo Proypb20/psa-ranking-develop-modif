@@ -14,6 +14,7 @@ public class RosterDTO implements Serializable {
 
     private Boolean active;
 
+
     private Long teamId;
 
     private String teamName;
