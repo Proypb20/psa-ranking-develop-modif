@@ -8,29 +8,17 @@
     -->
     <changeSet id="20191022230142-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="roster"
-                                 constraintName="fk_roster_category_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
-
         <addForeignKeyConstraint baseColumnNames="team_id"
                                  baseTableName="roster"
                                  constraintName="fk_roster_team_id"
                                  referencedColumnNames="id"
                                  referencedTableName="team"/>
 
-        <addForeignKeyConstraint baseColumnNames="tournament_id"
+        <addForeignKeyConstraint baseColumnNames="event_category_id"
                                  baseTableName="roster"
-                                 constraintName="fk_roster_tournament_id"
+                                 constraintName="fk_roster_event_category_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="tournament"/>
-
-        <addForeignKeyConstraint baseColumnNames="event_id"
-                                 baseTableName="roster"
-                                 constraintName="fk_roster_event_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="event"/>
+                                 referencedTableName="event_category"/>
 
     </changeSet>
 </databaseChangeLog>

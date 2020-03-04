@@ -17,10 +17,8 @@
         "title": "Roster"
       },
       "active": "Active",
-      "category": "Category",
       "team": "Team",
-      "tournament": "Tournament",
-      "event": "Event"
+      "eventCategory": "Event Category"
     }
   }
 }

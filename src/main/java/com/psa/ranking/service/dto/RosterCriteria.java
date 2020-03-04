@@ -28,13 +28,9 @@ public class RosterCriteria implements Serializable, Criteria {
 
     private BooleanFilter active;
 
-    private LongFilter categoryId;
-
     private LongFilter teamId;
 
-    private LongFilter tournamentId;
-
-    private LongFilter eventId;
+    private LongFilter eventCategoryId;
 
     public RosterCriteria(){
     }
@@ -42,10 +38,8 @@ public class RosterCriteria implements Serializable, Criteria {
     public RosterCriteria(RosterCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.active = other.active == null ? null : other.active.copy();
-        this.categoryId = other.categoryId == null ? null : other.categoryId.copy();
         this.teamId = other.teamId == null ? null : other.teamId.copy();
-        this.tournamentId = other.tournamentId == null ? null : other.tournamentId.copy();
-        this.eventId = other.eventId == null ? null : other.eventId.copy();
+        this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
     }
 
     @Override
@@ -69,14 +63,6 @@ public class RosterCriteria implements Serializable, Criteria {
         this.active = active;
     }
 
-    public LongFilter getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(LongFilter categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public LongFilter getTeamId() {
         return teamId;
     }
@@ -85,20 +71,12 @@ public class RosterCriteria implements Serializable, Criteria {
         this.teamId = teamId;
     }
 
-    public LongFilter getTournamentId() {
-        return tournamentId;
+    public LongFilter getEventCategoryId() {
+        return eventCategoryId;
     }
 
-    public void setTournamentId(LongFilter tournamentId) {
-        this.tournamentId = tournamentId;
-    }
-
-    public LongFilter getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(LongFilter eventId) {
-        this.eventId = eventId;
+    public void setEventCategoryId(LongFilter eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
     }
 
 
@@ -114,10 +92,8 @@ public class RosterCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(active, that.active) &&
-            Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(teamId, that.teamId) &&
-            Objects.equals(tournamentId, that.tournamentId) &&
-            Objects.equals(eventId, that.eventId);
+            Objects.equals(eventCategoryId, that.eventCategoryId);
     }
 
     @Override
@@ -125,10 +101,8 @@ public class RosterCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         active,
-        categoryId,
         teamId,
-        tournamentId,
-        eventId
+        eventCategoryId
         );
     }
 
@@ -137,10 +111,8 @@ public class RosterCriteria implements Serializable, Criteria {
         return "RosterCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (active != null ? "active=" + active + ", " : "") +
-                (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
                 (teamId != null ? "teamId=" + teamId + ", " : "") +
-                (tournamentId != null ? "tournamentId=" + tournamentId + ", " : "") +
-                (eventId != null ? "eventId=" + eventId + ", " : "") +
+                (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +
             "}";
     }
 

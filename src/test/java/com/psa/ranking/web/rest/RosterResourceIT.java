@@ -2,10 +2,8 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Roster;
-import com.psa.ranking.domain.Category;
 import com.psa.ranking.domain.Team;
-import com.psa.ranking.domain.Tournament;
-import com.psa.ranking.domain.Event;
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.RosterService;
 import com.psa.ranking.service.dto.RosterDTO;
@@ -107,6 +105,16 @@ public class RosterResourceIT {
             team = TestUtil.findAll(em, Team.class).get(0);
         }
         roster.setTeam(team);
+        // Add required entity
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createEntity(em);
+            em.persist(eventCategory);
+            em.flush();
+        } else {
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
+        }
+        roster.setEventCategory(eventCategory);
         return roster;
     }
     /**
@@ -128,6 +136,16 @@ public class RosterResourceIT {
             team = TestUtil.findAll(em, Team.class).get(0);
         }
         roster.setTeam(team);
+        // Add required entity
+        EventCategory eventCategory;
+        if (TestUtil.findAll(em, EventCategory.class).isEmpty()) {
+            eventCategory = EventCategoryResourceIT.createUpdatedEntity(em);
+            em.persist(eventCategory);
+            em.flush();
+        } else {
+            eventCategory = TestUtil.findAll(em, EventCategory.class).get(0);
+        }
+        roster.setEventCategory(eventCategory);
         return roster;
     }
 
@@ -258,26 +276,6 @@ public class RosterResourceIT {
 
     @Test
     @Transactional
-    public void getAllRostersByCategoryIsEqualToSomething() throws Exception {
-        // Initialize the database
-        rosterRepository.saveAndFlush(roster);
-        Category category = CategoryResourceIT.createEntity(em);
-        em.persist(category);
-        em.flush();
-        roster.setCategory(category);
-        rosterRepository.saveAndFlush(roster);
-        Long categoryId = category.getId();
-
-        // Get all the rosterList where category equals to categoryId
-        defaultRosterShouldBeFound("categoryId.equals=" + categoryId);
-
-        // Get all the rosterList where category equals to categoryId + 1
-        defaultRosterShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllRostersByTeamIsEqualToSomething() throws Exception {
         // Get already existing entity
         Team team = roster.getTeam();
@@ -294,41 +292,17 @@ public class RosterResourceIT {
 
     @Test
     @Transactional
-    public void getAllRostersByTournamentIsEqualToSomething() throws Exception {
-        // Initialize the database
+    public void getAllRostersByEventCategoryIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        EventCategory eventCategory = roster.getEventCategory();
         rosterRepository.saveAndFlush(roster);
-        Tournament tournament = TournamentResourceIT.createEntity(em);
-        em.persist(tournament);
-        em.flush();
-        roster.setTournament(tournament);
-        rosterRepository.saveAndFlush(roster);
-        Long tournamentId = tournament.getId();
+        Long eventCategoryId = eventCategory.getId();
 
-        // Get all the rosterList where tournament equals to tournamentId
-        defaultRosterShouldBeFound("tournamentId.equals=" + tournamentId);
+        // Get all the rosterList where eventCategory equals to eventCategoryId
+        defaultRosterShouldBeFound("eventCategoryId.equals=" + eventCategoryId);
 
-        // Get all the rosterList where tournament equals to tournamentId + 1
-        defaultRosterShouldNotBeFound("tournamentId.equals=" + (tournamentId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllRostersByEventIsEqualToSomething() throws Exception {
-        // Initialize the database
-        rosterRepository.saveAndFlush(roster);
-        Event event = EventResourceIT.createEntity(em);
-        em.persist(event);
-        em.flush();
-        roster.setEvent(event);
-        rosterRepository.saveAndFlush(roster);
-        Long eventId = event.getId();
-
-        // Get all the rosterList where event equals to eventId
-        defaultRosterShouldBeFound("eventId.equals=" + eventId);
-
-        // Get all the rosterList where event equals to eventId + 1
-        defaultRosterShouldNotBeFound("eventId.equals=" + (eventId + 1));
+        // Get all the rosterList where eventCategory equals to eventCategoryId + 1
+        defaultRosterShouldNotBeFound("eventCategoryId.equals=" + (eventCategoryId + 1));
     }
 
     /**

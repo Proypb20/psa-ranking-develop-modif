@@ -12,15 +12,13 @@
       "deleted": "El Roster {{ param }} ha sido eliminado",
       "delete": {
         "question": "¿Seguro que quiere eliminar Roster {{ id }}?"
-                },
+      },
       "detail": {
         "title": "Roster"
-                },
+      },
       "active": "Activo",
-      "category": "Categoria",
       "team": "Equipo",
-      "tournament": "Torneo",
-      "event": "Torneo - Evento",
+      "eventCategory": "Categoria",
       "groups": {
         "players": "Jugadores",
         "staff": "Staff",

@@ -14,20 +14,11 @@ public class RosterDTO implements Serializable {
 
     private Boolean active;
 
-
-    private Long categoryId;
-
     private Long teamId;
 
     private String teamName;
 
-    private Long tournamentId;
-
-    private String tournamentName;
-
-    private Long eventId;
-
-    private String eventName;
+    private Long eventCategoryId;
 
     public Long getId() {
         return id;
@@ -43,14 +34,6 @@ public class RosterDTO implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
     }
 
     public Long getTeamId() {
@@ -69,36 +52,12 @@ public class RosterDTO implements Serializable {
         this.teamName = teamName;
     }
 
-    public Long getTournamentId() {
-        return tournamentId;
+    public Long getEventCategoryId() {
+        return eventCategoryId;
     }
 
-    public void setTournamentId(Long tournamentId) {
-        this.tournamentId = tournamentId;
-    }
-
-    public String getTournamentName() {
-        return tournamentName;
-    }
-
-    public void setTournamentName(String tournamentName) {
-        this.tournamentName = tournamentName;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventCategoryId(Long eventCategoryId) {
+        this.eventCategoryId = eventCategoryId;
     }
 
     @Override
@@ -127,13 +86,9 @@ public class RosterDTO implements Serializable {
         return "RosterDTO{" +
             "id=" + getId() +
             ", active='" + isActive() + "'" +
-            ", category=" + getCategoryId() +
             ", team=" + getTeamId() +
             ", team='" + getTeamName() + "'" +
-            ", tournament=" + getTournamentId() +
-            ", tournament='" + getTournamentName() + "'" +
-            ", event=" + getEventId() +
-            ", event='" + getEventName() + "'" +
+            ", eventCategory=" + getEventCategoryId() +
             "}";
     }
 }

@@ -25,22 +25,15 @@ public class Roster implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToOne
-    @JsonIgnoreProperties("rosters")
-    private Category category;
-
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("rosters")
     private Team team;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("rosters")
-    private Tournament tournament;
-
-    @ManyToOne
-    @JsonIgnoreProperties("rosters")
-    private Event event;
+    private EventCategory eventCategory;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -64,19 +57,6 @@ public class Roster implements Serializable {
         this.active = active;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public Roster category(Category category) {
-        this.category = category;
-        return this;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Team getTeam() {
         return team;
     }
@@ -90,30 +70,17 @@ public class Roster implements Serializable {
         this.team = team;
     }
 
-    public Tournament getTournament() {
-        return tournament;
+    public EventCategory getEventCategory() {
+        return eventCategory;
     }
 
-    public Roster tournament(Tournament tournament) {
-        this.tournament = tournament;
+    public Roster eventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
         return this;
     }
 
-    public void setTournament(Tournament tournament) {
-        this.tournament = tournament;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public Roster event(Event event) {
-        this.event = event;
-        return this;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

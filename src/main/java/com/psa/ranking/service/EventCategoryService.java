@@ -113,9 +113,9 @@ public class EventCategoryService {
         if (eventCategory.getEvent() == null) {
             throw new NoResultException("No hay un evento cargado");
         }
-        log.info("*** Generando fixture para el evento {} - categoria {}", eventCategory.getEvent(),
+        log.info("*** Generando fixture para el evento - categoria {}", eventCategory.getEvent(),
                 eventCategory.getCategory());
-        List<Roster> rosters = rosterRepository.findByEventAndCategory(eventCategory.getEvent(),eventCategory.getCategory());
+        List<Roster> rosters = rosterRepository.findByEventCategory(eventCategory);
         log.debug(rosters.toString());
         if (!rosters.isEmpty())
         {

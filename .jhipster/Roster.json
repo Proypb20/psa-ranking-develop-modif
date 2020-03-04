@@ -8,13 +8,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "category",
-            "otherEntityRelationshipName": "roster",
-            "relationshipName": "category",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipName": "team",
             "otherEntityName": "team",
             "relationshipType": "many-to-one",
@@ -25,17 +18,13 @@
             "otherEntityRelationshipName": "roster"
         },
         {
-            "relationshipName": "tournament",
-            "otherEntityName": "tournament",
+            "relationshipName": "eventCategory",
+            "otherEntityName": "eventCategory",
             "relationshipType": "many-to-one",
-            "otherEntityField": "name",
-            "otherEntityRelationshipName": "roster"
-        },
-        {
-            "relationshipName": "event",
-            "otherEntityName": "event",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "name",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
             "otherEntityRelationshipName": "roster"
         }
     ],
