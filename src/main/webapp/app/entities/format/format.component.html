@@ -17,8 +17,9 @@
     <div class="table-responsive" *ngIf="formats?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.format.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.format.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.format.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" scope="col"  jhiSortBy="playersQty"><span jhiTranslate="psaRankingApp.format.playersQty">Players Qty</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -26,13 +27,15 @@
             <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let format of formats ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/format', format.id, 'view' ]">{{format.id}}</a></td>-->
+                <td>{{format.tournamentName}}</td>
                 <td>{{format.name}}</td>
                 <td>{{format.description}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" >{{format.playersQty}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" >{{format.coeficient}}</td>
+
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"
@@ -60,13 +63,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div [hidden]="formats?.length === 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

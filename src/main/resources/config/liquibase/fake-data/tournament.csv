@@ -1,11 +1,11 @@
 id;name;close_inscr_days;status;categorize;logo;logo_content_type;cant_players_next_category;owner_id
-1;mobile Fish;77969;CREATED;false;../fake-data/blob/hipster.png;image/png;5808;1
-2;seamless Metal deposit;5641;CANCEL;true;../fake-data/blob/hipster.png;image/png;18340;2
-3;Home Loan Account;706;CANCEL;false;../fake-data/blob/hipster.png;image/png;13949;1
-4;Coordinator;23277;DONE;false;../fake-data/blob/hipster.png;image/png;51423;2
-5;Canyon HDD;68030;CREATED;false;../fake-data/blob/hipster.png;image/png;94888;2
+1;mobile Fish;77969;PENDING;false;../fake-data/blob/hipster.png;image/png;5808;1
+2;seamless Metal deposit;5641;DONE;true;../fake-data/blob/hipster.png;image/png;18340;2
+3;Home Loan Account;706;IN_PROGRESS;false;../fake-data/blob/hipster.png;image/png;13949;1
+4;Coordinator;23277;CANCEL;false;../fake-data/blob/hipster.png;image/png;51423;2
+5;Canyon HDD;68030;DONE;false;../fake-data/blob/hipster.png;image/png;94888;2
 6;South Dakota envisioneer Music;23089;DONE;true;../fake-data/blob/hipster.png;image/png;3438;1
 7;incentivize Tuna copy;42515;CREATED;false;../fake-data/blob/hipster.png;image/png;96958;2
-8;Views e-enable Communications;72727;PENDING;true;../fake-data/blob/hipster.png;image/png;32533;2
+8;Views e-enable Communications;72727;DONE;true;../fake-data/blob/hipster.png;image/png;32533;2
 9;compress South Georgia and the South Sandwich Islands;58675;IN_PROGRESS;false;../fake-data/blob/hipster.png;image/png;14092;1
-10;Car Industrial deliverables;39488;DONE;false;../fake-data/blob/hipster.png;image/png;81546;1
+10;Car Industrial deliverables;39488;IN_PROGRESS;false;../fake-data/blob/hipster.png;image/png;81546;1

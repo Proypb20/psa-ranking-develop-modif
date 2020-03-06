@@ -17,14 +17,14 @@
     <div class="table-responsive" *ngIf="provinces?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th scope="col"  jhiSortBy="countryId"><span jhiTranslate="psaRankingApp.province.country">Country</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.province.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let province of provinces ;trackBy: trackId">
                 <td>
                     <div *ngIf="province.countryId">
@@ -36,7 +36,6 @@
                 </td>
                 <!--  <td><a [routerLink]="['/province', province.id, 'view' ]">{{province.id}}</a></td>-->
                 <td>{{province.name}}</td>
-                
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"
@@ -47,7 +46,7 @@
                         </button>-->
                         <button type="submit"
                                 [routerLink]="['/city']"
-                                [queryParams]="{provId:province.id}"
+                                [queryParams]="{pId:province.id}"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.city">Cities</span>
@@ -71,13 +70,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div [hidden]="provinces?.length === 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

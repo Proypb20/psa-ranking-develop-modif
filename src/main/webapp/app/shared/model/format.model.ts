@@ -4,6 +4,8 @@ export interface IFormat {
   description?: string;
   coeficient?: number;
   playersQty?: number;
+  tournamentName?: string;
+  tournamentId?: number;
 }
 
 export class Format implements IFormat {
@@ -12,6 +14,8 @@ export class Format implements IFormat {
     public name?: string,
     public description?: string,
     public coeficient?: number,
-    public playersQty?: number
+    public playersQty?: number,
+    public tournamentName?: string,
+    public tournamentId?: number
   ) {}
 }

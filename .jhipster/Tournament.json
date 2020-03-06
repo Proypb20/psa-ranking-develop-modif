@@ -51,7 +51,7 @@
     "javadoc": "Tournament entity.\\n@author Marcelo Miño",
     "entityTableName": "tournament",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

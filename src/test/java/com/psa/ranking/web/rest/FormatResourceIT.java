@@ -2,6 +2,7 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.Format;
+import com.psa.ranking.domain.Tournament;
 import com.psa.ranking.repository.FormatRepository;
 import com.psa.ranking.service.FormatService;
 import com.psa.ranking.service.dto.FormatDTO;
@@ -107,6 +108,16 @@ public class FormatResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .coeficient(DEFAULT_COEFICIENT)
             .playersQty(DEFAULT_PLAYERS_QTY);
+        // Add required entity
+        Tournament tournament;
+        if (TestUtil.findAll(em, Tournament.class).isEmpty()) {
+            tournament = TournamentResourceIT.createEntity(em);
+            em.persist(tournament);
+            em.flush();
+        } else {
+            tournament = TestUtil.findAll(em, Tournament.class).get(0);
+        }
+        format.setTournament(tournament);
         return format;
     }
     /**
@@ -121,6 +132,16 @@ public class FormatResourceIT {
             .description(UPDATED_DESCRIPTION)
             .coeficient(UPDATED_COEFICIENT)
             .playersQty(UPDATED_PLAYERS_QTY);
+        // Add required entity
+        Tournament tournament;
+        if (TestUtil.findAll(em, Tournament.class).isEmpty()) {
+            tournament = TournamentResourceIT.createUpdatedEntity(em);
+            em.persist(tournament);
+            em.flush();
+        } else {
+            tournament = TestUtil.findAll(em, Tournament.class).get(0);
+        }
+        format.setTournament(tournament);
         return format;
     }
 
@@ -607,6 +628,22 @@ public class FormatResourceIT {
 
         // Get all the formatList where playersQty is greater than SMALLER_PLAYERS_QTY
         defaultFormatShouldBeFound("playersQty.greaterThan=" + SMALLER_PLAYERS_QTY);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFormatsByTournamentIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Tournament tournament = format.getTournament();
+        formatRepository.saveAndFlush(format);
+        Long tournamentId = tournament.getId();
+
+        // Get all the formatList where tournament equals to tournamentId
+        defaultFormatShouldBeFound("tournamentId.equals=" + tournamentId);
+
+        // Get all the formatList where tournament equals to tournamentId + 1
+        defaultFormatShouldNotBeFound("tournamentId.equals=" + (tournamentId + 1));
     }
 
     /**

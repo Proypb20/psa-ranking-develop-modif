@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Roster entity.\n@author Marcelo Miño
@@ -34,6 +36,10 @@ public class Roster implements Serializable {
     @NotNull
     @JsonIgnoreProperties("rosters")
     private EventCategory eventCategory;
+
+    @OneToMany(mappedBy = "roster")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Player> players = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -81,6 +87,31 @@ public class Roster implements Serializable {
 
     public void setEventCategory(EventCategory eventCategory) {
         this.eventCategory = eventCategory;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public Roster players(Set<Player> players) {
+        this.players = players;
+        return this;
+    }
+
+    public Roster addPlayer(Player player) {
+        this.players.add(player);
+        player.setRoster(this);
+        return this;
+    }
+
+    public Roster removePlayer(Player player) {
+        this.players.remove(player);
+        player.setRoster(null);
+        return this;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -19,7 +19,8 @@
       "name": "Name",
       "description": "Description",
       "coeficient": "Coeficient",
-      "playersQty": "Players Qty"
+      "playersQty": "Players Qty",
+      "tournament": "Tournament"
     }
   }
 }

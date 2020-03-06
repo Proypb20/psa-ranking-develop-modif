@@ -24,7 +24,7 @@
     "javadoc": "Province entity.\\n@author Marcelo Miño\\nDatos traidos desde https:",
     "entityTableName": "province",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

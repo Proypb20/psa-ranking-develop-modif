@@ -562,14 +562,14 @@
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
                     <version>${jib-maven-plugin.version}</version>
-                    <executions>
+                    <!-- <executions>
                         <execution>
                             <phase>package</phase>
                             <goals>
                                 <goal>dockerBuild</goal>
                             </goals>
                         </execution>
-                    </executions>
+                    </executions>-->
                     <configuration>
                         <from>
                             <image>openjdk:8-alpine</image>

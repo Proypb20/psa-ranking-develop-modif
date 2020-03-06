@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                       <td>
-                         <input type="text" class="form-control" id="field_user" name="user" formControlName="userId"/>
+                         <input type="text" class="form-control" id="field_user" name="user" formControlName="userId" (change)="onChangeUserId()"/>
                       </td>
                       <td>
                         <select class="form-control" name="profile" formControlName="profile" id="field_profile">

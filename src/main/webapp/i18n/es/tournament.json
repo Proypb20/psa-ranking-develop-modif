@@ -2,28 +2,28 @@
   "psaRankingApp": {
     "tournament": {
       "home": {
-        "title": "Tournaments",
-        "createLabel": "Crear nuevo Tournament",
-        "createOrEditLabel": "Crear o editar Tournament",
-        "notFound": "No Tournaments found"
+        "title": "Torneos",
+        "createLabel": "Agregar Torneo",
+        "createOrEditLabel": "Torneos",
+        "notFound": "No se encontraron Torneos"
       },
-      "created": "Un nuevo Tournament ha sido creado con el identificador {{ param }}",
-      "updated": "Un Tournament ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Tournament ha sido eliminado con el identificador {{ param }}",
+      "created": "El torneo {{param}} ha sido creado",
+      "updated": "El torneo {{param}} ha sido actualizado",
+      "deleted": "El torneo {{param}} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Tournament {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el torneo {{ id }}?"
       },
       "detail": {
-        "title": "Tournament"
+        "title": "Torneo"
       },
-      "name": "Name",
-      "closeInscrDays": "Close Inscr Days",
-      "status": "Status",
-      "categorize": "Categorize",
+      "name": "Nombre",
+      "closeInscrDays": "Dias Cierre Inscripcion",
+      "status": "Estado",
+      "categorize": "Categorizar",
       "logo": "Logo",
-      "cantPlayersNextCategory": "Cant Players Next Category",
-      "event": "Event",
-      "owner": "Owner"
+            "cantPlayersNextCategory": "Cantidad Jugadores Categoria Superior",
+      "event": "Evento",
+      "owner": "Propietario"
     }
   }
 }

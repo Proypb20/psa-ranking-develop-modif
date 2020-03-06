@@ -1,7 +1,18 @@
 {
     "fluentMethods": true,
     "clientRootFolder": "",
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "tournament",
+            "otherEntityName": "tournament",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "format"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -33,5 +44,5 @@
     "entityTableName": "format",
     "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "pagination": "pagination"
+    "pagination": "infinite-scroll"
 }

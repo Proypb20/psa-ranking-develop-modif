@@ -51,7 +51,7 @@
     "javadoc": "Event entity.\\n@author Marcelo Miño",
     "entityTableName": "event",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

@@ -34,6 +34,8 @@ public class FormatCriteria implements Serializable, Criteria {
 
     private IntegerFilter playersQty;
 
+    private LongFilter tournamentId;
+
     public FormatCriteria(){
     }
 
@@ -43,6 +45,7 @@ public class FormatCriteria implements Serializable, Criteria {
         this.description = other.description == null ? null : other.description.copy();
         this.coeficient = other.coeficient == null ? null : other.coeficient.copy();
         this.playersQty = other.playersQty == null ? null : other.playersQty.copy();
+        this.tournamentId = other.tournamentId == null ? null : other.tournamentId.copy();
     }
 
     @Override
@@ -90,6 +93,14 @@ public class FormatCriteria implements Serializable, Criteria {
         this.playersQty = playersQty;
     }
 
+    public LongFilter getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(LongFilter tournamentId) {
+        this.tournamentId = tournamentId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -105,7 +116,8 @@ public class FormatCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(description, that.description) &&
             Objects.equals(coeficient, that.coeficient) &&
-            Objects.equals(playersQty, that.playersQty);
+            Objects.equals(playersQty, that.playersQty) &&
+            Objects.equals(tournamentId, that.tournamentId);
     }
 
     @Override
@@ -115,7 +127,8 @@ public class FormatCriteria implements Serializable, Criteria {
         name,
         description,
         coeficient,
-        playersQty
+        playersQty,
+        tournamentId
         );
     }
 
@@ -127,6 +140,7 @@ public class FormatCriteria implements Serializable, Criteria {
                 (description != null ? "description=" + description + ", " : "") +
                 (coeficient != null ? "coeficient=" + coeficient + ", " : "") +
                 (playersQty != null ? "playersQty=" + playersQty + ", " : "") +
+                (tournamentId != null ? "tournamentId=" + tournamentId + ", " : "") +
             "}";
     }
 

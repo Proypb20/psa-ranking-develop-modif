@@ -64,8 +64,7 @@ public class ProvinceResource {
         }
         ProvinceDTO result = provinceService.save(provinceDTO);
         return ResponseEntity.created(new URI("/api/provinces/" + result.getId()))
-            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
+      		.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
 

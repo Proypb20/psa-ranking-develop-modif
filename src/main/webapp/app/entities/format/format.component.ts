@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -19,76 +19,75 @@ import { FormatService } from './format.service';
 export class FormatComponent implements OnInit, OnDestroy {
   currentAccount: any;
   formats: IFormat[];
-  error: any;
-  success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
+  totalItems: number;
+  itemsPerPage: number;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
+  tourId: number;
+  private sub: any;
 
   constructor(
     protected formatService: FormatService,
+    protected eventManager: JhiEventManager,
     protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    protected eventManager: JhiEventManager
+    protected accountService: AccountService
   ) {
+    this.formats = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
+  if(this.tourId)
+  {
     this.formatService
       .query({
-        page: this.page - 1,
+       'tournamentId.equals': this.tourId,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IFormat[]>) => this.paginateFormats(res.body, res.headers));
   }
-
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/format'], {
-      queryParams: {
+  else
+  {
+  	this.formatService
+      .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IFormat[]>) => this.paginateFormats(res.body, res.headers));
+  }
+  
+  }
+
+  reset() {
+    this.page = 0;
+    this.formats = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/format',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
   ngOnInit() {
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.tourId = +params['tourId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -105,7 +104,7 @@ export class FormatComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInFormats() {
-    this.eventSubscriber = this.eventManager.subscribe('formatListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('formatListModification', response => this.reset());
   }
 
   sort() {
@@ -119,6 +118,8 @@ export class FormatComponent implements OnInit, OnDestroy {
   protected paginateFormats(data: IFormat[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.formats = data;
+    for (let i = 0; i < data.length; i++) {
+      this.formats.push(data[i]);
+    }
   }
 }

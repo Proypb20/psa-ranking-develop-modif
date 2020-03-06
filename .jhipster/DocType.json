@@ -15,7 +15,7 @@
     "javadoc": "Address entity.\\n@author The JHipster team.",
     "entityTableName": "doc_type",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -3,6 +3,8 @@ package com.psa.ranking.web.rest;
 import com.psa.ranking.service.CityService;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 import com.psa.ranking.service.dto.CityDTO;
+import com.psa.ranking.service.dto.CityCriteria;
+import com.psa.ranking.service.CityQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,8 +42,11 @@ public class CityResource {
 
     private final CityService cityService;
 
-    public CityResource(CityService cityService) {
+    private final CityQueryService cityQueryService;
+
+    public CityResource(CityService cityService, CityQueryService cityQueryService) {
         this.cityService = cityService;
+        this.cityQueryService = cityQueryService;
     }
 
     /**
@@ -59,7 +64,6 @@ public class CityResource {
         }
         CityDTO result = cityService.save(cityDTO);
         return ResponseEntity.created(new URI("/api/cities/" + result.getId()))
-            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getName()))
             .body(result);
     }
@@ -81,7 +85,6 @@ public class CityResource {
         }
         CityDTO result = cityService.save(cityDTO);
         return ResponseEntity.ok()
-            //.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cityDTO.getId().toString()))
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cityDTO.getName()))
             .body(result);
     }
@@ -92,14 +95,27 @@ public class CityResource {
 
      * @param pageable the pagination information.
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cities in body.
      */
     @GetMapping("/cities")
-    public ResponseEntity<List<CityDTO>> getAllCities(Pageable pageable) {
-        log.debug("REST request to get a page of Cities");
-        Page<CityDTO> page = cityService.findAll(pageable);
+    public ResponseEntity<List<CityDTO>> getAllCities(CityCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Cities by criteria: {}", criteria);
+        Page<CityDTO> page = cityQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /cities/count} : count all the cities.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/cities/count")
+    public ResponseEntity<Long> countCities(CityCriteria criteria) {
+        log.debug("REST request to count Cities by criteria: {}", criteria);
+        return ResponseEntity.ok().body(cityQueryService.countByCriteria(criteria));
     }
 
     /**

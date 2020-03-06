@@ -48,5 +48,6 @@
     <include file="config/liquibase/changelog/20200205014818_added_entity_constraints_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200207225605_added_entity_constraints_EventCategory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200215200053_added_entity_constraints_Game.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200204002143_added_entity_constraints_Format.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

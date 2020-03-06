@@ -10,6 +10,19 @@
                         readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="psaRankingApp.format.tournament" for="field_tournament">Tournament</label>
+                    <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
+                        <option *ngIf="!editForm.get('tournamentId').value" [ngValue]="null" selected></option>
+                        <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('tournamentId').invalid && (editForm.get('tournamentId').dirty || editForm.get('tournamentId').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('tournamentId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.format.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>

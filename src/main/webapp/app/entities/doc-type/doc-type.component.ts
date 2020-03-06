@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -17,74 +16,50 @@ import { DocTypeService } from './doc-type.service';
   templateUrl: './doc-type.component.html'
 })
 export class DocTypeComponent implements OnInit, OnDestroy {
-  currentAccount: any;
   docTypes: IDocType[];
-  error: any;
-  success: any;
+  currentAccount: any;
   eventSubscriber: Subscription;
-  routeData: any;
+  itemsPerPage: number;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
+  totalItems: number;
 
   constructor(
     protected docTypeService: DocTypeService,
+    protected eventManager: JhiEventManager,
     protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    protected eventManager: JhiEventManager
+    protected accountService: AccountService
   ) {
+    this.docTypes = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
     this.docTypeService
       .query({
-        page: this.page - 1,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IDocType[]>) => this.paginateDocTypes(res.body, res.headers));
   }
 
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/doc-type'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.docTypes = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/doc-type',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
@@ -105,7 +80,7 @@ export class DocTypeComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInDocTypes() {
-    this.eventSubscriber = this.eventManager.subscribe('docTypeListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('docTypeListModification', response => this.reset());
   }
 
   sort() {
@@ -119,6 +94,8 @@ export class DocTypeComponent implements OnInit, OnDestroy {
   protected paginateDocTypes(data: IDocType[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.docTypes = data;
+    for (let i = 0; i < data.length; i++) {
+      this.docTypes.push(data[i]);
+    }
   }
 }

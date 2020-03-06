@@ -205,4 +205,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
+  
+  protected onChangeUserId()
+  {
+     alert("Puto el que lo lee");
+  }
 }

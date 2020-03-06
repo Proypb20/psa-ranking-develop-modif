@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -17,74 +16,50 @@ import { CountryService } from './country.service';
   templateUrl: './country.component.html'
 })
 export class CountryComponent implements OnInit, OnDestroy {
-  currentAccount: any;
   countries: ICountry[];
-  error: any;
-  success: any;
+  currentAccount: any;
   eventSubscriber: Subscription;
-  routeData: any;
+  itemsPerPage: number;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
+  totalItems: number;
 
   constructor(
     protected countryService: CountryService,
+    protected eventManager: JhiEventManager,
     protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    protected eventManager: JhiEventManager
+    protected accountService: AccountService
   ) {
+    this.countries = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
     this.countryService
       .query({
-        page: this.page - 1,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ICountry[]>) => this.paginateCountries(res.body, res.headers));
   }
 
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/country'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.countries = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/country',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
@@ -105,7 +80,7 @@ export class CountryComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCountries() {
-    this.eventSubscriber = this.eventManager.subscribe('countryListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('countryListModification', response => this.reset());
   }
 
   sort() {
@@ -119,6 +94,8 @@ export class CountryComponent implements OnInit, OnDestroy {
   protected paginateCountries(data: ICountry[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.countries = data;
+    for (let i = 0; i < data.length; i++) {
+      this.countries.push(data[i]);
+    }
   }
 }

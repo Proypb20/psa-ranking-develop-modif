@@ -2,11 +2,14 @@ package com.psa.ranking.web.rest;
 
 import com.psa.ranking.PsaRankingApp;
 import com.psa.ranking.domain.City;
+import com.psa.ranking.domain.Province;
 import com.psa.ranking.repository.CityRepository;
 import com.psa.ranking.service.CityService;
 import com.psa.ranking.service.dto.CityDTO;
 import com.psa.ranking.service.mapper.CityMapper;
 import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import com.psa.ranking.service.dto.CityCriteria;
+import com.psa.ranking.service.CityQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,6 +58,9 @@ public class CityResourceIT {
     private CityService cityService;
 
     @Autowired
+    private CityQueryService cityQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -76,7 +82,7 @@ public class CityResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CityResource cityResource = new CityResource(cityService);
+        final CityResource cityResource = new CityResource(cityService, cityQueryService);
         this.restCityMockMvc = MockMvcBuilders.standaloneSetup(cityResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -190,6 +196,296 @@ public class CityResourceIT {
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE));
     }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name equals to DEFAULT_NAME
+        defaultCityShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the cityList where name equals to UPDATED_NAME
+        defaultCityShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name not equals to DEFAULT_NAME
+        defaultCityShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the cityList where name not equals to UPDATED_NAME
+        defaultCityShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultCityShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the cityList where name equals to UPDATED_NAME
+        defaultCityShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name is not null
+        defaultCityShouldBeFound("name.specified=true");
+
+        // Get all the cityList where name is null
+        defaultCityShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCitiesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name contains DEFAULT_NAME
+        defaultCityShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the cityList where name contains UPDATED_NAME
+        defaultCityShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where name does not contain DEFAULT_NAME
+        defaultCityShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the cityList where name does not contain UPDATED_NAME
+        defaultCityShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLatitudeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude equals to DEFAULT_LATITUDE
+        defaultCityShouldBeFound("latitude.equals=" + DEFAULT_LATITUDE);
+
+        // Get all the cityList where latitude equals to UPDATED_LATITUDE
+        defaultCityShouldNotBeFound("latitude.equals=" + UPDATED_LATITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLatitudeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude not equals to DEFAULT_LATITUDE
+        defaultCityShouldNotBeFound("latitude.notEquals=" + DEFAULT_LATITUDE);
+
+        // Get all the cityList where latitude not equals to UPDATED_LATITUDE
+        defaultCityShouldBeFound("latitude.notEquals=" + UPDATED_LATITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLatitudeIsInShouldWork() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude in DEFAULT_LATITUDE or UPDATED_LATITUDE
+        defaultCityShouldBeFound("latitude.in=" + DEFAULT_LATITUDE + "," + UPDATED_LATITUDE);
+
+        // Get all the cityList where latitude equals to UPDATED_LATITUDE
+        defaultCityShouldNotBeFound("latitude.in=" + UPDATED_LATITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLatitudeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude is not null
+        defaultCityShouldBeFound("latitude.specified=true");
+
+        // Get all the cityList where latitude is null
+        defaultCityShouldNotBeFound("latitude.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCitiesByLatitudeContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude contains DEFAULT_LATITUDE
+        defaultCityShouldBeFound("latitude.contains=" + DEFAULT_LATITUDE);
+
+        // Get all the cityList where latitude contains UPDATED_LATITUDE
+        defaultCityShouldNotBeFound("latitude.contains=" + UPDATED_LATITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLatitudeNotContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where latitude does not contain DEFAULT_LATITUDE
+        defaultCityShouldNotBeFound("latitude.doesNotContain=" + DEFAULT_LATITUDE);
+
+        // Get all the cityList where latitude does not contain UPDATED_LATITUDE
+        defaultCityShouldBeFound("latitude.doesNotContain=" + UPDATED_LATITUDE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLongitudeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude equals to DEFAULT_LONGITUDE
+        defaultCityShouldBeFound("longitude.equals=" + DEFAULT_LONGITUDE);
+
+        // Get all the cityList where longitude equals to UPDATED_LONGITUDE
+        defaultCityShouldNotBeFound("longitude.equals=" + UPDATED_LONGITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLongitudeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude not equals to DEFAULT_LONGITUDE
+        defaultCityShouldNotBeFound("longitude.notEquals=" + DEFAULT_LONGITUDE);
+
+        // Get all the cityList where longitude not equals to UPDATED_LONGITUDE
+        defaultCityShouldBeFound("longitude.notEquals=" + UPDATED_LONGITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLongitudeIsInShouldWork() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude in DEFAULT_LONGITUDE or UPDATED_LONGITUDE
+        defaultCityShouldBeFound("longitude.in=" + DEFAULT_LONGITUDE + "," + UPDATED_LONGITUDE);
+
+        // Get all the cityList where longitude equals to UPDATED_LONGITUDE
+        defaultCityShouldNotBeFound("longitude.in=" + UPDATED_LONGITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLongitudeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude is not null
+        defaultCityShouldBeFound("longitude.specified=true");
+
+        // Get all the cityList where longitude is null
+        defaultCityShouldNotBeFound("longitude.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCitiesByLongitudeContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude contains DEFAULT_LONGITUDE
+        defaultCityShouldBeFound("longitude.contains=" + DEFAULT_LONGITUDE);
+
+        // Get all the cityList where longitude contains UPDATED_LONGITUDE
+        defaultCityShouldNotBeFound("longitude.contains=" + UPDATED_LONGITUDE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCitiesByLongitudeNotContainsSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+
+        // Get all the cityList where longitude does not contain DEFAULT_LONGITUDE
+        defaultCityShouldNotBeFound("longitude.doesNotContain=" + DEFAULT_LONGITUDE);
+
+        // Get all the cityList where longitude does not contain UPDATED_LONGITUDE
+        defaultCityShouldBeFound("longitude.doesNotContain=" + UPDATED_LONGITUDE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCitiesByProvinceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        cityRepository.saveAndFlush(city);
+        Province province = ProvinceResourceIT.createEntity(em);
+        em.persist(province);
+        em.flush();
+        city.setProvince(province);
+        cityRepository.saveAndFlush(city);
+        Long provinceId = province.getId();
+
+        // Get all the cityList where province equals to provinceId
+        defaultCityShouldBeFound("provinceId.equals=" + provinceId);
+
+        // Get all the cityList where province equals to provinceId + 1
+        defaultCityShouldNotBeFound("provinceId.equals=" + (provinceId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultCityShouldBeFound(String filter) throws Exception {
+        restCityMockMvc.perform(get("/api/cities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(city.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE)))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE)));
+
+        // Check, that the count call also returns 1
+        restCityMockMvc.perform(get("/api/cities/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultCityShouldNotBeFound(String filter) throws Exception {
+        restCityMockMvc.perform(get("/api/cities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restCityMockMvc.perform(get("/api/cities/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

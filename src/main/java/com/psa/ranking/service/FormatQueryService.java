@@ -103,6 +103,10 @@ public class FormatQueryService extends QueryService<Format> {
             if (criteria.getPlayersQty() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPlayersQty(), Format_.playersQty));
             }
+            if (criteria.getTournamentId() != null) {
+                specification = specification.and(buildSpecification(criteria.getTournamentId(),
+                    root -> root.join(Format_.tournament, JoinType.LEFT).get(Tournament_.id)));
+            }
         }
         return specification;
     }

@@ -17,16 +17,16 @@
     <div class="table-responsive" *ngIf="docTypes?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.docType.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.docType.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let docType of docTypes ;trackBy: trackId">
-                <!-- <td><a [routerLink]="['/doc-type', docType.id, 'view' ]">{{docType.id}}</a></td> -->
+                <!-- <td><a [routerLink]="['/doc-type', docType.id, 'view' ]">{{docType.id}}</a></td>-->
                 <td>{{docType.name}}</td>
                 <td>{{docType.description}}</td>
                 <td class="text-right">
@@ -36,7 +36,7 @@
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button> -->
+                        </button>-->
                         <button type="submit"
                                 [routerLink]="['/doc-type', docType.id, 'edit']"
                                 class="btn btn-primary btn-sm">
@@ -56,13 +56,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div [hidden]="docTypes?.length === 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

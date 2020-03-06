@@ -26,7 +26,7 @@
     "javadoc": "City entity.\\n@author Marcelo Miño\\nDatos traidos desde https:",
     "entityTableName": "city",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

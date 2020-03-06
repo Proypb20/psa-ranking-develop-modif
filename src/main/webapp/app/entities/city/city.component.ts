@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -24,18 +24,16 @@ export class CityComponent implements OnInit, OnDestroy {
 
   currentAccount: any;
   cities: ICity[];
-  error: any;
-  success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
+  totalItems: number;
+  itemsPerPage: number;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
-  
+  pId: number;
+  private sub: any;
+
   provinces: IProvince[];
 
   constructor(
@@ -45,64 +43,66 @@ export class CityComponent implements OnInit, OnDestroy {
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router,
     protected eventManager: JhiEventManager
   ) {
+    this.cities = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
+   if (this.pId)
+   {
     this.cityService
       .query({
-        page: this.page - 1,
+       'provinceId.equals': this.pId,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ICity[]>) => this.paginateCities(res.body, res.headers));
-  }
-
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
     }
+    else
+    {
+      this.cityService
+          .query({
+		        page: this.page,
+		        size: this.itemsPerPage,
+		        sort: this.sort()
+      			})
+           .subscribe((res: HttpResponse<ICity[]>) => this.paginateCities(res.body, res.headers));
+    }
+    
   }
 
-  transition() {
-    this.router.navigate(['/city'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.cities = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/city',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
   ngOnInit() {
+	  this.accountService.identity().subscribe(account => {
+	      this.currentAccount = account;
+	    });
+  this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.pId = +params['pId'] || 0;
+      });
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInCities();
+    
     this.provinceService
 	    .query({
 	    	size: 2000
@@ -123,11 +123,11 @@ export class CityComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCities() {
-    this.eventSubscriber = this.eventManager.subscribe('cityListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('cityListModification', response => this.reset());
   }
 
   sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
+    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
@@ -137,7 +137,9 @@ export class CityComponent implements OnInit, OnDestroy {
   protected paginateCities(data: ICity[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.cities = data;
+    for (let i = 0; i < data.length; i++) {
+      this.cities.push(data[i]);
+    }
   }
   
   trackProvinceById(index: number, item: IProvince) {

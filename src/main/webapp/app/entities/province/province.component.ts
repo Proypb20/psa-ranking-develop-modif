@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -21,88 +21,88 @@ import { JhiAlertService } from 'ng-jhipster';
   templateUrl: './province.component.html'
 })
 export class ProvinceComponent implements OnInit, OnDestroy {
-
   currentAccount: any;
   provinces: IProvince[];
   error: any;
   success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
+  totalItems: number;
+  itemsPerPage: number;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
+  coId: number;
+  private sub: any;
 
   countries: ICountry[];
-
+  
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected countryService: CountryService,
     protected provinceService: ProvinceService,
     protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router,
+    protected accountService: AccountService,
     protected eventManager: JhiEventManager
   ) {
+    this.provinces = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
+  if(this.coId)
+  {
     this.provinceService
       .query({
-        page: this.page - 1,
+       'countryId.equals': this.coId,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<IProvince[]>) => this.paginateProvinces(res.body, res.headers));
   }
-
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/province'], {
-      queryParams: {
+  else
+  {
+  	this.provinceService
+      .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+        sort: this.sort()
+      })
+      .subscribe((res: HttpResponse<IProvince[]>) => this.paginateProvinces(res.body, res.headers));
+  }
+  }
+
+  reset() {
+    this.page = 0;
+    this.provinces = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/province',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
   ngOnInit() {
+    this.sub = this.activatedRoute
+      .queryParams
+      .subscribe(params => {
+        this.coId = +params['coId'] || 0;
+      });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.registerChangeInProvinces();
+    
     this.countryService
 	    .query({
 	    	size: 2000
@@ -123,11 +123,11 @@ export class ProvinceComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInProvinces() {
-    this.eventSubscriber = this.eventManager.subscribe('provinceListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('provinceListModification', response => this.reset());
   }
 
   sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
+    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
@@ -137,9 +137,11 @@ export class ProvinceComponent implements OnInit, OnDestroy {
   protected paginateProvinces(data: IProvince[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.provinces = data;
+    for (let i = 0; i < data.length; i++) {
+      this.provinces.push(data[i]);
+    }
   }
-
+ 
   trackCountryById(index: number, item: ICountry) {
 	    return item.name;
   }

@@ -17,19 +17,19 @@
     <div class="table-responsive" *ngIf="tournaments?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th scope="col"  jhiSortBy="logo"><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th scope="col"  ><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span></th>
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="closeInscrDays"><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="status"><span jhiTranslate="psaRankingApp.tournament.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="cantPlayersNextCategory"><span jhiTranslate="psaRankingApp.tournament.cantPlayersNextCategory">Cant Players Next Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="categorize"><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.status">Status</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.cantPlayersNextCategory">Cant Players Next Category</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let tournament of tournaments ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/tournament', tournament.id, 'view' ]">{{tournament.id}}</a></td>-->
                 <td>
@@ -61,6 +61,22 @@
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
+                                [routerLink]="['/category']"
+                                [queryParams]="{tourId:tournament.id}"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
+                                type="submit"
+                                [routerLink]="['/format']"
+                                [queryParams]="{tourId:tournament.id}"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.format">Formats</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
+                                type="submit"
                                 [routerLink]="['/tournament', tournament.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -80,13 +96,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div [hidden]="tournaments?.length === 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

@@ -18,7 +18,7 @@
     "javadoc": "Country entity.\\n@author Marcelo Miño",
     "entityTableName": "country",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -19,34 +18,30 @@ import { TournamentService } from './tournament.service';
 export class TournamentComponent implements OnInit, OnDestroy {
   currentAccount: any;
   tournaments: ITournament[];
-  error: any;
-  success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
-  totalItems: any;
-  itemsPerPage: any;
+  totalItems: number;
+  itemsPerPage: number;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
+
 
   constructor(
     protected tournamentService: TournamentService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
-    protected router: Router,
     protected eventManager: JhiEventManager
   ) {
+    this.tournaments = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
@@ -54,7 +49,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
     {
         this.tournamentService
           .query({
-           page: this.page - 1,
+           page: this.page,
            size: this.itemsPerPage,
            sort: this.sort()
            })
@@ -67,7 +62,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
         this.tournamentService
             .query({
             "ownerId.equals": this.currentAccount.id,
-             page: this.page - 1,
+             page: this.page,
              size: this.itemsPerPage,
              sort: this.sort()
              })
@@ -80,7 +75,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
           this.tournamentService
               .query({
               'status.in': ['CREATED','IN_PROGRESS'],
-               page: this.page - 1,
+               page: this.page,
                size: this.itemsPerPage,
                sort: this.sort()
                })
@@ -100,38 +95,19 @@ export class TournamentComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/tournament'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.tournaments = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/tournament',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
   ngOnInit() {
-      this.accountService.identity().subscribe(account => {
+    this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.loadAll();
@@ -155,7 +131,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInTournaments() {
-    this.eventSubscriber = this.eventManager.subscribe('tournamentListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('tournamentListModification', response => this.reset());
   }
 
   sort() {
@@ -169,6 +145,8 @@ export class TournamentComponent implements OnInit, OnDestroy {
   protected paginateTournaments(data: ITournament[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.tournaments = data;
+    for (let i = 0; i < data.length; i++) {
+      this.tournaments.push(data[i]);
+    }
   }
 }

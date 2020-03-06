@@ -1,4 +1,5 @@
 package com.psa.ranking.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,6 +35,11 @@ public class Format implements Serializable {
 
     @Column(name = "players_qty")
     private Integer playersQty;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("formats")
+    private Tournament tournament;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -94,6 +100,19 @@ public class Format implements Serializable {
 
     public void setPlayersQty(Integer playersQty) {
         this.playersQty = playersQty;
+    }
+
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public Format tournament(Tournament tournament) {
+        this.tournament = tournament;
+        return this;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -19,7 +19,8 @@
       "name": "Nombre",
       "description": "Descripcion",
       "coeficient": "Coeficiente",
-      "playersQty": "Cantidad Jugadores"
+      "playersQty": "Cantidad Total Jugadores",
+      "tournament": "Torneo"
     }
   }
 }
