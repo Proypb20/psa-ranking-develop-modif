@@ -800,6 +800,26 @@ public class RosterResourceIT {
         defaultRosterShouldNotBeFound("playerId.equals=" + (playerId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllRostersByPlayerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        rosterRepository.saveAndFlush(roster);
+        Player player = PlayerResourceIT.createEntity(em);
+        em.persist(player);
+        em.flush();
+        roster.addPlayer(player);
+        rosterRepository.saveAndFlush(roster);
+        Long playerId = player.getId();
+
+        // Get all the rosterList where player equals to playerId
+        defaultRosterShouldBeFound("playerId.equals=" + playerId);
+
+        // Get all the rosterList where player equals to playerId + 1
+        defaultRosterShouldNotBeFound("playerId.equals=" + (playerId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
