@@ -49,11 +49,10 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if (this.currentAccount)
+  if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
   {
     this.playerPointService
       .query({
-       "userId.equals": this.currentAccount.id,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -64,6 +63,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   {
   	 this.playerPointService
       .query({
+       'userId.equals': this.currentAccount.id,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()

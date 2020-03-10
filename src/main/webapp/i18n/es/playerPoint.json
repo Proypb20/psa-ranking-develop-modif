@@ -2,9 +2,9 @@
   "psaRankingApp": {
     "playerPoint": {
       "home": {
-        "title": "Puntos por Jugador",
-        "createLabel": "Nuevo Puntos por Jugador",
-        "createOrEditLabel": "Puntos por Jugador",
+        "title": "Puntos",
+        "createLabel": "Cargar Puntos",
+        "createOrEditLabel": "Puntos",
         "notFound": "No hay Puntos cargados"
       },
       "created": "Un nuevo Player Point ha sido creado con el identificador {{ param }}",
@@ -14,7 +14,7 @@
         "question": "¿Seguro que quiere eliminar Player Point {{ id }}?"
       },
       "detail": {
-        "title": "Puntos por Jugador"
+        "title": "Puntos"
       },
       "points": "Puntos",
       "tournament": "Torneo",

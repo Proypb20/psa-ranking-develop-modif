@@ -28,8 +28,8 @@
           "country": "Paises",
           "city": "Ciudades",
           "category": "Categorias",
-          "playerPoints": "Detalle",
-          "playerDetailPoints": "Detalle",
+          "playerPoints": "Ver Detalle",
+          "playerDetailPoints": "Ver Detalle",
           "teamPoints": "Puntaje",
           "teamDetailPoints": "Detalle",
           "games": "Partidos",
@@ -50,6 +50,9 @@
           "doctype": "Tipos de Documento",
           "country": "Paises",
           "city": "Ciudades"
+        },
+        "next": {
+         "event": "Proximos Eventos"
         }
       },
       "entities": {
@@ -67,10 +70,10 @@
         "userExtra": "User Extra",
         "console": "Abrir Consola",
         "format": "Formatos",
-        "playerPoint": "Puntos por Jugador",
-        "playerDetailPoint": "Detalle Puntos por Jugador",
-        "teamPoint": "Puntos por Equipo",
-        "teamDetailPoint": "Detalle Puntos por Equipo",
+        "playerPoint": "Puntos",
+        "playerDetailPoint": "Detalle Puntos",
+        "teamPoint": "Puntos",
+        "teamDetailPoint": "Detalle Puntos",
         "eventCategory": "Categorias asignadas",
         "game": "Partidos",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"

@@ -20,7 +20,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.tournament">Tournament</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></th>
+            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></th>
             <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.category">Category</span></th>
             <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.points">Points</span></th>
             <th scope="col"></th>
@@ -30,7 +30,7 @@
             <tr *ngFor="let playerPoint of playerPoints ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/player-point', playerPoint.id, 'view' ]">{{playerPoint.id}}</a></td>-->
                 <td>{{playerPoint.tournamentName}}</td>
-                <td>{{playerPoint.userLogin}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_ADMIN'">{{playerPoint.userLogin}}</td>
                 <td>{{playerPoint.categoryName}}</td>
                 <td>{{playerPoint.points}}</td>
                 <td class="text-right">
@@ -39,7 +39,7 @@
                                 [routerLink]="['/player-detail-point']"
                                 [queryParams]="{ppId:playerPoint.id}"
                                 class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <!-- <fa-icon [icon]="'eye'"></fa-icon> -->
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.playerDetailPoints">View Details</span>
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
