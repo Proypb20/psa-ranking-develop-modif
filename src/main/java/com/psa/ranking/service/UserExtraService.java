@@ -19,7 +19,6 @@ import com.psa.ranking.domain.UserExtra;
 import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.UserExtraRepository;
-import com.psa.ranking.service.dto.RosterDTO;
 import com.psa.ranking.service.dto.UserExtraDTO;
 import com.psa.ranking.service.mapper.UserExtraMapper;
 
@@ -115,27 +114,32 @@ public class UserExtraService {
     }
 
     @Transactional(readOnly = true)
-    public UserExtra getUniqueUserToRoster(Long idUser, RosterDTO rosterDTO) {
+    public Optional<UserExtraDTO> getUniqueUserToRoster(Long idUser, Long idRoster, Long idEventCategory) {
         // Busco si existe el usuario
         UserExtra userExtra = userExtraRepository.findById(idUser)
                 .orElseThrow(() -> new NoResultException("No existe un User con ese ID: --> " + idUser));
         log.debug(userExtra.toString());
         // Busco si existe el Roster
-        Roster roster = rosterRepository.findById(rosterDTO.getId())
-                .orElseThrow(() -> new NoResultException("No existe Roster con ese ID: --> " + rosterDTO.getId()));
+        Roster roster = rosterRepository.findById(idRoster)
+                .orElseThrow(() -> new NoResultException("No existe Roster con ese ID: --> " + idRoster));
         log.debug(roster.toString());
         // Busco si existe el EventoCategoria
-        EventCategory eventCategory = eventCategoryRepository.findById(rosterDTO.getEventCategoryId())
+        EventCategory eventCategory = eventCategoryRepository.findById(idEventCategory)
                 .orElseThrow(() -> new NoResultException(
-                        "No existe un EventoCategory con ese ID: -->" + rosterDTO.getEventCategoryId()));
+                        "No existe un EventoCategory con ese ID: -->" + idEventCategory));
         log.debug(eventCategory.toString());
         log.info("Buscando Player en Roster");
         log.info("Buscando Player en EventCategory");
-        // Busco que no exista un ese usuario como jugador en ese EventoCategoria
-        Optional<Player> player = playerService.findByUserAndEventCategory(userExtra.getUser(), eventCategory);
+        // Busco que no exista ese usuario dentro del mismo roster
+        Optional<Player> player = playerService.findByUserAndRoster(userExtra.getUser(), roster);
+        if (player.isPresent()) {
+            throw new IllegalArgumentException("Ya existe el player para el Roster");
+        }
+        // Busco que no exista ese usuario como jugador en ese EventoCategoria
+        player = playerService.findByUserAndEventCategory(userExtra.getUser(), eventCategory);
         if (player.isPresent()) {
             throw new IllegalArgumentException("Ya existe el player para el EventoCategoria");
         }
-        return userExtra;
+        return Optional.of(userExtraMapper.toDto(userExtra));
     }
 }

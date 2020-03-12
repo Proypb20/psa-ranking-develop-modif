@@ -87,11 +87,26 @@ public class PlayerService {
     
     public Optional<Player> findByUserAndEventCategory (User user, EventCategory eventCategory){
         log.debug("Buscando User en EventoCategoria: {}, {}", user, eventCategory);
-        return playerRepository.findByUserAndRoster_EventCategory(user, eventCategory);
+        for (Roster roster : eventCategory.getRosters()) {
+            Optional<Player> player = this.findPlayer(user, roster);
+            if (player.isPresent()) {
+                return player;
+            }
+        }
+        return Optional.empty();
     }
     
     public Optional<Player> findByUserAndRoster (User user, Roster roster){
         log.debug("Buscando User en Roster: {}, {}", user, roster);
-        return playerRepository.findByUserAndRoster(user, roster);
+        return this.findPlayer(user, roster);
+    }
+    
+    private Optional<Player> findPlayer (User user, Roster roster) {
+        for (Player player : roster.getPlayers()) {
+            if (player.getUser().equals(user)) {
+                return Optional.of(player);
+            }
+        }
+        return Optional.empty();
     }
 }

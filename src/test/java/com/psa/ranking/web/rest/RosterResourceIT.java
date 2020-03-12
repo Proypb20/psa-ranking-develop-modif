@@ -1,17 +1,19 @@
 package com.psa.ranking.web.rest;
 
-import com.psa.ranking.PsaRankingApp;
-import com.psa.ranking.domain.Roster;
-import com.psa.ranking.domain.Team;
-import com.psa.ranking.domain.EventCategory;
-import com.psa.ranking.domain.Player;
-import com.psa.ranking.repository.RosterRepository;
-import com.psa.ranking.service.RosterService;
-import com.psa.ranking.service.dto.RosterDTO;
-import com.psa.ranking.service.mapper.RosterMapper;
-import com.psa.ranking.web.rest.errors.ExceptionTranslator;
-import com.psa.ranking.service.dto.RosterCriteria;
-import com.psa.ranking.service.RosterQueryService;
+import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,14 +28,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.EventCategory;
+import com.psa.ranking.domain.Player;
+import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.Team;
+import com.psa.ranking.repository.RosterRepository;
+import com.psa.ranking.service.RosterQueryService;
+import com.psa.ranking.service.RosterService;
+import com.psa.ranking.service.dto.RosterDTO;
+import com.psa.ranking.service.mapper.RosterMapper;
+import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 
 /**
  * Integration tests for the {@link RosterResource} REST controller.
@@ -304,26 +309,6 @@ public class RosterResourceIT {
 
         // Get all the rosterList where eventCategory equals to eventCategoryId + 1
         defaultRosterShouldNotBeFound("eventCategoryId.equals=" + (eventCategoryId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllRostersByPlayerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        rosterRepository.saveAndFlush(roster);
-        Player player = PlayerResourceIT.createEntity(em);
-        em.persist(player);
-        em.flush();
-        roster.addPlayer(player);
-        rosterRepository.saveAndFlush(roster);
-        Long playerId = player.getId();
-
-        // Get all the rosterList where player equals to playerId
-        defaultRosterShouldBeFound("playerId.equals=" + playerId);
-
-        // Get all the rosterList where player equals to playerId + 1
-        defaultRosterShouldNotBeFound("playerId.equals=" + (playerId + 1));
     }
 
 

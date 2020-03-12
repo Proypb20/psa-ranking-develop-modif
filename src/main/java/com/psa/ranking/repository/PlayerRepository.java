@@ -20,8 +20,4 @@ public interface PlayerRepository extends JpaRepository<Player, Long>, JpaSpecif
     @Query("select player from Player player where player.user.login = ?#{principal.username}")
     List<Player> findByUserIsCurrentUser();
     
-    Optional<Player> findByUserAndRoster_EventCategory (User user, EventCategory eventCategory);
-    
-    Optional<Player> findByUserAndRoster (User user, Roster roster);
-
 }
