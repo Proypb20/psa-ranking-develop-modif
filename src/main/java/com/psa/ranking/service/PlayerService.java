@@ -1,6 +1,9 @@
 package com.psa.ranking.service;
 
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Player;
+import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.User;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
@@ -80,5 +83,15 @@ public class PlayerService {
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.deleteById(id);
+    }
+    
+    public Optional<Player> findByUserAndEventCategory (User user, EventCategory eventCategory){
+        log.debug("Buscando User en EventoCategoria: {}, {}", user, eventCategory);
+        return playerRepository.findByUserAndRoster_EventCategory(user, eventCategory);
+    }
+    
+    public Optional<Player> findByUserAndRoster (User user, Roster roster){
+        log.debug("Buscando User en Roster: {}, {}", user, roster);
+        return playerRepository.findByUserAndRoster(user, roster);
     }
 }

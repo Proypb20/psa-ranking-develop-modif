@@ -53,7 +53,7 @@
         {
             "fieldName": "status",
             "fieldType": "Status",
-            "fieldValues": "CREATED,PENDING,IN_PROGRESS,DONE,CANCEL"
+            "fieldValues": "CREATED,PENDING,IN_PROGRESS,DONE,CANCEL",
             "fieldValidateRules": [
                 "required"
             ]

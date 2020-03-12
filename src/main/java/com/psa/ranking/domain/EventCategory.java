@@ -42,9 +42,13 @@ public class EventCategory implements Serializable {
     @JsonIgnoreProperties("eventCategories")
     private Format format;
 
-    @OneToMany(mappedBy = "eventCategory", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "eventCategory")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Game> games = new HashSet<>();
+
+    @OneToMany(mappedBy = "eventCategory")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Roster> rosters = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -130,6 +134,31 @@ public class EventCategory implements Serializable {
 
     public void setGames(Set<Game> games) {
         this.games = games;
+    }
+
+    public Set<Roster> getRosters() {
+        return rosters;
+    }
+
+    public EventCategory rosters(Set<Roster> rosters) {
+        this.rosters = rosters;
+        return this;
+    }
+
+    public EventCategory addRoster(Roster roster) {
+        this.rosters.add(roster);
+        roster.setEventCategory(this);
+        return this;
+    }
+
+    public EventCategory removeRoster(Roster roster) {
+        this.rosters.remove(roster);
+        roster.setEventCategory(null);
+        return this;
+    }
+
+    public void setRosters(Set<Roster> rosters) {
+        this.rosters = rosters;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

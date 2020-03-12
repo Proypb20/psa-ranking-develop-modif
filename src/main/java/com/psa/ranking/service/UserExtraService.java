@@ -2,6 +2,8 @@ package com.psa.ranking.service;
 
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,9 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.psa.ranking.domain.EventCategory;
+import com.psa.ranking.domain.Player;
+import com.psa.ranking.domain.Roster;
 import com.psa.ranking.domain.User;
 import com.psa.ranking.domain.UserExtra;
+import com.psa.ranking.repository.EventCategoryRepository;
+import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.UserExtraRepository;
+import com.psa.ranking.service.dto.RosterDTO;
 import com.psa.ranking.service.dto.UserExtraDTO;
 import com.psa.ranking.service.mapper.UserExtraMapper;
 
@@ -22,77 +30,112 @@ import com.psa.ranking.service.mapper.UserExtraMapper;
 @Transactional
 public class UserExtraService {
 
-	private final Logger log = LoggerFactory.getLogger(UserExtraService.class);
+    private final Logger log = LoggerFactory.getLogger(UserExtraService.class);
 
-	private final UserExtraRepository userExtraRepository;
+    private final UserExtraRepository userExtraRepository;
 
-	private final UserExtraMapper userExtraMapper;
+    private final UserExtraMapper userExtraMapper;
 
-	private final UserService userService;
+    private final UserService userService;
 
-	public UserExtraService(UserExtraRepository userExtraRepository, UserExtraMapper userExtraMapper,
-			UserService userService) {
-		this.userExtraRepository = userExtraRepository;
-		this.userExtraMapper = userExtraMapper;
-		this.userService = userService;
-	}
+    private final EventCategoryRepository eventCategoryRepository;
 
-	/**
-	 * Save a userExtra.
-	 *
-	 * @param userExtraDTO the entity to save.
-	 * @return the persisted entity.
-	 */
-	public UserExtraDTO save(UserExtraDTO userExtraDTO) {
-		log.debug("Request to save UserExtra : {}", userExtraDTO);
-		UserExtra userExtra = userExtraMapper.toEntity(userExtraDTO);
-		userExtra = userExtraRepository.save(userExtra);
-		return userExtraMapper.toDto(userExtra);
-	}
+    private final RosterRepository rosterRepository;
 
-	/**
-	 * Get all the userExtras.
-	 *
-	 * @param pageable the pagination information.
-	 * @return the list of entities.
-	 */
-	@Transactional(readOnly = true)
-	public Page<UserExtraDTO> findAll(Pageable pageable) {
-		log.debug("Request to get all UserExtras");
-		return userExtraRepository.findAll(pageable).map(userExtraMapper::toDto);
-	}
+    private final PlayerService playerService;
 
-	/**
-	 * Get one userExtra by id.
-	 *
-	 * @param id the id of the entity.
-	 * @return the entity.
-	 */
-	@Transactional(readOnly = true)
-	public Optional<UserExtraDTO> findOne(Long id) {
-		log.debug("Request to get UserExtra : {}", id);
-		return userExtraRepository.findById(id).map(userExtraMapper::toDto);
-	}
+    public UserExtraService(UserExtraRepository userExtraRepository, UserExtraMapper userExtraMapper,
+            UserService userService, EventCategoryRepository eventCategoryRepository, RosterRepository rosterRepository,
+            PlayerService playerService) {
+        this.userExtraRepository = userExtraRepository;
+        this.userExtraMapper = userExtraMapper;
+        this.userService = userService;
+        this.eventCategoryRepository = eventCategoryRepository;
+        this.rosterRepository = rosterRepository;
+        this.playerService = playerService;
+    }
 
-	/**
-	 * Delete the userExtra by id.
-	 *
-	 * @param id the id of the entity.
-	 */
-	public void delete(Long id) {
-		log.debug("Request to delete UserExtra : {}", id);
-		userExtraRepository.deleteById(id);
-	}
+    /**
+     * Save a userExtra.
+     *
+     * @param userExtraDTO the entity to save.
+     * @return the persisted entity.
+     */
+    public UserExtraDTO save(UserExtraDTO userExtraDTO) {
+        log.debug("Request to save UserExtra : {}", userExtraDTO);
+        UserExtra userExtra = userExtraMapper.toEntity(userExtraDTO);
+        userExtra = userExtraRepository.save(userExtra);
+        return userExtraMapper.toDto(userExtra);
+    }
 
-	@Transactional(readOnly = true)
-	public Optional<UserExtra> getUserWithAuthorities() {
-		User user = Optional.of(userService.getUserWithAuthorities()
-				.orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
-		Optional<UserExtra> userExtra = userExtraRepository.findById(user.getId());
-		if (!userExtra.isPresent()) {
-			userExtra = Optional.of(new UserExtra(user));
-		}
-		log.debug(userExtra.toString());
-		return userExtra;
-	}
+    /**
+     * Get all the userExtras.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<UserExtraDTO> findAll(Pageable pageable) {
+        log.debug("Request to get all UserExtras");
+        return userExtraRepository.findAll(pageable).map(userExtraMapper::toDto);
+    }
+
+    /**
+     * Get one userExtra by id.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<UserExtraDTO> findOne(Long id) {
+        log.debug("Request to get UserExtra : {}", id);
+        return userExtraRepository.findById(id).map(userExtraMapper::toDto);
+    }
+
+    /**
+     * Delete the userExtra by id.
+     *
+     * @param id the id of the entity.
+     */
+    public void delete(Long id) {
+        log.debug("Request to delete UserExtra : {}", id);
+        userExtraRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<UserExtra> getUserWithAuthorities() {
+        User user = Optional.of(userService.getUserWithAuthorities()
+                .orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
+        Optional<UserExtra> userExtra = userExtraRepository.findById(user.getId());
+        if (!userExtra.isPresent()) {
+            userExtra = Optional.of(new UserExtra(user));
+        }
+        log.debug(userExtra.toString());
+        return userExtra;
+    }
+
+    @Transactional(readOnly = true)
+    public UserExtra getUniqueUserToRoster(Long idUser, RosterDTO rosterDTO) {
+        // Busco si existe el usuario
+        UserExtra userExtra = userExtraRepository.findById(idUser)
+                .orElseThrow(() -> new NoResultException("No existe un User con ese ID: --> " + idUser));
+        log.debug(userExtra.toString());
+        // Busco si existe el Roster
+        Roster roster = rosterRepository.findById(rosterDTO.getId())
+                .orElseThrow(() -> new NoResultException("No existe Roster con ese ID: --> " + rosterDTO.getId()));
+        log.debug(roster.toString());
+        // Busco si existe el EventoCategoria
+        EventCategory eventCategory = eventCategoryRepository.findById(rosterDTO.getEventCategoryId())
+                .orElseThrow(() -> new NoResultException(
+                        "No existe un EventoCategory con ese ID: -->" + rosterDTO.getEventCategoryId()));
+        log.debug(eventCategory.toString());
+        log.info("Buscando Player en Roster");
+        log.info("Buscando Player en EventCategory");
+        // Busco que no exista un ese usuario como jugador en ese EventoCategoria
+        Optional<Player> player = playerService.findByUserAndEventCategory(userExtra.getUser(), eventCategory);
+        if (player.isPresent()) {
+            throw new IllegalArgumentException("Ya existe el player para el EventoCategoria");
+        }
+        return userExtra;
+    }
 }
