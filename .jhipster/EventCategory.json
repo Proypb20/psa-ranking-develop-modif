@@ -37,6 +37,12 @@
             "otherEntityName": "game",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "eventCategory"
+        },
+        {
+            "relationshipName": "roster",
+            "otherEntityName": "roster",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "eventCategory"
         }
     ],
     "fields": [
