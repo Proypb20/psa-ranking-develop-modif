@@ -121,6 +121,9 @@ export class RosterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.sub = this.activatedRoute
       .queryParams
       .subscribe(params => {
@@ -128,9 +131,6 @@ export class RosterComponent implements OnInit, OnDestroy {
         this.evCatId = +params['evCatId'] || 0;
       });
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInRosters();
   }
 

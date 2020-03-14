@@ -9,17 +9,17 @@
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
                 </div>
-                <div class="form-group">
+                <div class="form-group" [hidden]="editForm.get('eventCategoryId').value">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.eventCategory" for="field_eventCategory">Event Category</label>
                     <select class="form-control" id="field_eventCategory" name="eventCategory" formControlName="eventCategoryId">
-                        <option *ngIf="!editForm.get('eventCategoryId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('eventCategoryId').value" [ngValue]="null" selected></option>-->
                         <option [ngValue]="eventCategoryOption.id" *ngFor="let eventCategoryOption of eventcategories; trackBy: trackEventCategoryById">{{eventCategoryOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.team" for="field_team">Team</label>
                     <select class="form-control" id="field_team" name="team" formControlName="teamId">
-                        <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option>-->
                         <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
                     </select>
                 </div>
@@ -35,7 +35,7 @@
                         This field is required.
                     </small>
                 </div>
-                <div class="form-group">
+                <div class="form-group" hidden>
                     <label class="form-control-label" jhiTranslate="psaRankingApp.roster.active" for="field_active">Active</label>
                     <input type="checkbox" class="form-control" name="active" id="field_active"
                            formControlName="active"/>

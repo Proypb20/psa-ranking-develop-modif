@@ -52,7 +52,7 @@ export class RosterUpdateComponent implements OnInit {
         .queryParams
         .subscribe(params => {
            this.teId = +params['teId'] || 0;
-           this.evCatId = +params['evId'] || 0;
+           this.evCatId = +params['evCatId'] || 0;
       });
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -108,9 +108,9 @@ export class RosterUpdateComponent implements OnInit {
   updateForm(roster: IRoster) {
     this.editForm.patchValue({
       id: roster.id,
-      active: roster.active,
-      teamId: roster.teamId,
-      eventCategoryId: roster.eventCategoryId
+      active: true || roster.active,
+      teamId: this.teId || roster.teamId,
+      eventCategoryId: this.evCatId || roster.eventCategoryId
     });
   }
 
