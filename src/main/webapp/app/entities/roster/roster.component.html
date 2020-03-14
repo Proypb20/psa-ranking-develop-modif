@@ -19,7 +19,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="eventCategoryId"><span jhiTranslate="psaRankingApp.roster.eventCategory">Event Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="eventCategoryId"><span jhiTranslate="psaRankingApp.roster.eventCategory">Event Category</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.roster.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiSortBy="active"><span jhiTranslate="psaRankingApp.roster.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -28,7 +28,7 @@
             <tbody>
             <tr *ngFor="let roster of rosters ;trackBy: trackId">
                 <!--<td><a [routerLink]="['/roster', roster.id, 'view' ]">{{roster.id}}</a></td>-->
-                <td>{{roster.eventCategoryId}}</td>
+                <!-- <td>{{roster.eventCategoryId}}</td> -->
                 <td>{{roster.teamName}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{roster.active}}</td>
                 <td class="text-right">

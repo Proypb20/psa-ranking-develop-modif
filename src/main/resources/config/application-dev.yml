@@ -130,6 +130,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-   cronFixture: 0 0/2 * 1/1 * ?
+#application:
+#   cronFixture: 0 0/2 * 1/1 * ?
    

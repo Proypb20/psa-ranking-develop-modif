@@ -5,11 +5,10 @@
     </div>-->
     <div class="col-md-9">
         <!-- <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>-->
-
+        <h1 class="from-control-plaintext display-4" jhiTranslate="home.title">Welcome</h1>
         <div [ngSwitch]="isAuthenticated()">
             
             <div *ngSwitchCase="true">
-                <h1 class="from-control-plaintext display-4" jhiTranslate="home.title">Welcome</h1>
                 <h1 class="display-6">{{account.lastName}}, {{account.firstName}}</h1>
               <!-- <div class="alert alert-success">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
