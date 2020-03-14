@@ -28,10 +28,10 @@ public class RosterService {
     private final RosterRepository rosterRepository;
 
     private final RosterMapper rosterMapper;
-    
+
     private final UserService userService;
 
-    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper) {
+    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService) {
         this.rosterRepository = rosterRepository;
         this.rosterMapper = rosterMapper;
         this.userService = userService;
@@ -62,7 +62,6 @@ public class RosterService {
         return rosterRepository.findAll(pageable).map(rosterMapper::toDto);
     }
 
-
     /**
      * Get one roster by id.
      *
@@ -84,7 +83,7 @@ public class RosterService {
         log.debug("Request to delete Roster : {}", id);
         rosterRepository.deleteById(id);
     }
-    
+
     public Optional<List<RosterDTO>> findByLogguedUser() {
         User user = Optional.of(userService.getUserWithAuthorities()
                 .orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
