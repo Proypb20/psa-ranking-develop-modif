@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.psa.ranking.domain.EventCategory;
@@ -21,4 +22,7 @@ public interface RosterRepository extends JpaRepository<Roster, Long>, JpaSpecif
     public List<Roster> findByEventCategory(EventCategory eventCategory);
 
     public Optional<List<Roster>> findByTeam_Owner(User user);
+    
+    @Query("select count(1) from Player player, PlayerPoint playerpoint where player.user_id = playerpoint.user_id and player.roster_id = ?1 and playerpoint.category_id = ?2")
+    int CountPlayerNextCategory(Long rosterId, Long categoryId);
 }
