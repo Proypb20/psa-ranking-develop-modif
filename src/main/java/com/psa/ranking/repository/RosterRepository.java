@@ -1,4 +1,5 @@
 package com.psa.ranking.repository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,13 +9,16 @@ import org.springframework.stereotype.Repository;
 
 import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.User;
 
 /**
- * Spring Data  repository for the Roster entity.
+ * Spring Data repository for the Roster entity.
  */
 @SuppressWarnings("unused")
 @Repository
 public interface RosterRepository extends JpaRepository<Roster, Long>, JpaSpecificationExecutor<Roster> {
 
-	public List<Roster> findByEventCategory(EventCategory eventCategory);
+    public List<Roster> findByEventCategory(EventCategory eventCategory);
+
+    public Optional<List<Roster>> findByTeam_Owner(User user);
 }
