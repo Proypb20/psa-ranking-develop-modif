@@ -2,6 +2,8 @@ package com.psa.ranking.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Roster;
 import com.psa.ranking.domain.User;
+import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.dto.RosterDTO;
 import com.psa.ranking.service.mapper.RosterMapper;
@@ -31,10 +35,14 @@ public class RosterService {
 
     private final UserService userService;
 
-    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService) {
+    private final EventCategoryRepository eventCategoryRepository;
+
+    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService,
+            EventCategoryRepository eventCategoryRepository) {
         this.rosterRepository = rosterRepository;
         this.rosterMapper = rosterMapper;
         this.userService = userService;
+        this.eventCategoryRepository = eventCategoryRepository;
     }
 
     /**
@@ -88,5 +96,26 @@ public class RosterService {
         User user = Optional.of(userService.getUserWithAuthorities()
                 .orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
         return rosterRepository.findByTeam_Owner(user).map(rosterMapper::toDto);
+    }
+
+    public Optional<List<RosterDTO>> findRostersAvilable(Long idEventCategory) {
+        Optional<List<Roster>> result = Optional.empty();
+        // validacion de datos
+        EventCategory eventCategory = Optional.of(eventCategoryRepository.findById(idEventCategory))
+                .orElseThrow(() -> new IllegalArgumentException("No hay un EventCategory con los datos ingresados")).get();
+        // Busco los rosters del eventCategory
+        Optional<List<Roster>> optRostersEvent = Optional.of(rosterRepository.findByEventCategory(eventCategory));
+        if (optRostersEvent.isPresent()) {
+            List<Roster> rostersEvent = optRostersEvent.get();
+            log.debug("Rosters cargados en el EventCategory: {}", rostersEvent);
+            LongStream ids = rostersEvent.stream().mapToLong(x -> x.getId());
+            
+            result = rosterRepository.findByNotIn(ids.mapToObj(i->i).collect(Collectors.toList()));
+            if (result.isPresent()) {
+                log.debug("Rosters Disponibles: ");
+                result.get().forEach(x -> log.debug(x.toString()));
+            }
+        }
+        return result.map(rosterMapper::toDto);
     }
 }

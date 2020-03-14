@@ -21,4 +21,6 @@ public interface RosterRepository extends JpaRepository<Roster, Long>, JpaSpecif
     public List<Roster> findByEventCategory(EventCategory eventCategory);
 
     public Optional<List<Roster>> findByTeam_Owner(User user);
+    
+    public Optional<List<Roster>> findByNotIn(List<Long> ids);
 }
