@@ -1,5 +1,8 @@
 package com.psa.ranking.repository;
 import com.psa.ranking.domain.PlayerPoint;
+import com.psa.ranking.domain.Tournament;
+import com.psa.ranking.domain.User;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +17,7 @@ public interface PlayerPointRepository extends JpaRepository<PlayerPoint, Long>,
 
     @Query("select playerPoint from PlayerPoint playerPoint where playerPoint.user.login = ?#{principal.username}")
     List<PlayerPoint> findByUserIsCurrentUser();
+    
+    PlayerPoint findByUserAndTournament(User user,Tournament tournament);
 
 }

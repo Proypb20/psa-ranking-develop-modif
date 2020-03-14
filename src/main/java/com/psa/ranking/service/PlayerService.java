@@ -2,11 +2,22 @@ package com.psa.ranking.service;
 
 import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Player;
+import com.psa.ranking.domain.PlayerPoint;
 import com.psa.ranking.domain.Roster;
+import com.psa.ranking.domain.Tournament;
 import com.psa.ranking.domain.User;
+import com.psa.ranking.domain.enumeration.ProfileUser;
+import com.psa.ranking.repository.CategoryRepository;
+import com.psa.ranking.repository.EventCategoryRepository;
+import com.psa.ranking.repository.PlayerPointRepository;
 import com.psa.ranking.repository.PlayerRepository;
+import com.psa.ranking.repository.RosterRepository;
+import com.psa.ranking.repository.TournamentRepository;
+import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
+
+import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +38,28 @@ public class PlayerService {
     private final Logger log = LoggerFactory.getLogger(PlayerService.class);
 
     private final PlayerRepository playerRepository;
+    private final RosterRepository rosterRepository;
+    private final EventCategoryRepository eventCategoryRepository;
+    private final TournamentRepository tournamentRepository;
+    private final PlayerPointRepository playerPointRepository;
+    private final CategoryRepository categoryRepository;
 
     private final PlayerMapper playerMapper;
 
-    public PlayerService(PlayerRepository playerRepository, PlayerMapper playerMapper) {
+    public PlayerService(PlayerRepository playerRepository
+    		           , PlayerMapper playerMapper
+    		           , RosterRepository rosterRepository
+    		           , EventCategoryRepository eventCategoryRepository
+    		           , TournamentRepository tournamentRepository
+    		           , PlayerPointRepository playerPointRepository
+    		           , CategoryRepository categoryRepository) {
         this.playerRepository = playerRepository;
         this.playerMapper = playerMapper;
+        this.rosterRepository = rosterRepository;
+        this.eventCategoryRepository = eventCategoryRepository;
+        this.tournamentRepository = tournamentRepository;
+        this.playerPointRepository = playerPointRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     /**
@@ -44,8 +71,57 @@ public class PlayerService {
     public PlayerDTO save(PlayerDTO playerDTO) {
         log.debug("Request to save Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
-        player = playerRepository.save(player);
-        return playerMapper.toDto(player);
+        if (player.getProfile().equals(ProfileUser.PLAYER))
+        {
+	        /*Obtengo el eventoCategory del Roster*/
+	        EventCategory eventCategory = eventCategoryRepository.findByRoster(player.getRoster());
+	        /*Obtengo el torneo del eventoCategory*/
+	        Tournament tournament = tournamentRepository.findByEvent(eventCategory.getEvent());
+	        /*Si el torneo categoriza al jugador*/
+	        if (tournament.isCategorize())
+	        {
+	        	/*Obtengo la categoria a la que pertenece el jugador*/
+	            PlayerPoint playerPoint = playerPointRepository.findByUserAndTournament(player.getUser(), tournament);
+	            if (playerPoint.getId() == null)
+	            {
+	            	playerPoint.setPoints((float) 0);
+	            	playerPoint.setTournament(tournament);
+	            	playerPoint.setUser(player.getUser());
+	            	playerPoint.setCategory(categoryRepository.LastCategoryByTournamentId(tournament.getId()));
+	            	playerPoint = playerPointRepository.save(playerPoint);
+	            }
+	            /*Si la categoria del jugador es menor o igual a la del EventoCategoria (orden invertido)*/
+	            if (eventCategory.getCategory().getOrder() <= playerPoint.getCategory().getOrder())  
+	            {
+	               player = playerRepository.save(player);
+	               return playerMapper.toDto(player);
+	            }
+	            else
+	            {
+	            	/*O el jugador esta en la proxima categoria*/
+	                if ((tournament.getCantPlayersNextCategory() > 0 && eventCategory.getCategory().getOrder() == playerPoint.getCategory().getOrder() + 1) 
+	                /*Y no hay nadie inscripto*/
+	                 && (rosterRepository.CountPlayerNextCategory(player.getRoster().getId(),playerPoint.getCategory().getId()) == tournament.getCantPlayersNextCategory()-1 ))
+	                {
+	                	player = playerRepository.save(player);
+	                    return playerMapper.toDto(player);
+	                }
+	                else
+	                	return playerMapper.toDto(player);
+	                	
+	            }
+	        }
+	        else
+	        {
+	            player = playerRepository.save(player);
+	            return playerMapper.toDto(player);
+	        }
+        }   
+        else
+        {
+            player = playerRepository.save(player);
+            return playerMapper.toDto(player);
+        }
     }
 
     /**
