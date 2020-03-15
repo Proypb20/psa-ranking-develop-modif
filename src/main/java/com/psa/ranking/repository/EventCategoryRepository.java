@@ -21,5 +21,5 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, Lo
     
     public List<EventCategory> findByEvent(Event event);
     
-    EventCategory findByRoster(Roster roster);
+    EventCategory findByRosters(Roster roster);
 }
