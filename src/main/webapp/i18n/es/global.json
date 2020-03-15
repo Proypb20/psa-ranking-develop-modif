@@ -217,6 +217,7 @@
     "userexists": "¡El nombre de usuario ya existe!",
     "emailexists": "¡La cuenta de correo ya está en uso!",
     "idexists": "Un/a nuevo/a {{entityName}} no puede tener ID",
+    "category": "No puede inscribir al jugador en esta categoria",
     "idnull": "ID inválido"
   },
   "footer": "PBPoints"

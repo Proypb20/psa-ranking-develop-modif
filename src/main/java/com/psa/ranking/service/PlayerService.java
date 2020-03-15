@@ -99,7 +99,7 @@ public class PlayerService {
 	            /*Si la categoria del jugador es menor o igual a la del EventoCategoria (orden invertido)*/
 	            log.debug("Event Category Order: " + eventCategory.getCategory().getOrder());
 	            log.debug("Player Category Order: " + playerPoint.getCategory().getOrder());
-	            if (eventCategory.getCategory().getOrder() >= playerPoint.getCategory().getOrder())  
+	            if (eventCategory.getCategory().getOrder() <= playerPoint.getCategory().getOrder())  
 	            {
 	               player = playerRepository.save(player);
 	               return playerMapper.toDto(player);
