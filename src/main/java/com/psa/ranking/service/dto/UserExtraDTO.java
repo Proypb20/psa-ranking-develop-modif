@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link com.psa.ranking.domain.UserExtra} entity.
@@ -19,6 +20,11 @@ public class UserExtraDTO implements Serializable {
 
     private LocalDate bornDate;
 
+    
+    @Lob
+    private byte[] picture;
+
+    private String pictureContentType;
 
     private Long docTypeId;
 
@@ -56,6 +62,22 @@ public class UserExtraDTO implements Serializable {
 
     public void setBornDate(LocalDate bornDate) {
         this.bornDate = bornDate;
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public String getPictureContentType() {
+        return pictureContentType;
+    }
+
+    public void setPictureContentType(String pictureContentType) {
+        this.pictureContentType = pictureContentType;
     }
 
     public Long getDocTypeId() {
@@ -110,6 +132,7 @@ public class UserExtraDTO implements Serializable {
             ", numDoc='" + getNumDoc() + "'" +
             ", phone='" + getPhone() + "'" +
             ", bornDate='" + getBornDate() + "'" +
+            ", picture='" + getPicture() + "'" +
             ", docType=" + getDocTypeId() +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
