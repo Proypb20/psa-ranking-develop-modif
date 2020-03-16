@@ -219,7 +219,8 @@
     "idexists": "Un/a nuevo/a {{entityName}} no puede tener ID",
     "category": "No puede inscribir al jugador en esta categoria",
     "idnull": "ID inválido",
-    "genericError": "Error al procesar los datos. Intente más tarde"
+    "genericError": "Error al procesar los datos. Intente más tarde",
+    "duplicateError": "Ya existe un/a {{entityName}} con los valores ingresados"
   },
   "footer": "PBPoints"
 }
