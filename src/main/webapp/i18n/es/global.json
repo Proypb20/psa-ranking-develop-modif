@@ -52,7 +52,7 @@
           "city": "Ciudades"
         },
         "next": {
-         "event": "Proximos Eventos"
+          "event": "Proximos Eventos"
         }
       },
       "entities": {
@@ -218,7 +218,8 @@
     "emailexists": "¡La cuenta de correo ya está en uso!",
     "idexists": "Un/a nuevo/a {{entityName}} no puede tener ID",
     "category": "No puede inscribir al jugador en esta categoria",
-    "idnull": "ID inválido"
+    "idnull": "ID inválido",
+    "genericError": "Error al procesar los datos. Intente más tarde"
   },
   "footer": "PBPoints"
 }

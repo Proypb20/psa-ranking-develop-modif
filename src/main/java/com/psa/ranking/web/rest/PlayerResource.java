@@ -78,7 +78,7 @@ public class PlayerResource {
         PlayerDTO result = playerService.save(playerDTO);
         if (result.getId() == null)
         {
-        	throw new BadRequestAlertException("No se puede agregar al jugador", ENTITY_NAME, "category");
+        	throw new BadRequestAlertException("No se puede agregar al jugador", ENTITY_NAME, "internalServerError");
         }
         else
         {

@@ -1,5 +1,14 @@
 package com.psa.ranking.service;
 
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Player;
 import com.psa.ranking.domain.PlayerPoint;
@@ -13,20 +22,8 @@ import com.psa.ranking.repository.PlayerPointRepository;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.TournamentRepository;
-import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
-
-import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link Player}.
