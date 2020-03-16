@@ -1,4 +1,5 @@
 package com.psa.ranking.repository;
+import com.psa.ranking.domain.Category;
 import com.psa.ranking.domain.Event;
 import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Roster;
@@ -22,4 +23,6 @@ public interface EventCategoryRepository extends JpaRepository<EventCategory, Lo
     public List<EventCategory> findByEvent(Event event);
     
     EventCategory findByRosters(Roster roster);
+    
+    Optional<EventCategory> findByEventAndCategory(Event event, Category category);
 }
