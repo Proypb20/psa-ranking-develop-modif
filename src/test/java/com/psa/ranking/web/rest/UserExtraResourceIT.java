@@ -200,7 +200,7 @@ public class UserExtraResourceIT {
         em.detach(updatedUserExtra);
 
         // Update the User with new association value
-        updatedUserExtra.setUser();
+        updatedUserExtra.setUser(null);
         UserExtraDTO updatedUserExtraDTO = userExtraMapper.toDto(updatedUserExtra);
 
         // Update the entity
