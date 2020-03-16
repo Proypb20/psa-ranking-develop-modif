@@ -155,7 +155,10 @@
     "userexists": "Login name already used!",
     "emailexists": "Email is already in use!",
     "idexists": "A new {{ entityName }} cannot already have an ID",
-    "idnull": "Invalid ID"
+    "category": "No puede inscribir al jugador en esta categoria",
+    "idnull": "Invalid ID",
+    "genericError": "Error processing the data. Try again later",
+    "duplicateError": "There is already a {{entityName}} with the entered values"
   },
   "footer": "This is your footer"
 }

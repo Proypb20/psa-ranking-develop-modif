@@ -75,6 +75,7 @@ class UserExtraGatlingTest extends Simulation {
                 , "numDoc":"SAMPLE_TEXT"
                 , "phone":"SAMPLE_TEXT"
                 , "bornDate":"2020-01-01T00:00:00.000Z"
+                , "picture":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_userExtra_url"))).exitHereIfFailed

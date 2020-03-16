@@ -68,7 +68,7 @@ public class UserExtraResource {
             throw new BadRequestAlertException("A new userExtra cannot already have an ID", ENTITY_NAME, "idexists");
         }
         if (Objects.isNull(userExtraDTO.getUserId())) {
-            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "idnull");
         }
         UserExtraDTO result = userExtraService.save(userExtraDTO);
         return ResponseEntity.created(new URI("/api/user-extras/" + result.getId()))
@@ -148,7 +148,7 @@ public class UserExtraResource {
         try {
             userExtraDTO = userExtraService.getUniqueUserToRoster(idUser, idRoster, idEventCategory);
         }catch (Exception e) {
-            throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, null);
+            throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "genericError");
         }
         return ResponseUtil.wrapOrNotFound(userExtraDTO);
     }

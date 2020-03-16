@@ -31,6 +31,14 @@ public class UserExtra implements Serializable {
     @Column(name = "born_date")
     private LocalDate bornDate;
 
+    
+    @Lob
+    @Column(name = "picture", nullable = false)
+    private byte[] picture;
+
+    @Column(name = "picture_content_type", nullable = false)
+    private String pictureContentType;
+
     @ManyToOne
     @JsonIgnoreProperties("userExtras")
     private DocType docType;
@@ -49,7 +57,7 @@ public class UserExtra implements Serializable {
     	super();
     	this.user = user;
     }
-    
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -98,6 +106,32 @@ public class UserExtra implements Serializable {
         this.bornDate = bornDate;
     }
 
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public UserExtra picture(byte[] picture) {
+        this.picture = picture;
+        return this;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public String getPictureContentType() {
+        return pictureContentType;
+    }
+
+    public UserExtra pictureContentType(String pictureContentType) {
+        this.pictureContentType = pictureContentType;
+        return this;
+    }
+
+    public void setPictureContentType(String pictureContentType) {
+        this.pictureContentType = pictureContentType;
+    }
+
     public DocType getDocType() {
         return docType;
     }
@@ -141,10 +175,15 @@ public class UserExtra implements Serializable {
         return 31;
     }
 
-	@Override
-	public String toString() {
-		return "UserExtra [id=" + id + ", numDoc=" + numDoc + ", phone=" + phone + ", bornDate=" + bornDate
-				+ ", docType=" + docType + ", user=" + user + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "UserExtra{" +
+            "id=" + getId() +
+            ", numDoc='" + getNumDoc() + "'" +
+            ", phone='" + getPhone() + "'" +
+            ", bornDate='" + getBornDate() + "'" +
+            ", picture='" + getPicture() + "'" +
+            ", pictureContentType='" + getPictureContentType() + "'" +
+            "}";
+    }
 }

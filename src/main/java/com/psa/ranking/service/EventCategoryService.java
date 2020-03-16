@@ -12,6 +12,7 @@ import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -65,6 +66,12 @@ public class EventCategoryService {
     public EventCategoryDTO save(EventCategoryDTO eventCategoryDTO) {
         log.debug("Request to save EventCategory : {}", eventCategoryDTO);
         EventCategory eventCategory = eventCategoryMapper.toEntity(eventCategoryDTO);
+        // Validaciones de duplicidad
+        Optional<EventCategory> optional = eventCategoryRepository.findByEventAndCategory(eventCategory.getEvent(), eventCategory.getCategory());
+        if (optional.isPresent()) {
+            log.error(optional.get().toString());
+            throw new DuplicateKeyException("Ya existe un eventCategory con los datos ingresados");
+        }
         eventCategory = eventCategoryRepository.save(eventCategory);
         return eventCategoryMapper.toDto(eventCategory);
     }

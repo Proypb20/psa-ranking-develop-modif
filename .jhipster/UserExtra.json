@@ -12,6 +12,14 @@
         {
             "fieldName": "bornDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "picture",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
