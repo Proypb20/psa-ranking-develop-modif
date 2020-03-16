@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -157,10 +158,6 @@ public class RosterResource {
     /**
       * {@code GET  /rosters} : get all the rosters for the {@link User} logged.
      *
-
-     * @param pageable the pagination information.
-
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
      */
     @GetMapping("/rosters/owner")
@@ -169,4 +166,19 @@ public class RosterResource {
         Optional<List<RosterDTO>> rostersDTO = rosterService.findByLogguedUser();
         return ResponseUtil.wrapOrNotFound(rostersDTO);
     }
+    
+    /**
+     * {@code GET  /rosters} : get all the rosters for the {@link EventCategory} available.
+    *
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
+    */
+   @GetMapping("/rosters/event-category/available")
+   public ResponseEntity<List<RosterDTO>> findAvailableByEventCategory(@RequestParam(value="idEventCategory", required=true) Long idEventCategory){
+       log.debug("REST request to get Rosters Available for EventCategory");
+       if (idEventCategory == null) {
+           throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+       }
+       Optional<List<RosterDTO>> rostersDTO = rosterService.findAvailableByEventCategory(idEventCategory);
+       return ResponseUtil.wrapOrNotFound(rostersDTO);
+   }
 }

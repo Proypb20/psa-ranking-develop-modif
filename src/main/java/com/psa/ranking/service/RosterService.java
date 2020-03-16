@@ -10,8 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.psa.ranking.domain.EventCategory;
 import com.psa.ranking.domain.Roster;
 import com.psa.ranking.domain.User;
+import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.service.dto.RosterDTO;
 import com.psa.ranking.service.mapper.RosterMapper;
@@ -31,10 +33,14 @@ public class RosterService {
 
     private final UserService userService;
 
-    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService) {
+    private final EventCategoryRepository eventCategoryRepository;
+
+    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService,
+            EventCategoryRepository eventCategoryRepository) {
         this.rosterRepository = rosterRepository;
         this.rosterMapper = rosterMapper;
         this.userService = userService;
+        this.eventCategoryRepository = eventCategoryRepository;
     }
 
     /**
@@ -84,9 +90,25 @@ public class RosterService {
         rosterRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public Optional<List<RosterDTO>> findByLogguedUser() {
         User user = Optional.of(userService.getUserWithAuthorities()
                 .orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
         return rosterRepository.findByTeam_Owner(user).map(rosterMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<List<RosterDTO>> findAvailableByEventCategory(Long idEventCategory) {
+        log.debug("Request to find Rosters available for EventCategory {}", idEventCategory);
+        EventCategory eventCategory = eventCategoryRepository.findById(idEventCategory).orElseThrow(
+                () -> new IllegalArgumentException("No se encontró un EventCategory con los datos ingresados"));
+        // Busco todos los rosters disponibles
+        List<Roster> all = rosterRepository.findAll();
+        // dejo los rosters que no fueron usados
+        log.debug("Rosters del EventCategory: {}", eventCategory.getRosters());
+        log.debug("Tdodos los rosters: {}", all);
+        all.removeIf(x -> eventCategory.getRosters().contains(x));
+        log.debug("Rosters Disponibles: {}", all);
+        return Optional.of(all).map(rosterMapper::toDto);
     }
 }
