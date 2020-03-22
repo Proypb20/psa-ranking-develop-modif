@@ -25,6 +25,12 @@
             <column name="born_date" type="date">
                 <constraints nullable="true" />
             </column>
+            <column name="picture" type="longblob">
+                <constraints nullable="false" />
+            </column>
+            <column name="picture_content_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="doc_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -54,6 +60,8 @@
             <column name="num_doc" type="string"/>
             <column name="phone" type="string"/>
             <column name="born_date" type="date"/>
+            <column name="picture" type="blob"/>
+            <column name="picture_content_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

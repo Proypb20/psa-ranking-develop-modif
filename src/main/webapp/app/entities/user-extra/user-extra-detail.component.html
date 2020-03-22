@@ -17,6 +17,15 @@
                 <dd>
                     <span>{{userExtra.bornDate}}</span>
                 </dd>
+                <dt><span jhiTranslate="psaRankingApp.userExtra.picture">Picture</span></dt>
+                <dd>
+                    <div *ngIf="userExtra.picture">
+                        <a (click)="openFile(userExtra.pictureContentType, userExtra.picture)">
+                            <img [src]="'data:' + userExtra.pictureContentType + ';base64,' + userExtra.picture" style="max-width: 100%;" alt="userExtra image"/>
+                        </a>
+                        {{userExtra.pictureContentType}}, {{byteSize(userExtra.picture)}}
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span></dt>
                 <dd>
                     <div *ngIf="userExtra.docTypeId">

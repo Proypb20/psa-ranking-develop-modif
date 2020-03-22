@@ -1,5 +1,5 @@
-id;num_doc;phone;born_date
-1;mobile Fish;551.410.0483 x6176;2020-01-29
-2;Producer;920-191-6365 x04025;2020-01-28
-3;Steel zero administration;240.761.3595;2020-01-28
-4;HDD;(140) 099-9583 x3002;2020-01-28
+id;num_doc;phone;born_date;picture;picture_content_type
+1;mobile Fish;551.410.0483 x6176;2020-03-15;../fake-data/blob/hipster.png;image/png
+2;Producer;920-191-6365 x04025;2020-03-14;../fake-data/blob/hipster.png;image/png
+3;Steel zero administration;240.761.3595;2020-03-14;../fake-data/blob/hipster.png;image/png
+4;HDD;(140) 099-9583 x3002;2020-03-14;../fake-data/blob/hipster.png;image/png

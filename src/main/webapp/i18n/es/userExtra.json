@@ -19,6 +19,7 @@
       "numDoc": "Num Doc",
       "phone": "Phone",
       "bornDate": "Born Date",
+      "picture": "Picture",
       "docType": "Doc Type",
       "user": "User"
     }

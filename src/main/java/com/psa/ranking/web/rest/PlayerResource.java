@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.psa.ranking.domain.User;
 import com.psa.ranking.service.PlayerQueryService;
 import com.psa.ranking.service.PlayerService;
 import com.psa.ranking.service.dto.PlayerCriteria;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.web.rest.errors.BadRequestAlertException;
+import com.psa.ranking.repository.UserRepository;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -51,10 +53,13 @@ public class PlayerResource {
     private final PlayerService playerService;
 
     private final PlayerQueryService playerQueryService;
+    
+    private final UserRepository userRepository;
 
-    public PlayerResource(PlayerService playerService, PlayerQueryService playerQueryService) {
+    public PlayerResource(PlayerService playerService, PlayerQueryService playerQueryService, UserRepository userRepository) {
         this.playerService = playerService;
         this.playerQueryService = playerQueryService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -71,9 +76,17 @@ public class PlayerResource {
             throw new BadRequestAlertException("A new player cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PlayerDTO result = playerService.save(playerDTO);
-        return ResponseEntity.created(new URI("/api/players/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        if (result.getId() == null)
+        {
+        	throw new BadRequestAlertException("No se puede agregar al jugador", ENTITY_NAME, "internalServerError");
+        }
+        else
+        {
+          User user = userRepository.findOneById(result.getUserId());
+          return ResponseEntity.created(new URI("/api/players/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, user.getLastName() + ", " + user.getFirstName()))
+                .body(result);
+        }
     }
 
     /**
@@ -92,8 +105,9 @@ public class PlayerResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         PlayerDTO result = playerService.save(playerDTO);
+        User user = userRepository.findOneById(result.getUserId());
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, playerDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, user.getLastName() + ", " + user.getFirstName()))
             .body(result);
     }
 

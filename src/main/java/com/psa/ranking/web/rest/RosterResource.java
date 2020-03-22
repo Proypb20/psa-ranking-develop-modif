@@ -63,9 +63,7 @@ public class RosterResource {
      * {@code POST  /rosters} : Create a new roster.
      *
      * @param rosterDTO the rosterDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new rosterDTO, or with status {@code 400 (Bad Request)} if
-     *         the roster has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new rosterDTO, or with status {@code 400 (Bad Request)} if the roster has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/rosters")
@@ -76,21 +74,18 @@ public class RosterResource {
         }
         rosterDTO.setActive(true);
         RosterDTO result = rosterService.save(rosterDTO);
-        return ResponseEntity
-                .created(new URI("/api/rosters/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
+        return ResponseEntity.created(new URI("/api/rosters/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
      * {@code PUT  /rosters} : Updates an existing roster.
      *
      * @param rosterDTO the rosterDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated rosterDTO, or with status {@code 400 (Bad Request)} if
-     *         the rosterDTO is not valid, or with status
-     *         {@code 500 (Internal Server Error)} if the rosterDTO couldn't be
-     *         updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rosterDTO,
+     * or with status {@code 400 (Bad Request)} if the rosterDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the rosterDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/rosters")
@@ -100,37 +95,34 @@ public class RosterResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         RosterDTO result = rosterService.save(rosterDTO);
-        return ResponseEntity.ok().headers(
-                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, rosterDTO.getId().toString()))
-                .body(result);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, rosterDTO.getId().toString()))
+            .body(result);
     }
 
     /**
      * {@code GET  /rosters} : get all the rosters.
      *
-     * 
+
      * @param pageable the pagination information.
-     * 
+
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of rosters in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
      */
     @GetMapping("/rosters")
     public ResponseEntity<List<RosterDTO>> getAllRosters(RosterCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Rosters by criteria: {}", criteria);
         Page<RosterDTO> page = rosterQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil
-                .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * {@code GET  /rosters/count} : count all the rosters.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
-     *         in body.
-     */
+    * {@code GET  /rosters/count} : count all the rosters.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
     @GetMapping("/rosters/count")
     public ResponseEntity<Long> countRosters(RosterCriteria criteria) {
         log.debug("REST request to count Rosters by criteria: {}", criteria);
@@ -141,8 +133,7 @@ public class RosterResource {
      * {@code GET  /rosters/:id} : get the "id" roster.
      *
      * @param id the id of the rosterDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the rosterDTO, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rosterDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/rosters/{id}")
     public ResponseEntity<RosterDTO> getRoster(@PathVariable Long id) {
@@ -161,20 +152,13 @@ public class RosterResource {
     public ResponseEntity<Void> deleteRoster(@PathVariable Long id) {
         log.debug("REST request to delete Roster : {}", id);
         rosterService.delete(id);
-        return ResponseEntity.noContent()
-                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
     /**
-     * {@code GET  /rosters} : get all the rosters for the {@link User} logged.
+      * {@code GET  /rosters} : get all the rosters for the {@link User} logged.
      *
-     * 
-     * @param pageable the pagination information.
-     * 
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of rosters in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
      */
     @GetMapping("/rosters/owner")
     public ResponseEntity<List<RosterDTO>> getRosterByLoggedUser() {
@@ -184,21 +168,17 @@ public class RosterResource {
     }
 
     /**
-     * {@code GET  /rosters} : get all the rosters that have not been usded
-     * in @{link EventCategory}.
-     *
-     * 
-     * @param pageable the pagination information.
-     * 
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of rosters in body.
-     */
-    @GetMapping("/rosters/avilable")
-    public ResponseEntity<List<RosterDTO>> findRostersAvilableEventCategory(
-            @RequestParam(value = "idRoster", required = true) Long idEventCategory) {
-        log.debug("REST request to get Rosters Avilable by EventCategory: {}", idEventCategory);
-        Optional<List<RosterDTO>> rostersDTO = rosterService.findRostersAvilable(idEventCategory);
-        return ResponseUtil.wrapOrNotFound(rostersDTO);
-    }
+     * {@code GET  /rosters} : get all the rosters for the {@link EventCategory} available.
+    *
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of rosters in body.
+    */
+   @GetMapping("/rosters/event-category/available")
+   public ResponseEntity<List<RosterDTO>> findAvailableByEventCategory(@RequestParam(value="idEventCategory", required=true) Long idEventCategory){
+       log.debug("REST request to get Rosters Available for EventCategory");
+       if (idEventCategory == null) {
+           throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+       }
+       Optional<List<RosterDTO>> rostersDTO = rosterService.findAvailableByEventCategory(idEventCategory);
+       return ResponseUtil.wrapOrNotFound(rostersDTO);
+   }
 }

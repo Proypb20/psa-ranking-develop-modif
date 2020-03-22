@@ -1,21 +1,13 @@
 package com.psa.ranking.web.rest;
 
-import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-
-import javax.persistence.EntityManager;
+import com.psa.ranking.PsaRankingApp;
+import com.psa.ranking.domain.UserExtra;
+import com.psa.ranking.domain.User;
+import com.psa.ranking.repository.UserExtraRepository;
+import com.psa.ranking.service.UserExtraService;
+import com.psa.ranking.service.dto.UserExtraDTO;
+import com.psa.ranking.service.mapper.UserExtraMapper;
+import com.psa.ranking.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,16 +20,19 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
-import com.psa.ranking.PsaRankingApp;
-import com.psa.ranking.domain.User;
-import com.psa.ranking.domain.UserExtra;
-import com.psa.ranking.repository.UserExtraRepository;
-import com.psa.ranking.service.UserExtraService;
-import com.psa.ranking.service.dto.UserExtraDTO;
-import com.psa.ranking.service.mapper.UserExtraMapper;
-import com.psa.ranking.web.rest.errors.ExceptionTranslator;
+import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+
+import static com.psa.ranking.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link UserExtraResource} REST controller.
@@ -53,6 +48,11 @@ public class UserExtraResourceIT {
 
     private static final LocalDate DEFAULT_BORN_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_BORN_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final byte[] DEFAULT_PICTURE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PICTURE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PICTURE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PICTURE_CONTENT_TYPE = "image/png";
 
     @Autowired
     private UserExtraRepository userExtraRepository;
@@ -104,7 +104,9 @@ public class UserExtraResourceIT {
         UserExtra userExtra = new UserExtra()
             .numDoc(DEFAULT_NUM_DOC)
             .phone(DEFAULT_PHONE)
-            .bornDate(DEFAULT_BORN_DATE);
+            .bornDate(DEFAULT_BORN_DATE)
+            .picture(DEFAULT_PICTURE)
+            .pictureContentType(DEFAULT_PICTURE_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -122,7 +124,9 @@ public class UserExtraResourceIT {
         UserExtra userExtra = new UserExtra()
             .numDoc(UPDATED_NUM_DOC)
             .phone(UPDATED_PHONE)
-            .bornDate(UPDATED_BORN_DATE);
+            .bornDate(UPDATED_BORN_DATE)
+            .picture(UPDATED_PICTURE)
+            .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -155,6 +159,8 @@ public class UserExtraResourceIT {
         assertThat(testUserExtra.getNumDoc()).isEqualTo(DEFAULT_NUM_DOC);
         assertThat(testUserExtra.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testUserExtra.getBornDate()).isEqualTo(DEFAULT_BORN_DATE);
+        assertThat(testUserExtra.getPicture()).isEqualTo(DEFAULT_PICTURE);
+        assertThat(testUserExtra.getPictureContentType()).isEqualTo(DEFAULT_PICTURE_CONTENT_TYPE);
 
         // Validate the id for MapsId, the ids must be same
         assertThat(testUserExtra.getId()).isEqualTo(testUserExtra.getUser().getId());
@@ -194,7 +200,7 @@ public class UserExtraResourceIT {
         em.detach(updatedUserExtra);
 
         // Update the User with new association value
-        updatedUserExtra.setUser(UserResourceIT.createEntity(em));
+        updatedUserExtra.setUser(null);
         UserExtraDTO updatedUserExtraDTO = userExtraMapper.toDto(updatedUserExtra);
 
         // Update the entity
@@ -211,7 +217,7 @@ public class UserExtraResourceIT {
         // Validate the id for MapsId, the ids must be same
         // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
         // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
-         assertThat(testUserExtra.getId()).isEqualTo(testUserExtra.getUser().getId());
+        // assertThat(testUserExtra.getId()).isEqualTo(testUserExtra.getUser().getId());
     }
 
     @Test
@@ -227,7 +233,9 @@ public class UserExtraResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userExtra.getId().intValue())))
             .andExpect(jsonPath("$.[*].numDoc").value(hasItem(DEFAULT_NUM_DOC)))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)))
-            .andExpect(jsonPath("$.[*].bornDate").value(hasItem(DEFAULT_BORN_DATE.toString())));
+            .andExpect(jsonPath("$.[*].bornDate").value(hasItem(DEFAULT_BORN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].pictureContentType").value(hasItem(DEFAULT_PICTURE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].picture").value(hasItem(Base64Utils.encodeToString(DEFAULT_PICTURE))));
     }
     
     @Test
@@ -243,7 +251,9 @@ public class UserExtraResourceIT {
             .andExpect(jsonPath("$.id").value(userExtra.getId().intValue()))
             .andExpect(jsonPath("$.numDoc").value(DEFAULT_NUM_DOC))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE))
-            .andExpect(jsonPath("$.bornDate").value(DEFAULT_BORN_DATE.toString()));
+            .andExpect(jsonPath("$.bornDate").value(DEFAULT_BORN_DATE.toString()))
+            .andExpect(jsonPath("$.pictureContentType").value(DEFAULT_PICTURE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.picture").value(Base64Utils.encodeToString(DEFAULT_PICTURE)));
     }
 
     @Test
@@ -269,7 +279,9 @@ public class UserExtraResourceIT {
         updatedUserExtra
             .numDoc(UPDATED_NUM_DOC)
             .phone(UPDATED_PHONE)
-            .bornDate(UPDATED_BORN_DATE);
+            .bornDate(UPDATED_BORN_DATE)
+            .picture(UPDATED_PICTURE)
+            .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE);
         UserExtraDTO userExtraDTO = userExtraMapper.toDto(updatedUserExtra);
 
         restUserExtraMockMvc.perform(put("/api/user-extras")
@@ -284,6 +296,8 @@ public class UserExtraResourceIT {
         assertThat(testUserExtra.getNumDoc()).isEqualTo(UPDATED_NUM_DOC);
         assertThat(testUserExtra.getPhone()).isEqualTo(UPDATED_PHONE);
         assertThat(testUserExtra.getBornDate()).isEqualTo(UPDATED_BORN_DATE);
+        assertThat(testUserExtra.getPicture()).isEqualTo(UPDATED_PICTURE);
+        assertThat(testUserExtra.getPictureContentType()).isEqualTo(UPDATED_PICTURE_CONTENT_TYPE);
     }
 
     @Test

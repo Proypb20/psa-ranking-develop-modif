@@ -19,8 +19,10 @@ import com.psa.ranking.domain.UserExtra;
 import com.psa.ranking.repository.EventCategoryRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.UserExtraRepository;
+import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.UserExtraDTO;
 import com.psa.ranking.service.mapper.UserExtraMapper;
+
 
 /**
  * Service Implementation for managing {@link UserExtra}.
@@ -34,24 +36,27 @@ public class UserExtraService {
     private final UserExtraRepository userExtraRepository;
 
     private final UserExtraMapper userExtraMapper;
-
+    
     private final UserService userService;
-
+    
     private final EventCategoryRepository eventCategoryRepository;
 
     private final RosterRepository rosterRepository;
 
     private final PlayerService playerService;
 
+    private final UserRepository userRepository;
+
     public UserExtraService(UserExtraRepository userExtraRepository, UserExtraMapper userExtraMapper,
             UserService userService, EventCategoryRepository eventCategoryRepository, RosterRepository rosterRepository,
-            PlayerService playerService) {
+            PlayerService playerService, UserRepository userRepository) {
         this.userExtraRepository = userExtraRepository;
         this.userExtraMapper = userExtraMapper;
         this.userService = userService;
         this.eventCategoryRepository = eventCategoryRepository;
         this.rosterRepository = rosterRepository;
         this.playerService = playerService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -63,6 +68,8 @@ public class UserExtraService {
     public UserExtraDTO save(UserExtraDTO userExtraDTO) {
         log.debug("Request to save UserExtra : {}", userExtraDTO);
         UserExtra userExtra = userExtraMapper.toEntity(userExtraDTO);
+        long userId = userExtraDTO.getUserId();
+        userRepository.findById(userId).ifPresent(userExtra::user);
         userExtra = userExtraRepository.save(userExtra);
         return userExtraMapper.toDto(userExtra);
     }
@@ -76,8 +83,10 @@ public class UserExtraService {
     @Transactional(readOnly = true)
     public Page<UserExtraDTO> findAll(Pageable pageable) {
         log.debug("Request to get all UserExtras");
-        return userExtraRepository.findAll(pageable).map(userExtraMapper::toDto);
+        return userExtraRepository.findAll(pageable)
+            .map(userExtraMapper::toDto);
     }
+
 
     /**
      * Get one userExtra by id.
@@ -88,7 +97,8 @@ public class UserExtraService {
     @Transactional(readOnly = true)
     public Optional<UserExtraDTO> findOne(Long id) {
         log.debug("Request to get UserExtra : {}", id);
-        return userExtraRepository.findById(id).map(userExtraMapper::toDto);
+        return userExtraRepository.findById(id)
+            .map(userExtraMapper::toDto);
     }
 
     /**
@@ -100,7 +110,7 @@ public class UserExtraService {
         log.debug("Request to delete UserExtra : {}", id);
         userExtraRepository.deleteById(id);
     }
-
+    
     @Transactional(readOnly = true)
     public Optional<UserExtra> getUserWithAuthorities() {
         User user = Optional.of(userService.getUserWithAuthorities()

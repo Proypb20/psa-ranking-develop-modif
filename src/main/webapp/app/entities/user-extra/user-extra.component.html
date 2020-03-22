@@ -22,6 +22,7 @@
             <th scope="col"  jhiSortBy="numDoc"><span jhiTranslate="psaRankingApp.userExtra.numDoc">Num Doc</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="phone"><span jhiTranslate="psaRankingApp.userExtra.phone">Phone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="bornDate"><span jhiTranslate="psaRankingApp.userExtra.bornDate">Born Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="picture"><span jhiTranslate="psaRankingApp.userExtra.picture">Picture</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="docTypeId"><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.userExtra.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -33,6 +34,12 @@
                 <td>{{userExtra.numDoc}}</td>
                 <td>{{userExtra.phone}}</td>
                 <td>{{userExtra.bornDate | date:'mediumDate'}}</td>
+                <td>
+                    <a *ngIf="userExtra.picture" (click)="openFile(userExtra.pictureContentType, userExtra.picture)">
+                        <img [src]="'data:' + userExtra.pictureContentType + ';base64,' + userExtra.picture" style="max-height: 30px;" alt="userExtra image"/>
+                    </a>
+                    <span *ngIf="userExtra.picture">{{userExtra.pictureContentType}}, {{byteSize(userExtra.picture)}}</span>
+                </td>
                 <td>
                     <div *ngIf="userExtra.docTypeId">
                         <a [routerLink]="['/doc-type', userExtra.docTypeId , 'view' ]" >{{userExtra.docTypeId}}</a>
