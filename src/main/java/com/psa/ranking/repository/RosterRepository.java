@@ -19,12 +19,10 @@ import com.psa.ranking.domain.User;
 @Repository
 public interface RosterRepository extends JpaRepository<Roster, Long>, JpaSpecificationExecutor<Roster> {
 
-    public List<Roster> findByEventCategory(EventCategory eventCategory);
+    List<Roster> findByEventCategory(EventCategory eventCategory);
 
-    public Optional<List<Roster>> findByTeam_Owner(User user);
+    Optional<List<Roster>> findByTeam_Owner(User user);
 
-    public Optional<List<Roster>> findByNotIn(List<Long> ids);
-
-    @Query("select count(1) from Player player, PlayerPoint playerpoint where player.user_id = playerpoint.user_id and player.roster_id = ?1 and playerpoint.category_id = ?2")
+    @Query("select count(1) from Player player, PlayerPoint playerpoint where player.user.id = playerpoint.user.id and player.roster.id = ?1 and playerpoint.category.id = ?2")
     int CountPlayerNextCategory(Long rosterId, Long categoryId);
 }
