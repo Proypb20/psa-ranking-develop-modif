@@ -44,7 +44,7 @@
         <jhipster-dependencies.version>3.0.6</jhipster-dependencies.version>
         <!-- The spring-boot version should match the one managed by https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
         <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
-        <!-- The spring framework version should match the one managed by 
+        <!-- The spring framework version should match the one managed by
             https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <spring.version>5.1.10.RELEASE</spring.version>
         <!-- The hibernate version should match the one managed by https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
@@ -54,7 +54,7 @@
         <!-- The liquibase version should match the one managed by https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <liquibase.version>3.6.3</liquibase.version>
         <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
-        <!-- The hibernate version to be used to override default version 
+        <!-- The hibernate version to be used to override default version
             of liquibase maven plugin -->
         <hibernate-core.version>5.3.8.Final</hibernate-core.version>
         <h2.version>1.4.199</h2.version>
@@ -89,6 +89,7 @@
         <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
         <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
         <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
+        <start-class>com.psa.ranking.PsaRankingApp.java</start-class>
         <!-- jhipster-needle-maven-property -->
     </properties>
 
@@ -140,7 +141,7 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <scope>test</scope>
-            <!-- parent POM declares this dependency in default (compile) 
+            <!-- parent POM declares this dependency in default (compile)
                 scope -->
         </dependency>
         <dependency>
@@ -292,7 +293,7 @@
             <version>${archunit-junit5.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- Adding the engine dependency to the surefire-plugin unfortunately 
+        <!-- Adding the engine dependency to the surefire-plugin unfortunately
             does not work in the current version. -->
         <!-- https://www.archunit.org/userguide/html/000_Index.html#_junit_5 -->
         <dependency>
@@ -434,7 +435,7 @@
                 <configuration>
                     <mainClass>${start-class}</mainClass>
                     <fork>true</fork>
-                    <!-- Enable the line below to have remote debugging of 
+                    <!-- Enable the line below to have remote debugging of
                         your application on port 5005 <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments> -->
                 </configuration>
             </plugin>
@@ -461,8 +462,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Plugin that provides API-first development using openapi-generator 
-                    to generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition 
+                <!-- Plugin that provides API-first development using openapi-generator
+                    to generate Spring-MVC endpoint stubs at compile time from an OpenAPI definition
                     file -->
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -514,12 +515,12 @@
                                 <goal>prepare-agent</goal>
                             </goals>
                             <configuration>
-                                <!-- Sets the path to the file which contains 
+                                <!-- Sets the path to the file which contains
                                     the execution data. -->
                                 <destFile>${jacoco.utReportFile}</destFile>
                             </configuration>
                         </execution>
-                        <!-- Ensures that the code coverage report for unit 
+                        <!-- Ensures that the code coverage report for unit
                             tests is created after unit tests have been run -->
                         <execution>
                             <id>post-unit-test</id>
@@ -538,12 +539,12 @@
                                 <goal>prepare-agent-integration</goal>
                             </goals>
                             <configuration>
-                                <!-- Sets the path to the file which contains 
+                                <!-- Sets the path to the file which contains
                                     the execution data. -->
                                 <destFile>${jacoco.itReportFile}</destFile>
                             </configuration>
                         </execution>
-                        <!-- Ensures that the code coverage report for integration 
+                        <!-- Ensures that the code coverage report for integration
                             tests is created after integration tests have been run -->
                         <execution>
                             <id>post-integration-tests</id>
@@ -766,7 +767,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <!-- Force alphabetical order to have a reproducible 
+                        <!-- Force alphabetical order to have a reproducible
                             build -->
                         <runOrder>alphabetical</runOrder>
                         <reportsDirectory>${junit.utReportFolder}</reportsDirectory>
@@ -781,10 +782,10 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven-failsafe-plugin.version}</version>
                     <configuration>
-                        <!-- Due to spring-boot repackage, without adding 
+                        <!-- Due to spring-boot repackage, without adding
                             this property test classes are not found See https://github.com/spring-projects/spring-boot/issues/6254 -->
                         <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                        <!-- Force alphabetical order to have a reproducible 
+                        <!-- Force alphabetical order to have a reproducible
                             build -->
                         <runOrder>alphabetical</runOrder>
                         <reportsDirectory>${junit.itReportFolder}</reportsDirectory>
@@ -809,8 +810,8 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <!-- Plugin that provides API-first development using 
-                        openapi-generator to generate Spring-MVC endpoint stubs at compile time from 
+                    <!-- Plugin that provides API-first development using
+                        openapi-generator to generate Spring-MVC endpoint stubs at compile time from
                         an OpenAPI definition file -->
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -1091,8 +1092,8 @@
             </build>
         </profile>
         <profile>
-            <!-- Profile for applying IDE-specific configuration. At the 
-                moment it configures MapStruct and Hibernate JPA Metamodel Generator, which 
+            <!-- Profile for applying IDE-specific configuration. At the
+                moment it configures MapStruct and Hibernate JPA Metamodel Generator, which
                 you need when working with DTOs and entity filtering. -->
             <id>IDE</id>
             <dependencies>
@@ -1124,8 +1125,8 @@
             <build>
                 <pluginManagement>
                     <plugins>
-                        <!-- This plugin's configuration is used to store 
-                            Eclipse m2e settings only. It has no influence on the Maven build itself. 
+                        <!-- This plugin's configuration is used to store
+                            Eclipse m2e settings only. It has no influence on the Maven build itself.
                             Remove when the m2e plugin can correctly bind to Maven lifecycle -->
                         <plugin>
                             <groupId>org.eclipse.m2e</groupId>
