@@ -4,6 +4,8 @@ import com.psa.ranking.service.dto.UserDTO;
 
 import java.time.LocalDate;
 
+import javax.persistence.Lob;
+
 /**
  * View Model extending the UserDTO, which is meant to be used in the user management UI.
  */
@@ -21,6 +23,10 @@ public class ManagedUserVM extends UserDTO {
     private LocalDate bornDate;
     
     private String password;
+    
+    private byte[] picture;
+
+    private String pictureContentType;
     
 
     public ManagedUserVM() {
@@ -58,6 +64,22 @@ public class ManagedUserVM extends UserDTO {
 	public void setBornDate(LocalDate bornDate) {
 		this.bornDate = bornDate;
 	}
+	
+	public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public String getPictureContentType() {
+        return pictureContentType;
+    }
+
+    public void setPictureContentType(String pictureContentType) {
+        this.pictureContentType = pictureContentType;
+    }
 
 	@Override
 	public String toString() {

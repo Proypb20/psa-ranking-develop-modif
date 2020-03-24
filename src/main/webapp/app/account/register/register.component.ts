@@ -6,7 +6,7 @@ import { JhiLanguageService } from 'ng-jhipster';
 
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { Register } from './register.service';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-register',
@@ -29,10 +29,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
     numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-    bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
+    bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    picture: [],
+    pictureContentType: []
   });
 
   constructor(
+    protected dataUtils: JhiDataUtils,
     private languageService: JhiLanguageService,
     private loginModalService: LoginModalService,
     protected jhiAlertService: JhiAlertService,
@@ -56,11 +59,16 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     const firstName = this.registerForm.get(['firstName']).value;
     const email = this.registerForm.get(['email']).value;
     const password = this.registerForm.get(['password']).value;
+    const phone = this.registerForm.get(['phone']).value;
+    const numDoc = this.registerForm.get(['numDoc']).value; 
+    const bornDate = this.registerForm.get(['bornDate']).value;
+    const picture = this.registerForm.get(['picture']).value;
+    const pictureContentType = this.registerForm.get(['pictureContentType']).value;
     
     if (password !== this.registerForm.get(['confirmPassword']).value) {
       this.doNotMatch = 'ERROR';
     } else {
-      registerAccount = { ...registerAccount, login, lastName, firstName, email, password};
+      registerAccount = { ...registerAccount, login, lastName, firstName, email, password, phone, numDoc, bornDate, picture, pictureContentType};
       this.doNotMatch = null;
       this.error = null;
       this.errorUserExists = null;
@@ -108,5 +116,48 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       }
     }
     return option;
+  }
+  
+  clearInputImage(field: string, fieldContentType: string, idInput: string) {
+    this.registerForm.patchValue({
+      [field]: null,
+      [fieldContentType]: null
+    });
+    if (this.elementRef && idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
+      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
+    }
+  }
+  
+  byteSize(field) {
+    return this.dataUtils.byteSize(field);
+  }
+
+  openFile(contentType, field) {
+    return this.dataUtils.openFile(contentType, field);
+  }
+
+  setFileData(event, field: string, isImage) {
+    return new Promise((resolve, reject) => {
+      if (event && event.target && event.target.files && event.target.files[0]) {
+        const file: File = event.target.files[0];
+        if (isImage && !file.type.startsWith('image/')) {
+          reject(`File was expected to be an image but was found to be ${file.type}`);
+        } else {
+          const filedContentType: string = field + 'ContentType';
+          this.dataUtils.toBase64(file, base64Data => {
+            this.registerForm.patchValue({
+              [field]: base64Data,
+              [filedContentType]: file.type
+            });
+          });
+        }
+      } else {
+        reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
+      }
+    }).then(
+      // eslint-disable-next-line no-console
+      () => console.log('blob added'), // success
+      this.onError
+    );
   }
 }

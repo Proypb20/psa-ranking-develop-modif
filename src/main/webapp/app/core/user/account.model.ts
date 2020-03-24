@@ -13,6 +13,8 @@ export class Account {
     public imageUrl: string,
     public numDoc: string,
     public phone: string,
-    public bornDate: Moment
+    public bornDate: Moment,
+    public picture: any;
+    public pictureContentType: string;
   ) {}
 }

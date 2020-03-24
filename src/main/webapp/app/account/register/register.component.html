@@ -28,6 +28,23 @@
         <div class="col-md-8">
             <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="global.form.picture.label" for="picture">Picture</label>
+                    <div>
+                        <img [src]="'data:' + registerForm.get('pictureContentType').value + ';base64,' + registerForm.get('picture').value" style="max-height: 100px;" *ngIf="registerForm.get('picture').value" alt="userextra image"/>
+                        <div *ngIf="registerForm.get('picture').value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{registerForm.get('pictureContentType').value}}, {{byteSize(registerForm.get('picture').value)}}</span>
+                            <button type="button" (click)="clearInputImage('picture', 'pictureContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_picture" (change)="setFileData($event, 'picture', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="picture" id="field_picture"
+                           formControlName="picture"/>
+                    <input type="hidden" class="form-control" name="pictureContentType" id="field_pictureContentType"
+                           formControlName="pictureContentType" />
+                </div>
+                <div class="form-group">
 
                     <label class="form-control-label" for="login" jhiTranslate="global.form.username.label">Username</label>
                     <input type="text" class="form-control" id="login" name="login" placeholder="{{'global.form.username.placeholder' | translate}}"

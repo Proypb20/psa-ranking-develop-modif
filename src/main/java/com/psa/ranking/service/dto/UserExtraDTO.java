@@ -19,7 +19,6 @@ public class UserExtraDTO implements Serializable {
     private String phone;
 
     private LocalDate bornDate;
-
     
     @Lob
     private byte[] picture;

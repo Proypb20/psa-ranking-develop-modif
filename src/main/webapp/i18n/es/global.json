@@ -86,7 +86,7 @@
         "login": "Iniciar sesión",
         "logout": "Cerrar la sesión",
         "register": "Crear una cuenta",
-        "playerPoint": "Mis Puntos"
+        "playerPoint": "Mi Perfil"
       },
       "admin": {
         "main": "Administración",
@@ -125,7 +125,9 @@
       "confirmpassword.label": "Confirmación de la nueva contraseña",
       "confirmpassword.placeholder": "Confirmación de la nueva contraseña",
       "email.label": "Correo electrónico",
-      "email.placeholder": "Su correo electrónico"
+      "email.placeholder": "Su correo electrónico",
+      "picture.label": "Foto",
+      "picture.placeholder": "Su Foto"
     },
     "messages": {
       "info": {

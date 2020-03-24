@@ -44,7 +44,9 @@ describe('Component Tests', () => {
         imageUrl: '',
         numDoc: '',
         phone: '',
-        bornDate: moment('1990-00-00',DATE_TIME_FORMAT)
+        bornDate: moment('1990-00-00',DATE_TIME_FORMAT),
+        picture: '',
+        pictureContentType: ''
       };
       mockAuth.setIdentityResponse(accountValues);
 

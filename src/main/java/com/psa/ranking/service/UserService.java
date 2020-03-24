@@ -317,7 +317,7 @@ public class UserService {
 	}
 
 	public User createUser(String login, String password, String firstName, String lastName, String email,
-			String langKey, String phone, String numDoc, LocalDate bornDate) {
+			String langKey, String phone, String numDoc, LocalDate bornDate, byte[] picture, String pictureContentType) {
 
 		User newUser = new User();
 		Authority authority = authorityRepository.findByName(AuthoritiesConstants.USER);
@@ -345,6 +345,8 @@ public class UserService {
 		newUserExtra.setPhone(phone);
 		newUserExtra.setNumDoc(numDoc);
 		newUserExtra.setBornDate(bornDate);
+		newUserExtra.setPicture(picture);
+		newUserExtra.setPictureContentType(pictureContentType);
 		userExtraRepository.save(newUserExtra);
 		log.debug("Created Information for UserExtra: {}", newUserExtra);
 
