@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="psaRankingApp.eventCategory.event" for="field_event">Event</label>
                     <select class="form-control" id="field_event" name="event" formControlName="eventId">
-                        <option *ngIf="!editForm.get('eventId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('eventId').value" [ngValue]="null" selected></option> -->
                         <option [ngValue]="eventOption.id" *ngFor="let eventOption of events; trackBy: trackEventById">{{eventOption.name}}</option>
                     </select>
                 </div>
@@ -38,7 +38,7 @@
                   <td>
                     <div class="form-group">
                     <select class="form-control" id="field_category" name="category" formControlName="categoryId">
-                        <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('categoryId').value" [ngValue]="null" selected></option> -->
                         <option [ngValue]="categoryOption.id" *ngFor="let categoryOption of categories ; trackBy: trackCategoryById ">{{categoryOption.name}}</option>
                     </select>
                    </div>
@@ -52,7 +52,7 @@
                   <td>
                     <div class="form-group">
                      <select class="form-control" id="field_format" name="format" formControlName="formatId">
-                        <option *ngIf="!editForm.get('formatId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('formatId').value" [ngValue]="null" selected></option>-->
                         <option [ngValue]="formatOption.id" *ngFor="let formatOption of formats; trackBy: trackFormatById">{{formatOption.name}}</option>
                      </select>
                     </div>

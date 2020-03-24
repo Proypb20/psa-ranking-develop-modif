@@ -53,21 +53,27 @@ export class EventCategoryUpdateComponent implements OnInit {
       this.updateForm(eventCategory);
     });
     this.eventService
-      .query()
+      .query({
+      'tournamentId.equals': +localStorage.getItem("TOURNAMENTID")
+      })
       .pipe(
         filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
         map((response: HttpResponse<IEvent[]>) => response.body)
       )
       .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.categoryService
-      .query()
+      .query({
+      'tournamentId.equals': +localStorage.getItem("TOURNAMENTID")
+      })
       .pipe(
         filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
         map((response: HttpResponse<ICategory[]>) => response.body)
       )
       .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.formatService
-      .query()
+      .query({
+      'tournamentId.equals': +localStorage.getItem("TOURNAMENTID")
+      })
       .pipe(
         filter((mayBeOk: HttpResponse<IFormat[]>) => mayBeOk.ok),
         map((response: HttpResponse<IFormat[]>) => response.body)
