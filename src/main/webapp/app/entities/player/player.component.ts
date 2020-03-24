@@ -208,6 +208,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
   
   protected onChangeUserId()
   {
-     alert("Puto el que lo lee");
+     alert("Buscando Datos");
   }
 }

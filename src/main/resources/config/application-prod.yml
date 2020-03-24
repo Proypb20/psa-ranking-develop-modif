@@ -58,10 +58,16 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: pbpoints.info@gmail.com
+    password: PSARanking
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
   thymeleaf:
     cache: true
 
