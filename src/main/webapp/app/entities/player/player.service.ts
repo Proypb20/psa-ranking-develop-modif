@@ -35,4 +35,10 @@ export class PlayerService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  
+  isOwner(id: number): Observable<EntityResponseType> {
+      //ACA MARCE
+      return this.http.get<any>(`${this.resourceUrl}/own/${id}`, { observe: 'response' });
+      //ACA MARCE
+  }
 }

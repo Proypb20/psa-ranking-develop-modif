@@ -165,4 +165,10 @@ public class PlayerResource {
         playerService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/players/own/{id}")
+    public ResponseEntity<Boolean> checkOwner(@PathVariable Long id) {
+        log.debug("REST request to check Owner of Roster: {}", id);
+        return ResponseEntity.ok().body(playerService.checkOwner(id));
+    }
 }

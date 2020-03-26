@@ -40,6 +40,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   reverse: any;
   rId: number;
   private sub: any;
+  isOwner: boolean;
 	
   users: IUser[];
   private completeName : any;
@@ -147,6 +148,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	      .subscribe(params => {
 	        this.rId = +params['rId'] || 0;
 	      });
+	//ACA MARCE      
+	this.isOwner = this.playerService.isOwner(this.rId);
+	//ACA MARCE
     this.loadAll();
     this.userService
 	    .query({
@@ -200,8 +204,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   protected onSaveError() {
     this.isSaving = false;
-  }
-  
+  }  
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }

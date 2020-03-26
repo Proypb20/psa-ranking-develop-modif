@@ -22,6 +22,7 @@ import com.psa.ranking.repository.PlayerPointRepository;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.TournamentRepository;
+import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
 
@@ -40,6 +41,7 @@ public class PlayerService {
     private final TournamentRepository tournamentRepository;
     private final PlayerPointRepository playerPointRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     private final PlayerMapper playerMapper;
 
@@ -49,7 +51,8 @@ public class PlayerService {
     		           , EventCategoryRepository eventCategoryRepository
     		           , TournamentRepository tournamentRepository
     		           , PlayerPointRepository playerPointRepository
-    		           , CategoryRepository categoryRepository) {
+    		           , CategoryRepository categoryRepository
+    		           , UserRepository userRepository) {
         this.playerRepository = playerRepository;
         this.playerMapper = playerMapper;
         this.rosterRepository = rosterRepository;
@@ -57,6 +60,7 @@ public class PlayerService {
         this.tournamentRepository = tournamentRepository;
         this.playerPointRepository = playerPointRepository;
         this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -197,5 +201,13 @@ public class PlayerService {
             }
         }
         return Optional.empty();
+    }
+    
+    public Boolean checkOwner(Long id){
+    	Optional<User> user = userRepository.findByRosterId(id);
+        if (user.isPresent())
+        	return true;
+        else
+        	return false;
     }
 }
