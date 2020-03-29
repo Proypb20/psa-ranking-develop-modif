@@ -1,17 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-
+import { IEvent } from 'app/shared/model/event.model';
+import { EventService } from 'app/entities/event/event.service';
+import { IEventCategory } from 'app/shared/model/event-category.model';
+import { EventCategoryService } from 'app/entities/event-category/event-category.service';
+import { ICategory } from 'app/shared/model/category.model';
+import { CategoryService } from 'app/entities/category/category.service';
 import { IRoster } from 'app/shared/model/roster.model';
 import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { RosterService } from './roster.service';
-import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
@@ -35,10 +39,15 @@ export class RosterComponent implements OnInit, OnDestroy {
   teId: number;
   evCatId: number;
   private sub: any;
+  eventCategories: IEventCategory[];
+  events: IEvent[];
+  categories: ICategory[];
 
   constructor(
     protected jhiAlertService: JhiAlertService,
+    protected eventService: EventService,
     protected eventCategoryService: EventCategoryService,
+    protected categoryService: CategoryService,
     protected rosterService: RosterService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
@@ -88,6 +97,33 @@ export class RosterComponent implements OnInit, OnDestroy {
              .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
         }
     }
+    this.eventService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<IEvent[]>) => response.body)
+	    )
+	    .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));
+	this.eventCategoryService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<IEventCategory[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<IEventCategory[]>) => response.body)
+	    )
+	    .subscribe((res: IEventCategory[]) => (this.eventCategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+	this.categoryService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ICategory[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ICategory[]>) => response.body)
+	    )
+	    .subscribe((res: ICategory[]) => (this.categories = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   loadPage(page: number) {

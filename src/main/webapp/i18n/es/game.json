@@ -11,7 +11,7 @@
       "updated": "El Partido {{ param }} ha sido actualizado",
       "deleted": "El Partido {{ param }} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Game {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el Partido?"
       },
       "detail": {
         "title": "Partidos"

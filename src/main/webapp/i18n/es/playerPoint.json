@@ -7,11 +7,11 @@
         "createOrEditLabel": "Puntos",
         "notFound": "No hay Puntos cargados"
       },
-      "created": "Un nuevo Player Point ha sido creado con el identificador {{ param }}",
-      "updated": "Un Player Point ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Player Point ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Player Point ha sido creado con el identificador",
+      "updated": "Un Player Point ha sido actualizado con el identificador",
+      "deleted": "Un Player Point ha sido eliminado con el identificador",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Player Point {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Player Point?"
       },
       "detail": {
         "title": "Puntos"

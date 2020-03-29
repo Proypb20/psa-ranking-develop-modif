@@ -7,11 +7,11 @@
         "createOrEditLabel": "Categorias",
         "notFound": "No hay Categorias seleccionadas"
       },
-      "created": "Un nuevo Event Category ha sido creado con el identificador {{ param }}",
-      "updated": "Un Event Category ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Event Category ha sido eliminado con el identificador {{ param }}",
+      "created": "La Categoria {{ param }} ha sido agregada",
+      "updated": "La Categoria {{ param }} ha sido actualizado",
+      "deleted": "La Categoria {{ param }} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Event Category {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la Categoria del Evento?"
       },
       "detail": {
         "title": "Categorias"

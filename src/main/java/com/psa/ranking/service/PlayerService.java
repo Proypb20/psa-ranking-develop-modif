@@ -22,9 +22,9 @@ import com.psa.ranking.repository.PlayerPointRepository;
 import com.psa.ranking.repository.PlayerRepository;
 import com.psa.ranking.repository.RosterRepository;
 import com.psa.ranking.repository.TournamentRepository;
-import com.psa.ranking.repository.UserRepository;
 import com.psa.ranking.service.dto.PlayerDTO;
 import com.psa.ranking.service.mapper.PlayerMapper;
+import com.psa.ranking.web.rest.errors.BadRequestAlertException;
 
 /**
  * Service Implementation for managing {@link Player}.
@@ -41,7 +41,6 @@ public class PlayerService {
     private final TournamentRepository tournamentRepository;
     private final PlayerPointRepository playerPointRepository;
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
 
     private final PlayerMapper playerMapper;
 
@@ -51,8 +50,7 @@ public class PlayerService {
     		           , EventCategoryRepository eventCategoryRepository
     		           , TournamentRepository tournamentRepository
     		           , PlayerPointRepository playerPointRepository
-    		           , CategoryRepository categoryRepository
-    		           , UserRepository userRepository) {
+    		           , CategoryRepository categoryRepository) {
         this.playerRepository = playerRepository;
         this.playerMapper = playerMapper;
         this.rosterRepository = rosterRepository;
@@ -60,7 +58,6 @@ public class PlayerService {
         this.tournamentRepository = tournamentRepository;
         this.playerPointRepository = playerPointRepository;
         this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -72,6 +69,33 @@ public class PlayerService {
     public PlayerDTO save(PlayerDTO playerDTO) {
         log.debug("Request to save Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
+        try 
+        {
+        	Optional<Player> validPlayer = Optional.of(playerRepository.findByUserAndRoster (player.getUser(), player.getRoster()));
+            if (validPlayer.isPresent())
+            {
+            	log.debug("Error: Jugador Ya registrado en el Roster");
+            	return playerMapper.toDto(player);
+            }
+	    }
+        catch (Exception e) 
+        {
+	        	log.debug("Jugador no existe");
+	    }
+        try 
+        {
+        	Optional<Player> validPlayer = Optional.of(playerRepository.findByUserRosterAndEventCategory (player.getUser().getId(), player.getRoster().getId(),player.getRoster().getEventCategory().getId()));
+        	log.debug("validPlayer: {} " + validPlayer);
+            if (validPlayer.isPresent())
+            {
+            	log.debug("Error: Jugador Ya registrado en el otro Roster");
+            	return playerMapper.toDto(player);
+            }
+	    }
+        catch (Exception e) 
+        {
+	        	log.debug("Jugador no esta en otro roster");
+	    }
         if (player.getProfile().equals(ProfileUser.PLAYER))
         {
 	        /*Obtengo el eventoCategory del Roster*/
@@ -203,11 +227,4 @@ public class PlayerService {
         return Optional.empty();
     }
     
-    public Boolean checkOwner(Long id){
-    	Optional<User> user = userRepository.findByRosterId(id);
-        if (user.isPresent())
-        	return true;
-        else
-        	return false;
-    }
 }

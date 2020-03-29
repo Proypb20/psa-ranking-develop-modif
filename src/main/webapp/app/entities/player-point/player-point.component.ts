@@ -12,6 +12,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PlayerPointService } from './player-point.service';
 
+import { DomSanitizer} from '@angular/platform-browser';
+
 @Component({
   selector: 'jhi-player-point',
   templateUrl: './player-point.component.html'
@@ -30,6 +32,8 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  currentImage : any;
+  currentImageURL : any;
 
   constructor(
     protected playerPointService: PlayerPointService,
@@ -37,7 +41,8 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    private sanitizer: DomSanitizer
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -111,6 +116,8 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    this.currentImageURL = 'data:' + this.currentAccount.pictureContentType + ';base64,' + this.currentAccount.picture;
+	this.currentImage = this.sanitizer.bypassSecurityTrustUrl(this.currentImageURL);
     this.registerChangeInPlayerPoints();
   }
 

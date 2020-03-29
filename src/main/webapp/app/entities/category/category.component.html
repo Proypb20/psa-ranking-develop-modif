@@ -35,11 +35,7 @@
             <tbody>
             <tr *ngFor="let category of categories ;trackBy: trackId">
                 <!--  <td><a [routerLink]="['/category', category.id, 'view' ]">{{category.id}}</a></td>-->
-                <td>
-                    <div *ngIf="category.tournamentId">
-                        <a [routerLink]="['/tournament', category.tournamentId , 'view' ]" >{{category.tournamentName}}</a>
-                    </div>
-                </td>
+                <td><div *ngIf="category.tournamentId">{{category.tournamentName}}</div></td>
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
                 <!--  <td jhiTranslate="{{'psaRankingApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>

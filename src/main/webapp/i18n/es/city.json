@@ -3,11 +3,11 @@
     "city": {
       "home": {
         "title": "Ciudades",
-        "createLabel": "Crear nuevo Ciudad",
+        "createLabel": "Crear nueva Ciudad",
         "createOrEditLabel": "Ciudades",
         "notFound": "No hay ciudades"
       },
-      "created": "La nueva Ciudad {{ param }} ha sido creada",
+      "created": "La Ciudad {{ param }} ha sido creada",
       "updated": "La Ciudad {{ param }} ha sido actualizada",
       "deleted": "La Ciudad {{ param }} ha sido eliminada",
       "delete": {

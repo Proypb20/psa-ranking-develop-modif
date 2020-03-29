@@ -7,11 +7,11 @@
         "createOrEditLabel": "Jugadores",
         "notFound": "No hay Jugadores Cargados"
       },
-      "created": "El Jugador {{ param }} ha sido agregado con el identificador",
-      "updated": "El Jugador {{ param }} ha sido actualizado ",
+      "created": "El Jugador {{ param }} ha sido agregado",
+      "updated": "El Jugador {{ param }} ha sido actualizado",
       "deleted": "El Jugador {{ param }} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Player {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el Jugador?"
       },
       "detail": {
         "title": "Jugador",

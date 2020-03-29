@@ -188,4 +188,9 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "userManagement.deleted", login)).build();
     }
+    
+    @GetMapping("/users/own/{id}")
+    public ResponseEntity<User> checkOwner(@PathVariable Long id) {
+        return ResponseUtil.wrapOrNotFound(userService.checkOwner(id));
+    }
 }

@@ -63,28 +63,57 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if(this.tourId)
-  {
-    this.eventService
-      .query({
-        'tournamentId.equals': this.tourId,
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+	  if(this.tourId)
+	  {
+	  if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+	    {
+		    this.eventService
+		      .query({
+		        'tournamentId.equals': this.tourId,
+		        page: this.page - 1,
+		        size: this.itemsPerPage,
+		        sort: this.sort()
+		      })
+		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+		      }
+		      else
+		      {
+		        this.eventService
+    		        .query({
+					'tournamentId.equals': this.tourId,
+					'status.in': ['CREATED','IN_PROGRESS'],
+					 page: this.page - 1,
+					 size: this.itemsPerPage,
+					 sort: this.sort()
+					})
+		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+		      }
+		      
+	  }
+	  else
+	  { 
+	    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+	    {
+	      this.eventService
+	          .query({
+	           page: this.page - 1,
+	           size: this.itemsPerPage,
+	           sort: this.sort()
+	           })
+	          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+	    }
+	    else
+	    {
+	      this.eventService
+	          .query({
+	          'status.in': ['CREATED','IN_PROGRESS'],
+	           page: this.page - 1,
+	           size: this.itemsPerPage,
+	           sort: this.sort()})
+	          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+	    }
+	  }
   }
-  else
-  { this.eventService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-      }
-  }
-
   loadPage(page: number) {
     if (page !== this.previousPage) {
       this.previousPage = page;
@@ -123,10 +152,10 @@ export class EventComponent implements OnInit, OnDestroy {
         this.tourId = +params['tourId'] || 0;
       });
     localStorage.setItem("TOURNAMENTID",this.tourId.toString());
-    this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    this.loadAll();
     this.registerChangeInEvents();
     this.tournamentService
 	    .query({

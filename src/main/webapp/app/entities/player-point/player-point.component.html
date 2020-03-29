@@ -1,4 +1,45 @@
 <div>
+    <!-- Inicio User -->
+    <h2><span jhiTranslate="global.menu.account.playerPoint">Player Point</span></h2>
+    <table class="table table-striped" aria-describedby="page-heading">
+    <thead>
+     <tr>
+        <th jhiTranslate="global.form.picture.label">Picture</th>
+        <th colspan="2">Mis Datos</th>
+     </tr>
+     </thead>
+     <tbody>
+     <tr>
+        <td rowspan="6">
+        <img [src]='currentImage'/>
+        </td>
+        <td><span jhiTranslate="global.form.id.label">PBPointID</span></td>
+        <td><span>{{currentAccount.id}}</span></td>
+     </tr>
+     <tr>
+        <td><span jhiTranslate="global.form.lastFirstName.label">Nombre</span></td>
+        <td><span>{{currentAccount.lastName}}, {{currentAccount.firstName}}</span></td>
+     </tr>
+     <tr>
+        <td><span jhiTranslate="global.form.numDoc.label">numDoc</span></td>
+        <td><span>{{currentAccount.numDoc}}</span></td>
+     </tr>
+     <tr>
+        <td><span jhiTranslate="global.form.bornDate.label">bornDate</span></td>
+        <td><span>{{currentAccount.bornDate}}</span></td>
+     </tr>
+     <tr>
+        <td><span jhiTranslate="global.form.email.label">email</span></td>
+        <td><span>{{currentAccount.email}}</span></td>
+     </tr>
+     <tr>
+        <td><span jhiTranslate="global.form.phone.label">phone</span></td>
+        <td><span>{{currentAccount.phone}}</span></td>
+     </tr>
+     </tbody>
+    </table>
+    <!-- Fin User -->
+	<!-- Inicio Player-Point -->
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.playerPoint.home.title">Player Points</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-point" [routerLink]="['/player-point/new']">

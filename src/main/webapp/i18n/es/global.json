@@ -14,7 +14,7 @@
           "team": "Agregar Equipo",
           "player": "Agregar Jugador",
           "add": "Agregar",
-          "xml": "Generar XML"
+          "xml": "Generar Archivo"
         },
         "view": {
           "view": "Ver Todo",
@@ -68,7 +68,6 @@
         "roster": "Roster",
         "player": "Jugadores",
         "userExtra": "User Extra",
-        "console": "Abrir Consola",
         "format": "Formatos",
         "playerPoint": "Puntos",
         "playerDetailPoint": "Detalle Puntos",
@@ -104,12 +103,14 @@
       "language": "Idioma"
     },
     "form": {
+      "id.label": "PBPoint ID",
       "username.label": "Usuario",
       "username.placeholder": "Nombre de usuario",
       "phone.label": "Telefono",
       "phone.placeholder": "Telefono",
       "lastName.label": "Apellido",
       "lastName.placeholder": "Apellido",
+      "lastFirstName.label": "Apellido y Nombre",
       "firstName.label": "Nombre",
       "firstName.placeholder": "Nombre",
       "docType.label": "Tipo de Documento",
@@ -224,5 +225,5 @@
     "genericError": "Error al procesar los datos. Intente más tarde",
     "duplicateError": "Ya existe un/a {{entityName}} con los valores ingresados"
   },
-  "footer": "PBPoints"
+  "footer": "PBPoints 2020, Argentina. Es una marca registrada"
 }

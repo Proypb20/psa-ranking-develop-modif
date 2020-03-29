@@ -26,7 +26,7 @@
             <th scope="col" jhiSortBy="fromDate"><span jhiTranslate="psaRankingApp.event.fromDate">From Date</span> </th>
             <th scope="col" jhiSortBy="endDate"><span jhiTranslate="psaRankingApp.event.endDate">End Date</span> </th>
             <th scope="col" jhiSortBy="endInscriptionDate"><span jhiTranslate="psaRankingApp.event.endInscriptionDate">End Inscription Date</span> </th>
-            <!-- <th scope="col"  jhiSortBy="status"><span jhiTranslate="psaRankingApp.event.status">Status</span> </th>-->
+            <th *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" scope="col" jhiSortBy="status"><span jhiTranslate="psaRankingApp.event.status">Status</span> </th>
             <!-- <th scope="col"  jhiSortBy="createDate"><span jhiTranslate="psaRankingApp.event.createDate">Create Date</span> </th>-->
             <!-- <th scope="col"  jhiSortBy="updatedDate"><span jhiTranslate="psaRankingApp.event.updatedDate">Updated Date</span> </th>-->
             <th scope="col"></th>
@@ -54,7 +54,7 @@
                 <td>{{event.fromDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{event.endDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{event.endInscriptionDate | date:'dd-MM-yyyy'}}</td>
-                <!-- <td jhiTranslate="{{'psaRankingApp.Status.' + event.status}}">{{event.status}}</td> -->
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" jhiTranslate="{{'psaRankingApp.Status.' + event.status}}">{{event.status}}</td>
                 <!-- <td>{{event.createDate | date:'medium'}}</td> -->
                 <!-- <td>{{event.updatedDate | date:'medium'}}</td> -->
                 <td class="text-right">

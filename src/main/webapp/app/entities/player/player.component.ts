@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
 
@@ -40,8 +39,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
   reverse: any;
   rId: number;
   private sub: any;
+  owner: IUser;
   isOwner: boolean;
-	
+
   users: IUser[];
   private completeName : any;
   
@@ -148,11 +148,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	      .subscribe(params => {
 	        this.rId = +params['rId'] || 0;
 	      });
-	//ACA MARCE      
-	this.isOwner = this.playerService.isOwner(this.rId);
-	//ACA MARCE
-    this.loadAll();
-    this.userService
+	this.accountService.identity().subscribe(account => {
+	      this.currentAccount = account;
+	    });
+	this.userService
 	    .query({
 	    	size: 2000
 	    })
@@ -161,10 +160,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	      map((response: HttpResponse<IUser[]>) => response.body)
 	    )
 	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
-    this.registerChangeInPlayers();
+    this.loadAll();
+    this.registerChangeInPlayers();  
   }
 
   ngOnDestroy() {
@@ -209,8 +206,4 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
   
-  protected onChangeUserId()
-  {
-     alert("Buscando Datos");
-  }
 }

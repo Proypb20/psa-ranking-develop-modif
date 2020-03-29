@@ -18,7 +18,10 @@
       },
       "active": "Active",
       "team": "Equipo",
-      "eventCategory": "Categoria",
+      "eventCategory": "Evento",
+      "event": "Evento",
+      "category": "Categoria",
+      "tournament": "Torneo",
       "player": "Jugador"
     }
   }

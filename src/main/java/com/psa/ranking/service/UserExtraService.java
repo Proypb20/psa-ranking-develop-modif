@@ -116,10 +116,10 @@ public class UserExtraService {
         User user = Optional.of(userService.getUserWithAuthorities()
                 .orElseThrow(() -> new IllegalArgumentException("No hay usuario logueado"))).get();
         Optional<UserExtra> userExtra = userExtraRepository.findById(user.getId());
-        if (userExtra.isPresent()) {
+        /*if (userExtra.isPresent()) {
             userExtra = Optional.of(new UserExtra(user));
-        }
-        log.debug(userExtra.toString());
+        }*/
+        log.debug("UserExtra: {} " + userExtra);
         return userExtra;
     }
 

@@ -11,7 +11,7 @@
       "updated": "El Formato {{ param }} ha sido actualizado",
       "deleted": "El Formato {{ param }} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Format {{ param }}?"
+        "question": "¿Seguro que quiere eliminar Format?"
       },
       "detail": {
         "title": "Formato"

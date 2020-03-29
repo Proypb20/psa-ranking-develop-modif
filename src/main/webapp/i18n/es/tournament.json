@@ -11,7 +11,7 @@
       "updated": "El torneo {{param}} ha sido actualizado",
       "deleted": "El torneo {{param}} ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar el torneo {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el torneo?"
       },
       "detail": {
         "title": "Torneo"

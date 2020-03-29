@@ -1,15 +1,64 @@
 {
   "global": {
-    "title": "PsaRanking",
+    "title": "PBPoints",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+      "custom": {
+        "add": {
+          "event": "Add Event",
+          "tournament": "Add Tournament",
+          "Country": "Add Country",
+          "province": "Add Province",
+          "team": "Add Team",
+          "player": "Add Player",
+          "add": "Add",
+          "xml": "Generate File"
+        },
+        "view": {
+          "view": "View All",
+          "event": "Events",
+          "tournament": "Tournaments",
+          "team": "Teams",
+          "format": "Formats",
+          "roster": "Rosters",
+          "province": "Provinces",
+          "doctype": "Document Types",
+          "country": "Countries",
+          "city": "Cities",
+          "category": "Categories",
+          "playerPoints": "View Detail",
+          "playerDetailPoints": "View Detail",
+          "teamPoints": "Points",
+          "teamDetailPoints": "Detail",
+          "games": "Matches",
+          "player": "Players"
+        },
+        "subscribe": {
+          "roster": "Subscribe mi equipo"
+        },
+        "admin": {
+          "admin": "Admin",
+          "event": "Events",
+          "tournament": "Tournaments",
+          "team": "Teams",
+          "myteam": "My Teams",
+          "mytournament": "Mi Tournaments",
+          "roster": "Players",
+          "province": "Provinces",
+          "doctype": "Document Types",
+          "country": "Countries",
+          "city": "Cities"
+        },
+        "next": {
+          "event": "Next Events"
+        }
+      },
       "entities": {
         "main": "Entities",
         "country": "Country",
         "province": "Province",
-        "location": "Location",
         "city": "City",
         "docType": "Doc Type",
         "tournament": "Tournament",
@@ -20,12 +69,12 @@
         "player": "Player",
         "userExtra": "User Extra",
         "format": "Format",
-        "playerPoint": "Player Point",
-        "playerDetailPoint": "Player Detail Point",
-        "teamPoint": "Team Point",
-        "teamDetailPoint": "Team Detail Point",
-        "eventCategory": "Event Category",
-        "game": "Game",
+        "playerPoint": "Player Points",
+        "playerDetailPoint": "Player Detail Points",
+        "teamPoint": "Team Points",
+        "teamDetailPoint": "Team Detail Points",
+        "eventCategory": "Categories",
+        "game": "Matches",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
@@ -35,7 +84,8 @@
         "sessions": "Sessions",
         "login": "Sign in",
         "logout": "Sign out",
-        "register": "Register"
+        "register": "Register",
+        "playerPoint": "My Profile"
       },
       "admin": {
         "main": "Administration",
@@ -53,8 +103,22 @@
       "language": "Language"
     },
     "form": {
+      "id.label": "PBPoint ID",
       "username.label": "Username",
       "username.placeholder": "Your username",
+      "phone.label": "Phone",
+      "phone.placeholder": "Your Phone",
+      "lastName.label": "Last Name",
+      "lastName.placeholder": "Your Last Name",
+      "lastFirstName.label": "Name",
+      "firstName.label": "Name",
+      "firstName.placeholder": "Your Name",
+      "docType.label": "Document Type",
+      "docType.placeholder": "Document Type",
+      "numDoc.label": "Document Number",
+      "numDoc.placeholder": "Document Number",
+      "bornDate.label": "Born Date",
+      "bornDate.placeholder": "Born Date",
       "currentpassword.label": "Current password",
       "currentpassword.placeholder": "Current password",
       "newpassword.label": "New password",
@@ -62,7 +126,9 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Your email",
+      "picture.label": "Picture",
+      "picture.placeholder": "Your Picture"
     },
     "messages": {
       "info": {
@@ -160,5 +226,5 @@
     "genericError": "Error processing the data. Try again later",
     "duplicateError": "There is already a {{entityName}} with the entered values"
   },
-  "footer": "This is your footer"
+  "footer": "PBPoints 2020, Argentina. Trademark Registered"
 }
