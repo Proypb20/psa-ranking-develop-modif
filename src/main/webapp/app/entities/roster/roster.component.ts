@@ -163,7 +163,7 @@ export class RosterComponent implements OnInit, OnDestroy {
     this.sub = this.activatedRoute
       .queryParams
       .subscribe(params => {
-        this.teId = +params['teamId'] || 0;
+        this.teId = +params['teId'] || 0;
         this.evCatId = +params['evCatId'] || 0;
       });
     this.loadAll();
