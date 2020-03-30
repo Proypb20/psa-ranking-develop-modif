@@ -1,14 +1,14 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.roster.home.title">Rosters</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-roster" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-roster" [routerLink]="['/roster/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.roster.home.createLabel">
             Create a new Roster
             </span>
-        </button>
-        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-roster" (click)="Cancel()">
-            <span jhiTranslate="global.menu.back">Back</span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>

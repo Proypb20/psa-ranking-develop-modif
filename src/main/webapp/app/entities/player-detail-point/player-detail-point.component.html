@@ -1,6 +1,9 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.playerDetailPoint.home.title">Player Detail Points</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-player-detail-point" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <!--  <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-detail-point" [routerLink]="['/player-detail-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.playerDetailPoint.home.createLabel">
