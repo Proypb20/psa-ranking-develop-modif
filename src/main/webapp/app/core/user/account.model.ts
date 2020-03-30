@@ -14,7 +14,7 @@ export class Account {
     public numDoc: string,
     public phone: string,
     public bornDate: Moment,
-    public picture: any;
-    public pictureContentType: string;
+    public picture: any,
+    public pictureContentType: string
   ) {}
 }

@@ -4,11 +4,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.psa.ranking</groupId>
-    <artifactId>psa-ranking</artifactId>
+    <groupId>com.ar.pbpoints</groupId>
+    <artifactId>pbpoints</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Psa Ranking</name>
+    <name>PbPoints</name>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -89,7 +89,7 @@
         <jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
         <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
         <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
-        <start-class>com.psa.ranking.PsaRankingApp.java</start-class>
+        <start-class>com.ar.pbpoints.PbPointsApp.java</start-class>
         <!-- jhipster-needle-maven-property -->
     </properties>
 
@@ -606,11 +606,11 @@
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                         <driver>org.h2.Driver</driver>
-                        <url>jdbc:h2:file:${project.build.directory}/h2db/db/psaranking</url>
+                        <url>jdbc:h2:file:${project.build.directory}/h2db/db/pbpoints</url>
                         <defaultSchemaName></defaultSchemaName>
-                        <username>psaRanking</username>
+                        <username>pbpoints</username>
                         <password></password>
-                        <referenceUrl>hibernate:spring:com.psa.ranking.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+                        <referenceUrl>hibernate:spring:com.ar.pbpoints.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                         <verbose>true</verbose>
                         <logging>debug</logging>
                         <contexts>!test</contexts>
@@ -824,14 +824,14 @@
                             <configuration>
                                 <inputSpec>${project.basedir}/src/main/resources/swagger/api.yml</inputSpec>
                                 <generatorName>spring</generatorName>
-                                <apiPackage>com.psa.ranking.web.api</apiPackage>
-                                <modelPackage>com.psa.ranking.web.api.model</modelPackage>
+                                <apiPackage>com.ar.pbpoints.web.api</apiPackage>
+                                <modelPackage>com.ar.pbpoints.web.api.model</modelPackage>
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                                 <importMappings>Problem=org.zalando.problem.Problem</importMappings>
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
-                                    <title>psa-ranking</title>
+                                    <title>pbpoints</title>
                                 </configOptions>
                             </configuration>
                         </execution>
