@@ -21,7 +21,8 @@
       "profile": "Perfil",
       "user": "Usuario",
       "userId": "PBPoint ID",
-      "roster": "Roster"
+      "roster": "Roster",
+      "category": "Categoria"
     }
   }
 }

@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-
+import { ITournament } from 'app/shared/model/tournament.model';
+import { TournamentService } from 'app/entities/tournament/tournament.service';
+import { IEvent } from 'app/shared/model/event.model';
+import { EventService } from 'app/entities/event/event.service';
 import { ITeamDetailPoint } from 'app/shared/model/team-detail-point.model';
 import { AccountService } from 'app/core/auth/account.service';
-
+import { JhiAlertService } from 'ng-jhipster';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { TeamDetailPointService } from './team-detail-point.service';
 
@@ -32,9 +35,14 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
   reverse: any;
   tpId: number;
   private sub: any;
+  tournaments: ITournament[];
+  events: IEvent[];
 
   constructor(
     protected teamDetailPointService: TeamDetailPointService,
+    protected tournamentService: TournamentService,
+    protected eventService: EventService,
+    protected jhiAlertService: JhiAlertService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
@@ -59,6 +67,24 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe((res: HttpResponse<ITeamDetailPoint[]>) => this.paginateTeamDetailPoints(res.body, res.headers));
+    this.tournamentService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ITournament[]>) => response.body)
+	    )
+	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+	this.eventService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<IEvent[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<IEvent[]>) => response.body)
+	    )
+	    .subscribe((res: IEvent[]) => (this.events = res), (res: HttpErrorResponse) => this.onError(res.message));  
   }
 
   loadPage(page: number) {
@@ -128,5 +154,9 @@ export class TeamDetailPointComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.teamDetailPoints = data;
+  }
+  
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

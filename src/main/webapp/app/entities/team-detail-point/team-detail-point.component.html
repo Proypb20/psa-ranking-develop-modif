@@ -19,8 +19,9 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.teamDetailPoint.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.teamDetailPoint.points">Points</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.tournament">Tournament</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.event">Event</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.points">Points</span></th>
             <!-- <th scope="col"  jhiSortBy="teamPointId"><span jhiTranslate="psaRankingApp.teamDetailPoint.teamPoint">Team Point</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             
             <th scope="col"></th>
@@ -30,10 +31,16 @@
             <tr *ngFor="let teamDetailPoint of teamDetailPoints ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/team-detail-point', teamDetailPoint.id, 'view' ]">{{teamDetailPoint.id}}</a></td> -->
                 <td>
-                    <div *ngIf="teamDetailPoint.eventId">
-                        <a [routerLink]="['/event', teamDetailPoint.eventId , 'view' ]" >{{teamDetailPoint.eventName}}</a>
+                   <div *ngIf="teamDetailPoint.eventId">
+                     <div *ngFor="let event of events">
+                      <div *ngIf="(teamDetailPoint.eventId == event.id)" >
+                       <div *ngFor="let tournament of tournaments">
+                        <div *ngIf="(tournament.id == event.tournamentId)" >{{tournament.name}}</div>
+                       </div>
+                      </div>
+                     </div>
                     </div>
-                </td>
+                <td><div *ngIf="teamDetailPoint.eventId">{{teamDetailPoint.eventName}}</div></td>
                 <td>{{teamDetailPoint.points}}</td>
                 <!-- <td>
                     <div *ngIf="teamDetailPoint.teamPointId">

@@ -8,7 +8,7 @@ import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { ITeam } from 'app/shared/model/team.model';
 import { AccountService } from 'app/core/auth/account.service';
-
+import { Location } from '@angular/common';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { TeamService } from './team.service';
 
@@ -36,6 +36,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
+    protected location: Location,
     protected router: Router,
     protected eventManager: JhiEventManager
   ) {
@@ -134,5 +135,9 @@ export class TeamComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.teams = data;
+  }
+  
+  protected Cancel(){
+      this.location.back();
   }
 }

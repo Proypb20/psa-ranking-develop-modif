@@ -18,7 +18,8 @@
       },
       "points": "Puntos",
       "teamPoint": "Puntos Equipo",
-      "event": "Evento"
+      "event": "Evento",
+      "tournament": "Torneo"
     }
   }
 }

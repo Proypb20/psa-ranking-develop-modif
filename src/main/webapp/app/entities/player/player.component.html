@@ -1,7 +1,7 @@
 <div>
-    <!-- <h2 id="page-heading">
+    <!--<h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.player.home.title">Players</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']" [queryParams]="{rId:rosterId}">
+         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']" [queryParams]="{rId:rosterId}">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.player.home.createLabel">
             Create a new Player
@@ -11,36 +11,36 @@
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <form name="addForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="addForm">
-                <div class="form-group" class="row justify-content-center">
-                    <table class="table table-striped" aria-describedby="page-heading">
-                    <tr>
-                      <th>
-                        <label class="form-control-label" jhiTranslate="psaRankingApp.player.userId" for="field_user">PBPoint Id</label>
-                      </th>
-                      <th colspan=2>
-                        <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
-                      </th>
-                    </tr>
-                    <tr>
-                      <td>
-                         <input type="text" class="form-control" id="field_user" name="user" formControlName="userId" (change)="onChangeUserId()"/>
-                      </td>
-                      <td>
-                        <select class="form-control" name="profile" formControlName="profile" id="field_profile">
-                          <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
-                          <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
-                        </select>
-                      </td>
-                      <td class="text-left">
-                        <div class="btn-group">
-                        <button type="submit" id="save-entity" [disabled]="addForm.invalid || isSaving" class="btn btn-primary">
-                          <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="global.menu.custom.add.player">add Player</span>
-                        </button>
-                        </div>
-                      </td>
-                     </tr>
-                    </table>                    
+        <div class="form-group" class="row justify-content-center">
+            <table class="table table-striped" aria-describedby="page-heading">
+            <tr>
+              <th>
+                <label class="form-control-label" jhiTranslate="psaRankingApp.player.userId" for="field_user">PBPoint Id</label>
+              </th>
+              <th colspan=2>
+                <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                 <input type="text" class="form-control" id="field_user" name="user" formControlName="userId" (change)="onChangeUserId()"/>
+              </td>
+              <td>
+                <select class="form-control" name="profile" formControlName="profile" id="field_profile">
+                  <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
+                  <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
+                </select>
+              </td>
+              <td class="text-left">
+                <div class="btn-group">
+                <button type="submit" id="save-entity" [disabled]="addForm.invalid || isSaving" class="btn btn-primary">
+                  <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="global.menu.custom.add.player">add Player</span>
+                </button>
                 </div>
+              </td>
+             </tr>
+            </table>                    
+        </div>
     </form>
     <br/>
     <div class="alert alert-warning" *ngIf="players?.length === 0">
@@ -53,14 +53,17 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.player.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.player.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.userId">User ID</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.user">User</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.profile">Profile</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let player of players | filterByPlayerProfile:'PLAYER' ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
+                <td>{{player.userId}}</td>
                 <td>
                   <div *ngIf="player.userId">
                     <div *ngFor="let item of users">                        
@@ -68,6 +71,7 @@
                     </div>
                   </div>
                 </td>
+                <td>{{player.id}}</td>
                 <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
@@ -105,9 +109,10 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="userLogin"><span jhiTranslate="psaRankingApp.player.user">User</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="profile"><span jhiTranslate="psaRankingApp.player.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.userId">User ID</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.user">User</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.player.profile">Profile</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -121,10 +126,12 @@
                     </div>
                   </div>
                 </td>
+                <td>{{player.id}}</td>
                 <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
                 </td> -->
+                <td>{{player.userId}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 

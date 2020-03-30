@@ -19,9 +19,9 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.teamPoint.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="points"><span jhiTranslate="psaRankingApp.teamPoint.points">Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="teamName"><span jhiTranslate="psaRankingApp.teamPoint.team">Team</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamPoint.tournament">Tournament</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamPoint.team">Team</span></th>
+            <th scope="col"><span jhiTranslate="psaRankingApp.teamPoint.points">Points</span></th>
             <th scope="col"></th>            
             </tr>
             </thead>
@@ -33,13 +33,12 @@
                         <div [routerLink]="['/tournament', teamPoint.tournamentId , 'view' ]" >{{teamPoint.tournamentName}}</div>
                     </div>
                 </td>
-                <td>{{teamPoint.points}}</td>
-                <!-- <td>
+                <td>
                     <div *ngIf="teamPoint.teamId">
-                        <div [routerLink]="['/team', teamPoint.teamId , 'view' ]" >{{teamPoint.teamName}}</div>
+                        <div >{{teamPoint.teamName}}</div>
                     </div>
-                </td> -->
-
+                </td>
+                <td>{{teamPoint.points}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

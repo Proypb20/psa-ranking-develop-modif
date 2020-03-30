@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiDataUtils } from 'ng-jhipster';
-
+import { Location } from '@angular/common';
 import { ITournament } from 'app/shared/model/tournament.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -32,6 +32,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
     protected dataUtils: JhiDataUtils,
+    protected location: Location,
     protected eventManager: JhiEventManager
   ) {
     this.tournaments = [];
@@ -148,5 +149,9 @@ export class TournamentComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.tournaments.push(data[i]);
     }
+  }
+  
+  protected Cancel(){
+      this.location.back();
   }
 }

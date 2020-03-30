@@ -7,12 +7,15 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { IEvent } from 'app/shared/model/event.model';
 import { EventService } from 'app/entities/event/event.service';
+import { ITournament } from 'app/shared/model/tournament.model';
+import { TournamentService } from 'app/entities/tournament/tournament.service';
 import { IEventCategory } from 'app/shared/model/event-category.model';
 import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 import { ICategory } from 'app/shared/model/category.model';
 import { CategoryService } from 'app/entities/category/category.service';
 import { IRoster } from 'app/shared/model/roster.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { Location } from '@angular/common';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { RosterService } from './roster.service';
@@ -41,10 +44,12 @@ export class RosterComponent implements OnInit, OnDestroy {
   private sub: any;
   eventCategories: IEventCategory[];
   events: IEvent[];
+  tournaments: ITournament[];
   categories: ICategory[];
 
   constructor(
     protected jhiAlertService: JhiAlertService,
+    protected tournamentService: TournamentService,
     protected eventService: EventService,
     protected eventCategoryService: EventCategoryService,
     protected categoryService: CategoryService,
@@ -53,10 +58,11 @@ export class RosterComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    protected location: Location
   ) {
-    this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
+      this.itemsPerPage = ITEMS_PER_PAGE;
+      this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.previousPage = data.pagingParams.page;
       this.reverse = data.pagingParams.ascending;
@@ -97,6 +103,15 @@ export class RosterComponent implements OnInit, OnDestroy {
              .subscribe((res: HttpResponse<IRoster[]>) => this.paginateRosters(res.body, res.headers));
         }
     }
+    this.tournamentService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ITournament[]>) => response.body)
+	    )
+	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.eventService
 	    .query({
 	    	size: 2000
@@ -198,5 +213,9 @@ export class RosterComponent implements OnInit, OnDestroy {
   
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+  
+  protected Cancel(){
+      this.location.back();
   }
 }

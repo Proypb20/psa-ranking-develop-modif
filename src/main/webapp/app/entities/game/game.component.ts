@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-
+import { Location } from '@angular/common';
 import { IGame } from 'app/shared/model/game.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -39,6 +39,7 @@ export class GameComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
+    protected location: Location,
     protected eventManager: JhiEventManager
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -142,5 +143,9 @@ export class GameComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.games = data;
+  }
+  
+  protected Cancel(){
+      this.location.back();
   }
 }
