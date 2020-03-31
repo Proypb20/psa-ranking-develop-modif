@@ -136,7 +136,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.teams = data;
   }
-  
+
   Cancel(){
       this.location.back();
   }

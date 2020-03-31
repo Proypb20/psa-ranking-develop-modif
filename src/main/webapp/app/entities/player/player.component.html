@@ -23,7 +23,7 @@
             </tr>
             <tr>
               <td>
-                 <input type="text" class="form-control" id="field_user" name="user" formControlName="userId"/>
+                 <input type="text" class="form-control" id="field_user" name="user" formControlName="userId" />
               </td>
               <td>
                 <select class="form-control" name="profile" formControlName="profile" id="field_profile">
@@ -39,7 +39,7 @@
                 </div>
               </td>
              </tr>
-            </table>                    
+            </table>
         </div>
     </form>
     <br/>
@@ -66,7 +66,7 @@
                 <td>{{player.userId}}</td>
                 <td>
                   <div *ngIf="player.userId">
-                    <div *ngFor="let item of users">                        
+                    <div *ngFor="let item of users">
                      <div *ngIf="(item.id == player.userId)" >{{item.lastName}}, {{item.firstName}}</div>
                     </div>
                   </div>
@@ -78,7 +78,7 @@
                 </td> -->
                 <td class="text-right">
                     <div class="btn-group">
-                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                 type="submit"
                                 [routerLink]="['/player', player.id, 'view' ]"
                                 class="btn btn-info btn-sm">
@@ -121,7 +121,7 @@
                 <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
                 <td>
                   <div *ngIf="player.userId">
-                    <div *ngFor="let item of users">                        
+                    <div *ngFor="let item of users">
                      <div *ngIf="(item.id == player.userId)" >{{item.lastName}}, {{item.firstName}}</div>
                     </div>
                   </div>
@@ -134,7 +134,7 @@
                 <td>{{player.userId}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                        <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                 type="submit"
                                 [routerLink]="['/player', player.id, 'view' ]"
                                 class="btn btn-info btn-sm">

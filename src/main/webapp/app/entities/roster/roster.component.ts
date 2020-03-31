@@ -210,11 +210,11 @@ export class RosterComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.rosters = data;
   }
-  
+
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }
-  
+
   Cancel(){
       this.location.back();
   }

@@ -38,7 +38,7 @@ export class EventComponent implements OnInit, OnDestroy {
   reverse: any;
   tourId: number;
   private sub: any;
-  
+
   tournaments: ITournament[];
   cities: ICity[];
 
@@ -89,10 +89,10 @@ export class EventComponent implements OnInit, OnDestroy {
 					})
 		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
 		      }
-		      
+
 	  }
 	  else
-	  { 
+	  {
 	    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
 	    {
 	      this.eventService
@@ -203,11 +203,11 @@ export class EventComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.events = data;
   }
-  
+
   trackTournamentById(index: number, item: ITournament) {
 	    return item.name;
   }
-  
+
   trackCityById(index: number, item: ICity) {
 	    return item.name;
   }
@@ -215,16 +215,16 @@ export class EventComponent implements OnInit, OnDestroy {
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
-  
+
   generateXML(id: number)
   {
      this.subscribeToSaveResponse(this.eventService.generateXML(id));
   }
-  
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>) {
     result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
-  
+
   protected onSaveSuccess() {
     alert ("XML Generado con exito");
   }
@@ -232,7 +232,7 @@ export class EventComponent implements OnInit, OnDestroy {
   protected onSaveError() {
     alert("Error al generar XML");
   }
-  
+
   Cancel(){
       this.location.back();
   }

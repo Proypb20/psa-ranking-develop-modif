@@ -44,7 +44,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   users: IUser[];
   private completeName : any;
-  
+
   addForm = this.fb.group({
     id: [],
     profile: [],
@@ -96,7 +96,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
    }
   }
-  
+
   private createFromForm(): IPlayer {
     return {
       ...new Player(),
@@ -106,7 +106,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       rosterId: this.rId || this.addForm.get(['rosterId']).value
     };
   }
-  
+
   save() {
     this.isSaving = true;
     const player = this.createFromForm();
@@ -162,7 +162,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	    )
 	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.loadAll();
-    this.registerChangeInPlayers();  
+    this.registerChangeInPlayers();
   }
 
   ngOnDestroy() {
@@ -190,7 +190,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.players = data;
   }
-  
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPlayer>>) {
     result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
@@ -202,12 +202,12 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   protected onSaveError() {
     this.isSaving = false;
-  }  
+  }
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
 
   Cancel(){
       this.location.back();
-  }  
+  }
 }

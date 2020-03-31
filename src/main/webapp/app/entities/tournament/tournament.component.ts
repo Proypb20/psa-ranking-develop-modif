@@ -150,7 +150,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
       this.tournaments.push(data[i]);
     }
   }
-  
+
   Cancel(){
       this.location.back();
   }
