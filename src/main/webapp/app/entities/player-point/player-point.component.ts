@@ -148,7 +148,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     this.playerPoints = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

@@ -131,7 +131,7 @@ export class PlayerDetailPointComponent implements OnInit, OnDestroy {
     this.playerDetailPoints = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

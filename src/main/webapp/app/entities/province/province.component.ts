@@ -151,7 +151,7 @@ export class ProvinceComponent implements OnInit, OnDestroy {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

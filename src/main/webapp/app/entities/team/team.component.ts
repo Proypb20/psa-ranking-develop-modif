@@ -137,7 +137,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     this.teams = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

@@ -145,7 +145,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.games = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

@@ -131,7 +131,7 @@ export class TeamPointComponent implements OnInit, OnDestroy {
     this.teamPoints = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }
