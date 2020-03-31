@@ -233,7 +233,7 @@ export class EventComponent implements OnInit, OnDestroy {
     alert("Error al generar XML");
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

@@ -145,7 +145,7 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
     this.eventCategories = data;
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

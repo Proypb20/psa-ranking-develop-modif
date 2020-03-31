@@ -1,14 +1,14 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.team.home.title">Teams</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-team" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team" [routerLink]="['/team/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.team.home.createLabel">
             Create a new Team
             </span>
-        </button>
-        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-team" (click)="Cancel()">
-            <span jhiTranslate="global.menu.back">Back</span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>

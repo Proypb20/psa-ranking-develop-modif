@@ -151,7 +151,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
     }
   }
   
-  protected Cancel(){
+  Cancel(){
       this.location.back();
   }
 }

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-
+import { Location } from '@angular/common';
 import { IPlayerPoint } from 'app/shared/model/player-point.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -41,6 +41,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
+    protected location: Location,
     protected eventManager: JhiEventManager,
     private sanitizer: DomSanitizer
   ) {
@@ -145,5 +146,9 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.playerPoints = data;
+  }
+  
+  Cancel(){
+      this.location.back();
   }
 }
