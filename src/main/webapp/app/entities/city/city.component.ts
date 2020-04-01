@@ -149,4 +149,8 @@ export class CityComponent implements OnInit, OnDestroy {
   protected onError(errorMessage: string) {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
+  
+  Cancel() {
+    window.history.back();
+  }
 }

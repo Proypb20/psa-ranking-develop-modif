@@ -143,4 +143,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.categories = data;
   }
+  
+  Cancel() {
+    window.history.back();
+  }
 }

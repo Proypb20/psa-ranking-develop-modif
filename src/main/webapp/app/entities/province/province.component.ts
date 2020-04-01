@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { Location } from '@angular/common';
 import { IProvince } from 'app/shared/model/province.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -44,7 +43,6 @@ export class ProvinceComponent implements OnInit, OnDestroy {
     protected parseLinks: JhiParseLinks,
     protected activatedRoute: ActivatedRoute,
     protected accountService: AccountService,
-    protected location: Location,
     protected eventManager: JhiEventManager
   ) {
     this.provinces = [];
@@ -152,6 +150,6 @@ export class ProvinceComponent implements OnInit, OnDestroy {
   }
   
   Cancel(){
-      this.location.back();
+      window.history.back();
   }
 }

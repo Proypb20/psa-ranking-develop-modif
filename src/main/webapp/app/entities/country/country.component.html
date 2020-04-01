@@ -1,6 +1,9 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.country.home.title">Countries</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-country" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-country" [routerLink]="['/country/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.country.home.createLabel">

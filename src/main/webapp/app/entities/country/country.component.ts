@@ -98,4 +98,8 @@ export class CountryComponent implements OnInit, OnDestroy {
       this.countries.push(data[i]);
     }
   }
+  
+  Cancel() {
+    window.history.back();
+  }
 }

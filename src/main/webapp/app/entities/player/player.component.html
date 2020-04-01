@@ -119,6 +119,7 @@
             <tbody>
               <tr *ngFor="let player of players | filterByPlayerProfile:'STAFF' ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/player', player.id, 'view' ]">{{player.id}}</a></td> -->
+                <td>{{player.userId}}</td>
                 <td>
                   <div *ngIf="player.userId">
                     <div *ngFor="let item of users">
@@ -131,7 +132,6 @@
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
                 </td> -->
-                <td>{{player.userId}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button *jhiHasAnyAuthority="'ROLE_ADMIN'"

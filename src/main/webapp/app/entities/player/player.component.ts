@@ -7,7 +7,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { Location } from '@angular/common';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
 
@@ -60,7 +59,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected location: Location,
     protected eventManager: JhiEventManager,
     private fb: FormBuilder
   ) {
@@ -208,6 +206,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   Cancel(){
-      this.location.back();
+      window.history.back();
   }
 }

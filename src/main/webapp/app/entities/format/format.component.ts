@@ -122,4 +122,8 @@ export class FormatComponent implements OnInit, OnDestroy {
       this.formats.push(data[i]);
     }
   }
+  
+  Cancel() {
+    window.history.back();
+  }
 }

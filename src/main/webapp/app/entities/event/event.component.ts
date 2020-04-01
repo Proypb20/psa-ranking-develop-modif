@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { Location } from '@angular/common';
+
 import { IEvent } from 'app/shared/model/event.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -51,7 +51,6 @@ export class EventComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected location: Location,
     protected eventManager: JhiEventManager
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -234,6 +233,6 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   Cancel(){
-      this.location.back();
+      window.history.back();
   }
 }

@@ -1,6 +1,9 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.docType.home.title">Doc Types</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event-doc-type" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-doc-type" [routerLink]="['/doc-type/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.docType.home.createLabel">

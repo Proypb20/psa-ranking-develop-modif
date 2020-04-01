@@ -98,4 +98,8 @@ export class DocTypeComponent implements OnInit, OnDestroy {
       this.docTypes.push(data[i]);
     }
   }
+  
+  Cancel() {
+    window.history.back();
+  }
 }

@@ -1,14 +1,14 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="psaRankingApp.eventCategory.home.title">Event Categories</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event-category" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event-category" [routerLink]="['/event-category/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="psaRankingApp.eventCategory.home.createLabel">
             Create a new Event Category
             </span>
-        </button>
-        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event-category" (click)="Cancel()">
-            <span jhiTranslate="global.menu.back">Back</span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>

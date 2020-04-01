@@ -15,7 +15,6 @@ import { ICategory } from 'app/shared/model/category.model';
 import { CategoryService } from 'app/entities/category/category.service';
 import { IRoster } from 'app/shared/model/roster.model';
 import { AccountService } from 'app/core/auth/account.service';
-import { Location } from '@angular/common';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { RosterService } from './roster.service';
@@ -58,8 +57,7 @@ export class RosterComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager,
-    protected location: Location
+    protected eventManager: JhiEventManager
   ) {
       this.itemsPerPage = ITEMS_PER_PAGE;
       this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -216,6 +214,6 @@ export class RosterComponent implements OnInit, OnDestroy {
   }
 
   Cancel(){
-      this.location.back();
+      window.history.back();
   }
 }
