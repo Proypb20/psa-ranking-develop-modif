@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PsaRankingSharedModule } from 'app/shared/shared.module';
+import { PbPointsSharedModule } from 'app/shared/shared.module';
 import { EventCategoryComponent } from './event-category.component';
 import { EventCategoryDetailComponent } from './event-category-detail.component';
 import { EventCategoryUpdateComponent } from './event-category-update.component';
@@ -11,7 +11,7 @@ import { eventCategoryRoute, eventCategoryPopupRoute } from './event-category.ro
 const ENTITY_STATES = [...eventCategoryRoute, ...eventCategoryPopupRoute];
 
 @NgModule({
-  imports: [PsaRankingSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [PbPointsSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     EventCategoryComponent,
     EventCategoryDetailComponent,
@@ -21,4 +21,4 @@ const ENTITY_STATES = [...eventCategoryRoute, ...eventCategoryPopupRoute];
   ],
   entryComponents: [EventCategoryDeleteDialogComponent]
 })
-export class PsaRankingEventCategoryModule {}
+export class PbPointsEventCategoryModule {}

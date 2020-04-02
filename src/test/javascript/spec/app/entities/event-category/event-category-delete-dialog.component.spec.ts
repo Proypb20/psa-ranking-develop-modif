@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { EventCategoryDeleteDialogComponent } from 'app/entities/event-category/event-category-delete-dialog.component';
 import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 
@@ -17,7 +17,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [EventCategoryDeleteDialogComponent]
       })
         .overrideTemplate(EventCategoryDeleteDialogComponent, '')

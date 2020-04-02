@@ -1,19 +1,19 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="team">
-            <h2><span jhiTranslate="psaRankingApp.team.detail.title">Team</span> {{team.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.team.detail.title">Team</span> {{team.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.team.name">Name</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.team.name">Name</span></dt>
                 <dd>
                     <span>{{team.name}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.team.active">Active</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.team.active">Active</span></dt>
                 <dd>
                     <span>{{team.active}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.team.owner">Owner</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.team.owner">Owner</span></dt>
                 <dd>
                     {{team.ownerLogin}}
                 </dd>

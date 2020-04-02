@@ -34,7 +34,7 @@ export const countryRoute: Routes = [
     component: CountryComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.country.home.title'
+      pageTitle: 'PbPointsApp.country.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -46,7 +46,7 @@ export const countryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.country.home.title'
+      pageTitle: 'PbPointsApp.country.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -58,7 +58,7 @@ export const countryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.country.home.title'
+      pageTitle: 'PbPointsApp.country.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -70,7 +70,7 @@ export const countryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.country.home.title'
+      pageTitle: 'PbPointsApp.country.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -85,7 +85,7 @@ export const countryPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.country.home.title'
+      pageTitle: 'PbPointsApp.country.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

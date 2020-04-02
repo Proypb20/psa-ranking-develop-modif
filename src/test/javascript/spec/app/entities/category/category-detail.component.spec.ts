@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { CategoryDetailComponent } from 'app/entities/category/category-detail.component';
 import { Category } from 'app/shared/model/category.model';
 
@@ -14,7 +14,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [CategoryDetailComponent],
         providers: [{ provide: ActivatedRoute, useValue: route }]
       })

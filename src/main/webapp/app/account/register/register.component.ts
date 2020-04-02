@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
     numDoc: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
     bornDate: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
-    picture: [],
+    picture: ['',[Validators.required]],
     pictureContentType: []
   });
 

@@ -1,9 +1,9 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.location.home.title">Locations</span>
+        <span jhiTranslate="PbPointsApp.location.home.title">Locations</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-location" [routerLink]="['/location/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.location.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.location.home.createLabel">
             Create a new Location
             </span>
         </button>
@@ -12,15 +12,15 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="locations?.length === 0">
-        <span jhiTranslate="psaRankingApp.location.home.notFound">No locations found</span>
+        <span jhiTranslate="PbPointsApp.location.home.notFound">No locations found</span>
     </div>
     <div class="table-responsive" *ngIf="locations?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.location.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="provinceId"><span jhiTranslate="psaRankingApp.location.province">Province</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.location.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="provinceId"><span jhiTranslate="PbPointsApp.location.province">Province</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

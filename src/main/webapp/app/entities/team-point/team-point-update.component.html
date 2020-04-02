@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-team-point-heading" jhiTranslate="psaRankingApp.teamPoint.home.createOrEditLabel">Create or edit a Team Point</h2>
+            <h2 id="jhi-team-point-heading" jhiTranslate="PbPointsApp.teamPoint.home.createOrEditLabel">Create or edit a Team Point</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
@@ -10,7 +10,7 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.teamPoint.points" for="field_points">Points</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.teamPoint.points" for="field_points">Points</label>
                     <input type="number" class="form-control" name="points" id="field_points"
                            formControlName="points"/>
                     <div *ngIf="editForm.get('points').invalid && (editForm.get('points').dirty || editForm.get('points').touched)">
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.teamPoint.team" for="field_team">Team</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.teamPoint.team" for="field_team">Team</label>
                     <select class="form-control" id="field_team" name="team" formControlName="teamId">
                         <option *ngIf="!editForm.get('teamId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
@@ -39,7 +39,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.teamPoint.tournament" for="field_tournament">Tournament</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.teamPoint.tournament" for="field_tournament">Tournament</label>
                     <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>

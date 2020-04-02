@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.teamDetailPoint.home.title">Team Detail Points</span>
+        <span jhiTranslate="PbPointsApp.teamDetailPoint.home.title">Team Detail Points</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-team-detail-point" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team-detail-point" [routerLink]="['/team-detail-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.teamDetailPoint.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.teamDetailPoint.home.createLabel">
             Create a new Team Detail Point
             </span>
         </button>
@@ -15,17 +15,17 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="teamDetailPoints?.length === 0">
-        <span jhiTranslate="psaRankingApp.teamDetailPoint.home.notFound">No teamDetailPoints found</span>
+        <span jhiTranslate="PbPointsApp.teamDetailPoint.home.notFound">No teamDetailPoints found</span>
     </div>
     <div class="table-responsive" *ngIf="teamDetailPoints?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.tournament">Tournament</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.event">Event</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.teamDetailPoint.points">Points</span></th>
-            <!-- <th scope="col"  jhiSortBy="teamPointId"><span jhiTranslate="psaRankingApp.teamDetailPoint.teamPoint">Team Point</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
+            <th scope="col"><span jhiTranslate="PbPointsApp.teamDetailPoint.tournament">Tournament</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.teamDetailPoint.event">Event</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.teamDetailPoint.points">Points</span></th>
+            <!-- <th scope="col"  jhiSortBy="teamPointId"><span jhiTranslate="PbPointsApp.teamDetailPoint.teamPoint">Team Point</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             
             <th scope="col"></th>
             </tr>

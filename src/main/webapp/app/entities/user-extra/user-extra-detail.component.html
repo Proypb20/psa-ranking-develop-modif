@@ -1,23 +1,23 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="userExtra">
-            <h2><span jhiTranslate="psaRankingApp.userExtra.detail.title">User Extra</span> {{userExtra.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.userExtra.detail.title">User Extra</span> {{userExtra.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.userExtra.numDoc">Num Doc</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.numDoc">Num Doc</span></dt>
                 <dd>
                     <span>{{userExtra.numDoc}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.userExtra.phone">Phone</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.phone">Phone</span></dt>
                 <dd>
                     <span>{{userExtra.phone}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.userExtra.bornDate">Born Date</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.bornDate">Born Date</span></dt>
                 <dd>
                     <span>{{userExtra.bornDate}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.userExtra.picture">Picture</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.picture">Picture</span></dt>
                 <dd>
                     <div *ngIf="userExtra.picture">
                         <a (click)="openFile(userExtra.pictureContentType, userExtra.picture)">
@@ -26,13 +26,13 @@
                         {{userExtra.pictureContentType}}, {{byteSize(userExtra.picture)}}
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.userExtra.docType">Doc Type</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.docType">Doc Type</span></dt>
                 <dd>
                     <div *ngIf="userExtra.docTypeId">
                         <a [routerLink]="['/doc-type', userExtra.docTypeId, 'view']">{{userExtra.docTypeId}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.userExtra.user">User</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.userExtra.user">User</span></dt>
                 <dd>
                     {{userExtra.userLogin}}
                 </dd>

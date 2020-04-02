@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.docType.home.title">Doc Types</span>
+        <span jhiTranslate="PbPointsApp.docType.home.title">Doc Types</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event-doc-type" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-doc-type" [routerLink]="['/doc-type/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.docType.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.docType.home.createLabel">
             Create a new Doc Type
             </span>
         </button>
@@ -15,15 +15,15 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="docTypes?.length === 0">
-        <span jhiTranslate="psaRankingApp.docType.home.notFound">No docTypes found</span>
+        <span jhiTranslate="PbPointsApp.docType.home.notFound">No docTypes found</span>
     </div>
     <div class="table-responsive" *ngIf="docTypes?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.docType.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.docType.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.docType.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="description"><span jhiTranslate="PbPointsApp.docType.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

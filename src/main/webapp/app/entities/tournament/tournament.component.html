@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.tournament.home.title">Tournaments</span>
+        <span jhiTranslate="PbPointsApp.tournament.home.title">Tournaments</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-tournament" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-tournament" [routerLink]="['/tournament/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.tournament.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.tournament.home.createLabel">
             Create a new Tournament
             </span>
         </button>
@@ -15,20 +15,20 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="tournaments?.length === 0">
-        <span jhiTranslate="psaRankingApp.tournament.home.notFound">No tournaments found</span>
+        <span jhiTranslate="PbPointsApp.tournament.home.notFound">No tournaments found</span>
     </div>
     <div class="table-responsive" *ngIf="tournaments?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th scope="col"  ><span jhiTranslate="psaRankingApp.tournament.logo">Logo</span></th>
+            <th scope="col"  ><span jhiTranslate="PbPointsApp.tournament.logo">Logo</span></th>
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.tournament.name">Name</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.closeInscrDays">Close Inscr Days</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.status">Status</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.cantPlayersNextCategory">Cant Players Next Category</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.categorize">Categorize</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="psaRankingApp.tournament.owner">Owner</span></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.tournament.name">Name</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="PbPointsApp.tournament.closeInscrDays">Close Inscr Days</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="PbPointsApp.tournament.status">Status</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="PbPointsApp.tournament.cantPlayersNextCategory">Cant Players Next Category</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="PbPointsApp.tournament.categorize">Categorize</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" ><span jhiTranslate="PbPointsApp.tournament.owner">Owner</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -43,7 +43,7 @@
                 </td>
                 <td>{{tournament.name}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.closeInscrDays}}</td>
-                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"jhiTranslate="{{'psaRankingApp.Status.' + tournament.status}}">{{tournament.status}}</td>
+                <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"jhiTranslate="{{'PbPointsApp.Status.' + tournament.status}}">{{tournament.status}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.cantPlayersNextCategory}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.categorize}}</td>
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{tournament.ownerLogin}}</td>

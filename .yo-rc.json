@@ -2,9 +2,9 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "gitCompany": "",
-    "baseName": "psaRanking",
-    "packageName": "com.psa.ranking",
-    "packageFolder": "com/psa/ranking",
+    "baseName": "PbPoints",
+    "packageName": "com.ar.pbpoints",
+    "packageFolder": "com/ar/pbpoints",
     "serverPort": 8080,
     "serviceDiscoveryType": false,
     "authenticationType": "jwt",

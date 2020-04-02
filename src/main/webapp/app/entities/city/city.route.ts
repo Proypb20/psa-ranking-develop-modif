@@ -34,7 +34,7 @@ export const cityRoute: Routes = [
     component: CityComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.city.home.title'
+      pageTitle: 'PbPointsApp.city.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -46,7 +46,7 @@ export const cityRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.city.home.title'
+      pageTitle: 'PbPointsApp.city.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -58,7 +58,7 @@ export const cityRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.city.home.title'
+      pageTitle: 'PbPointsApp.city.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -70,7 +70,7 @@ export const cityRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.city.home.title'
+      pageTitle: 'PbPointsApp.city.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -85,7 +85,7 @@ export const cityPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.city.home.title'
+      pageTitle: 'PbPointsApp.city.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

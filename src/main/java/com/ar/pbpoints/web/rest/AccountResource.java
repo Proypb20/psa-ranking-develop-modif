@@ -92,9 +92,9 @@ public class AccountResource {
 		}
 
 		return userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase())
-				.map(user -> new ResponseEntity<>("register.error.userexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
+				.map(user -> new ResponseEntity<>("error.userexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
 				.orElseGet(() -> userRepository.findOneWithAuthoritiesByEmailIgnoreCase(managedUserVM.getEmail()).map(
-						user -> new ResponseEntity<>("register.error.emailexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
+						user -> new ResponseEntity<>("error.emailexists", textPlainHeaders, HttpStatus.BAD_REQUEST))
 						.orElseGet(() -> {
 							User user = userService
 							     .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),

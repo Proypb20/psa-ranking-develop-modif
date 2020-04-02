@@ -106,6 +106,9 @@ public class TournamentQueryService extends QueryService<Tournament> {
             if (criteria.getCantPlayersNextCategory() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCantPlayersNextCategory(), Tournament_.cantPlayersNextCategory));
             }
+            if (criteria.getQtyTeamGroups() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getQtyTeamGroups(), Tournament_.qtyTeamGroups));
+            }
             if (criteria.getEventId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEventId(),
                     root -> root.join(Tournament_.events, JoinType.LEFT).get(Event_.id)));

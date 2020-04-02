@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.country.home.title">Countries</span>
+        <span jhiTranslate="PbPointsApp.country.home.title">Countries</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-country" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-country" [routerLink]="['/country/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.country.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.country.home.createLabel">
             Create a new Country
             </span>
         </button>
@@ -15,14 +15,14 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="countries?.length === 0">
-        <span jhiTranslate="psaRankingApp.country.home.notFound">No countries found</span>
+        <span jhiTranslate="PbPointsApp.country.home.notFound">No countries found</span>
     </div>
     <div class="table-responsive" *ngIf="countries?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.country.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.country.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

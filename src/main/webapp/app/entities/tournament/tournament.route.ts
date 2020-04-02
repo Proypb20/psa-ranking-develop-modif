@@ -34,7 +34,7 @@ export const tournamentRoute: Routes = [
     component: TournamentComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.tournament.home.title'
+      pageTitle: 'PbPointsApp.tournament.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -46,7 +46,7 @@ export const tournamentRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.tournament.home.title'
+      pageTitle: 'PbPointsApp.tournament.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -58,7 +58,7 @@ export const tournamentRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.tournament.home.title'
+      pageTitle: 'PbPointsApp.tournament.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -70,7 +70,7 @@ export const tournamentRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.tournament.home.title'
+      pageTitle: 'PbPointsApp.tournament.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -85,7 +85,7 @@ export const tournamentPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.tournament.home.title'
+      pageTitle: 'PbPointsApp.tournament.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

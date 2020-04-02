@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.roster.home.title">Rosters</span>
+        <span jhiTranslate="PbPointsApp.roster.home.title">Rosters</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-roster" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-roster" [routerLink]="['/roster/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.roster.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.roster.home.createLabel">
             Create a new Roster
             </span>
         </button>
@@ -15,18 +15,18 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="rosters?.length === 0">
-        <span jhiTranslate="psaRankingApp.roster.home.notFound">No rosters found</span>
+        <span jhiTranslate="PbPointsApp.roster.home.notFound">No rosters found</span>
     </div>
     <div class="table-responsive" *ngIf="rosters?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"><span jhiTranslate="psaRankingApp.roster.tournament">Tournament</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.roster.event">Event</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.roster.category">Category</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.roster.team">Team</span></th>
-            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"><span jhiTranslate="psaRankingApp.roster.active">Active</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.roster.tournament">Tournament</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.roster.event">Event</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.roster.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.roster.team">Team</span></th>
+            <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"><span jhiTranslate="PbPointsApp.roster.active">Active</span></th>
             <th scope="col"></th>
             </tr>
             </thead>

@@ -39,7 +39,7 @@ export const eventCategoryRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
-      pageTitle: 'psaRankingApp.eventCategory.home.title'
+      pageTitle: 'PbPointsApp.eventCategory.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -51,7 +51,7 @@ export const eventCategoryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.eventCategory.home.title'
+      pageTitle: 'PbPointsApp.eventCategory.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -63,7 +63,7 @@ export const eventCategoryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.eventCategory.home.title'
+      pageTitle: 'PbPointsApp.eventCategory.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -75,7 +75,7 @@ export const eventCategoryRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.eventCategory.home.title'
+      pageTitle: 'PbPointsApp.eventCategory.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -90,7 +90,7 @@ export const eventCategoryPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.eventCategory.home.title'
+      pageTitle: 'PbPointsApp.eventCategory.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.team.home.title">Teams</span>
+        <span jhiTranslate="PbPointsApp.team.home.title">Teams</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-team" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-team" [routerLink]="['/team/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.team.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.team.home.createLabel">
             Create a new Team
             </span>
         </button>
@@ -15,16 +15,16 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="teams?.length === 0">
-        <span jhiTranslate="psaRankingApp.team.home.notFound">No teams found</span>
+        <span jhiTranslate="PbPointsApp.team.home.notFound">No teams found</span>
     </div>
     <div class="table-responsive" *ngIf="teams?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.team.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="active"><span jhiTranslate="psaRankingApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="ownerLogin"><span jhiTranslate="psaRankingApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.team.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="active"><span jhiTranslate="PbPointsApp.team.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="ownerLogin"><span jhiTranslate="PbPointsApp.team.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

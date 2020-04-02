@@ -1,5 +1,5 @@
 {
-  "psaRankingApp": {
+  "PbPointsApp": {
     "tournament": {
       "home": {
         "title": "Tournaments",
@@ -22,6 +22,7 @@
       "categorize": "Categorize",
       "logo": "Logo",
       "cantPlayersNextCategory": "Qty Players Next Category Allowed",
+      "qtyTeamGroups": "Qty Teams By Group",
       "event": "Event",
       "owner": "Owner"
     }

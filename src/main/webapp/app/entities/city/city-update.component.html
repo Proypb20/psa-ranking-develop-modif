@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-city-heading" jhiTranslate="psaRankingApp.city.home.createOrEditLabel">Create or edit a City</h2>
+            <h2 id="jhi-city-heading" jhiTranslate="PbPointsApp.city.home.createOrEditLabel">Create or edit a City</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" hidden>
@@ -10,23 +10,23 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.province" for="field_province">Province</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.city.province" for="field_province">Province</label>
                     <select class="form-control" id="field_province" name="province" formControlName="provinceId">
                         <option [ngValue]="provinceOption.id" *ngFor="let provinceOption of provinces; trackBy: trackProvinceById">{{provinceOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.name" for="field_name">Name</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.city.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.latitude" for="field_latitude">Latitude</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.city.latitude" for="field_latitude">Latitude</label>
                     <input type="text" class="form-control" name="latitude" id="field_latitude"
                            formControlName="latitude"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.city.longitude" for="field_longitude">Longitude</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.city.longitude" for="field_longitude">Longitude</label>
                     <input type="text" class="form-control" name="longitude" id="field_longitude"
                            formControlName="longitude"/>
                 </div>

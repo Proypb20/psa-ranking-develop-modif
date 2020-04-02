@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PsaRankingSharedModule } from 'app/shared/shared.module';
+import { PbPointsSharedModule } from 'app/shared/shared.module';
 import { CountryComponent } from './country.component';
 import { CountryDetailComponent } from './country-detail.component';
 import { CountryUpdateComponent } from './country-update.component';
@@ -11,7 +11,7 @@ import { countryRoute, countryPopupRoute } from './country.route';
 const ENTITY_STATES = [...countryRoute, ...countryPopupRoute];
 
 @NgModule({
-  imports: [PsaRankingSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [PbPointsSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     CountryComponent,
     CountryDetailComponent,
@@ -21,4 +21,4 @@ const ENTITY_STATES = [...countryRoute, ...countryPopupRoute];
   ],
   entryComponents: [CountryDeleteDialogComponent]
 })
-export class PsaRankingCountryModule {}
+export class PbPointsCountryModule {}

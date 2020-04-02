@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.eventCategory.home.title">Event Categories</span>
+        <span jhiTranslate="PbPointsApp.eventCategory.home.title">Event Categories</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event-category" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event-category" [routerLink]="['/event-category/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.eventCategory.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.eventCategory.home.createLabel">
             Create a new Event Category
             </span>
         </button>
@@ -15,17 +15,17 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="eventCategories?.length === 0">
-        <span jhiTranslate="psaRankingApp.eventCategory.home.notFound">No eventCategories found</span>
+        <span jhiTranslate="PbPointsApp.eventCategory.home.notFound">No eventCategories found</span>
     </div>
     <div class="table-responsive" *ngIf="eventCategories?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="eventName"><span jhiTranslate="PbPointsApp.eventCategory.event">Event</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="categoryName"><span jhiTranslate="PbPointsApp.eventCategory.category">Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="formatName"><span jhiTranslate="PbPointsApp.eventCategory.format">Format</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="splitDeck"><span jhiTranslate="PbPointsApp.eventCategory.splitDeck">Split Deck</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

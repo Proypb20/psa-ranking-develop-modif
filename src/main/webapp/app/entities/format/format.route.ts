@@ -34,7 +34,7 @@ export const formatRoute: Routes = [
     component: FormatComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.format.home.title'
+      pageTitle: 'PbPointsApp.format.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -46,7 +46,7 @@ export const formatRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.format.home.title'
+      pageTitle: 'PbPointsApp.format.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -58,7 +58,7 @@ export const formatRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.format.home.title'
+      pageTitle: 'PbPointsApp.format.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -70,7 +70,7 @@ export const formatRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.format.home.title'
+      pageTitle: 'PbPointsApp.format.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -85,7 +85,7 @@ export const formatPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.format.home.title'
+      pageTitle: 'PbPointsApp.format.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

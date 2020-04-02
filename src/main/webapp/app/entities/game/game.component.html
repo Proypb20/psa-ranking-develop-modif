@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.game.home.title">Games</span>
+        <span jhiTranslate="PbPointsApp.game.home.title">Games</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-game" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-game" [routerLink]="['/game/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.game.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.game.home.createLabel">
             Create a new Game
             </span>
         </button>
@@ -15,20 +15,20 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="games?.length === 0">
-        <span jhiTranslate="psaRankingApp.game.home.notFound">No games found</span>
+        <span jhiTranslate="PbPointsApp.game.home.notFound">No games found</span>
     </div>
     <div class="table-responsive" *ngIf="games?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col" jhiSortBy="splitDeckNum"><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" jhiSortBy="teamA"><span jhiTranslate="psaRankingApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" jhiSortBy="pointsA"><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" jhiSortBy="teamB"><span jhiTranslate="psaRankingApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" jhiSortBy="pointsB"><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
-            <th scope="col" ><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span></th>
-            <th scope="col" ><span jhiTranslate="psaRankingApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="splitDeckNum"><span jhiTranslate="PbPointsApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="teamA"><span jhiTranslate="PbPointsApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="pointsA"><span jhiTranslate="PbPointsApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="teamB"><span jhiTranslate="PbPointsApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="pointsB"><span jhiTranslate="PbPointsApp.game.pointsB">Points B</span> <fa-icon [icon]="'sort'"></fa-icon></th>            
+            <th scope="col" ><span jhiTranslate="PbPointsApp.game.timeLeft">Time Left</span></th>
+            <th scope="col" ><span jhiTranslate="PbPointsApp.game.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -41,7 +41,7 @@
                 <td><div *ngIf="game.teamBId">{{game.teamBName}}</div></td>
                 <td>{{game.pointsB}}</td>
                 <td>{{((game.timeLeft-(game.timeLeft%60))/60)}}:{{(game.timeLeft%60)}}</td>
-                <td jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</td>
+                <td jhiTranslate="{{'PbPointsApp.Status.' + game.status}}">{{game.status}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <!-- <button type="submit"

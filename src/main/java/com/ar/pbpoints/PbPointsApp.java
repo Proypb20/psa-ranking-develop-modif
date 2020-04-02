@@ -33,7 +33,7 @@ public class PbPointsApp implements InitializingBean {
     }
 
     /**
-     * Initializes psaRanking.
+     * Initializes PbPoints.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>

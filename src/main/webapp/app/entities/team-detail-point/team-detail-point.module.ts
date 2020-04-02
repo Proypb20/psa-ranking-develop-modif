@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PsaRankingSharedModule } from 'app/shared/shared.module';
+import { PbPointsSharedModule } from 'app/shared/shared.module';
 import { TeamDetailPointComponent } from './team-detail-point.component';
 import { TeamDetailPointDetailComponent } from './team-detail-point-detail.component';
 import { TeamDetailPointUpdateComponent } from './team-detail-point-update.component';
@@ -11,7 +11,7 @@ import { teamDetailPointRoute, teamDetailPointPopupRoute } from './team-detail-p
 const ENTITY_STATES = [...teamDetailPointRoute, ...teamDetailPointPopupRoute];
 
 @NgModule({
-  imports: [PsaRankingSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [PbPointsSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     TeamDetailPointComponent,
     TeamDetailPointDetailComponent,
@@ -21,4 +21,4 @@ const ENTITY_STATES = [...teamDetailPointRoute, ...teamDetailPointPopupRoute];
   ],
   entryComponents: [TeamDetailPointDeleteDialogComponent]
 })
-export class PsaRankingTeamDetailPointModule {}
+export class PbPointsTeamDetailPointModule {}

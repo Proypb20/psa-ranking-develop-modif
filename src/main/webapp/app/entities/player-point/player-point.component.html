@@ -45,10 +45,10 @@
     <!-- Fin User -->
 	<!-- Inicio Player-Point -->
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.playerPoint.home.title">Player Points</span>
+        <span jhiTranslate="PbPointsApp.playerPoint.home.title">Player Points</span>
         <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player-point" [routerLink]="['/player-point/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.playerPoint.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.playerPoint.home.createLabel">
             Create a new Player Point
             </span>
         </button>
@@ -57,17 +57,17 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="playerPoints?.length === 0">
-        <span jhiTranslate="psaRankingApp.playerPoint.home.notFound">No playerPoints found</span>
+        <span jhiTranslate="PbPointsApp.playerPoint.home.notFound">No playerPoints found</span>
     </div>
     <div class="table-responsive" *ngIf="playerPoints?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.tournament">Tournament</span></th>
-            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.category">Category</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.playerPoint.points">Points</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.playerPoint.tournament">Tournament</span></th>
+            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" scope="col"><span jhiTranslate="PbPointsApp.playerPoint.user">User</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.playerPoint.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.playerPoint.points">Points</span></th>
             <th scope="col"></th>
             </tr>
             </thead>

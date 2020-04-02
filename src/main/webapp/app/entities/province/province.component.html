@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.province.home.title">Provinces</span>
+        <span jhiTranslate="PbPointsApp.province.home.title">Provinces</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-province" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-province" [routerLink]="['/province/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.province.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.province.home.createLabel">
             Create a new Province
             </span>
         </button>
@@ -15,15 +15,15 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="provinces?.length === 0">
-        <span jhiTranslate="psaRankingApp.province.home.notFound">No provinces found</span>
+        <span jhiTranslate="PbPointsApp.province.home.notFound">No provinces found</span>
     </div>
     <div class="table-responsive" *ngIf="provinces?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th scope="col"  jhiSortBy="countryId"><span jhiTranslate="psaRankingApp.province.country">Country</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="countryId"><span jhiTranslate="PbPointsApp.province.country">Country</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.province.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.province.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>

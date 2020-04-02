@@ -1,21 +1,21 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="playerDetailPoint">
-            <h2><span jhiTranslate="psaRankingApp.playerDetailPoint.detail.title">Player Detail Point</span> {{playerDetailPoint.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.playerDetailPoint.detail.title">Player Detail Point</span> {{playerDetailPoint.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.playerDetailPoint.points">Points</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerDetailPoint.points">Points</span></dt>
                 <dd>
                     <span>{{playerDetailPoint.points}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.playerDetailPoint.event">Event</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerDetailPoint.event">Event</span></dt>
                 <dd>
                     <div *ngIf="playerDetailPoint.eventId">
                         <a [routerLink]="['/event', playerDetailPoint.eventId, 'view']">{{playerDetailPoint.eventName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.playerDetailPoint.playerPoint">Player Point</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerDetailPoint.playerPoint">Player Point</span></dt>
                 <dd>
                     <div *ngIf="playerDetailPoint.playerPointId">
                         <a [routerLink]="['/player-point', playerDetailPoint.playerPointId, 'view']">{{playerDetailPoint.playerPointId}}</a>

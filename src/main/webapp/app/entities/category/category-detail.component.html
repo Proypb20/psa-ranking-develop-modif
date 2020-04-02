@@ -1,47 +1,47 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="category">
-            <h2><span jhiTranslate="psaRankingApp.category.detail.title">Category</span> {{category.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.category.detail.title">Category</span> {{category.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.category.name">Name</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.name">Name</span></dt>
                 <dd>
                     <span>{{category.name}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.description">Description</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.description">Description</span></dt>
                 <dd>
                     <span>{{category.description}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.gameTimeType">Game Time Type</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.gameTimeType">Game Time Type</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'psaRankingApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</span>
+                    <span jhiTranslate="{{'PbPointsApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.gameTime">Game Time</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.gameTime">Game Time</span></dt>
                 <dd>
                     <span>{{category.gameTime}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.stopTimeType">Stop Time Type</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.stopTimeType">Stop Time Type</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'psaRankingApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</span>
+                    <span jhiTranslate="{{'PbPointsApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.stopTime">Stop Time</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.stopTime">Stop Time</span></dt>
                 <dd>
                     <span>{{category.stopTime}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.totalPoints">Total Points</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.totalPoints">Total Points</span></dt>
                 <dd>
                     <span>{{category.totalPoints}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.difPoints">Dif Points</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.difPoints">Dif Points</span></dt>
                 <dd>
                     <span>{{category.difPoints}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.order">Order</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.order">Order</span></dt>
                 <dd>
                     <span>{{category.order}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.category.tournament">Tournament</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.category.tournament">Tournament</span></dt>
                 <dd>
                     <div *ngIf="category.tournamentId">
                         <a [routerLink]="['/tournament', category.tournamentId, 'view']">{{category.tournamentName}}</a>

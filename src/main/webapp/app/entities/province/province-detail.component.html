@@ -1,15 +1,15 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="province">
-            <h2><span jhiTranslate="psaRankingApp.province.detail.title">Province</span> {{province.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.province.detail.title">Province</span> {{province.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.province.name">Name</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.province.name">Name</span></dt>
                 <dd>
                     <span>{{province.name}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.province.country">Country</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.province.country">Country</span></dt>
                 <dd>
                     <div *ngIf="province.countryId">
                         <a [routerLink]="['/country', province.countryId, 'view']">{{province.countryId}}</a>

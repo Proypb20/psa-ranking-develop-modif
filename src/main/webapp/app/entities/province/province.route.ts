@@ -35,7 +35,7 @@ export const provinceRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
-      pageTitle: 'psaRankingApp.province.home.title'
+      pageTitle: 'PbPointsApp.province.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -47,7 +47,7 @@ export const provinceRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.province.home.title'
+      pageTitle: 'PbPointsApp.province.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -59,7 +59,7 @@ export const provinceRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.province.home.title'
+      pageTitle: 'PbPointsApp.province.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -71,7 +71,7 @@ export const provinceRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.province.home.title'
+      pageTitle: 'PbPointsApp.province.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -86,7 +86,7 @@ export const provincePopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.province.home.title'
+      pageTitle: 'PbPointsApp.province.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

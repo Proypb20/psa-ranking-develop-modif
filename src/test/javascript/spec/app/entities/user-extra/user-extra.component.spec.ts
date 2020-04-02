@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { UserExtraComponent } from 'app/entities/user-extra/user-extra.component';
 import { UserExtraService } from 'app/entities/user-extra/user-extra.service';
 import { UserExtra } from 'app/shared/model/user-extra.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [UserExtraComponent],
         providers: [
           {

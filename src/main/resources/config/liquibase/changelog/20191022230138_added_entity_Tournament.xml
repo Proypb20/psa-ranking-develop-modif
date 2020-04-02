@@ -37,6 +37,9 @@
             <column name="cant_players_next_category" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="qty_team_groups" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="owner_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -83,6 +86,7 @@
             <column name="logo" type="blob"/>
             <column name="logo_content_type" type="string"/>
             <column name="cant_players_next_category" type="numeric"/>
+            <column name="qty_team_groups" type="numeric"/>
             <column name="owner_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

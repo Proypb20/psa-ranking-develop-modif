@@ -26,6 +26,10 @@
         {
             "fieldName": "cantPlayersNextCategory",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "qtyTeamGroups",
+            "fieldType": "Integer"
         }
     ],
     "relationships": [

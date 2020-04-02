@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { TournamentDeleteDialogComponent } from 'app/entities/tournament/tournament-delete-dialog.component';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
 
@@ -17,7 +17,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [TournamentDeleteDialogComponent]
       })
         .overrideTemplate(TournamentDeleteDialogComponent, '')

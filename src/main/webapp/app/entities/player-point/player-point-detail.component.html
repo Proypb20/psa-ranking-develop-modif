@@ -1,25 +1,25 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="playerPoint">
-            <h2><span jhiTranslate="psaRankingApp.playerPoint.detail.title">Player Point</span> {{playerPoint.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.playerPoint.detail.title">Player Point</span> {{playerPoint.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.playerPoint.points">Points</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerPoint.points">Points</span></dt>
                 <dd>
                     <span>{{playerPoint.points}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.playerPoint.tournament">Tournament</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerPoint.tournament">Tournament</span></dt>
                 <dd>
                     <div *ngIf="playerPoint.tournamentId">
                         <a [routerLink]="['/tournament', playerPoint.tournamentId, 'view']">{{playerPoint.tournamentName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.playerPoint.user">User</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerPoint.user">User</span></dt>
                 <dd>
                     {{playerPoint.userLogin}}
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.playerPoint.category">Category</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.playerPoint.category">Category</span></dt>
                 <dd>
                     <div *ngIf="playerPoint.categoryId">
                         <a [routerLink]="['/category', playerPoint.categoryId, 'view']">{{playerPoint.categoryName}}</a>

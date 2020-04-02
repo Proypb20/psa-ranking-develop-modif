@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.category.home.title">Categories</span>
+        <span jhiTranslate="PbPointsApp.category.home.title">Categories</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-category" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-category" [routerLink]="['/category/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.category.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.category.home.createLabel">
             Create a new Category
             </span>
         </button>
@@ -15,23 +15,23 @@
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="categories?.length === 0">
-        <span jhiTranslate="psaRankingApp.category.home.notFound">No categories found</span>
+        <span jhiTranslate="PbPointsApp.category.home.notFound">No categories found</span>
     </div>
     <div class="table-responsive" *ngIf="categories?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="psaRankingApp.category.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="name"><span jhiTranslate="psaRankingApp.category.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="description"><span jhiTranslate="psaRankingApp.category.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- <th scope="col"  jhiSortBy="gameTimeType"><span jhiTranslate="psaRankingApp.category.gameTimeType">Game Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="gameTime"><span jhiTranslate="psaRankingApp.category.gameTime">Game Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="stopTimeType"><span jhiTranslate="psaRankingApp.category.stopTimeType">Stop Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="stopTime"><span jhiTranslate="psaRankingApp.category.stopTime">Stop Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="totalPoints"><span jhiTranslate="psaRankingApp.category.totalPoints">Total Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <!-- <th scope="col"  jhiSortBy="difPoints"><span jhiTranslate="psaRankingApp.category.difPoints">Dif Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"  jhiSortBy="order"><span jhiTranslate="psaRankingApp.category.order">Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="tournamentName"><span jhiTranslate="PbPointsApp.category.tournament">Tournament</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="name"><span jhiTranslate="PbPointsApp.category.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="description"><span jhiTranslate="PbPointsApp.category.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!-- <th scope="col"  jhiSortBy="gameTimeType"><span jhiTranslate="PbPointsApp.category.gameTimeType">Game Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="gameTime"><span jhiTranslate="PbPointsApp.category.gameTime">Game Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="stopTimeType"><span jhiTranslate="PbPointsApp.category.stopTimeType">Stop Time Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="stopTime"><span jhiTranslate="PbPointsApp.category.stopTime">Stop Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="totalPoints"><span jhiTranslate="PbPointsApp.category.totalPoints">Total Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!-- <th scope="col"  jhiSortBy="difPoints"><span jhiTranslate="PbPointsApp.category.difPoints">Dif Points</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"  jhiSortBy="order"><span jhiTranslate="PbPointsApp.category.order">Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -41,9 +41,9 @@
                 <td><div *ngIf="category.tournamentId">{{category.tournamentName}}</div></td>
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
-                <!--  <td jhiTranslate="{{'psaRankingApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>
+                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>
                 <!--  <td>{{category.gameTime}}</td>
-                <!--  <td jhiTranslate="{{'psaRankingApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</td>
+                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</td>
                 <!--  <td>{{category.stopTime}}</td>
                 <!--  <td>{{category.totalPoints}}</td>
                 <!--  <td>{{category.difPoints}}</td>-->

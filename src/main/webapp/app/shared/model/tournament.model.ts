@@ -10,6 +10,7 @@ export interface ITournament {
   logoContentType?: string;
   logo?: any;
   cantPlayersNextCategory?: number;
+  qtyTeamGroups?: number;
   events?: IEvent[];
   ownerLogin?: string;
   ownerId?: number;
@@ -25,6 +26,7 @@ export class Tournament implements ITournament {
     public logoContentType?: string,
     public logo?: any,
     public cantPlayersNextCategory?: number,
+    public qtyTeamGroups?: number,
     public events?: IEvent[],
     public ownerLogin?: string,
     public ownerId?: number

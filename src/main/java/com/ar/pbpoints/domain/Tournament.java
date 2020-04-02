@@ -49,6 +49,9 @@ public class Tournament implements Serializable {
     @Column(name = "cant_players_next_category")
     private Integer cantPlayersNextCategory;
 
+    @Column(name = "qty_team_groups")
+    private Integer qtyTeamGroups;
+
     @OneToMany(mappedBy = "tournament")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Event> events = new HashSet<>();
@@ -158,6 +161,19 @@ public class Tournament implements Serializable {
         this.cantPlayersNextCategory = cantPlayersNextCategory;
     }
 
+    public Integer getQtyTeamGroups() {
+        return qtyTeamGroups;
+    }
+
+    public Tournament qtyTeamGroups(Integer qtyTeamGroups) {
+        this.qtyTeamGroups = qtyTeamGroups;
+        return this;
+    }
+
+    public void setQtyTeamGroups(Integer qtyTeamGroups) {
+        this.qtyTeamGroups = qtyTeamGroups;
+    }
+
     public Set<Event> getEvents() {
         return events;
     }
@@ -224,6 +240,7 @@ public class Tournament implements Serializable {
             ", logo='" + getLogo() + "'" +
             ", logoContentType='" + getLogoContentType() + "'" +
             ", cantPlayersNextCategory=" + getCantPlayersNextCategory() +
+            ", qtyTeamGroups=" + getQtyTeamGroups() +
             "}";
     }
 }

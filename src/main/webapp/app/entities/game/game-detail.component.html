@@ -1,43 +1,43 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="game">
-            <h2><span jhiTranslate="psaRankingApp.game.detail.title">Game</span> {{game.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.game.detail.title">Game</span> {{game.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.game.pointsA">Points A</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.pointsA">Points A</span></dt>
                 <dd>
                     <span>{{game.pointsA}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.pointsB">Points B</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.pointsB">Points B</span></dt>
                 <dd>
                     <span>{{game.pointsB}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.splitDeckNum">Split Deck Num</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.splitDeckNum">Split Deck Num</span></dt>
                 <dd>
                     <span>{{game.splitDeckNum}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.timeLeft">Time Left</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.timeLeft">Time Left</span></dt>
                 <dd>
                     <span>{{game.timeLeft}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.status">Status</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.status">Status</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'psaRankingApp.Status.' + game.status}}">{{game.status}}</span>
+                    <span jhiTranslate="{{'PbPointsApp.Status.' + game.status}}">{{game.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.teamA">Team A</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.teamA">Team A</span></dt>
                 <dd>
                     <div *ngIf="game.teamAId">
                         <a [routerLink]="['/team', game.teamAId, 'view']">{{game.teamAName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.teamB">Team B</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.teamB">Team B</span></dt>
                 <dd>
                     <div *ngIf="game.teamBId">
                         <a [routerLink]="['/team', game.teamBId, 'view']">{{game.teamBName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.game.eventCategory">Event Category</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.game.eventCategory">Event Category</span></dt>
                 <dd>
                     <div *ngIf="game.eventCategoryId">
                         <a [routerLink]="['/event-category', game.eventCategoryId, 'view']">{{game.eventCategoryId}}</a>

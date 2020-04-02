@@ -1,13 +1,13 @@
 version: '2'
 services:
-  psaranking-mysql:
+  pbpoints-mysql:
     image: mysql:8.0.17
     # volumes:
-    #     - ~/volumes/jhipster/psaRanking/mysql/:/var/lib/mysql/
+    #     - ~/volumes/jhipster/pbpoints/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=psaranking
+      - MYSQL_DATABASE=pbpoints
     ports:
       - 3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp

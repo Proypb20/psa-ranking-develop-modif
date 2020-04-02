@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import './vendor';
-import { PsaRankingSharedModule } from 'app/shared/shared.module';
-import { PsaRankingCoreModule } from 'app/core/core.module';
-import { PsaRankingAppRoutingModule } from './app-routing.module';
-import { PsaRankingHomeModule } from './home/home.module';
-import { PsaRankingEntityModule } from './entities/entity.module';
+import { PbPointsSharedModule } from 'app/shared/shared.module';
+import { PbPointsCoreModule } from 'app/core/core.module';
+import { PbPointsAppRoutingModule } from './app-routing.module';
+import { PbPointsHomeModule } from './home/home.module';
+import { PbPointsEntityModule } from './entities/entity.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -18,14 +18,14 @@ import { ErrorComponent } from './layouts/error/error.component';
 @NgModule({
   imports: [
     BrowserModule,
-    PsaRankingSharedModule,
-    PsaRankingCoreModule,
-    PsaRankingHomeModule,
+    PbPointsSharedModule,
+    PbPointsCoreModule,
+    PbPointsHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
-    PsaRankingEntityModule,
-    PsaRankingAppRoutingModule
+    PbPointsEntityModule,
+    PbPointsAppRoutingModule
   ],
   declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [JhiMainComponent]
 })
-export class PsaRankingAppModule {}
+export class PbPointsAppModule {}

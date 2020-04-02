@@ -1,9 +1,9 @@
 <div>
     <!--<h2 id="page-heading">
-        <span jhiTranslate="psaRankingApp.player.home.title">Players</span>
+        <span jhiTranslate="PbPointsApp.player.home.title">Players</span>
          <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-player" [routerLink]="['/player/new']" [queryParams]="{rId:rosterId}">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="psaRankingApp.player.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.player.home.createLabel">
             Create a new Player
             </span>
         </button>
@@ -15,10 +15,10 @@
             <table class="table table-striped" aria-describedby="page-heading">
             <tr>
               <th>
-                <label class="form-control-label" jhiTranslate="psaRankingApp.player.userId" for="field_user">PBPoint Id</label>
+                <label class="form-control-label" jhiTranslate="PbPointsApp.player.userId" for="field_user">PBPoint Id</label>
               </th>
               <th colspan=2>
-                <label class="form-control-label" jhiTranslate="psaRankingApp.player.profile" for="field_profile">Profile</label>
+                <label class="form-control-label" jhiTranslate="PbPointsApp.player.profile" for="field_profile">Profile</label>
               </th>
             </tr>
             <tr>
@@ -27,8 +27,8 @@
               </td>
               <td>
                 <select class="form-control" name="profile" formControlName="profile" id="field_profile">
-                  <option value="PLAYER">{{'psaRankingApp.ProfileUser.PLAYER' | translate}}</option>
-                  <option value="STAFF">{{'psaRankingApp.ProfileUser.STAFF' | translate}}</option>
+                  <option value="PLAYER">{{'PbPointsApp.ProfileUser.PLAYER' | translate}}</option>
+                  <option value="STAFF">{{'PbPointsApp.ProfileUser.STAFF' | translate}}</option>
                 </select>
               </td>
               <td class="text-left">
@@ -44,19 +44,19 @@
     </form>
     <br/>
     <div class="alert alert-warning" *ngIf="players?.length === 0">
-        <span jhiTranslate="psaRankingApp.player.home.notFound">No players found</span>
+        <span jhiTranslate="PbPointsApp.player.home.notFound">No players found</span>
     </div>
     <div class="table-responsive" *ngIf="players?.length > 0">
-      <span jhiTranslate="psaRankingApp.player.detail.player">Players</span>
+      <span jhiTranslate="PbPointsApp.player.detail.player">Players</span>
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="psaRankingApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.userId">User ID</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.user">User</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.category">Category</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.profile">Profile</span></th>
+            <!-- <th scope="col"  jhiSortBy="rosterId"><span jhiTranslate="PbPointsApp.player.roster">Roster</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.userId">User ID</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.user">User</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.profile">Profile</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -72,7 +72,7 @@
                   </div>
                 </td>
                 <td>{{player.id}}</td>
-                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
+                <td jhiTranslate="{{'PbPointsApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
                 </td> -->
@@ -104,15 +104,15 @@
             </tr>
             </tbody>
             </table>
-            <span jhiTranslate="psaRankingApp.player.detail.staff">Staff</span>
+            <span jhiTranslate="PbPointsApp.player.detail.staff">Staff</span>
             <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.userId">User ID</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.user">User</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.category">Category</span></th>
-            <th scope="col"><span jhiTranslate="psaRankingApp.player.profile">Profile</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.userId">User ID</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.user">User</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.category">Category</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.player.profile">Profile</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -128,7 +128,7 @@
                   </div>
                 </td>
                 <td>{{player.id}}</td>
-                <td jhiTranslate="{{'psaRankingApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
+                <td jhiTranslate="{{'PbPointsApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
                 </td> -->

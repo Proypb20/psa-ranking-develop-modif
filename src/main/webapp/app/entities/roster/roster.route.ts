@@ -39,7 +39,7 @@ export const rosterRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
-      pageTitle: 'psaRankingApp.roster.home.title'
+      pageTitle: 'PbPointsApp.roster.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -51,7 +51,7 @@ export const rosterRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.roster.home.title'
+      pageTitle: 'PbPointsApp.roster.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -63,7 +63,7 @@ export const rosterRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.roster.home.title'
+      pageTitle: 'PbPointsApp.roster.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -75,7 +75,7 @@ export const rosterRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.roster.home.title'
+      pageTitle: 'PbPointsApp.roster.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -90,7 +90,7 @@ export const rosterPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.roster.home.title'
+      pageTitle: 'PbPointsApp.roster.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

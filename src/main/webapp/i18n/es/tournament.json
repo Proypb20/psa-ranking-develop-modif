@@ -1,5 +1,5 @@
 {
-  "psaRankingApp": {
+  "PbPointsApp": {
     "tournament": {
       "home": {
         "title": "Torneos",
@@ -21,7 +21,8 @@
       "status": "Estado",
       "categorize": "Categorizar",
       "logo": "Logo",
-            "cantPlayersNextCategory": "Cantidad Jugadores Categoria Superior",
+      "cantPlayersNextCategory": "Cantidad Jugadores Categoria Superior",
+      "qtyTeamGroups": "Cantidad de Equipos por Grupo",
       "event": "Evento",
       "owner": "Propietario"
     }

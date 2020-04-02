@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PsaRankingSharedModule } from 'app/shared/shared.module';
+import { PbPointsSharedModule } from 'app/shared/shared.module';
 
 import { JhiHealthCheckComponent } from './health.component';
 import { JhiHealthModalComponent } from './health-modal.component';
@@ -8,7 +8,7 @@ import { JhiHealthModalComponent } from './health-modal.component';
 import { healthRoute } from './health.route';
 
 @NgModule({
-  imports: [PsaRankingSharedModule, RouterModule.forChild([healthRoute])],
+  imports: [PbPointsSharedModule, RouterModule.forChild([healthRoute])],
   declarations: [JhiHealthCheckComponent, JhiHealthModalComponent],
   entryComponents: [JhiHealthModalComponent]
 })

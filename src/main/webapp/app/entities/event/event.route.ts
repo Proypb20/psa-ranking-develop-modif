@@ -41,7 +41,7 @@ export const eventRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
-      pageTitle: 'psaRankingApp.event.home.title'
+      pageTitle: 'PbPointsApp.event.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -53,7 +53,7 @@ export const eventRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.event.home.title'
+      pageTitle: 'PbPointsApp.event.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -65,7 +65,7 @@ export const eventRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.event.home.title'
+      pageTitle: 'PbPointsApp.event.home.title'
     },
     canActivate: [UserRouteAccessService]
   },
@@ -77,7 +77,7 @@ export const eventRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.event.home.title'
+      pageTitle: 'PbPointsApp.event.home.title'
     },
     canActivate: [UserRouteAccessService]
   }
@@ -92,7 +92,7 @@ export const eventPopupRoute: Routes = [
     },
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'psaRankingApp.event.home.title'
+      pageTitle: 'PbPointsApp.event.home.title'
     },
     canActivate: [UserRouteAccessService],
     outlet: 'popup'

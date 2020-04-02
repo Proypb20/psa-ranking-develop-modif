@@ -31,6 +31,7 @@ export class TournamentUpdateComponent implements OnInit {
     logo: [],
     logoContentType: [],
     cantPlayersNextCategory: [],
+    qtyTeamGroups: [],
     ownerId: [null, Validators.required]
   });
 
@@ -64,7 +65,7 @@ export class TournamentUpdateComponent implements OnInit {
     {
       this.editForm.patchValue({
       ownerId: this.currentAccount.id});
-    }  
+    }
   }
 
   updateForm(tournament: ITournament) {
@@ -77,6 +78,7 @@ export class TournamentUpdateComponent implements OnInit {
       logo: tournament.logo,
       logoContentType: tournament.logoContentType,
       cantPlayersNextCategory: tournament.cantPlayersNextCategory,
+      qtyTeamGroups: tournament.qtyTeamGroups,
       ownerId: tournament.ownerId
     });
   }
@@ -149,6 +151,7 @@ export class TournamentUpdateComponent implements OnInit {
       logoContentType: this.editForm.get(['logoContentType']).value,
       logo: this.editForm.get(['logo']).value,
       cantPlayersNextCategory: this.editForm.get(['cantPlayersNextCategory']).value,
+      qtyTeamGroups: this.editForm.get(['qtyTeamGroups']).value,
       ownerId: this.editForm.get(['ownerId']).value
     };
   }

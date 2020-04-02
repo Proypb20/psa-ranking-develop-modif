@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { EventCategoryUpdateComponent } from 'app/entities/event-category/event-category-update.component';
 import { EventCategoryService } from 'app/entities/event-category/event-category.service';
 import { EventCategory } from 'app/shared/model/event-category.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [EventCategoryUpdateComponent],
         providers: [FormBuilder]
       })

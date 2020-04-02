@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-user-extra-heading" jhiTranslate="psaRankingApp.userExtra.home.createOrEditLabel">Create or edit a User Extra</h2>
+            <h2 id="jhi-user-extra-heading" jhiTranslate="PbPointsApp.userExtra.home.createOrEditLabel">Create or edit a User Extra</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
@@ -10,17 +10,17 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.numDoc" for="field_numDoc">Num Doc</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.numDoc" for="field_numDoc">Num Doc</label>
                     <input type="text" class="form-control" name="numDoc" id="field_numDoc"
                            formControlName="numDoc"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.phone" for="field_phone">Phone</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.phone" for="field_phone">Phone</label>
                     <input type="text" class="form-control" name="phone" id="field_phone"
                            formControlName="phone"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.bornDate" for="field_bornDate">Born Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.bornDate" for="field_bornDate">Born Date</label>
                     <div class="input-group">
                         <input id="field_bornDate" type="text" class="form-control" name="bornDate" ngbDatepicker  #bornDateDp="ngbDatepicker" formControlName="bornDate"/>
                         <span class="input-group-append">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.picture" for="field_picture">Picture</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.picture" for="field_picture">Picture</label>
                     <div>
                         <img [src]="'data:' + editForm.get('pictureContentType').value + ';base64,' + editForm.get('picture').value" style="max-height: 100px;" *ngIf="editForm.get('picture').value" alt="userExtra image"/>
                         <div *ngIf="editForm.get('picture').value" class="form-text text-danger clearfix">
@@ -53,14 +53,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.docType" for="field_docType">Doc Type</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.docType" for="field_docType">Doc Type</label>
                     <select class="form-control" id="field_docType" name="docType" formControlName="docTypeId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="docTypeOption.id" *ngFor="let docTypeOption of doctypes; trackBy: trackDocTypeById">{{docTypeOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.userExtra.user" for="field_user">User</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.userExtra.user" for="field_user">User</label>
                     <select class="form-control" id="field_user" name="user" formControlName="userId">
                         <option *ngIf="!editForm.get('userId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>

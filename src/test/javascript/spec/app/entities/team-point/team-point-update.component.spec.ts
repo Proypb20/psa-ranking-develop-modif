@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { PsaRankingTestModule } from '../../../test.module';
+import { PbPointsTestModule } from '../../../test.module';
 import { TeamPointUpdateComponent } from 'app/entities/team-point/team-point-update.component';
 import { TeamPointService } from 'app/entities/team-point/team-point.service';
 import { TeamPoint } from 'app/shared/model/team-point.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PsaRankingTestModule],
+        imports: [PbPointsTestModule],
         declarations: [TeamPointUpdateComponent],
         providers: [FormBuilder]
       })

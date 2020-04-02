@@ -1,27 +1,27 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="eventCategory">
-            <h2><span jhiTranslate="psaRankingApp.eventCategory.detail.title">Event Category</span> {{eventCategory.id}}</h2>
+            <h2><span jhiTranslate="PbPointsApp.eventCategory.detail.title">Event Category</span> {{eventCategory.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="psaRankingApp.eventCategory.splitDeck">Split Deck</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.eventCategory.splitDeck">Split Deck</span></dt>
                 <dd>
                     <span>{{eventCategory.splitDeck}}</span>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.eventCategory.event">Event</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.eventCategory.event">Event</span></dt>
                 <dd>
                     <div *ngIf="eventCategory.eventId">
                         <a [routerLink]="['/event', eventCategory.eventId, 'view']">{{eventCategory.eventName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.eventCategory.category">Category</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.eventCategory.category">Category</span></dt>
                 <dd>
                     <div *ngIf="eventCategory.categoryId">
                         <a [routerLink]="['/category', eventCategory.categoryId, 'view']">{{eventCategory.categoryName}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="psaRankingApp.eventCategory.format">Format</span></dt>
+                <dt><span jhiTranslate="PbPointsApp.eventCategory.format">Format</span></dt>
                 <dd>
                     <div *ngIf="eventCategory.formatId">
                         <a [routerLink]="['/format', eventCategory.formatId, 'view']">{{eventCategory.formatName}}</a>

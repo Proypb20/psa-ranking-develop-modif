@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-event-heading" jhiTranslate="psaRankingApp.event.home.createOrEditLabel">Create or edit a Event</h2>
+            <h2 id="jhi-event-heading" jhiTranslate="PbPointsApp.event.home.createOrEditLabel">Create or edit a Event</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <!-- <div class="form-group" [hidden]="!editForm.get('id').value">
@@ -10,19 +10,19 @@
                         readonly />
                 </div>-->
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.tournament" for="field_tournament">Tournament</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.tournament" for="field_tournament">Tournament</label>
                     <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
                         <!-- <option [ngValue]="null"></option> -->
                         <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.name" for="field_name">Name</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.name" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.city" for="field_city">City</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.city" for="field_city">City</label>
                     <select class="form-control" id="field_city" name="city" formControlName="cityId">
                         <!-- <option [ngValue]="null"></option> -->
                         <option [ngValue]="cityOption.id" *ngFor="let cityOption of cities; trackBy: trackCityById">{{cityOption.name}}</option>
@@ -33,7 +33,7 @@
                     <tr>
                      <td>
                      <div class="input-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.fromDate" for="field_fromDate">From Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.fromDate" for="field_fromDate">From Date</label>
                      </div>
                     <div class="input-group">
                         <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" formControlName="fromDate"/>
@@ -44,7 +44,7 @@
                      </td>
                      <td>
                      <div class="input-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.endDate" for="field_endDate">End Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.endDate" for="field_endDate">End Date</label>
                      </div>
                     <div class="input-group">
                         <input id="field_endDate" type="text" class="form-control" name="endDate" ngbDatepicker  #endDateDp="ngbDatepicker" formControlName="endDate"/>
@@ -57,7 +57,7 @@
                     </table>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.endInscriptionDate" for="field_endInscriptionDate">End Inscription Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.endInscriptionDate" for="field_endInscriptionDate">End Inscription Date</label>
                     <div class="input-group">
                         <input id="field_endInscriptionDate" type="text" class="form-control" name="endInscriptionDate" ngbDatepicker  #endInscriptionDateDp="ngbDatepicker" formControlName="endInscriptionDate"/>
                         <span class="input-group-append">
@@ -66,23 +66,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.status" for="field_status">Status</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.status" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
-                        <option value="CREATED">{{'psaRankingApp.Status.CREATED' | translate}}</option>
-                        <option value="PENDING">{{'psaRankingApp.Status.PENDING' | translate}}</option>
-                        <option value="IN_PROGRESS">{{'psaRankingApp.Status.IN_PROGRESS' | translate}}</option>
-                        <option value="DONE">{{'psaRankingApp.Status.DONE' | translate}}</option>
-                        <option value="CANCEL">{{'psaRankingApp.Status.CANCEL' | translate}}</option>
+                        <option value="CREATED">{{'PbPointsApp.Status.CREATED' | translate}}</option>
+                        <option value="PENDING">{{'PbPointsApp.Status.PENDING' | translate}}</option>
+                        <option value="IN_PROGRESS">{{'PbPointsApp.Status.IN_PROGRESS' | translate}}</option>
+                        <option value="DONE">{{'PbPointsApp.Status.DONE' | translate}}</option>
+                        <option value="CANCEL">{{'PbPointsApp.Status.CANCEL' | translate}}</option>
                     </select>
                 </div>
                 <!-- <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.createDate" for="field_createDate">Create Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.createDate" for="field_createDate">Create Date</label>
                     <div class="d-flex">
                         <input id="field_createDate" type="datetime-local" class="form-control" name="createDate" formControlName="createDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="psaRankingApp.event.updatedDate" for="field_updatedDate">Updated Date</label>
+                    <label class="form-control-label" jhiTranslate="PbPointsApp.event.updatedDate" for="field_updatedDate">Updated Date</label>
                     <div class="d-flex">
                         <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" formControlName="updatedDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
