@@ -17,7 +17,7 @@ logging:
   level:
     ROOT: INFO
     io.github.jhipster: INFO
-    com.psa.ranking: INFO
+    com.ar.pbpoints: INFO
 
 management:
   metrics:
@@ -65,9 +65,9 @@ spring:
     protocol: smtp
     tls: true
     properties.mail.smtp:
-            auth: true
-            starttls.enable: true
-            ssl.trust: smtp.gmail.com
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
   thymeleaf:
     cache: true
 
