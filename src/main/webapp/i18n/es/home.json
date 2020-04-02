@@ -15,13 +15,18 @@
     },
     "like": "Si te gusta JHipster, danos una estrella en",
     "github": "GitHub",
+    "tournament": {
+          "logo":"Logo"
+     },
     "event": {
       "tournament": "Torneo",
       "event": "Evento",
       "city": "Ciudad",
       "fromDate": "Desde",
       "endDate": "Hasta",
-      "endInscriptionDate": "Cierre Inscripcion"
+      "endInscriptionDate": "Cierre Inscripcion",
+      "old": "Eventos Finalizados",
+      "next": "Proximos Eventos"
     }
   }
 }
