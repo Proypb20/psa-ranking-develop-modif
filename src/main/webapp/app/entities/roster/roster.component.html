@@ -22,8 +22,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th scope="col"><span jhiTranslate="PbPointsApp.roster.tournament">Tournament</span></th>
-            <th scope="col"><span jhiTranslate="PbPointsApp.roster.event">Event</span></th>
+            <th scope="col"><span jhiTranslate="PbPointsApp.roster.tournamentEvent">Tournament</span></th>
+            <!-- <th scope="col"><span jhiTranslate="PbPointsApp.roster.event">Event</span></th>-->
             <th scope="col"><span jhiTranslate="PbPointsApp.roster.category">Category</span></th>
             <th scope="col"><span jhiTranslate="PbPointsApp.roster.team">Team</span></th>
             <th scope="col"  *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"><span jhiTranslate="PbPointsApp.roster.active">Active</span></th>
@@ -47,8 +47,8 @@
                         </div>
                      </div>
                    </div>
-                </td>
-                <td>
+                <!--</td>
+                <td>-->
                    <div *ngIf="roster.eventCategoryId">
                      <div *ngFor="let eventCat of eventCategories">
                         <div *ngIf="(eventCat.id == roster.eventCategoryId)" >
@@ -64,7 +64,7 @@
                      <div *ngFor="let eventCat of eventCategories">
                         <div *ngIf="(eventCat.id == roster.eventCategoryId)" >
                           <div *ngFor="let category of categories">
-                           <div *ngIf="(category.id == eventCat.eventId)" >{{category.name}}</div>
+                           <div *ngIf="(category.id == eventCat.categoryId)" >{{category.name}}</div>
                           </div>
                         </div>
                      </div>
@@ -74,12 +74,6 @@
                 <td *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'">{{roster.active}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/player']"
-                                [queryParams]="{rId:roster.id}"
-                                class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.player">View</span>
-                        </button>
                         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
                                 [routerLink]="['/roster', roster.id, 'edit']"
@@ -95,6 +89,12 @@
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/player']"
+                                [queryParams]="{rId:roster.id}"
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.player">View</span>
                         </button>
                     </div>
                 </td>

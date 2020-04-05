@@ -38,8 +38,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
   reverse: any;
   rId: number;
   private sub: any;
-  owner: IUser;
-  isOwner: boolean;
 
   users: IUser[];
   private completeName : any;

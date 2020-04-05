@@ -109,6 +109,7 @@ export class TournamentComponent implements OnInit, OnDestroy {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    localStorage.setItem("TOURNAMENTID",'');
     this.loadAll();
     this.registerChangeInTournaments();
   }

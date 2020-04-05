@@ -22,6 +22,7 @@
       "event": "Evento",
       "category": "Categoria",
       "tournament": "Torneo",
+      "tournamentEvent": "Torneo/Evento",
       "player": "Jugador"
     }
   }

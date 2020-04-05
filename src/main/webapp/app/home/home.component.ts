@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   authSubscription: Subscription;
   modalRef: NgbModalRef;
   events: IEvent[];
+  eventsOld: IEvent[];
   tournaments: ITournament[];
   cities: ICity[];
   routeData: any;
@@ -64,30 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.accountService.identity().subscribe((account: Account) => {
       this.account = account;
     });
-    this.eventService.query({
-              'status.in': ['CREATED','IN_PROGRESS'],
-					 page:  1 - 1,
-					 size:  200
-					})
-		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-    this.tournamentService
-	    .query({
-	    	size: 2000
-	    })
-	    .pipe(
-	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<ITournament[]>) => response.body)
-	    )
-	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
-	this.cityService
-	    .query({
-	    	size: 2000
-	    })
-	    .pipe(
-	      filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<ICity[]>) => response.body)
-	    )
-	    .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.loadEvents();
     this.registerAuthenticationSuccess();
   }
   
@@ -100,6 +78,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.events = data;
+  }
+  
+  protected paginateEventsOld(data: IEvent[], headers: HttpHeaders) {
+    this.links = this.parseLinks.parse(headers.get('link'));
+    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+    this.eventsOld = data;
   }
   
   sort() {
@@ -137,4 +121,36 @@ export class HomeComponent implements OnInit, OnDestroy {
 	    this.jhiAlertService.error(errorMessage, null, null);
   }
   
+  loadEvents(){
+    this.eventService.query({
+              'status.in': ['CREATED','IN_PROGRESS'],
+					 page:  1 - 1,
+					 size:  200
+					})
+		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+    this.eventService.query({
+              'status.in': ['DONE'],
+					 page:  1 - 1,
+					 size:  200
+					})
+		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEventsOld(res.body, res.headers));
+    this.tournamentService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ITournament[]>) => response.body)
+	    )
+	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+	this.cityService
+	    .query({
+	    	size: 2000
+	    })
+	    .pipe(
+	      filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
+	      map((response: HttpResponse<ICity[]>) => response.body)
+	    )
+	    .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
 }
