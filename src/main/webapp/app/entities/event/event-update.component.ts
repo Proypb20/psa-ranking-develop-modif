@@ -25,7 +25,7 @@ export class EventUpdateComponent implements OnInit {
   isSaving: boolean;
   currentAccount: any;
   tournaments: ITournament[];
-
+  tId: number;
   cities: ICity[];
   fromDateDp: any;
   endDateDp: any;
@@ -59,6 +59,10 @@ export class EventUpdateComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
+    if (localStorage.getItem("TOURNAMENTID"))
+    {
+       this.tId = +localStorage.getItem("TOURNAMENTID")
+    };
     this.activatedRoute.data.subscribe(({ event }) => {
       this.updateForm(event);
     });
@@ -101,7 +105,7 @@ export class EventUpdateComponent implements OnInit {
       status: event.status,
       createDate: event.createDate != null ? event.createDate.format(DATE_TIME_FORMAT) : null,
       updatedDate: event.updatedDate != null ? event.updatedDate.format(DATE_TIME_FORMAT) : null,
-      tournamentId: event.tournamentId,
+      tournamentId: this.tId || event.tournamentId,
       cityId: event.cityId
     });
   }

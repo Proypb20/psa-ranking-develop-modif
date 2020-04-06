@@ -36,8 +36,4 @@ export class UserService {
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
   }
-  
-  owner(id: number):Observable<HttpResponse<IUser>> {
-      return this.http.get<IUser>(`${this.resourceUrl}/own/${id}`, { observe: 'response' });
-  }
 }

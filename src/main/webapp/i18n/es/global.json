@@ -51,9 +51,6 @@
           "doctype": "Tipos de Documento",
           "country": "Paises",
           "city": "Ciudades"
-        },
-        "next": {
-          "event": "Proximos Eventos"
         }
       },
       "entities": {

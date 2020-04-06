@@ -1,9 +1,5 @@
 <div class="row">
-    <!-- Logo Grande Lateral Izquierdo -->
-    <!-- <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
-    </div>-->
-    <div class="col-md-9">
+    <div class="col-md-12">
         <!-- <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>-->
         <h1 class="from-control-plaintext display-4" jhiTranslate="home.title">Welcome</h1>
         <div [ngSwitch]="isAuthenticated()">
@@ -15,7 +11,7 @@
               </div>-->
               
               <div>
-                <h1 class="form-control-plaintext display-8" jhiTranslate="global.menu.custom.next.event">Event</h1>
+                <h1 class="form-control-plaintext display-8" jhiTranslate="home.event.next">Next Event</h1>
               </div>
               
               <!-- Mostrando Eventos -->
@@ -26,6 +22,7 @@
 			        <table class="table table-striped" aria-describedby="page-heading">
 			            <thead>
 			            <tr >
+			            <th scope="col" ><span jhiTranslate="home.tournament.logo">Logo</span></th>
 			            <th scope="col" ><span jhiTranslate="home.event.tournament">Tournament</span></th>
 			            <th scope="col" ><span jhiTranslate="home.event.event">Event</span></th>
 			            <th scope="col" ><span jhiTranslate="home.event.city">City</span> </th>
@@ -37,6 +34,19 @@
 			            </thead>
 			            <tbody>
 			            <tr *ngFor="let event of events ;trackBy: trackId">
+			                <td>
+			                    <div *ngIf="event.tournamentId">
+					                <div *ngFor="let tournament of tournaments">
+		                             <div *ngIf="(tournament.id == event.tournamentId)" >
+			                             <td>
+						                    <a *ngIf="tournament.logo" (click)="openFile(tournament.logoContentType, tournament.logo)">
+						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
+						                    </a>
+						                </td>
+					                 </div>
+			                        </div>
+								</div>
+			                </td>
 			                 <td>
 			                    <div *ngIf="event.tournamentId">
 					                <div *ngFor="let item of tournaments">
@@ -77,6 +87,66 @@
 			            </tbody>
 			        </table>
             </div>
+            <!-- Fin Eventos -->
+              <div>
+                <h1 class="form-control-plaintext display-8" jhiTranslate="home.event.old">Old Event</h1>
+              </div>
+              <!-- Eventos Finalizados -->
+              <!-- Mostrando Eventos -->
+              <div class="alert alert-warning" *ngIf="eventsOld?.length === 0">
+                 <span jhiTranslate="PbPointsApp.event.home.notFound">No events found</span>
+              </div>
+              <div class="table-responsive" *ngIf="eventsOld?.length > 0">
+			        <table class="table table-striped" aria-describedby="page-heading">
+			            <thead>
+			            <tr >
+			            <th scope="col" ><span jhiTranslate="home.tournament.logo">Logo</span></th>
+			            <th scope="col" ><span jhiTranslate="home.event.tournament">Tournament</span></th>
+			            <th scope="col" ><span jhiTranslate="home.event.event">Event</span></th>
+			            <th scope="col" ><span jhiTranslate="home.event.city">City</span> </th>
+			            <th scope="col" ><span jhiTranslate="home.event.fromDate">From Date</span> </th>
+			            <th scope="col" ><span jhiTranslate="home.event.endDate">End Date</span> </th>
+			            <th scope="col"></th>
+			            </tr>
+			            </thead>
+			            <tbody>
+			            <tr *ngFor="let event of eventsOld ;trackBy: trackId">
+			                <td>
+			                    <div *ngIf="event.tournamentId">
+					                <div *ngFor="let tournament of tournaments">
+		                             <div *ngIf="(tournament.id == event.tournamentId)" >
+			                             <td>
+						                    <a *ngIf="tournament.logo" (click)="openFile(tournament.logoContentType, tournament.logo)">
+						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
+						                    </a>
+						                </td>
+					                 </div>
+			                        </div>
+								</div>
+			                </td>
+			                 <td>
+			                    <div *ngIf="event.tournamentId">
+					                <div *ngFor="let item of tournaments">
+					                	<div *ngIf="(item.id == event.tournamentId)" >{{item.name}}</div>
+			                        </div>
+								</div>
+			                </td>
+			                <td>{{event.name}}</td>
+			                <td>
+			                    <div *ngIf="event.cityId">
+			                        <div *ngFor="let item of cities">
+			                            <!-- <a [routerLink]="['/city', event.cityId , 'view' ]" *ngIf="(item.id == event.cityId)" >{{item.name}}</a>-->
+			                            <div *ngIf="(item.id == event.cityId)" >{{item.name}}</div>
+			                        </div>
+			                    </div>
+			                </td>
+			                <td>{{event.fromDate | date:'dd-MM-yyyy'}}</td>
+			                <td>{{event.endDate | date:'dd-MM-yyyy'}}</td>
+			            </tr>
+			            </tbody>
+			        </table>
+            </div>
+            <!-- Fin Eventos Finalizados -->
             </div>
         </div>
     </div>
