@@ -9,11 +9,11 @@
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
                     [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}". </span>
               </div>-->
-              
+
               <div>
                 <h1 class="form-control-plaintext display-8" jhiTranslate="home.event.next">Next Event</h1>
               </div>
-              
+
               <!-- Mostrando Eventos -->
               <div class="alert alert-warning" *ngIf="events?.length === 0">
                  <span jhiTranslate="PbPointsApp.event.home.notFound">No events found</span>
