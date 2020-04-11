@@ -40,6 +40,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private sub: any;
 
   users: IUser[];
+  ownerId: number;
+  isOwner: boolean;
+  
   private completeName : any;
 
   addForm = this.fb.group({
@@ -157,7 +160,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	      map((response: HttpResponse<IUser[]>) => response.body)
 	    )
 	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    	
     this.loadAll();
+    this.ownerId = 6;
+	this.userService.findOwner(this.rId)
+	                .subscribe((idOwn: number) => (this.ownerId = idOwn));
+    if (this.ownerId === 6)
+    {
+      this.onError("Still 6");
+    }
     this.registerChangeInPlayers();
   }
 
@@ -205,5 +216,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   Cancel(){
       window.history.back();
+  }
+  
+  isTheOwner(){
+    return this.isOwner;
   }
 }

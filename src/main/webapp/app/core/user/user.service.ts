@@ -12,8 +12,8 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  create(user: IUser): Observable<IUser> {
-    return this.http.post<IUser>(this.resourceUrl, user);
+  create(user: IUser): Observable<any> {
+    return this.http.post<any>(this.resourceUrl, user);
   }
 
   update(user: IUser): Observable<IUser> {
@@ -35,5 +35,9 @@ export class UserService {
 
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
+  }
+  
+  findOwner(id: number): Observable<number> {
+     return this.http.get<number>(`${this.resourceUrl}/own/${id}`);
   }
 }

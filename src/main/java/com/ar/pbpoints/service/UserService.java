@@ -353,7 +353,7 @@ public class UserService {
 		return newUser;
 	}
 
-	public Optional<User> checkOwner(Long id){
-        return userRepository.findByRosterId(id);
+	public Long checkOwner(Long id){
+        return userRepository.findByRosterId(id).getId();
    }
 }

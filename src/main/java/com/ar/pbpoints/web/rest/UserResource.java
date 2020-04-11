@@ -190,7 +190,9 @@ public class UserResource {
     }
 
     @GetMapping("/users/own/{id}")
-    public ResponseEntity<User> checkOwner(@PathVariable Long id) {
-        return ResponseUtil.wrapOrNotFound(userService.checkOwner(id));
+    public ResponseEntity<Long> checkOwner(@PathVariable Long id) {
+            log.debug("REST request to get Owner : {}", id);
+            return ResponseEntity.ok(userService.checkOwner(id));
+            		
     }
 }

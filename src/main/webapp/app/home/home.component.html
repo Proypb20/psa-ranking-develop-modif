@@ -1,4 +1,4 @@
-<div class="row">
+	<div class="row">
     <div class="col-md-12">
         <!-- <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>-->
         <h1 class="from-control-plaintext display-4" jhiTranslate="home.title">Welcome</h1>
@@ -39,7 +39,7 @@
 					                <div *ngFor="let tournament of tournaments">
 		                             <div *ngIf="(tournament.id == event.tournamentId)" >
 			                             <td>
-						                    <a *ngIf="tournament.logo" (click)="openFile(tournament.logoContentType, tournament.logo)">
+						                    <a *ngIf="tournament.logo">
 						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
 						                    </a>
 						                </td>
@@ -116,7 +116,7 @@
 					                <div *ngFor="let tournament of tournaments">
 		                             <div *ngIf="(tournament.id == event.tournamentId)" >
 			                             <td>
-						                    <a *ngIf="tournament.logo" (click)="openFile(tournament.logoContentType, tournament.logo)">
+						                    <a *ngIf="tournament.logo">
 						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
 						                    </a>
 						                </td>
