@@ -80,14 +80,14 @@
                             <fa-icon [icon]="'pencil'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" 
                                 type="submit"
                                 [routerLink]="['/event', event.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" 
                                 type="submit"
                                 [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
                                 replaceUrl="true"
