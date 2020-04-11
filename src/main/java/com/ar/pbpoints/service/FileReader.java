@@ -35,6 +35,7 @@ public class FileReader {
 				// Si no es una eliminacion, logueo el contenido del archivo
 				if (event.kind() != StandardWatchEventKinds.ENTRY_DELETE) {
 					Charset charset = Charset.forName("UTF-8");
+
 					List<String> lines = Files.readAllLines(Paths.get(finalPath + "/" + event.context().toString()), charset);
 					for (String line : lines) {
 						System.out.println(line);

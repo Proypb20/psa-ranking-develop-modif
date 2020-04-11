@@ -1,13 +1,13 @@
 package com.ar.pbpoints.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.NoResultException;
-import javax.validation.Valid;
-
+import com.ar.pbpoints.service.EventCategoryQueryService;
+import com.ar.pbpoints.service.EventCategoryService;
+import com.ar.pbpoints.service.dto.EventCategoryCriteria;
+import com.ar.pbpoints.service.dto.EventCategoryDTO;
+import com.ar.pbpoints.web.rest.errors.BadRequestAlertException;
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,25 +16,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ar.pbpoints.service.EventCategoryQueryService;
-import com.ar.pbpoints.service.EventCategoryService;
-import com.ar.pbpoints.service.dto.EventCategoryCriteria;
-import com.ar.pbpoints.service.dto.EventCategoryDTO;
-import com.ar.pbpoints.web.rest.errors.BadRequestAlertException;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import javax.persistence.NoResultException;
+import javax.validation.Valid;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.ar.pbpoints.domain.EventCategory}.
@@ -43,16 +35,12 @@ import io.github.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api")
 public class EventCategoryResource {
 
-    private final Logger log = LoggerFactory.getLogger(EventCategoryResource.class);
-
     private static final String ENTITY_NAME = "eventCategory";
-
+    private final Logger log = LoggerFactory.getLogger(EventCategoryResource.class);
+    private final EventCategoryService eventCategoryService;
+    private final EventCategoryQueryService eventCategoryQueryService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final EventCategoryService eventCategoryService;
-
-    private final EventCategoryQueryService eventCategoryQueryService;
 
     public EventCategoryResource(EventCategoryService eventCategoryService, EventCategoryQueryService eventCategoryQueryService) {
         this.eventCategoryService = eventCategoryService;
@@ -73,11 +61,11 @@ public class EventCategoryResource {
             throw new BadRequestAlertException("A new eventCategory cannot already have an ID", ENTITY_NAME, "idexists");
         }
         try {
-        EventCategoryDTO result = eventCategoryService.save(eventCategoryDTO);
-        return ResponseEntity.created(new URI("/api/event-categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-        }catch (DuplicateKeyException e) {
+            EventCategoryDTO result = eventCategoryService.save(eventCategoryDTO);
+            return ResponseEntity.created(new URI("/api/event-categories/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } catch (DuplicateKeyException e) {
             throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "duplicateError");
         }
     }
@@ -106,9 +94,7 @@ public class EventCategoryResource {
     /**
      * {@code GET  /event-categories} : get all the eventCategories.
      *
-
      * @param pageable the pagination information.
-
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of eventCategories in body.
      */
@@ -121,11 +107,11 @@ public class EventCategoryResource {
     }
 
     /**
-    * {@code GET  /event-categories/count} : count all the eventCategories.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /event-categories/count} : count all the eventCategories.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/event-categories/count")
     public ResponseEntity<Long> countEventCategories(EventCategoryCriteria criteria) {
         log.debug("REST request to count EventCategories by criteria: {}", criteria);
@@ -159,7 +145,7 @@ public class EventCategoryResource {
     }
 
     @PostMapping("/event-categories/fixture({idEventCategory})")
-    public ResponseEntity<String> createEventCategoryFixture(@PathVariable Long idEventCategory) throws URISyntaxException {
+    public ResponseEntity<String> createEventCategoryFixture(@PathVariable Long idEventCategory) {
         log.debug("REST request to generar a fixture from: {}", idEventCategory);
         if (idEventCategory == null) {
             throw new BadRequestAlertException("A eventCategory cannot have an empty ID", ENTITY_NAME, "idexists");
@@ -171,5 +157,10 @@ public class EventCategoryResource {
         }
 
         return ResponseEntity.ok().body("Fixture generado con éxito");
+    }
+
+    @PostMapping(value = "/event-categories/write", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> write(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+        return ResponseEntity.ok(eventCategoryService.submitXML(multipartFile));
     }
 }

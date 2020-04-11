@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-@JacksonXmlRootElement(localName = "pbpoints")
+@JacksonXmlRootElement(localName = "PBPOINTS")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameResultDTO {
