@@ -16,12 +16,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class GameResultDTO {
 
     @NotNull
+    @JacksonXmlProperty(localName = "EVENT_ID")
     private Long event_id;
     @NotNull
+    @JacksonXmlProperty(localName = "OWNER_ID")
     private Long owner_id;
-    @JacksonXmlProperty(localName = "pass")
+    @JacksonXmlProperty(localName = "PASS")
     private String password;
-    @JacksonXmlProperty(localName = "fixture")
+    @JacksonXmlProperty(localName = "FIXTURE")
     @Valid
     @NotNull
     private FixtureDTO fixtureDTO;

@@ -206,11 +206,11 @@ public class EventCategoryService {
         log.info("*** Inicio parseo de fichero con resultados de EventCategory ***");
         try {
             log.info("Fichero: {}", file.getOriginalFilename());
-            log.info(file.getBytes().toString());
             GameResultDTO gameResultDTO = xmlMapper.readValue(file.getBytes(), GameResultDTO.class);
             log.debug(gameResultDTO.toString());
         } catch (IOException e) {
             log.error("Error al parsear el fichero: {}", file.getName());
+            e.printStackTrace();
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

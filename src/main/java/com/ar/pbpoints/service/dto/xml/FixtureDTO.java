@@ -7,11 +7,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@JacksonXmlRootElement(localName = "fixture")
+@JacksonXmlRootElement(localName = "FIXTURE")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FixtureDTO {
 
-    @JacksonXmlProperty(localName = "category")
+    @JacksonXmlProperty(localName = "CATEGORY")
     @Valid
     @NotNull
     private CategoryDTO categoryDTO;

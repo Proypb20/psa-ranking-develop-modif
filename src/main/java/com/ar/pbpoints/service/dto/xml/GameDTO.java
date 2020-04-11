@@ -7,41 +7,41 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@JacksonXmlRootElement(localName = "category")
+@JacksonXmlRootElement(localName = "CATEGORY")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDTO {
 
     @NotNull
     private Long id;
-    @JacksonXmlProperty(localName = "sd_id")
+    @JacksonXmlProperty(localName = "SD_ID")
     @NotNull
     private Integer splitDeckNum;
-    @JacksonXmlProperty(localName = "clasif")
+    @JacksonXmlProperty(localName = "CLASIF")
     @NotNull
-    private Integer clasification;
-    @JacksonXmlProperty(localName = "team_a")
+    private String clasification;
+    @JacksonXmlProperty(localName = "TEAM_A")
     @NotBlank
     private String teamA;
-    @JacksonXmlProperty(localName = "points_a")
+    @JacksonXmlProperty(localName = "POINTS_A")
     @NotNull
     private Integer pointsA;
-    @JacksonXmlProperty(localName = "overtime_a")
+    @JacksonXmlProperty(localName = "OVERTIME_A")
     @NotNull
     private Float overtimeA;
-    @JacksonXmlProperty(localName = "uvu_a")
+    @JacksonXmlProperty(localName = "UVU_A")
     @NotNull
     private Integer uvuA;
-    @JacksonXmlProperty(localName = "team_b")
+    @JacksonXmlProperty(localName = "TEAM_B")
     @NotBlank
     private String teamB;
-    @JacksonXmlProperty(localName = "points_b")
+    @JacksonXmlProperty(localName = "POINTS_B")
     private Integer pointsB;
-    @JacksonXmlProperty(localName = "overtime_b")
+    @JacksonXmlProperty(localName = "OVERTIME_B")
     private Float overtimeB;
-    @JacksonXmlProperty(localName = "uvu_b")
+    @JacksonXmlProperty(localName = "UVU_B")
     @NotNull
     private Integer uvuB;
-    @JacksonXmlProperty(localName = "time_left")
+    @JacksonXmlProperty(localName = "TIME_LEFT")
     @NotNull
     private Integer timeLeft;
 
@@ -61,11 +61,11 @@ public class GameDTO {
         this.splitDeckNum = splitDeckNum;
     }
 
-    public Integer getClasification() {
+    public String getClasification() {
         return clasification;
     }
 
-    public void setClasification(Integer clasification) {
+    public void setClasification(String clasification) {
         this.clasification = clasification;
     }
 
