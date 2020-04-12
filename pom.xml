@@ -584,11 +584,15 @@
                             <image>pbpoints:latest</image>
                         </to>
                         <container>
+
                             <entrypoint>
                                 <shell>sh</shell>
                                 <option>-c</option>
-                                <arg>chmod +x /entrypoint.sh &amp;&amp;
-                                    sync &amp;&amp; /entrypoint.sh</arg>
+                                <arg>
+                                    apk add --no-cache tzdata &amp;&amp;
+                                    chmod +x /entrypoint.sh &amp;&amp;
+                                    sync &amp;&amp; /entrypoint.sh
+                                </arg>
                             </entrypoint>
                             <ports>
                                 <port>8080</port>
@@ -597,6 +601,7 @@
                                 <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
                                 <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>
                                 <SKIPTEST>true</SKIPTEST>
+                                <TZ>America/Argentina/Buenos_Aires</TZ>
                             </environment>
                             <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
                         </container>
