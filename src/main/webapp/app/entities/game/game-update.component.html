@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-game-heading" jhiTranslate="PbPointsApp.game.home.createOrEditLabel">Create or edit a Game</h2>
+            <h2 id="jhi-game-heading" jhiTranslate="pbPointsApp.game.home.createOrEditLabel">Create or edit a Game</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
@@ -10,7 +10,7 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.eventCategory" for="field_eventCategory">Event Category</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.eventCategory" for="field_eventCategory">Event Category</label>
                     <select class="form-control" id="field_eventCategory" name="eventCategory" formControlName="eventCategoryId">
                         <option *ngIf="!editForm.get('eventCategoryId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="eventCategoryOption.id" *ngFor="let eventCategoryOption of eventcategories; trackBy: trackEventCategoryById">{{eventCategoryOption.id}}</option>
@@ -23,12 +23,22 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.splitDeckNum" for="field_splitDeckNum">Split Deck Num</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.splitDeckNum" for="field_splitDeckNum">Split Deck Num</label>
                     <input type="number" class="form-control" name="splitDeckNum" id="field_splitDeckNum"
                            formControlName="splitDeckNum"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.teamA" for="field_teamA">Team A</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.clasif" for="field_clasif">Clasif</label>
+                    <input type="text" class="form-control" name="clasif" id="field_clasif"
+                           formControlName="clasif"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.group" for="field_group">Group</label>
+                    <input type="number" class="form-control" name="group" id="field_group"
+                           formControlName="group"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.teamA" for="field_teamA">Team A</label>
                     <select class="form-control" id="field_teamA" name="teamA" formControlName="teamAId">
                         <option *ngIf="!editForm.get('teamAId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
@@ -41,12 +51,22 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.pointsA" for="field_pointsA">Points A</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.pointsA" for="field_pointsA">Points A</label>
                     <input type="number" class="form-control" name="pointsA" id="field_pointsA"
                            formControlName="pointsA"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.teamB" for="field_teamB">Team B</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.overtimeA" for="field_overtimeA">Overtime A</label>
+                    <input type="number" class="form-control" name="overtimeA" id="field_overtimeA"
+                           formControlName="overtimeA"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.uvuA" for="field_uvuA">Uvu A</label>
+                    <input type="number" class="form-control" name="uvuA" id="field_uvuA"
+                           formControlName="uvuA"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.teamB" for="field_teamB">Team B</label>
                     <select class="form-control" id="field_teamB" name="teamB" formControlName="teamBId">
                         <option *ngIf="!editForm.get('teamBId').value" [ngValue]="null" selected></option>
                         <option [ngValue]="teamOption.id" *ngFor="let teamOption of teams; trackBy: trackTeamById">{{teamOption.name}}</option>
@@ -59,22 +79,33 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.pointsB" for="field_pointsB">Points B</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.pointsB" for="field_pointsB">Points B</label>
                     <input type="number" class="form-control" name="pointsB" id="field_pointsB"
                            formControlName="pointsB"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.timeLeft" for="field_timeLeft">Time Left</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.overtimeB" for="field_overtimeB">Overtime B</label>
+                    <input type="number" class="form-control" name="overtimeB" id="field_overtimeB"
+                           formControlName="overtimeB"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.uvuB" for="field_uvuB">Uvu B</label>
+                    <input type="number" class="form-control" name="uvuB" id="field_uvuB"
+                           formControlName="uvuB"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.timeLeft" for="field_timeLeft">Time Left</label>
                     <input type="number" class="form-control" name="timeLeft" id="field_timeLeft"
                            formControlName="timeLeft"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="PbPointsApp.game.status" for="field_status">Status</label>
+                    <label class="form-control-label" jhiTranslate="pbPointsApp.game.status" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
-                        <option value="PENDING">{{'PbPointsApp.Status.PENDING' | translate}}</option>
-                        <option value="CREATED">{{'PbPointsApp.Status.CREATED' | translate}}</option>
-                        <option value="IN_PROGRESS">{{'PbPointsApp.Status.IN_PROGRESS' | translate}}</option>
-                        <option value="DONE">{{'PbPointsApp.Status.DONE' | translate}}</option>
+                        <option value="CREATED">{{'pbPointsApp.Status.CREATED' | translate}}</option>
+                        <option value="PENDING">{{'pbPointsApp.Status.PENDING' | translate}}</option>
+                        <option value="IN_PROGRESS">{{'pbPointsApp.Status.IN_PROGRESS' | translate}}</option>
+                        <option value="DONE">{{'pbPointsApp.Status.DONE' | translate}}</option>
+                        <option value="CANCEL">{{'pbPointsApp.Status.CANCEL' | translate}}</option>
                     </select>
                     <div *ngIf="editForm.get('status').invalid && (editForm.get('status').dirty || editForm.get('status').touched)">
                         <small class="form-text text-danger"
@@ -85,11 +116,11 @@
                 </div>
             </div>
             <div>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                </button>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>
         </form>

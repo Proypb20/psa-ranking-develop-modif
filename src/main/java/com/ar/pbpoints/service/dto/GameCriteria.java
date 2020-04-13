@@ -63,6 +63,10 @@ public class GameCriteria implements Serializable, Criteria {
 
     private IntegerFilter uvuB;
 
+    private IntegerFilter group;
+
+    private StringFilter clasif;
+
     private LongFilter teamAId;
 
     private LongFilter teamBId;
@@ -83,6 +87,8 @@ public class GameCriteria implements Serializable, Criteria {
         this.overtimeB = other.overtimeB == null ? null : other.overtimeB.copy();
         this.uvuA = other.uvuA == null ? null : other.uvuA.copy();
         this.uvuB = other.uvuB == null ? null : other.uvuB.copy();
+        this.group = other.group == null ? null : other.group.copy();
+        this.clasif = other.clasif == null ? null : other.clasif.copy();
         this.teamAId = other.teamAId == null ? null : other.teamAId.copy();
         this.teamBId = other.teamBId == null ? null : other.teamBId.copy();
         this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
@@ -173,6 +179,22 @@ public class GameCriteria implements Serializable, Criteria {
         this.uvuB = uvuB;
     }
 
+    public IntegerFilter getGroup() {
+        return group;
+    }
+
+    public void setGroup(IntegerFilter group) {
+        this.group = group;
+    }
+
+    public StringFilter getClasif() {
+        return clasif;
+    }
+
+    public void setClasif(StringFilter clasif) {
+        this.clasif = clasif;
+    }
+
     public LongFilter getTeamAId() {
         return teamAId;
     }
@@ -218,6 +240,8 @@ public class GameCriteria implements Serializable, Criteria {
             Objects.equals(overtimeB, that.overtimeB) &&
             Objects.equals(uvuA, that.uvuA) &&
             Objects.equals(uvuB, that.uvuB) &&
+            Objects.equals(group, that.group) &&
+            Objects.equals(clasif, that.clasif) &&
             Objects.equals(teamAId, that.teamAId) &&
             Objects.equals(teamBId, that.teamBId) &&
             Objects.equals(eventCategoryId, that.eventCategoryId);
@@ -236,6 +260,8 @@ public class GameCriteria implements Serializable, Criteria {
         overtimeB,
         uvuA,
         uvuB,
+        group,
+        clasif,
         teamAId,
         teamBId,
         eventCategoryId
@@ -255,6 +281,8 @@ public class GameCriteria implements Serializable, Criteria {
                 (overtimeB != null ? "overtimeB=" + overtimeB + ", " : "") +
                 (uvuA != null ? "uvuA=" + uvuA + ", " : "") +
                 (uvuB != null ? "uvuB=" + uvuB + ", " : "") +
+                (group != null ? "group=" + group + ", " : "") +
+                (clasif != null ? "clasif=" + clasif + ", " : "") +
                 (teamAId != null ? "teamAId=" + teamAId + ", " : "") +
                 (teamBId != null ? "teamBId=" + teamBId + ", " : "") +
                 (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +

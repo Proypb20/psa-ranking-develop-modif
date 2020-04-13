@@ -36,6 +36,8 @@ export class GameUpdateComponent implements OnInit {
     overtimeB: [],
     uvuA: [],
     uvuB: [],
+    group: [],
+    clasif: [],
     teamAId: [null, Validators.required],
     teamBId: [null, Validators.required],
     eventCategoryId: [null, Validators.required]
@@ -83,6 +85,8 @@ export class GameUpdateComponent implements OnInit {
       overtimeB: game.overtimeB,
       uvuA: game.uvuA,
       uvuB: game.uvuB,
+      group: game.group,
+      clasif: game.clasif,
       teamAId: game.teamAId,
       teamBId: game.teamBId,
       eventCategoryId: game.eventCategoryId
@@ -116,6 +120,8 @@ export class GameUpdateComponent implements OnInit {
       overtimeB: this.editForm.get(['overtimeB']).value,
       uvuA: this.editForm.get(['uvuA']).value,
       uvuB: this.editForm.get(['uvuB']).value,
+      group: this.editForm.get(['group']).value,
+      clasif: this.editForm.get(['clasif']).value,
       teamAId: this.editForm.get(['teamAId']).value,
       teamBId: this.editForm.get(['teamBId']).value,
       eventCategoryId: this.editForm.get(['eventCategoryId']).value

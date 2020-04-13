@@ -81,6 +81,8 @@ class GameGatlingTest extends Simulation {
                 , "overtimeB":"0"
                 , "uvuA":"0"
                 , "uvuB":"0"
+                , "group":"0"
+                , "clasif":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_game_url"))).exitHereIfFailed

@@ -118,6 +118,12 @@ public class GameQueryService extends QueryService<Game> {
             if (criteria.getUvuB() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUvuB(), Game_.uvuB));
             }
+            if (criteria.getGroup() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getGroup(), Game_.group));
+            }
+            if (criteria.getClasif() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getClasif(), Game_.clasif));
+            }
             if (criteria.getTeamAId() != null) {
                 specification = specification.and(buildSpecification(criteria.getTeamAId(),
                     root -> root.join(Game_.teamA, JoinType.LEFT).get(Team_.id)));

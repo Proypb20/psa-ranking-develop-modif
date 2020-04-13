@@ -11,6 +11,8 @@ export interface IGame {
   overtimeB?: number;
   uvuA?: number;
   uvuB?: number;
+  group?: number;
+  clasif?: string;
   teamAName?: string;
   teamAId?: number;
   teamBName?: string;
@@ -30,6 +32,8 @@ export class Game implements IGame {
     public overtimeB?: number,
     public uvuA?: number,
     public uvuB?: number,
+    public group?: number,
+    public clasif?: string,
     public teamAName?: string,
     public teamAId?: number,
     public teamBName?: string,

@@ -30,6 +30,10 @@ public class GameDTO implements Serializable {
 
     private Integer uvuB;
 
+    private Integer group;
+
+    private String clasif;
+
 
     private Long teamAId;
 
@@ -121,6 +125,22 @@ public class GameDTO implements Serializable {
         this.uvuB = uvuB;
     }
 
+    public Integer getGroup() {
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
+    }
+
+    public String getClasif() {
+        return clasif;
+    }
+
+    public void setClasif(String clasif) {
+        this.clasif = clasif;
+    }
+
     public Long getTeamAId() {
         return teamAId;
     }
@@ -195,6 +215,8 @@ public class GameDTO implements Serializable {
             ", overtimeB=" + getOvertimeB() +
             ", uvuA=" + getUvuA() +
             ", uvuB=" + getUvuB() +
+            ", group=" + getGroup() +
+            ", clasif='" + getClasif() + "'" +
             ", teamA=" + getTeamAId() +
             ", teamA='" + getTeamAName() + "'" +
             ", teamB=" + getTeamBId() +

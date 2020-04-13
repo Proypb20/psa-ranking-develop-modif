@@ -53,6 +53,12 @@ public class Game implements Serializable {
     @Column(name = "uvu_b")
     private Integer uvuB;
 
+    @Column(name = "jhi_group")
+    private Integer group;
+
+    @Column(name = "clasif")
+    private String clasif;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("games")
@@ -199,6 +205,32 @@ public class Game implements Serializable {
         this.uvuB = uvuB;
     }
 
+    public Integer getGroup() {
+        return group;
+    }
+
+    public Game group(Integer group) {
+        this.group = group;
+        return this;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
+    }
+
+    public String getClasif() {
+        return clasif;
+    }
+
+    public Game clasif(String clasif) {
+        this.clasif = clasif;
+        return this;
+    }
+
+    public void setClasif(String clasif) {
+        this.clasif = clasif;
+    }
+
     public Team getTeamA() {
         return teamA;
     }
@@ -268,6 +300,8 @@ public class Game implements Serializable {
             ", overtimeB=" + getOvertimeB() +
             ", uvuA=" + getUvuA() +
             ", uvuB=" + getUvuB() +
+            ", group=" + getGroup() +
+            ", clasif='" + getClasif() + "'" +
             "}";
     }
 }

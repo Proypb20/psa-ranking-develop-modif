@@ -43,6 +43,12 @@
             <column name="uvu_b" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="jhi_group" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="clasif" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="teama_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -84,6 +90,8 @@
             <column name="overtime_b" type="numeric"/>
             <column name="uvu_a" type="numeric"/>
             <column name="uvu_b" type="numeric"/>
+            <column name="jhi_group" type="numeric"/>
+            <column name="clasif" type="string"/>
             <column name="teama_id" type="numeric"/>
             <column name="teamb_id" type="numeric"/>
             <column name="event_category_id" type="numeric"/>

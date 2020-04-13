@@ -23,6 +23,8 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <!-- <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th> -->
             <th scope="col" jhiSortBy="splitDeckNum"><span jhiTranslate="PbPointsApp.game.splitDeckNum">Split Deck Num</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="clasif"><span jhiTranslate="pbPointsApp.game.clasif">Clasif</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="group"><span jhiTranslate="pbPointsApp.game.group">Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="teamA"><span jhiTranslate="PbPointsApp.game.teamA">Team A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="pointsA"><span jhiTranslate="PbPointsApp.game.pointsA">Points A</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="teamB"><span jhiTranslate="PbPointsApp.game.teamB">Team B</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -36,10 +38,12 @@
             <tr *ngFor="let game of games ;trackBy: trackId">
                 <!-- <td><a [routerLink]="['/game', game.id, 'view' ]">{{game.id}}</a></td>-->
                 <td>{{game.splitDeckNum}}</td>
+                <td>{{game.clasif}}</td>
+                <td>{{game.group}}</td>
                 <td><div *ngIf="game.teamAId">{{game.teamAName}}</div></td>
-                <td>{{game.pointsA}}</td>
+                <td>{{game.pointsA}} ({{game.overtimeA}}/{{game.uvuA}})</td>
                 <td><div *ngIf="game.teamBId">{{game.teamBName}}</div></td>
-                <td>{{game.pointsB}}</td>
+                <td>{{game.pointsB}} ({{game.overtimeB}}/{{game.uvuB}})</td>
                 <td>{{((game.timeLeft-(game.timeLeft%60))/60)}}:{{(game.timeLeft%60)}}</td>
                 <td jhiTranslate="{{'PbPointsApp.Status.' + game.status}}">{{game.status}}</td>
                 <td class="text-right">

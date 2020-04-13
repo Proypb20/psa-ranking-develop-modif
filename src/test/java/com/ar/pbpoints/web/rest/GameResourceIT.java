@@ -76,6 +76,13 @@ public class GameResourceIT {
     private static final Integer UPDATED_UVU_B = 2;
     private static final Integer SMALLER_UVU_B = 1 - 1;
 
+    private static final Integer DEFAULT_GROUP = 1;
+    private static final Integer UPDATED_GROUP = 2;
+    private static final Integer SMALLER_GROUP = 1 - 1;
+
+    private static final String DEFAULT_CLASIF = "AAAAAAAAAA";
+    private static final String UPDATED_CLASIF = "BBBBBBBBBB";
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -135,7 +142,9 @@ public class GameResourceIT {
             .overtimeA(DEFAULT_OVERTIME_A)
             .overtimeB(DEFAULT_OVERTIME_B)
             .uvuA(DEFAULT_UVU_A)
-            .uvuB(DEFAULT_UVU_B);
+            .uvuB(DEFAULT_UVU_B)
+            .group(DEFAULT_GROUP)
+            .clasif(DEFAULT_CLASIF);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -176,7 +185,9 @@ public class GameResourceIT {
             .overtimeA(UPDATED_OVERTIME_A)
             .overtimeB(UPDATED_OVERTIME_B)
             .uvuA(UPDATED_UVU_A)
-            .uvuB(UPDATED_UVU_B);
+            .uvuB(UPDATED_UVU_B)
+            .group(UPDATED_GROUP)
+            .clasif(UPDATED_CLASIF);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -232,6 +243,8 @@ public class GameResourceIT {
         assertThat(testGame.getOvertimeB()).isEqualTo(DEFAULT_OVERTIME_B);
         assertThat(testGame.getUvuA()).isEqualTo(DEFAULT_UVU_A);
         assertThat(testGame.getUvuB()).isEqualTo(DEFAULT_UVU_B);
+        assertThat(testGame.getGroup()).isEqualTo(DEFAULT_GROUP);
+        assertThat(testGame.getClasif()).isEqualTo(DEFAULT_CLASIF);
     }
 
     @Test
@@ -293,7 +306,9 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.[*].overtimeA").value(hasItem(DEFAULT_OVERTIME_A)))
             .andExpect(jsonPath("$.[*].overtimeB").value(hasItem(DEFAULT_OVERTIME_B)))
             .andExpect(jsonPath("$.[*].uvuA").value(hasItem(DEFAULT_UVU_A)))
-            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)));
+            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)))
+            .andExpect(jsonPath("$.[*].group").value(hasItem(DEFAULT_GROUP)))
+            .andExpect(jsonPath("$.[*].clasif").value(hasItem(DEFAULT_CLASIF)));
     }
     
     @Test
@@ -315,7 +330,9 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.overtimeA").value(DEFAULT_OVERTIME_A))
             .andExpect(jsonPath("$.overtimeB").value(DEFAULT_OVERTIME_B))
             .andExpect(jsonPath("$.uvuA").value(DEFAULT_UVU_A))
-            .andExpect(jsonPath("$.uvuB").value(DEFAULT_UVU_B));
+            .andExpect(jsonPath("$.uvuB").value(DEFAULT_UVU_B))
+            .andExpect(jsonPath("$.group").value(DEFAULT_GROUP))
+            .andExpect(jsonPath("$.clasif").value(DEFAULT_CLASIF));
     }
 
     @Test
@@ -1212,6 +1229,189 @@ public class GameResourceIT {
 
     @Test
     @Transactional
+    public void getAllGamesByGroupIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group equals to DEFAULT_GROUP
+        defaultGameShouldBeFound("group.equals=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group equals to UPDATED_GROUP
+        defaultGameShouldNotBeFound("group.equals=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group not equals to DEFAULT_GROUP
+        defaultGameShouldNotBeFound("group.notEquals=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group not equals to UPDATED_GROUP
+        defaultGameShouldBeFound("group.notEquals=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group in DEFAULT_GROUP or UPDATED_GROUP
+        defaultGameShouldBeFound("group.in=" + DEFAULT_GROUP + "," + UPDATED_GROUP);
+
+        // Get all the gameList where group equals to UPDATED_GROUP
+        defaultGameShouldNotBeFound("group.in=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group is not null
+        defaultGameShouldBeFound("group.specified=true");
+
+        // Get all the gameList where group is null
+        defaultGameShouldNotBeFound("group.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group is greater than or equal to DEFAULT_GROUP
+        defaultGameShouldBeFound("group.greaterThanOrEqual=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group is greater than or equal to UPDATED_GROUP
+        defaultGameShouldNotBeFound("group.greaterThanOrEqual=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group is less than or equal to DEFAULT_GROUP
+        defaultGameShouldBeFound("group.lessThanOrEqual=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group is less than or equal to SMALLER_GROUP
+        defaultGameShouldNotBeFound("group.lessThanOrEqual=" + SMALLER_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group is less than DEFAULT_GROUP
+        defaultGameShouldNotBeFound("group.lessThan=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group is less than UPDATED_GROUP
+        defaultGameShouldBeFound("group.lessThan=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByGroupIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where group is greater than DEFAULT_GROUP
+        defaultGameShouldNotBeFound("group.greaterThan=" + DEFAULT_GROUP);
+
+        // Get all the gameList where group is greater than SMALLER_GROUP
+        defaultGameShouldBeFound("group.greaterThan=" + SMALLER_GROUP);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGamesByClasifIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif equals to DEFAULT_CLASIF
+        defaultGameShouldBeFound("clasif.equals=" + DEFAULT_CLASIF);
+
+        // Get all the gameList where clasif equals to UPDATED_CLASIF
+        defaultGameShouldNotBeFound("clasif.equals=" + UPDATED_CLASIF);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByClasifIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif not equals to DEFAULT_CLASIF
+        defaultGameShouldNotBeFound("clasif.notEquals=" + DEFAULT_CLASIF);
+
+        // Get all the gameList where clasif not equals to UPDATED_CLASIF
+        defaultGameShouldBeFound("clasif.notEquals=" + UPDATED_CLASIF);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByClasifIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif in DEFAULT_CLASIF or UPDATED_CLASIF
+        defaultGameShouldBeFound("clasif.in=" + DEFAULT_CLASIF + "," + UPDATED_CLASIF);
+
+        // Get all the gameList where clasif equals to UPDATED_CLASIF
+        defaultGameShouldNotBeFound("clasif.in=" + UPDATED_CLASIF);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByClasifIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif is not null
+        defaultGameShouldBeFound("clasif.specified=true");
+
+        // Get all the gameList where clasif is null
+        defaultGameShouldNotBeFound("clasif.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllGamesByClasifContainsSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif contains DEFAULT_CLASIF
+        defaultGameShouldBeFound("clasif.contains=" + DEFAULT_CLASIF);
+
+        // Get all the gameList where clasif contains UPDATED_CLASIF
+        defaultGameShouldNotBeFound("clasif.contains=" + UPDATED_CLASIF);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByClasifNotContainsSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where clasif does not contain DEFAULT_CLASIF
+        defaultGameShouldNotBeFound("clasif.doesNotContain=" + DEFAULT_CLASIF);
+
+        // Get all the gameList where clasif does not contain UPDATED_CLASIF
+        defaultGameShouldBeFound("clasif.doesNotContain=" + UPDATED_CLASIF);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllGamesByTeamAIsEqualToSomething() throws Exception {
         // Get already existing entity
         Team teamA = game.getTeamA();
@@ -1273,7 +1473,9 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.[*].overtimeA").value(hasItem(DEFAULT_OVERTIME_A)))
             .andExpect(jsonPath("$.[*].overtimeB").value(hasItem(DEFAULT_OVERTIME_B)))
             .andExpect(jsonPath("$.[*].uvuA").value(hasItem(DEFAULT_UVU_A)))
-            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)));
+            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)))
+            .andExpect(jsonPath("$.[*].group").value(hasItem(DEFAULT_GROUP)))
+            .andExpect(jsonPath("$.[*].clasif").value(hasItem(DEFAULT_CLASIF)));
 
         // Check, that the count call also returns 1
         restGameMockMvc.perform(get("/api/games/count?sort=id,desc&" + filter))
@@ -1329,7 +1531,9 @@ public class GameResourceIT {
             .overtimeA(UPDATED_OVERTIME_A)
             .overtimeB(UPDATED_OVERTIME_B)
             .uvuA(UPDATED_UVU_A)
-            .uvuB(UPDATED_UVU_B);
+            .uvuB(UPDATED_UVU_B)
+            .group(UPDATED_GROUP)
+            .clasif(UPDATED_CLASIF);
         GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
@@ -1350,6 +1554,8 @@ public class GameResourceIT {
         assertThat(testGame.getOvertimeB()).isEqualTo(UPDATED_OVERTIME_B);
         assertThat(testGame.getUvuA()).isEqualTo(UPDATED_UVU_A);
         assertThat(testGame.getUvuB()).isEqualTo(UPDATED_UVU_B);
+        assertThat(testGame.getGroup()).isEqualTo(UPDATED_GROUP);
+        assertThat(testGame.getClasif()).isEqualTo(UPDATED_CLASIF);
     }
 
     @Test
