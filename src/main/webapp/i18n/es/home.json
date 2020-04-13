@@ -26,7 +26,8 @@
       "endDate": "Hasta",
       "endInscriptionDate": "Cierre Inscripcion",
       "old": "Eventos Finalizados",
-      "next": "Proximos Eventos"
+      "next": "Proximos Eventos",
+      "status": "Estado"
     }
   }
 }

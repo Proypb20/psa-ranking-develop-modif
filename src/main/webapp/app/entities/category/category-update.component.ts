@@ -11,6 +11,7 @@ import { ICategory, Category } from 'app/shared/model/category.model';
 import { CategoryService } from './category.service';
 import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-category-update',
@@ -18,7 +19,7 @@ import { TournamentService } from 'app/entities/tournament/tournament.service';
 })
 export class CategoryUpdateComponent implements OnInit {
   isSaving: boolean;
-
+  currentAccount: any;
   tournaments: ITournament[];
 
   editForm = this.fb.group({
@@ -40,6 +41,7 @@ export class CategoryUpdateComponent implements OnInit {
     protected categoryService: CategoryService,
     protected tournamentService: TournamentService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
@@ -48,6 +50,11 @@ export class CategoryUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ category }) => {
       this.updateForm(category);
     });
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+    {
     this.tournamentService
       .query()
       .pipe(
@@ -55,6 +62,19 @@ export class CategoryUpdateComponent implements OnInit {
         map((response: HttpResponse<ITournament[]>) => response.body)
       )
       .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+    else
+    {
+      this.tournamentService
+	      .query({
+	      'id.equals': +localStorage.getItem("TOURNAMENTID")
+	      })
+	      .pipe(
+	        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	        map((response: HttpResponse<ITournament[]>) => response.body)
+	      )
+	      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
   }
 
   updateForm(category: ICategory) {

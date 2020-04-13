@@ -111,6 +111,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         // Defaults to 0 if no query param provided.
         this.tourId = +params['tourId'] || 0;
       });
+    localStorage.setItem("TOURNAMENTID",this.tourId.toString());
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

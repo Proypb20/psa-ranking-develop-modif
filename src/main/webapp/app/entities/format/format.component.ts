@@ -86,8 +86,9 @@ export class FormatComponent implements OnInit, OnDestroy {
   this.sub = this.activatedRoute
       .queryParams
       .subscribe(params => {
-        this.tourId = +params['tourId'] || 0;
+        this.tourId = +params['tourId'] || +localStorage.getItem("TOURNAMENTID") ||0;
       });
+    localStorage.setItem("TOURNAMENTID",this.tourId.toString());
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;

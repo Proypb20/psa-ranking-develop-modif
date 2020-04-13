@@ -56,14 +56,14 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button> -->
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
                                 [routerLink]="['/category', category.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
                                 [routerLink]="['/category', { outlets: { popup: category.id + '/delete'} }]"
                                 replaceUrl="true"

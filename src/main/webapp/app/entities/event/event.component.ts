@@ -65,7 +65,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loadAll() {
 	  if(this.tourId)
 	  {
-	  if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+	    if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
 	    {
 		    this.eventService
 		      .query({
@@ -75,9 +75,9 @@ export class EventComponent implements OnInit, OnDestroy {
 		        sort: this.sort()
 		      })
 		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-		      }
-		      else
-		      {
+		 }
+		 else
+		 {
 		        this.eventService
     		        .query({
 					'tournamentId.equals': this.tourId,
@@ -87,12 +87,12 @@ export class EventComponent implements OnInit, OnDestroy {
 					 sort: this.sort()
 					})
 		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-		      }
+		  }
 
 	  }
 	  else
 	  {
-	    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+	    if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
 	    {
 	      this.eventService
 	          .query({

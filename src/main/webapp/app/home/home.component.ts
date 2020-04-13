@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					})
 		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
     this.eventService.query({
-              'status.in': ['DONE'],
+              'status.in': ['DONE','CANCEL'],
 					 page:  1 - 1,
 					 size:  200
 					})

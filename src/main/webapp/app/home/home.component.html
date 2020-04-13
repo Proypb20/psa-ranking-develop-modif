@@ -38,11 +38,9 @@
 			                    <div *ngIf="event.tournamentId">
 					                <div *ngFor="let tournament of tournaments">
 		                             <div *ngIf="(tournament.id == event.tournamentId)" >
-			                             <td>
-						                    <a *ngIf="tournament.logo">
+						                    <div *ngIf="tournament.logo">
 						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
-						                    </a>
-						                </td>
+						                    </div>
 					                 </div>
 			                        </div>
 								</div>
@@ -115,11 +113,9 @@
 			                    <div *ngIf="event.tournamentId">
 					                <div *ngFor="let tournament of tournaments">
 		                             <div *ngIf="(tournament.id == event.tournamentId)" >
-			                             <td>
-						                    <a *ngIf="tournament.logo">
+						                    <div *ngIf="tournament.logo">
 						                        <img [src]="'data:' + tournament.logoContentType + ';base64,' + tournament.logo" style="max-height: 30px;" alt="tournament image"/>
-						                    </a>
-						                </td>
+						                    </div>
 					                 </div>
 			                        </div>
 								</div>

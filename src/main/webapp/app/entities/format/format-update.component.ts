@@ -11,6 +11,7 @@ import { IFormat, Format } from 'app/shared/model/format.model';
 import { FormatService } from './format.service';
 import { ITournament } from 'app/shared/model/tournament.model';
 import { TournamentService } from 'app/entities/tournament/tournament.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-format-update',
@@ -18,7 +19,7 @@ import { TournamentService } from 'app/entities/tournament/tournament.service';
 })
 export class FormatUpdateComponent implements OnInit {
   isSaving: boolean;
-
+  currentAccount: any;
   tournaments: ITournament[];
 
   editForm = this.fb.group({
@@ -35,6 +36,7 @@ export class FormatUpdateComponent implements OnInit {
     protected formatService: FormatService,
     protected tournamentService: TournamentService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
@@ -43,6 +45,11 @@ export class FormatUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ format }) => {
       this.updateForm(format);
     });
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+    if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
+    {
     this.tournamentService
       .query()
       .pipe(
@@ -50,6 +57,19 @@ export class FormatUpdateComponent implements OnInit {
         map((response: HttpResponse<ITournament[]>) => response.body)
       )
       .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+    else
+    {
+	    this.tournamentService
+	      .query({
+	      'id.equals': +localStorage.getItem("TOURNAMENTID")
+	      })
+	      .pipe(
+	        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+	        map((response: HttpResponse<ITournament[]>) => response.body)
+	      )
+	      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
   }
 
   updateForm(format: IFormat) {

@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="PbPointsApp.category.tournament" for="field_tournament">Tournament</label>
                     <select class="form-control" id="field_tournament" name="tournament" formControlName="tournamentId">
-                        <option *ngIf="!editForm.get('tournamentId').value" [ngValue]="null" selected></option>
+                        <!-- <option *ngIf="!editForm.get('tournamentId').value" [ngValue]="null" selected></option> -->
                         <option [ngValue]="tournamentOption.id" *ngFor="let tournamentOption of tournaments; trackBy: trackTournamentById">{{tournamentOption.name}}</option>
                     </select>
                 </div>
