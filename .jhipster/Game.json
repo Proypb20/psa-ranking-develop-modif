@@ -57,6 +57,22 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "overtimeA",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "overtimeB",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "uvuA",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "uvuB",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20200215200053",

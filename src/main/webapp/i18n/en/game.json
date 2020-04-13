@@ -21,6 +21,10 @@
       "splitDeckNum": "Split Deck Num",
       "timeLeft": "Time Left",
       "status": "Status",
+      "overtimeA": "Overtime A",
+      "overtimeB": "Overtime B",
+      "uvuA": "Uvu A",
+      "uvuB": "Uvu B",
       "teamA": "Team A",
       "teamB": "Team B",
       "eventCategory": "Category"

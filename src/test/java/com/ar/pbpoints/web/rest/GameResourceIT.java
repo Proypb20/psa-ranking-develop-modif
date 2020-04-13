@@ -57,8 +57,24 @@ public class GameResourceIT {
     private static final Integer UPDATED_TIME_LEFT = 2;
     private static final Integer SMALLER_TIME_LEFT = 1 - 1;
 
-    private static final Status DEFAULT_STATUS = Status.PENDING;
-    private static final Status UPDATED_STATUS = Status.CREATED;
+    private static final Status DEFAULT_STATUS = Status.CREATED;
+    private static final Status UPDATED_STATUS = Status.PENDING;
+
+    private static final Integer DEFAULT_OVERTIME_A = 1;
+    private static final Integer UPDATED_OVERTIME_A = 2;
+    private static final Integer SMALLER_OVERTIME_A = 1 - 1;
+
+    private static final Integer DEFAULT_OVERTIME_B = 1;
+    private static final Integer UPDATED_OVERTIME_B = 2;
+    private static final Integer SMALLER_OVERTIME_B = 1 - 1;
+
+    private static final Integer DEFAULT_UVU_A = 1;
+    private static final Integer UPDATED_UVU_A = 2;
+    private static final Integer SMALLER_UVU_A = 1 - 1;
+
+    private static final Integer DEFAULT_UVU_B = 1;
+    private static final Integer UPDATED_UVU_B = 2;
+    private static final Integer SMALLER_UVU_B = 1 - 1;
 
     @Autowired
     private GameRepository gameRepository;
@@ -115,7 +131,11 @@ public class GameResourceIT {
             .pointsB(DEFAULT_POINTS_B)
             .splitDeckNum(DEFAULT_SPLIT_DECK_NUM)
             .timeLeft(DEFAULT_TIME_LEFT)
-            .status(DEFAULT_STATUS);
+            .status(DEFAULT_STATUS)
+            .overtimeA(DEFAULT_OVERTIME_A)
+            .overtimeB(DEFAULT_OVERTIME_B)
+            .uvuA(DEFAULT_UVU_A)
+            .uvuB(DEFAULT_UVU_B);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -152,7 +172,11 @@ public class GameResourceIT {
             .pointsB(UPDATED_POINTS_B)
             .splitDeckNum(UPDATED_SPLIT_DECK_NUM)
             .timeLeft(UPDATED_TIME_LEFT)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .overtimeA(UPDATED_OVERTIME_A)
+            .overtimeB(UPDATED_OVERTIME_B)
+            .uvuA(UPDATED_UVU_A)
+            .uvuB(UPDATED_UVU_B);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -204,6 +228,10 @@ public class GameResourceIT {
         assertThat(testGame.getSplitDeckNum()).isEqualTo(DEFAULT_SPLIT_DECK_NUM);
         assertThat(testGame.getTimeLeft()).isEqualTo(DEFAULT_TIME_LEFT);
         assertThat(testGame.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testGame.getOvertimeA()).isEqualTo(DEFAULT_OVERTIME_A);
+        assertThat(testGame.getOvertimeB()).isEqualTo(DEFAULT_OVERTIME_B);
+        assertThat(testGame.getUvuA()).isEqualTo(DEFAULT_UVU_A);
+        assertThat(testGame.getUvuB()).isEqualTo(DEFAULT_UVU_B);
     }
 
     @Test
@@ -261,9 +289,13 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.[*].pointsB").value(hasItem(DEFAULT_POINTS_B)))
             .andExpect(jsonPath("$.[*].splitDeckNum").value(hasItem(DEFAULT_SPLIT_DECK_NUM)))
             .andExpect(jsonPath("$.[*].timeLeft").value(hasItem(DEFAULT_TIME_LEFT)))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].overtimeA").value(hasItem(DEFAULT_OVERTIME_A)))
+            .andExpect(jsonPath("$.[*].overtimeB").value(hasItem(DEFAULT_OVERTIME_B)))
+            .andExpect(jsonPath("$.[*].uvuA").value(hasItem(DEFAULT_UVU_A)))
+            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)));
     }
-
+    
     @Test
     @Transactional
     public void getGame() throws Exception {
@@ -279,7 +311,11 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.pointsB").value(DEFAULT_POINTS_B))
             .andExpect(jsonPath("$.splitDeckNum").value(DEFAULT_SPLIT_DECK_NUM))
             .andExpect(jsonPath("$.timeLeft").value(DEFAULT_TIME_LEFT))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.overtimeA").value(DEFAULT_OVERTIME_A))
+            .andExpect(jsonPath("$.overtimeB").value(DEFAULT_OVERTIME_B))
+            .andExpect(jsonPath("$.uvuA").value(DEFAULT_UVU_A))
+            .andExpect(jsonPath("$.uvuB").value(DEFAULT_UVU_B));
     }
 
     @Test
@@ -756,6 +792,426 @@ public class GameResourceIT {
 
     @Test
     @Transactional
+    public void getAllGamesByOvertimeAIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA equals to DEFAULT_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.equals=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA equals to UPDATED_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.equals=" + UPDATED_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA not equals to DEFAULT_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.notEquals=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA not equals to UPDATED_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.notEquals=" + UPDATED_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA in DEFAULT_OVERTIME_A or UPDATED_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.in=" + DEFAULT_OVERTIME_A + "," + UPDATED_OVERTIME_A);
+
+        // Get all the gameList where overtimeA equals to UPDATED_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.in=" + UPDATED_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA is not null
+        defaultGameShouldBeFound("overtimeA.specified=true");
+
+        // Get all the gameList where overtimeA is null
+        defaultGameShouldNotBeFound("overtimeA.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA is greater than or equal to DEFAULT_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.greaterThanOrEqual=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA is greater than or equal to UPDATED_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.greaterThanOrEqual=" + UPDATED_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA is less than or equal to DEFAULT_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.lessThanOrEqual=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA is less than or equal to SMALLER_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.lessThanOrEqual=" + SMALLER_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA is less than DEFAULT_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.lessThan=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA is less than UPDATED_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.lessThan=" + UPDATED_OVERTIME_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeAIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeA is greater than DEFAULT_OVERTIME_A
+        defaultGameShouldNotBeFound("overtimeA.greaterThan=" + DEFAULT_OVERTIME_A);
+
+        // Get all the gameList where overtimeA is greater than SMALLER_OVERTIME_A
+        defaultGameShouldBeFound("overtimeA.greaterThan=" + SMALLER_OVERTIME_A);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB equals to DEFAULT_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.equals=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB equals to UPDATED_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.equals=" + UPDATED_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB not equals to DEFAULT_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.notEquals=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB not equals to UPDATED_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.notEquals=" + UPDATED_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB in DEFAULT_OVERTIME_B or UPDATED_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.in=" + DEFAULT_OVERTIME_B + "," + UPDATED_OVERTIME_B);
+
+        // Get all the gameList where overtimeB equals to UPDATED_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.in=" + UPDATED_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB is not null
+        defaultGameShouldBeFound("overtimeB.specified=true");
+
+        // Get all the gameList where overtimeB is null
+        defaultGameShouldNotBeFound("overtimeB.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB is greater than or equal to DEFAULT_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.greaterThanOrEqual=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB is greater than or equal to UPDATED_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.greaterThanOrEqual=" + UPDATED_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB is less than or equal to DEFAULT_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.lessThanOrEqual=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB is less than or equal to SMALLER_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.lessThanOrEqual=" + SMALLER_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB is less than DEFAULT_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.lessThan=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB is less than UPDATED_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.lessThan=" + UPDATED_OVERTIME_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByOvertimeBIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where overtimeB is greater than DEFAULT_OVERTIME_B
+        defaultGameShouldNotBeFound("overtimeB.greaterThan=" + DEFAULT_OVERTIME_B);
+
+        // Get all the gameList where overtimeB is greater than SMALLER_OVERTIME_B
+        defaultGameShouldBeFound("overtimeB.greaterThan=" + SMALLER_OVERTIME_B);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA equals to DEFAULT_UVU_A
+        defaultGameShouldBeFound("uvuA.equals=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA equals to UPDATED_UVU_A
+        defaultGameShouldNotBeFound("uvuA.equals=" + UPDATED_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA not equals to DEFAULT_UVU_A
+        defaultGameShouldNotBeFound("uvuA.notEquals=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA not equals to UPDATED_UVU_A
+        defaultGameShouldBeFound("uvuA.notEquals=" + UPDATED_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA in DEFAULT_UVU_A or UPDATED_UVU_A
+        defaultGameShouldBeFound("uvuA.in=" + DEFAULT_UVU_A + "," + UPDATED_UVU_A);
+
+        // Get all the gameList where uvuA equals to UPDATED_UVU_A
+        defaultGameShouldNotBeFound("uvuA.in=" + UPDATED_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA is not null
+        defaultGameShouldBeFound("uvuA.specified=true");
+
+        // Get all the gameList where uvuA is null
+        defaultGameShouldNotBeFound("uvuA.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA is greater than or equal to DEFAULT_UVU_A
+        defaultGameShouldBeFound("uvuA.greaterThanOrEqual=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA is greater than or equal to UPDATED_UVU_A
+        defaultGameShouldNotBeFound("uvuA.greaterThanOrEqual=" + UPDATED_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA is less than or equal to DEFAULT_UVU_A
+        defaultGameShouldBeFound("uvuA.lessThanOrEqual=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA is less than or equal to SMALLER_UVU_A
+        defaultGameShouldNotBeFound("uvuA.lessThanOrEqual=" + SMALLER_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA is less than DEFAULT_UVU_A
+        defaultGameShouldNotBeFound("uvuA.lessThan=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA is less than UPDATED_UVU_A
+        defaultGameShouldBeFound("uvuA.lessThan=" + UPDATED_UVU_A);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuAIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuA is greater than DEFAULT_UVU_A
+        defaultGameShouldNotBeFound("uvuA.greaterThan=" + DEFAULT_UVU_A);
+
+        // Get all the gameList where uvuA is greater than SMALLER_UVU_A
+        defaultGameShouldBeFound("uvuA.greaterThan=" + SMALLER_UVU_A);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB equals to DEFAULT_UVU_B
+        defaultGameShouldBeFound("uvuB.equals=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB equals to UPDATED_UVU_B
+        defaultGameShouldNotBeFound("uvuB.equals=" + UPDATED_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB not equals to DEFAULT_UVU_B
+        defaultGameShouldNotBeFound("uvuB.notEquals=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB not equals to UPDATED_UVU_B
+        defaultGameShouldBeFound("uvuB.notEquals=" + UPDATED_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsInShouldWork() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB in DEFAULT_UVU_B or UPDATED_UVU_B
+        defaultGameShouldBeFound("uvuB.in=" + DEFAULT_UVU_B + "," + UPDATED_UVU_B);
+
+        // Get all the gameList where uvuB equals to UPDATED_UVU_B
+        defaultGameShouldNotBeFound("uvuB.in=" + UPDATED_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB is not null
+        defaultGameShouldBeFound("uvuB.specified=true");
+
+        // Get all the gameList where uvuB is null
+        defaultGameShouldNotBeFound("uvuB.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB is greater than or equal to DEFAULT_UVU_B
+        defaultGameShouldBeFound("uvuB.greaterThanOrEqual=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB is greater than or equal to UPDATED_UVU_B
+        defaultGameShouldNotBeFound("uvuB.greaterThanOrEqual=" + UPDATED_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB is less than or equal to DEFAULT_UVU_B
+        defaultGameShouldBeFound("uvuB.lessThanOrEqual=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB is less than or equal to SMALLER_UVU_B
+        defaultGameShouldNotBeFound("uvuB.lessThanOrEqual=" + SMALLER_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB is less than DEFAULT_UVU_B
+        defaultGameShouldNotBeFound("uvuB.lessThan=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB is less than UPDATED_UVU_B
+        defaultGameShouldBeFound("uvuB.lessThan=" + UPDATED_UVU_B);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGamesByUvuBIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gameRepository.saveAndFlush(game);
+
+        // Get all the gameList where uvuB is greater than DEFAULT_UVU_B
+        defaultGameShouldNotBeFound("uvuB.greaterThan=" + DEFAULT_UVU_B);
+
+        // Get all the gameList where uvuB is greater than SMALLER_UVU_B
+        defaultGameShouldBeFound("uvuB.greaterThan=" + SMALLER_UVU_B);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllGamesByTeamAIsEqualToSomething() throws Exception {
         // Get already existing entity
         Team teamA = game.getTeamA();
@@ -813,7 +1269,11 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.[*].pointsB").value(hasItem(DEFAULT_POINTS_B)))
             .andExpect(jsonPath("$.[*].splitDeckNum").value(hasItem(DEFAULT_SPLIT_DECK_NUM)))
             .andExpect(jsonPath("$.[*].timeLeft").value(hasItem(DEFAULT_TIME_LEFT)))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].overtimeA").value(hasItem(DEFAULT_OVERTIME_A)))
+            .andExpect(jsonPath("$.[*].overtimeB").value(hasItem(DEFAULT_OVERTIME_B)))
+            .andExpect(jsonPath("$.[*].uvuA").value(hasItem(DEFAULT_UVU_A)))
+            .andExpect(jsonPath("$.[*].uvuB").value(hasItem(DEFAULT_UVU_B)));
 
         // Check, that the count call also returns 1
         restGameMockMvc.perform(get("/api/games/count?sort=id,desc&" + filter))
@@ -865,7 +1325,11 @@ public class GameResourceIT {
             .pointsB(UPDATED_POINTS_B)
             .splitDeckNum(UPDATED_SPLIT_DECK_NUM)
             .timeLeft(UPDATED_TIME_LEFT)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .overtimeA(UPDATED_OVERTIME_A)
+            .overtimeB(UPDATED_OVERTIME_B)
+            .uvuA(UPDATED_UVU_A)
+            .uvuB(UPDATED_UVU_B);
         GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
@@ -882,6 +1346,10 @@ public class GameResourceIT {
         assertThat(testGame.getSplitDeckNum()).isEqualTo(UPDATED_SPLIT_DECK_NUM);
         assertThat(testGame.getTimeLeft()).isEqualTo(UPDATED_TIME_LEFT);
         assertThat(testGame.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testGame.getOvertimeA()).isEqualTo(UPDATED_OVERTIME_A);
+        assertThat(testGame.getOvertimeB()).isEqualTo(UPDATED_OVERTIME_B);
+        assertThat(testGame.getUvuA()).isEqualTo(UPDATED_UVU_A);
+        assertThat(testGame.getUvuB()).isEqualTo(UPDATED_UVU_B);
     }
 
     @Test

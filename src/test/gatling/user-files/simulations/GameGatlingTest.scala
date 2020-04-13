@@ -76,7 +76,11 @@ class GameGatlingTest extends Simulation {
                 , "pointsB":"0"
                 , "splitDeckNum":"0"
                 , "timeLeft":"0"
-                , "status":"PENDING"
+                , "status":"CREATED"
+                , "overtimeA":"0"
+                , "overtimeB":"0"
+                , "uvuA":"0"
+                , "uvuB":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_game_url"))).exitHereIfFailed

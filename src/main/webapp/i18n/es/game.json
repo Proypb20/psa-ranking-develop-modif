@@ -21,6 +21,10 @@
       "splitDeckNum": "Nro Serie",
       "timeLeft": "Tiempo Restante",
       "status": "Estado",
+      "overtimeA": "Overtime A",
+      "overtimeB": "Overtime B",
+      "uvuA": "Uvu A",
+      "uvuB": "Uvu B",
       "teamA": "Equipo A",
       "teamB": "Equipo B",
       "eventCategory": "Categoria"

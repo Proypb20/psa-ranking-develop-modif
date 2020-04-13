@@ -7,6 +7,10 @@ export interface IGame {
   splitDeckNum?: number;
   timeLeft?: number;
   status?: Status;
+  overtimeA?: number;
+  overtimeB?: number;
+  uvuA?: number;
+  uvuB?: number;
   teamAName?: string;
   teamAId?: number;
   teamBName?: string;
@@ -22,6 +26,10 @@ export class Game implements IGame {
     public splitDeckNum?: number,
     public timeLeft?: number,
     public status?: Status,
+    public overtimeA?: number,
+    public overtimeB?: number,
+    public uvuA?: number,
+    public uvuB?: number,
     public teamAName?: string,
     public teamAId?: number,
     public teamBName?: string,

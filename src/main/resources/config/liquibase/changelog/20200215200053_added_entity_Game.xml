@@ -31,6 +31,18 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="overtime_a" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="overtime_b" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="uvu_a" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="uvu_b" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="teama_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -68,6 +80,10 @@
             <column name="split_deck_num" type="numeric"/>
             <column name="time_left" type="numeric"/>
             <column name="status" type="string"/>
+            <column name="overtime_a" type="numeric"/>
+            <column name="overtime_b" type="numeric"/>
+            <column name="uvu_a" type="numeric"/>
+            <column name="uvu_b" type="numeric"/>
             <column name="teama_id" type="numeric"/>
             <column name="teamb_id" type="numeric"/>
             <column name="event_category_id" type="numeric"/>

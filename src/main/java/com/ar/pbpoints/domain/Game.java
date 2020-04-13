@@ -41,6 +41,18 @@ public class Game implements Serializable {
     @Column(name = "status", nullable = false)
     private Status status;
 
+    @Column(name = "overtime_a")
+    private Integer overtimeA;
+
+    @Column(name = "overtime_b")
+    private Integer overtimeB;
+
+    @Column(name = "uvu_a")
+    private Integer uvuA;
+
+    @Column(name = "uvu_b")
+    private Integer uvuB;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("games")
@@ -55,7 +67,7 @@ public class Game implements Serializable {
     @NotNull
     @JsonIgnoreProperties("games")
     private EventCategory eventCategory;
-
+    
     public Game () {
         super();
         this.status = Status.CREATED;
@@ -135,6 +147,58 @@ public class Game implements Serializable {
         this.status = status;
     }
 
+    public Integer getOvertimeA() {
+        return overtimeA;
+    }
+
+    public Game overtimeA(Integer overtimeA) {
+        this.overtimeA = overtimeA;
+        return this;
+    }
+
+    public void setOvertimeA(Integer overtimeA) {
+        this.overtimeA = overtimeA;
+    }
+
+    public Integer getOvertimeB() {
+        return overtimeB;
+    }
+
+    public Game overtimeB(Integer overtimeB) {
+        this.overtimeB = overtimeB;
+        return this;
+    }
+
+    public void setOvertimeB(Integer overtimeB) {
+        this.overtimeB = overtimeB;
+    }
+
+    public Integer getUvuA() {
+        return uvuA;
+    }
+
+    public Game uvuA(Integer uvuA) {
+        this.uvuA = uvuA;
+        return this;
+    }
+
+    public void setUvuA(Integer uvuA) {
+        this.uvuA = uvuA;
+    }
+
+    public Integer getUvuB() {
+        return uvuB;
+    }
+
+    public Game uvuB(Integer uvuB) {
+        this.uvuB = uvuB;
+        return this;
+    }
+
+    public void setUvuB(Integer uvuB) {
+        this.uvuB = uvuB;
+    }
+
     public Team getTeamA() {
         return teamA;
     }
@@ -200,6 +264,10 @@ public class Game implements Serializable {
             ", splitDeckNum=" + getSplitDeckNum() +
             ", timeLeft=" + getTimeLeft() +
             ", status='" + getStatus() + "'" +
+            ", overtimeA=" + getOvertimeA() +
+            ", overtimeB=" + getOvertimeB() +
+            ", uvuA=" + getUvuA() +
+            ", uvuB=" + getUvuB() +
             "}";
     }
 }

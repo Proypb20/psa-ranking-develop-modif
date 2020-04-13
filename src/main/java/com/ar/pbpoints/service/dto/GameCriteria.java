@@ -55,6 +55,14 @@ public class GameCriteria implements Serializable, Criteria {
 
     private StatusFilter status;
 
+    private IntegerFilter overtimeA;
+
+    private IntegerFilter overtimeB;
+
+    private IntegerFilter uvuA;
+
+    private IntegerFilter uvuB;
+
     private LongFilter teamAId;
 
     private LongFilter teamBId;
@@ -71,6 +79,10 @@ public class GameCriteria implements Serializable, Criteria {
         this.splitDeckNum = other.splitDeckNum == null ? null : other.splitDeckNum.copy();
         this.timeLeft = other.timeLeft == null ? null : other.timeLeft.copy();
         this.status = other.status == null ? null : other.status.copy();
+        this.overtimeA = other.overtimeA == null ? null : other.overtimeA.copy();
+        this.overtimeB = other.overtimeB == null ? null : other.overtimeB.copy();
+        this.uvuA = other.uvuA == null ? null : other.uvuA.copy();
+        this.uvuB = other.uvuB == null ? null : other.uvuB.copy();
         this.teamAId = other.teamAId == null ? null : other.teamAId.copy();
         this.teamBId = other.teamBId == null ? null : other.teamBId.copy();
         this.eventCategoryId = other.eventCategoryId == null ? null : other.eventCategoryId.copy();
@@ -129,6 +141,38 @@ public class GameCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
+    public IntegerFilter getOvertimeA() {
+        return overtimeA;
+    }
+
+    public void setOvertimeA(IntegerFilter overtimeA) {
+        this.overtimeA = overtimeA;
+    }
+
+    public IntegerFilter getOvertimeB() {
+        return overtimeB;
+    }
+
+    public void setOvertimeB(IntegerFilter overtimeB) {
+        this.overtimeB = overtimeB;
+    }
+
+    public IntegerFilter getUvuA() {
+        return uvuA;
+    }
+
+    public void setUvuA(IntegerFilter uvuA) {
+        this.uvuA = uvuA;
+    }
+
+    public IntegerFilter getUvuB() {
+        return uvuB;
+    }
+
+    public void setUvuB(IntegerFilter uvuB) {
+        this.uvuB = uvuB;
+    }
+
     public LongFilter getTeamAId() {
         return teamAId;
     }
@@ -170,6 +214,10 @@ public class GameCriteria implements Serializable, Criteria {
             Objects.equals(splitDeckNum, that.splitDeckNum) &&
             Objects.equals(timeLeft, that.timeLeft) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(overtimeA, that.overtimeA) &&
+            Objects.equals(overtimeB, that.overtimeB) &&
+            Objects.equals(uvuA, that.uvuA) &&
+            Objects.equals(uvuB, that.uvuB) &&
             Objects.equals(teamAId, that.teamAId) &&
             Objects.equals(teamBId, that.teamBId) &&
             Objects.equals(eventCategoryId, that.eventCategoryId);
@@ -184,6 +232,10 @@ public class GameCriteria implements Serializable, Criteria {
         splitDeckNum,
         timeLeft,
         status,
+        overtimeA,
+        overtimeB,
+        uvuA,
+        uvuB,
         teamAId,
         teamBId,
         eventCategoryId
@@ -199,6 +251,10 @@ public class GameCriteria implements Serializable, Criteria {
                 (splitDeckNum != null ? "splitDeckNum=" + splitDeckNum + ", " : "") +
                 (timeLeft != null ? "timeLeft=" + timeLeft + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (overtimeA != null ? "overtimeA=" + overtimeA + ", " : "") +
+                (overtimeB != null ? "overtimeB=" + overtimeB + ", " : "") +
+                (uvuA != null ? "uvuA=" + uvuA + ", " : "") +
+                (uvuB != null ? "uvuB=" + uvuB + ", " : "") +
                 (teamAId != null ? "teamAId=" + teamAId + ", " : "") +
                 (teamBId != null ? "teamBId=" + teamBId + ", " : "") +
                 (eventCategoryId != null ? "eventCategoryId=" + eventCategoryId + ", " : "") +

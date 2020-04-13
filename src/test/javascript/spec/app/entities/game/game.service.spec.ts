@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(GameService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Game(0, 0, 0, 0, 0, Status.PENDING);
+      elemDefault = new Game(0, 0, 0, 0, 0, Status.CREATED, 0, 0, 0, 0);
     });
 
     describe('Service methods', () => {
@@ -61,7 +61,11 @@ describe('Service Tests', () => {
             pointsB: 1,
             splitDeckNum: 1,
             timeLeft: 1,
-            status: 'BBBBBB'
+            status: 'BBBBBB',
+            overtimeA: 1,
+            overtimeB: 1,
+            uvuA: 1,
+            uvuB: 1
           },
           elemDefault
         );
@@ -83,7 +87,11 @@ describe('Service Tests', () => {
             pointsB: 1,
             splitDeckNum: 1,
             timeLeft: 1,
-            status: 'BBBBBB'
+            status: 'BBBBBB',
+            overtimeA: 1,
+            overtimeB: 1,
+            uvuA: 1,
+            uvuB: 1
           },
           elemDefault
         );

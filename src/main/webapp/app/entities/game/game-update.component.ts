@@ -32,6 +32,10 @@ export class GameUpdateComponent implements OnInit {
     splitDeckNum: [],
     timeLeft: [],
     status: [null, [Validators.required]],
+    overtimeA: [],
+    overtimeB: [],
+    uvuA: [],
+    uvuB: [],
     teamAId: [null, Validators.required],
     teamBId: [null, Validators.required],
     eventCategoryId: [null, Validators.required]
@@ -75,6 +79,10 @@ export class GameUpdateComponent implements OnInit {
       splitDeckNum: game.splitDeckNum,
       timeLeft: game.timeLeft,
       status: game.status,
+      overtimeA: game.overtimeA,
+      overtimeB: game.overtimeB,
+      uvuA: game.uvuA,
+      uvuB: game.uvuB,
       teamAId: game.teamAId,
       teamBId: game.teamBId,
       eventCategoryId: game.eventCategoryId
@@ -104,6 +112,10 @@ export class GameUpdateComponent implements OnInit {
       splitDeckNum: this.editForm.get(['splitDeckNum']).value,
       timeLeft: this.editForm.get(['timeLeft']).value,
       status: this.editForm.get(['status']).value,
+      overtimeA: this.editForm.get(['overtimeA']).value,
+      overtimeB: this.editForm.get(['overtimeB']).value,
+      uvuA: this.editForm.get(['uvuA']).value,
+      uvuB: this.editForm.get(['uvuB']).value,
       teamAId: this.editForm.get(['teamAId']).value,
       teamBId: this.editForm.get(['teamBId']).value,
       eventCategoryId: this.editForm.get(['eventCategoryId']).value

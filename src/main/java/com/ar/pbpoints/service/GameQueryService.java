@@ -106,6 +106,18 @@ public class GameQueryService extends QueryService<Game> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Game_.status));
             }
+            if (criteria.getOvertimeA() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOvertimeA(), Game_.overtimeA));
+            }
+            if (criteria.getOvertimeB() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOvertimeB(), Game_.overtimeB));
+            }
+            if (criteria.getUvuA() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUvuA(), Game_.uvuA));
+            }
+            if (criteria.getUvuB() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUvuB(), Game_.uvuB));
+            }
             if (criteria.getTeamAId() != null) {
                 specification = specification.and(buildSpecification(criteria.getTeamAId(),
                     root -> root.join(Game_.teamA, JoinType.LEFT).get(Team_.id)));

@@ -22,6 +22,14 @@ public class GameDTO implements Serializable {
     @NotNull
     private Status status;
 
+    private Integer overtimeA;
+
+    private Integer overtimeB;
+
+    private Integer uvuA;
+
+    private Integer uvuB;
+
 
     private Long teamAId;
 
@@ -79,6 +87,38 @@ public class GameDTO implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Integer getOvertimeA() {
+        return overtimeA;
+    }
+
+    public void setOvertimeA(Integer overtimeA) {
+        this.overtimeA = overtimeA;
+    }
+
+    public Integer getOvertimeB() {
+        return overtimeB;
+    }
+
+    public void setOvertimeB(Integer overtimeB) {
+        this.overtimeB = overtimeB;
+    }
+
+    public Integer getUvuA() {
+        return uvuA;
+    }
+
+    public void setUvuA(Integer uvuA) {
+        this.uvuA = uvuA;
+    }
+
+    public Integer getUvuB() {
+        return uvuB;
+    }
+
+    public void setUvuB(Integer uvuB) {
+        this.uvuB = uvuB;
     }
 
     public Long getTeamAId() {
@@ -151,6 +191,10 @@ public class GameDTO implements Serializable {
             ", splitDeckNum=" + getSplitDeckNum() +
             ", timeLeft=" + getTimeLeft() +
             ", status='" + getStatus() + "'" +
+            ", overtimeA=" + getOvertimeA() +
+            ", overtimeB=" + getOvertimeB() +
+            ", uvuA=" + getUvuA() +
+            ", uvuB=" + getUvuB() +
             ", teamA=" + getTeamAId() +
             ", teamA='" + getTeamAName() + "'" +
             ", teamB=" + getTeamBId() +
