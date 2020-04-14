@@ -5,6 +5,8 @@ import com.ar.pbpoints.domain.Tournament;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Spring Data  repository for the Category entity.
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {
 
-
 	@Query("select t from Category t where t.order = (select max(u.order) from Category u where u.tournament.id = ?1) and t.tournament.id = ?1")
 	Category LastCategoryByTournamentId(Long tournamentId);
+
+	Optional<Category> findByName (String name);
 }

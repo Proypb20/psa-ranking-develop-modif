@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDTO {
 
+    @JacksonXmlProperty(localName = "ID")
     @NotNull
     private Long id;
     @JacksonXmlProperty(localName = "SD_ID")
@@ -27,7 +28,7 @@ public class GameDTO {
     private Integer pointsA;
     @JacksonXmlProperty(localName = "OVERTIME_A")
     @NotNull
-    private Float overtimeA;
+    private Integer overtimeA;
     @JacksonXmlProperty(localName = "UVU_A")
     @NotNull
     private Integer uvuA;
@@ -37,13 +38,16 @@ public class GameDTO {
     @JacksonXmlProperty(localName = "POINTS_B")
     private Integer pointsB;
     @JacksonXmlProperty(localName = "OVERTIME_B")
-    private Float overtimeB;
+    private Integer overtimeB;
     @JacksonXmlProperty(localName = "UVU_B")
     @NotNull
     private Integer uvuB;
     @JacksonXmlProperty(localName = "TIME_LEFT")
     @NotNull
     private Integer timeLeft;
+    @JacksonXmlProperty(localName = "GROUP")
+    @NotNull
+    private Integer group;
 
     public Long getId() {
         return id;
@@ -85,11 +89,11 @@ public class GameDTO {
         this.pointsA = pointsA;
     }
 
-    public Float getOvertimeA() {
+    public Integer getOvertimeA() {
         return overtimeA;
     }
 
-    public void setOvertimeA(Float overtimeA) {
+    public void setOvertimeA(Integer overtimeA) {
         this.overtimeA = overtimeA;
     }
 
@@ -117,11 +121,11 @@ public class GameDTO {
         this.pointsB = pointsB;
     }
 
-    public Float getOvertimeB() {
+    public Integer getOvertimeB() {
         return overtimeB;
     }
 
-    public void setOvertimeB(Float overtimeB) {
+    public void setOvertimeB(Integer overtimeB) {
         this.overtimeB = overtimeB;
     }
 
@@ -141,12 +145,16 @@ public class GameDTO {
         this.timeLeft = timeLeft;
     }
 
+    public Integer getGroup() { return group;  }
+
+    public void setGroup(Integer group) { this.group = group; }
+
     @Override
     public String toString() {
         return "GameDTO{" +
             "id=" + id +
             ", splitDeckNum=" + splitDeckNum +
-            ", clasification=" + clasification +
+            ", clasification='" + clasification + '\'' +
             ", teamA='" + teamA + '\'' +
             ", pointsA=" + pointsA +
             ", overtimeA=" + overtimeA +
@@ -156,6 +164,7 @@ public class GameDTO {
             ", overtimeB=" + overtimeB +
             ", uvuB=" + uvuB +
             ", timeLeft=" + timeLeft +
+            ", group=" + group +
             '}';
     }
 }

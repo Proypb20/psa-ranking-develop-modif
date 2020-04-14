@@ -1,13 +1,8 @@
 package com.ar.pbpoints.service;
 
-import com.ar.pbpoints.domain.EventCategory;
-import com.ar.pbpoints.domain.Game;
-import com.ar.pbpoints.domain.Roster;
-import com.ar.pbpoints.domain.Team;
+import com.ar.pbpoints.domain.*;
 import com.ar.pbpoints.domain.enumeration.TimeType;
-import com.ar.pbpoints.repository.EventCategoryRepository;
-import com.ar.pbpoints.repository.GameRepository;
-import com.ar.pbpoints.repository.RosterRepository;
+import com.ar.pbpoints.repository.*;
 import com.ar.pbpoints.service.dto.EventCategoryDTO;
 import com.ar.pbpoints.service.dto.xml.GameResultDTO;
 import com.ar.pbpoints.service.mapper.EventCategoryMapper;
@@ -25,13 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.NoResultException;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link EventCategory}.
@@ -50,12 +42,27 @@ public class EventCategoryService {
 
     private final GameRepository gameRepository;
 
+    private final EventRepository eventRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    private final UserExtraRepository userExtraRepository;
+
+    private final GameService gameService;
+
     public EventCategoryService(EventCategoryRepository eventCategoryRepository,
-                                EventCategoryMapper eventCategoryMapper, RosterRepository rosterRepository, GameRepository gameRepository) {
+                                EventCategoryMapper eventCategoryMapper, RosterRepository rosterRepository,
+                                GameRepository gameRepository, EventRepository eventRepository,
+                                CategoryRepository categoryRepository, UserExtraRepository userExtraRepository,
+                                GameService gameService) {
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventCategoryMapper = eventCategoryMapper;
         this.rosterRepository = rosterRepository;
         this.gameRepository = gameRepository;
+        this.eventRepository = eventRepository;
+        this.categoryRepository = categoryRepository;
+        this.userExtraRepository = userExtraRepository;
+        this.gameService = gameService;
     }
 
     /**
@@ -68,7 +75,8 @@ public class EventCategoryService {
         log.debug("Request to save EventCategory : {}", eventCategoryDTO);
         EventCategory eventCategory = eventCategoryMapper.toEntity(eventCategoryDTO);
         // Validaciones de duplicidad
-        Optional<EventCategory> optional = eventCategoryRepository.findByEventAndCategory(eventCategory.getEvent(), eventCategory.getCategory());
+        Optional<EventCategory> optional = eventCategoryRepository.findByEventAndCategory(eventCategory.getEvent(),
+                eventCategory.getCategory());
         if (optional.isPresent()) {
             log.error(optional.get().toString());
             throw new DuplicateKeyException("Ya existe un eventCategory con los datos ingresados");
@@ -122,7 +130,7 @@ public class EventCategoryService {
             throw new NoResultException("No hay un evento cargado");
         }
         log.info("*** Generando fixture para el evento {} - categoria {}", eventCategory.getEvent(),
-            eventCategory.getCategory());
+                eventCategory.getCategory());
         List<Roster> rosters = rosterRepository.findByEventCategory(eventCategory);
         log.debug(rosters.toString());
         if (!rosters.isEmpty()) {
@@ -190,7 +198,7 @@ public class EventCategoryService {
     public void generarTodosfixture() {
         log.info("*** Inicio de generación automática de fixtures ***");
         Optional<List<EventCategory>> eventCategories = eventCategoryRepository
-            .findByEvent_EndInscriptionDate(LocalDate.now());
+                .findByEvent_EndInscriptionDate(LocalDate.now());
         if (eventCategories.isPresent()) {
             for (EventCategory eventCategory : eventCategories.get()) {
                 this.generarFixture(eventCategory);
@@ -208,6 +216,31 @@ public class EventCategoryService {
             log.info("Fichero: {}", file.getOriginalFilename());
             GameResultDTO gameResultDTO = xmlMapper.readValue(file.getBytes(), GameResultDTO.class);
             log.debug(gameResultDTO.toString());
+            // Validaciones de entidades
+            UserExtra userExtra = userExtraRepository.findById(gameResultDTO.getOwner_id()).orElseThrow(() ->
+                    new IllegalArgumentException("No existe un Usuario con el ID " + gameResultDTO.getOwner_id()));
+            Event event = eventRepository.findById(gameResultDTO.getEvent_id()).orElseThrow(() ->
+                    new IllegalArgumentException("No existe un evento con ID: " + gameResultDTO.getEvent_id()));
+            Category category = categoryRepository.findByName(gameResultDTO.getFixtureDTO().getCategoryDTO().getName())
+                    .orElseThrow(() -> new IllegalArgumentException("No existe una Categoria con el nombre: "
+                            + gameResultDTO.getFixtureDTO().getCategoryDTO().getName()));
+            EventCategory eventCategory =
+                    eventCategoryRepository.findByEventAndCategory(event, category).orElseThrow(() ->
+                            new IllegalArgumentException("No existe la combinacion de Evento-Categoria "
+                                    + event.toString() + " - " + category.toString()));
+            if (!event.getTournament().getOwner().equals(userExtra.getUser())) {
+                throw new IllegalArgumentException(("El usuario " + userExtra.getUser().getLogin() + " no es el " +
+                        "owner del torneo"));
+            }
+            List<Game> games =
+                    gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
+                            .collect(Collectors.toList());
+            // parseo el dto a mi modelo de datos
+
+            log.info("** Parseo terminado");
+            gameRepository.saveAll(games);
+            log.debug("** Games actualizados **");
+            log.info("*** Fin de proceso de carga de puntajes ***");
         } catch (IOException e) {
             log.error("Error al parsear el fichero: {}", file.getName());
             e.printStackTrace();

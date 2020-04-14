@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data  repository for the Team entity.
@@ -15,4 +16,5 @@ public interface TeamRepository extends JpaRepository<Team, Long>, JpaSpecificat
     @Query("select team from Team team where team.owner.login = ?#{principal.username}")
     List<Team> findByOwnerIsCurrentUser();
 
+    Optional<Team> findByName (String name);
 }
