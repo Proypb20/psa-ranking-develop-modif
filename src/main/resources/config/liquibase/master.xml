@@ -32,6 +32,7 @@
     <include file="config/liquibase/changelog/20200205014818_added_entity_TeamDetailPoint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200207225605_added_entity_EventCategory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200215200053_added_entity_Game.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200501031550_added_entity_Bracket.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191022230132_added_entity_constraints_Province.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191022230134_added_entity_constraints_City.xml" relativeToChangelogFile="false"/>

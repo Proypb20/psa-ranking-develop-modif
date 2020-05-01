@@ -76,6 +76,7 @@
         "teamDetailPoint": "Team Detail Points",
         "eventCategory": "Categories",
         "game": "Matches",
+        "bracket": "Bracket",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -1,0 +1,46 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="pbPointsApp.bracket.home.title">Brackets</span>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="brackets?.length === 0">
+        <span jhiTranslate="pbPointsApp.bracket.home.notFound">No brackets found</span>
+    </div>
+    <div class="table-responsive" *ngIf="brackets?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+            <th scope="col" ><span jhiTranslate="pbPointsApp.bracket.teams">Teams</span></th>
+            <th scope="col" ><span jhiTranslate="pbPointsApp.bracket.teams5A">Teams 5 A</span></th>
+            <th scope="col" ><span jhiTranslate="pbPointsApp.bracket.teams5B">Teams 5 B</span></th>
+            <th scope="col" ><span jhiTranslate="pbPointsApp.bracket.teams6A">Teams 6 A</span></th>
+            <th scope="col" ><span jhiTranslate="pbPointsApp.bracket.teams6B">Teams 6 B</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let bracket of brackets ;trackBy: trackId">
+                <td><a [routerLink]="['/bracket', bracket.id, 'view' ]">{{bracket.id}}</a></td>
+                <td>{{bracket.teams}}</td>
+                <td>{{bracket.teams5A}}</td>
+                <td>{{bracket.teams5B}}</td>
+                <td>{{bracket.teams6A}}</td>
+                <td>{{bracket.teams6B}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/bracket', bracket.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
