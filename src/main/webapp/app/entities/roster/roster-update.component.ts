@@ -23,7 +23,7 @@ export class RosterUpdateComponent implements OnInit {
   isSaving: boolean;
   currentAccount: any;
   teams: ITeam[];
-  
+
   teId: number;
   evCatId: number;
   private sub: any;
@@ -62,9 +62,10 @@ export class RosterUpdateComponent implements OnInit {
       this.updateForm(roster);
     });
       if (this.currentAccount.authorities.includes('ROLE_ADMIN'))
-      {      
+      {
 		  this.teamService
-		      .query({"teamId.equals": this.teId
+		      .query({"teamId.equals": this.teId,
+size: 2000
 		            })
 		      .pipe(
 		        filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),
@@ -76,7 +77,8 @@ export class RosterUpdateComponent implements OnInit {
       {
 		  this.teamService
 	      .query({"teamId.equals": this.teId,
-	             "ownerId.equals": this.currentAccount.id
+	             "ownerId.equals": this.currentAccount.id,
+size: 2000
 	            })
 	      .pipe(
 	            filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),

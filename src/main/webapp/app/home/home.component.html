@@ -1,6 +1,8 @@
 	<div class="row">
     <div class="col-md-12">
         <!-- <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>-->
+        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert></jhi-alert>
         <h1 class="from-control-plaintext display-4" jhiTranslate="home.title">Welcome</h1>
         <div [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="true">
@@ -13,7 +15,6 @@
               <div>
                 <h1 class="form-control-plaintext display-8" jhiTranslate="home.event.next">Next Event</h1>
               </div>
-
               <!-- Mostrando Eventos -->
               <div class="alert alert-warning" *ngIf="events?.length === 0">
                  <span jhiTranslate="PbPointsApp.event.home.notFound">No events found</span>

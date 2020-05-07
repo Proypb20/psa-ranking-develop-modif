@@ -71,7 +71,13 @@
                     </div>
                   </div>
                 </td>
-                <td>{{player.id}}</td>
+                <td *ngIf="IsTourSet">
+                    <div *ngIf="player.userId">
+                        <div *ngFor="let playerpoint of playerpoints">
+                            <div *ngIf="((playerpoint.userId == player.userId) && (playerpoint.tournamentId == tourId))" >{{playerpoint.categoryName}}</div>
+                        </div>
+                    </div>
+                </td>
                 <td jhiTranslate="{{'PbPointsApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
@@ -120,7 +126,13 @@
                     </div>
                   </div>
                 </td>
-                <td>{{player.id}}</td>
+                <td *ngIf="IsTourSet">
+                  <div *ngIf="player.userId">
+                      <div *ngFor="let playerpoint of playerpoints">
+                          <div *ngIf="((playerpoint.userId == player.userId) && (playerpoint.tournamentId == tourId))" >{{playerpoint.categoryName}}</div>
+                      </div>
+                  </div>
+                </td>
                 <td jhiTranslate="{{'PbPointsApp.ProfileUser.' + player.profile}}">{{player.profile}}</td>
                 <!-- <td>
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>

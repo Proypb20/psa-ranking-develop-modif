@@ -9,6 +9,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
+import { IPlayerPoint} from 'app/shared/model/player-point.model';
+import { PlayerPointService } from 'app/entities/player-point/player-point.service';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
@@ -38,11 +40,12 @@ export class PlayerComponent implements OnInit, OnDestroy {
   reverse: any;
   rId: number;
   private sub: any;
-
+  tourId: any;
   users: IUser[];
-  owner: IUser;
+  playerpoints: IPlayerPoint[];
   ownerId: any;
   isOwner: boolean;
+  tourSet: boolean;
 
   private completeName : any;
 
@@ -56,6 +59,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected playerService: PlayerService,
+    protected playerPointService: PlayerPointService,
     protected parseLinks: JhiParseLinks,
     protected userService: UserService,
     protected accountService: AccountService,
@@ -161,9 +165,26 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	      map((response: HttpResponse<IUser[]>) => response.body))
 	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
 
+    this.tourId = localStorage.getItem("TOURNAMENTID");
+     if (this.tourId)
+     {
+      this.playerPointService
+            .query({
+              size: 2000,
+             'tournamentId.equals': +this.tourId || 0,
+            })
+            .pipe(
+              filter((mayBeOk: HttpResponse<IPlayerPoint[]>) => mayBeOk.ok),
+              map((response: HttpResponse<IPlayerPoint[]>) => response.body))
+            .subscribe((res: IPlayerPoint[]) => (this.playerpoints = res), (res: HttpErrorResponse) => this.onError(res.message));
+
+        if (this.tourId === 0)
+             this.tourSet = false;
+           else
+             this.tourSet = true;
+     }
 
     this.loadAll();
-
     this.registerChangeInPlayers();
     this.userService.findOwner(this.rId)
                     .subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
@@ -225,5 +246,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
      this.isOwner = true;
     else
      this.isOwner = false;
+  }
+
+  protected IsTourSet() {
+   return this.tourSet;
   }
 }
