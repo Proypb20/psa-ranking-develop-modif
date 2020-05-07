@@ -27,6 +27,7 @@
         "teamDetailPoint": "Team Detail Point",
         "eventCategory": "Event Category",
         "game": "Game",
+        "bracket": "Bracket",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

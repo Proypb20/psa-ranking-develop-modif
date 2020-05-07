@@ -83,6 +83,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'game',
         loadChildren: () => import('./game/game.module').then(m => m.PbPointsGameModule)
+      },
+      {
+        path: 'bracket',
+        loadChildren: () => import('./bracket/bracket.module').then(m => m.PbPointsBracketModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="bracket">
+            <h2><span jhiTranslate="pbPointsApp.bracket.detail.title">Bracket</span> {{bracket.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="pbPointsApp.bracket.teams">Teams</span></dt>
+                <dd>
+                    <span>{{bracket.teams}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.bracket.teams5A">Teams 5 A</span></dt>
+                <dd>
+                    <span>{{bracket.teams5A}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.bracket.teams5B">Teams 5 B</span></dt>
+                <dd>
+                    <span>{{bracket.teams5B}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.bracket.teams6A">Teams 6 A</span></dt>
+                <dd>
+                    <span>{{bracket.teams6A}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.bracket.teams6B">Teams 6 B</span></dt>
+                <dd>
+                    <span>{{bracket.teams6B}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+        </div>
+    </div>
+</div>
