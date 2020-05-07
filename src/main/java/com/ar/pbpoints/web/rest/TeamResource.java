@@ -1,5 +1,7 @@
 package com.ar.pbpoints.web.rest;
 
+import com.ar.pbpoints.domain.Team;
+import com.ar.pbpoints.repository.TeamRepository;
 import com.ar.pbpoints.service.TeamService;
 import com.ar.pbpoints.web.rest.errors.BadRequestAlertException;
 import com.ar.pbpoints.service.dto.TeamDTO;
@@ -61,6 +63,11 @@ public class TeamResource {
         log.debug("REST request to save Team : {}", teamDTO);
         if (teamDTO.getId() != null) {
             throw new BadRequestAlertException("A new team cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+
+        if (teamService.findByNameAndIdOwner(teamDTO.getName(),teamDTO.getOwnerId()).isPresent())
+        {
+            throw new BadRequestAlertException("The Team has already exists", ENTITY_NAME, "teamexists");
         }
         teamDTO.setActive(true);
         TeamDTO result = teamService.save(teamDTO);

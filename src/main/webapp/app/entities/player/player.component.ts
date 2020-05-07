@@ -40,9 +40,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private sub: any;
 
   users: IUser[];
-  ownerId: number;
+  owner: IUser;
+  ownerId: any;
   isOwner: boolean;
-  
+
   private completeName : any;
 
   addForm = this.fb.group({
@@ -157,19 +158,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
 	    })
 	    .pipe(
 	      filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<IUser[]>) => response.body)
-	    )
+	      map((response: HttpResponse<IUser[]>) => response.body))
 	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
-    	
+
+
     this.loadAll();
-    this.ownerId = 6;
-	this.userService.findOwner(this.rId)
-	                .subscribe((idOwn: number) => (this.ownerId = idOwn));
-    if (this.ownerId === 6)
-    {
-      this.onError("Still 6");
-    }
+
     this.registerChangeInPlayers();
+    this.userService.findOwner(this.rId)
+                    .subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
   }
 
   ngOnDestroy() {
@@ -217,8 +214,16 @@ export class PlayerComponent implements OnInit, OnDestroy {
   Cancel(){
       window.history.back();
   }
-  
+
   isTheOwner(){
     return this.isOwner;
+  }
+
+  protected paginateOwner(data: number, headers: HttpHeaders) {
+    this.ownerId = data;
+    if (this.ownerId.toString() === this.currentAccount.id.toString())
+     this.isOwner = true;
+    else
+     this.isOwner = false;
   }
 }

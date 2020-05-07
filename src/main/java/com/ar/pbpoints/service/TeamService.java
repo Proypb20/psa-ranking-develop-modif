@@ -80,6 +80,17 @@ public class TeamService {
     }
 
     /**
+     * Get one team by Name and Owner.
+     *
+     * @param name the name of the entity and Owner.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<Team> findByNameAndIdOwner(String name, Long id) {
+        log.debug("Request to get Team : {}", name);
+        return teamRepository.findByNameAndIdOwner(name,id);
+    }
+    /**
      * Delete the team by id.
      *
      * @param id the id of the entity.

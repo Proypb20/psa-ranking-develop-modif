@@ -362,6 +362,6 @@ public class UserService {
     }
 
     public Long checkOwner(Long id) {
-        return userRepository.findByRosterId(id).getId();
+        return userRepository.findByRosterId(id);
     }
 }

@@ -192,7 +192,10 @@ public class UserResource {
     @GetMapping("/users/own/{id}")
     public ResponseEntity<Long> checkOwner(@PathVariable Long id) {
             log.debug("REST request to get Owner : {}", id);
-            return ResponseEntity.ok(userService.checkOwner(id));
-            		
+            Long owner = userService.checkOwner(id);
+            ResponseEntity<Long> resp = ResponseEntity.ok().body(owner);
+            log.debug("BodyYYYY: " + resp.getBody());
+            return resp;
+
     }
 }

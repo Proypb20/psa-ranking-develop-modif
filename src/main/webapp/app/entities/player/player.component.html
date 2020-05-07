@@ -11,7 +11,7 @@
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <form name="addForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="addForm">
-        <div class="form-group" class="row justify-content-center">
+        <div *ngIf="isTheOwner()" class="form-group" class="row justify-content-center">
             <table class="table table-striped" aria-describedby="page-heading">
             <tr>
               <th>
@@ -77,9 +77,8 @@
                     <div *ngIf="player.rosterId">{{player.rosterId}}</div>
                 </td> -->
                 <td class="text-right">
-                     <div class="btn-group">
-                        <button *ngIf="isTheOwner()"
-                                type="submit"
+                     <div class="btn-group" *ngIf="isTheOwner()">
+                        <button type="submit"
                                 [routerLink]="['/player', player.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>

@@ -50,6 +50,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
 
-    @Query("select roster.team.owner from Roster roster where roster.id = ?1")
-    User findByRosterId(Long id);
+    @Query("select roster.team.owner.id from Roster roster where roster.id = ?1")
+    Long findByRosterId(Long id);
 }
