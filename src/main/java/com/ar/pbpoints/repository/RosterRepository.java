@@ -25,4 +25,7 @@ public interface RosterRepository extends JpaRepository<Roster, Long>, JpaSpecif
 
     @Query("select count(1) from Player player, PlayerPoint playerpoint where player.user.id = playerpoint.user.id and player.roster.id = ?1 and playerpoint.category.id = ?2")
     int CountPlayerNextCategory(Long rosterId, Long categoryId);
+
+    @Query("select roster.team.owner.id from Roster roster where roster.id = ?1")
+    Long findByRosterId(Long id);
 }

@@ -189,13 +189,4 @@ public class UserResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "userManagement.deleted", login)).build();
     }
 
-    @GetMapping("/users/own/{id}")
-    public ResponseEntity<Long> checkOwner(@PathVariable Long id) {
-            log.debug("REST request to get Owner : {}", id);
-            Long owner = userService.checkOwner(id);
-            ResponseEntity<Long> resp = ResponseEntity.ok().body(owner);
-            log.debug("BodyYYYY: " + resp.getBody());
-            return resp;
-
-    }
 }

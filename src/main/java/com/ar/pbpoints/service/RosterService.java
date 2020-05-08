@@ -1,12 +1,17 @@
 package com.ar.pbpoints.service;
 
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.ar.pbpoints.service.dto.EventCategoryDTO;
+import com.ar.pbpoints.service.dto.EventDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +40,22 @@ public class RosterService {
 
     private final EventCategoryRepository eventCategoryRepository;
 
-    public RosterService(RosterRepository rosterRepository, RosterMapper rosterMapper, UserService userService,
-            EventCategoryRepository eventCategoryRepository) {
+    private final EventCategoryService eventCategoryService;
+
+    private final EventService eventService;
+
+    public RosterService(RosterRepository rosterRepository
+                       , RosterMapper rosterMapper
+                       , UserService userService
+                       , EventCategoryRepository eventCategoryRepository
+                       , EventCategoryService eventCategoryService
+                       , EventService eventService) {
         this.rosterRepository = rosterRepository;
         this.rosterMapper = rosterMapper;
         this.userService = userService;
         this.eventCategoryRepository = eventCategoryRepository;
+        this.eventCategoryService = eventCategoryService;
+        this.eventService = eventService;
     }
 
     /**
@@ -111,4 +126,34 @@ public class RosterService {
         log.debug("Rosters Disponibles: {}", all);
         return Optional.of(all).map(rosterMapper::toDto);
     }
+
+    public Long checkOwner(Long id) {
+        return rosterRepository.findByRosterId(id);
+    }
+
+    public long validRoster(Long rosterId){
+        Optional<RosterDTO> roster = findOne(rosterId);
+        Optional<EventCategoryDTO> evCat = eventCategoryService.findOne(roster.get().getEventCategoryId());
+        Optional<EventDTO> event = eventService.findOne(evCat.get().getEventId());
+        Long result;
+        if (event.isPresent())
+        {
+            Date date = new Date();
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date endInsDate = Date.from(event.get().getEndInscriptionDate().atStartOfDay(defaultZoneId).toInstant());
+            if (endInsDate.compareTo(date) > 0) {
+                result = 1L;
+            }
+            else {
+                result = 0L;
+            }
+        }
+        else
+        {
+            result = 0L;
+        }
+        log.debug("Result: {}" + result);
+        return result;
+    }
+
 }

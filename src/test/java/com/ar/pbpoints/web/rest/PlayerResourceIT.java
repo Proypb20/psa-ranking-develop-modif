@@ -15,6 +15,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.ar.pbpoints.repository.UserRepository;
+import com.ar.pbpoints.service.RosterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -61,6 +63,12 @@ public class PlayerResourceIT {
     private PlayerQueryService playerQueryService;
 
     @Autowired
+    private RosterService rosterService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -82,7 +90,7 @@ public class PlayerResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PlayerResource playerResource = new PlayerResource(playerService, playerQueryService, null);
+        final PlayerResource playerResource = new PlayerResource(playerService, playerQueryService, rosterService, userRepository);
         this.restPlayerMockMvc = MockMvcBuilders.standaloneSetup(playerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

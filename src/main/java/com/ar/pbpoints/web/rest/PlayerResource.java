@@ -2,11 +2,17 @@ package com.ar.pbpoints.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.ar.pbpoints.domain.Roster;
+import com.ar.pbpoints.service.*;
+import com.ar.pbpoints.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ar.pbpoints.domain.User;
-import com.ar.pbpoints.service.PlayerQueryService;
-import com.ar.pbpoints.service.PlayerService;
-import com.ar.pbpoints.service.dto.PlayerCriteria;
-import com.ar.pbpoints.service.dto.PlayerDTO;
 import com.ar.pbpoints.web.rest.errors.BadRequestAlertException;
 import com.ar.pbpoints.repository.UserRepository;
 
@@ -51,14 +53,17 @@ public class PlayerResource {
     private String applicationName;
 
     private final PlayerService playerService;
-
+    private final RosterService rosterService;
     private final PlayerQueryService playerQueryService;
-
     private final UserRepository userRepository;
 
-    public PlayerResource(PlayerService playerService, PlayerQueryService playerQueryService, UserRepository userRepository) {
+    public PlayerResource(PlayerService playerService
+                          , PlayerQueryService playerQueryService
+                          , RosterService rosterService
+                          , UserRepository userRepository) {
         this.playerService = playerService;
         this.playerQueryService = playerQueryService;
+        this.rosterService = rosterService;
         this.userRepository = userRepository;
     }
 
@@ -164,5 +169,23 @@ public class PlayerResource {
         log.debug("REST request to delete Player : {}", id);
         playerService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/players/own/{id}")
+    public ResponseEntity<Long> checkOwner(@PathVariable Long id) {
+        log.debug("REST request to get Owner : {}", id);
+        Long owner = rosterService.checkOwner(id);
+        ResponseEntity<Long> resp = ResponseEntity.ok().body(owner);
+        return resp;
+
+    }
+
+    @GetMapping("/players/upd/{id}")
+    public ResponseEntity<Long> enableUpdate(@PathVariable Long id) {
+        log.debug("REST request to check if event is Closed or Inscripcion is Closed: {}", id);
+        Long result = rosterService.validRoster(id);
+        ResponseEntity<Long> resp = ResponseEntity.ok().body(result);
+        return resp;
+
     }
 }
