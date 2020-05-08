@@ -11,7 +11,8 @@
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
                     [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}". </span>
               </div>-->
-
+            </div>
+        </div>
               <div>
                 <h1 class="form-control-plaintext display-8" jhiTranslate="home.event.next">Next Event</h1>
               </div>
@@ -73,13 +74,15 @@
 			                            <fa-icon [icon]="'eye'"></fa-icon>
 			                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
 			                        </button>-->
-			                        <button type="submit"
-			                                [routerLink]="['/event-category']"
-			                                [queryParams]="{evId:event.id}"
-			                                class="btn btn-primary btn-sm">
-			                            <fa-icon [icon]="'pencil'"></fa-icon>
-			                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
-			                        </button>
+                                    <div *ngIf="isAuthenticated()">
+                                        <button type="submit"
+                                                [routerLink]="['/event-category']"
+                                                [queryParams]="{evId:event.id}"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon [icon]="'pencil'"></fa-icon>
+                                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
+                                        </button>
+                                    </div>
 			                    </div>
 			                </td>
 			            </tr>
@@ -144,7 +147,5 @@
 			        </table>
             </div>
             <!-- Fin Eventos Finalizados -->
-            </div>
-        </div>
     </div>
 </div>
