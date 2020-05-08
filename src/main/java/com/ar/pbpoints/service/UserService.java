@@ -361,7 +361,4 @@ public class UserService {
         return newUser;
     }
 
-    public Long checkOwner(Long id) {
-        return userRepository.findByRosterId(id);
-    }
 }

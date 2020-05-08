@@ -8,6 +8,12 @@
             </span>
         </button>
     </h2>-->
+    <h2 id="page-heading">
+        <span jhiTranslate="PbPointsApp.player.home.title">Players</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-roster" (click)="Cancel()">
+            <span jhiTranslate="global.menu.back">Back</span>
+        </button>
+    </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <form name="addForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="addForm">

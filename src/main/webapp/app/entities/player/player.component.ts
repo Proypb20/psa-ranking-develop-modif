@@ -45,6 +45,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   playerpoints: IPlayerPoint[];
   ownerId: any;
   isOwner: boolean;
+  updAllowed: any;
   tourSet: boolean;
 
   private completeName : any;
@@ -186,8 +187,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
     this.loadAll();
     this.registerChangeInPlayers();
-    this.userService.findOwner(this.rId)
-                    .subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
+    this.playerService.findOwner(this.rId)
+                      .subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
+     this.playerService.enableUpdate(this.rId)
+                      .subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
   }
 
   ngOnDestroy() {
@@ -246,6 +249,17 @@ export class PlayerComponent implements OnInit, OnDestroy {
      this.isOwner = true;
     else
      this.isOwner = false;
+  }
+
+  protected paginateUpdate(data: number, headers: HttpHeaders) {
+     this.updAllowed = data;
+     if (this.updAllowed.toString() !== "0")
+      if(this.isOwner)
+         this.isOwner = true;
+      else
+      this.isOwner = false;
+     else
+      this.isOwner = false;
   }
 
   protected IsTourSet() {
