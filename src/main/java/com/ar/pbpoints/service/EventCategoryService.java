@@ -50,11 +50,13 @@ public class EventCategoryService {
 
     private final GameService gameService;
 
+    private final BracketService bracketService;
+
     public EventCategoryService(EventCategoryRepository eventCategoryRepository,
                                 EventCategoryMapper eventCategoryMapper, RosterRepository rosterRepository,
                                 GameRepository gameRepository, EventRepository eventRepository,
                                 CategoryRepository categoryRepository, UserExtraRepository userExtraRepository,
-                                GameService gameService) {
+                                GameService gameService, BracketService bracketService) {
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventCategoryMapper = eventCategoryMapper;
         this.rosterRepository = rosterRepository;
@@ -63,6 +65,7 @@ public class EventCategoryService {
         this.categoryRepository = categoryRepository;
         this.userExtraRepository = userExtraRepository;
         this.gameService = gameService;
+        this.bracketService = bracketService;
     }
 
     /**
@@ -76,7 +79,7 @@ public class EventCategoryService {
         EventCategory eventCategory = eventCategoryMapper.toEntity(eventCategoryDTO);
         // Validaciones de duplicidad
         Optional<EventCategory> optional = eventCategoryRepository.findByEventAndCategory(eventCategory.getEvent(),
-                eventCategory.getCategory());
+            eventCategory.getCategory());
         if (optional.isPresent()) {
             log.error(optional.get().toString());
             throw new DuplicateKeyException("Ya existe un eventCategory con los datos ingresados");
@@ -130,7 +133,7 @@ public class EventCategoryService {
             throw new NoResultException("No hay un evento cargado");
         }
         log.info("*** Generando fixture para el evento {} - categoria {}", eventCategory.getEvent(),
-                eventCategory.getCategory());
+            eventCategory.getCategory());
         List<Roster> rosters = rosterRepository.findByEventCategory(eventCategory);
         log.debug(rosters.toString());
         if (!rosters.isEmpty()) {
@@ -147,17 +150,70 @@ public class EventCategoryService {
             Collections.shuffle(teams);
             log.debug("Teams desordenados: {}", teams);
             log.debug("Cantidad de equipos: {}", teams.size());
+
+            // Separo los grupos de acuerdo a la cantidad de equipos que haya
+            Map<Integer, List<Team>> map = this.armarTeams(teams);
+            // con la cantidad de grupos que tengo, creo los juegos
+            Set<Game> games = this.armarGames(eventCategory, map);
+            eventCategory.setGames(games);
+            eventCategoryRepository.save(eventCategory);
+        }
+    }
+
+    public Map<Integer, List<Team>> armarTeams(List<Team> teamsOrigin) {
+        Map<Integer, List<Team>> map = new HashMap<>();
+        int cantGrupos = 0;
+        int posicion = 0;
+        List<Team> teams;
+        Bracket bracket = bracketService.findByTeams(teamsOrigin.size());
+        log.debug(bracket.toString());
+        // Si es -1, es un RR asi que uso toda la lista de teams
+        if (bracket.getTeams5A() == -1) {
+            map.put(0, teamsOrigin);
+            log.info(map.toString());
+            return map;
+        }
+        Integer cantidad5 = bracket.getTeams5A() != 0 ? bracket.getTeams5A() : bracket.getTeams5B();
+        Integer cantidad6 = bracket.getTeams6A() != 0 ? bracket.getTeams6A() : bracket.getTeams6B();
+        log.info("Cantidad de grupos de 5 Teams: {}", cantidad5);
+        log.info("Cantidad de grupos de 6 Teams: {}", cantidad6);
+        // Agrupo por la cantidad de repeticiones de juegos de 5
+        for (int j = 0; j < cantidad5; j++) {
+            teams = new ArrayList<>();
+            for (int k = 0; k < 5; k++) {
+                teams.add(teamsOrigin.get(posicion++));
+            }
+            map.put(cantGrupos++, teams);
+        }
+        // Agrupo por la cantidad de repeticiones de juegos de 6
+        for (int j = 0; j < cantidad6; j++) {
+            teams = new ArrayList<>();
+            for (int k = 0; k < 6; k++) {
+                teams.add(teamsOrigin.get(posicion++));
+            }
+            map.put(cantGrupos++, teams);
+        }
+        for (Integer key: map.keySet()) {
+            log.info("Grupo: {}", (key + 1));
+            log.info("Teams: {}", map.get(key));
+        }
+        return map;
+    }
+
+    private Set<Game> armarGames(EventCategory eventCategory, Map<Integer, List<Team>> map) {
+        log.debug("Mapeando fixture a Games");
+        Set<Game> games = new HashSet<>();
+        map.forEach((k, v) -> {
             // Calculo el fixture con los equipos que tengo
-            Partido[][] rondas = FixtureUtils.calcularLiga(teams.size());
+            Partido[][] rondas = FixtureUtils.calcularLiga(v.size());
             FixtureUtils.mostrarPartidos(rondas, Boolean.FALSE);
-            log.debug("Mapeando fixture a Games");
-            Set<Game> games = new HashSet<>();
             int serie = 1;
             int cantSerie = 0;
             for (int i = 0; i < rondas.length; i++) {
                 log.debug("Game " + (i + 1) + ": ");
                 for (int j = 0; j < rondas[i].length; j++) {
                     Game game = new Game();
+                    game.setGroup(k+1);
                     /*Agrego Logica de Nro se Series*/
                     if (eventCategory.isSplitDeck()) {
                         cantSerie = cantSerie + 1;
@@ -173,16 +229,15 @@ public class EventCategoryService {
                         game.setTimeLeft(eventCategory.getCategory().getGameTime() * 60);
                     if (eventCategory.getCategory().getGameTimeType() == TimeType.SECONDS)
                         game.setTimeLeft(eventCategory.getCategory().getGameTime());
-                    game.setTeamA(teams.get((rondas[i][j].local)));
-                    game.setTeamB(teams.get((rondas[i][j].visitante)));
+                    game.setTeamA(v.get((rondas[i][j].local)));
+                    game.setTeamB(v.get((rondas[i][j].visitante)));
                     log.info("   " + game.getTeamA().toString() + "-" + game.getTeamB().toString());
                     game.setEventCategory(eventCategory);
                     games.add(game);
                 }
             }
-            eventCategory.setGames(games);
-            eventCategoryRepository.save(eventCategory);
-        }
+        });
+        return games;
     }
 
     public void generarFixture(Long idEventCategory) throws NoResultException {
@@ -198,7 +253,7 @@ public class EventCategoryService {
     public void generarTodosfixture() {
         log.info("*** Inicio de generación automática de fixtures ***");
         Optional<List<EventCategory>> eventCategories = eventCategoryRepository
-                .findByEvent_EndInscriptionDate(LocalDate.now());
+            .findByEvent_EndInscriptionDate(LocalDate.now());
         if (eventCategories.isPresent()) {
             for (EventCategory eventCategory : eventCategories.get()) {
                 this.generarFixture(eventCategory);
@@ -218,23 +273,22 @@ public class EventCategoryService {
             log.debug(gameResultDTO.toString());
             // Validaciones de entidades
             UserExtra userExtra = userExtraRepository.findById(gameResultDTO.getOwner_id()).orElseThrow(() ->
-                    new IllegalArgumentException("No existe un Usuario con el ID " + gameResultDTO.getOwner_id()));
+                new IllegalArgumentException("No existe un Usuario con el ID " + gameResultDTO.getOwner_id()));
             Event event = eventRepository.findById(gameResultDTO.getEvent_id()).orElseThrow(() ->
-                    new IllegalArgumentException("No existe un evento con ID: " + gameResultDTO.getEvent_id()));
+                new IllegalArgumentException("No existe un evento con ID: " + gameResultDTO.getEvent_id()));
             Category category = categoryRepository.findByName(gameResultDTO.getFixtureDTO().getCategoryDTO().getName())
-                    .orElseThrow(() -> new IllegalArgumentException("No existe una Categoria con el nombre: "
-                            + gameResultDTO.getFixtureDTO().getCategoryDTO().getName()));
-            EventCategory eventCategory =
-                    eventCategoryRepository.findByEventAndCategory(event, category).orElseThrow(() ->
-                            new IllegalArgumentException("No existe la combinacion de Evento-Categoria "
-                                    + event.toString() + " - " + category.toString()));
+                .orElseThrow(() -> new IllegalArgumentException("No existe una Categoria con el nombre: "
+                    + gameResultDTO.getFixtureDTO().getCategoryDTO().getName()));
+                eventCategoryRepository.findByEventAndCategory(event, category).orElseThrow(() ->
+                    new IllegalArgumentException("No existe la combinacion de Evento-Categoria "
+                        + event.toString() + " - " + category.toString()));
             if (!event.getTournament().getOwner().equals(userExtra.getUser())) {
                 throw new IllegalArgumentException(("El usuario " + userExtra.getUser().getLogin() + " no es el " +
-                        "owner del torneo"));
+                    "owner del torneo"));
             }
             List<Game> games =
-                    gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
-                            .collect(Collectors.toList());
+                gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
+                    .collect(Collectors.toList());
             // parseo el dto a mi modelo de datos
 
             log.info("** Parseo terminado");
