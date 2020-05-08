@@ -64,7 +64,8 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.roster">View Equipos</span>
                         </button>
-                        <button type="submit"
+                        <button *ngIf="enableUpdate()"
+                                type="submit"
                                 [routerLink]="['/roster/new']"
                                 [queryParams]="{evCatId:eventCategory.id}"
                                 class="btn btn-primary btn-sm">

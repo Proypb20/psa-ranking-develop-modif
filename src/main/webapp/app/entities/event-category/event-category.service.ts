@@ -35,4 +35,9 @@ export class EventCategoryService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  enableUpdate(id: number): Observable<HttpResponse<number>> {
+     const options = createRequestOption(id);
+     return this.http.get<number>(`${this.resourceUrl}/upd/${id}`, { params: options, observe: 'response' });
+  }
 }

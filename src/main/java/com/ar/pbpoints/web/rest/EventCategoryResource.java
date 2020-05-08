@@ -163,4 +163,13 @@ public class EventCategoryResource {
     public ResponseEntity<?> write(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         return ResponseEntity.ok(eventCategoryService.submitXML(multipartFile));
     }
+
+    @GetMapping("/event-categories/upd/{id}")
+    public ResponseEntity<Long> enableUpdate(@PathVariable Long id) {
+        log.debug("REST request to check if event is Closed or Inscripcion is Closed: {}", id);
+        Long result = eventCategoryService.validEvent(id);
+        ResponseEntity<Long> resp = ResponseEntity.ok().body(result);
+        return resp;
+
+    }
 }

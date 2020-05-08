@@ -4,6 +4,8 @@ import com.ar.pbpoints.domain.*;
 import com.ar.pbpoints.domain.enumeration.TimeType;
 import com.ar.pbpoints.repository.*;
 import com.ar.pbpoints.service.dto.EventCategoryDTO;
+import com.ar.pbpoints.service.dto.EventDTO;
+import com.ar.pbpoints.service.dto.RosterDTO;
 import com.ar.pbpoints.service.dto.xml.GameResultDTO;
 import com.ar.pbpoints.service.mapper.EventCategoryMapper;
 import com.ar.pbpoints.service.util.FixtureUtils;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +41,8 @@ public class EventCategoryService {
 
     private final EventCategoryMapper eventCategoryMapper;
 
+    private final EventService eventService;
+
     private final RosterRepository rosterRepository;
 
     private final GameRepository gameRepository;
@@ -53,12 +58,15 @@ public class EventCategoryService {
     private final BracketService bracketService;
 
     public EventCategoryService(EventCategoryRepository eventCategoryRepository,
-                                EventCategoryMapper eventCategoryMapper, RosterRepository rosterRepository,
+                                EventCategoryMapper eventCategoryMapper,
+                                EventService eventService,
+                                RosterRepository rosterRepository,
                                 GameRepository gameRepository, EventRepository eventRepository,
                                 CategoryRepository categoryRepository, UserExtraRepository userExtraRepository,
                                 GameService gameService, BracketService bracketService) {
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventCategoryMapper = eventCategoryMapper;
+        this.eventService = eventService;
         this.rosterRepository = rosterRepository;
         this.gameRepository = gameRepository;
         this.eventRepository = eventRepository;
@@ -301,5 +309,28 @@ public class EventCategoryService {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    public long validEvent(Long eventId){
+        Optional<EventDTO> event = eventService.findOne(eventId);
+        Long result;
+        if (event.isPresent())
+        {
+            Date date = new Date();
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date endInsDate = Date.from(event.get().getEndInscriptionDate().atStartOfDay(defaultZoneId).toInstant());
+            if (endInsDate.compareTo(date) > 0) {
+                result = 1L;
+            }
+            else {
+                result = 0L;
+            }
+        }
+        else
+        {
+            result = 0L;
+        }
+        log.debug("Result: {}" + result);
+        return result;
     }
 }

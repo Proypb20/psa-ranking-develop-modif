@@ -31,6 +31,8 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   reverse: any;
   evId: number;
   private sub: any;
+  updAllowed: any;
+  updateAllow: boolean;
 
   constructor(
     protected eventCategoryService: EventCategoryService,
@@ -115,6 +117,8 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInEventCategories();
+    this.eventCategoryService.enableUpdate(this.evId)
+                             .subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
   }
 
   ngOnDestroy() {
@@ -145,5 +149,17 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
 
   Cancel(){
       window.history.back();
+  }
+
+  protected enableUpdate() {
+     return this.updateAllow;
+  }
+
+  protected paginateUpdate(data: number, headers: HttpHeaders) {
+     this.updAllowed = data;
+     if (this.updAllowed.toString() !== "0")
+      this.updateAllow = true;
+     else
+      this.updateAllow = false;
   }
 }
