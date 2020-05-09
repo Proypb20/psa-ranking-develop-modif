@@ -52,27 +52,24 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-   if(this.evId)
-   {
-    this.eventCategoryService
-      .query({
-       'eventId.equals': this.evId,
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
-   }
-   else
-   {
+    if (this.evId) {
       this.eventCategoryService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
-   }
+        .query({
+          'eventId.equals': this.evId,
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
+    } else {
+      this.eventCategoryService
+        .query({
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe((res: HttpResponse<IEventCategory[]>) => this.paginateEventCategories(res.body, res.headers));
+    }
   }
 
   loadPage(page: number) {
@@ -106,19 +103,16 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  this.sub = this.activatedRoute
-      .queryParams
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        this.evId = +params['evId'] || 0;
-      });
+    this.sub = this.activatedRoute.queryParams.subscribe(params => {
+      // Defaults to 0 if no query param provided.
+      this.evId = +params['evId'] || 0;
+    });
     this.loadAll();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.registerChangeInEventCategories();
-    this.eventCategoryService.enableUpdate(this.evId)
-                             .subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
+    this.eventCategoryService.enableUpdate(this.evId).subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
   }
 
   ngOnDestroy() {
@@ -141,25 +135,23 @@ export class EventCategoryComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected paginateEventCategories(data: IEventCategory[], headers: HttpHeaders) {
+  paginateEventCategories(data: IEventCategory[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.eventCategories = data;
   }
 
-  Cancel(){
-      window.history.back();
+  Cancel() {
+    window.history.back();
   }
 
-  protected enableUpdate() {
-     return this.updateAllow;
+  enableUpdate() {
+    return this.updateAllow;
   }
 
   protected paginateUpdate(data: number, headers: HttpHeaders) {
-     this.updAllowed = data;
-     if (this.updAllowed.toString() !== "0")
-      this.updateAllow = true;
-     else
-      this.updateAllow = false;
+    this.updAllowed = data;
+    if (this.updAllowed.toString() !== '0') this.updateAllow = true;
+    else this.updateAllow = false;
   }
 }

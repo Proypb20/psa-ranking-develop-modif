@@ -9,7 +9,7 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { IPlayer, Player } from 'app/shared/model/player.model';
 import { PlayerService } from './player.service';
-import { IPlayerPoint} from 'app/shared/model/player-point.model';
+import { IPlayerPoint } from 'app/shared/model/player-point.model';
 import { PlayerPointService } from 'app/entities/player-point/player-point.service';
 
 import { AccountService } from 'app/core/auth/account.service';
@@ -48,7 +48,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   updAllowed: any;
   tourSet: boolean;
 
-  private completeName : any;
+  private completeName: any;
 
   addForm = this.fb.group({
     id: [],
@@ -79,27 +79,24 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-  if (this.rId)
-  {
-    this.playerService
-      .query({
-       'rosterId.equals' : this.rId,
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
-  }
-  else
-  {
-    this.playerService
-      .query({
-        page: this.page - 1,
-        size: this.itemsPerPage,
-        sort: this.sort()
-      })
-      .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
-   }
+    if (this.rId) {
+      this.playerService
+        .query({
+          'rosterId.equals': this.rId,
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
+    } else {
+      this.playerService
+        .query({
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort()
+        })
+        .subscribe((res: HttpResponse<IPlayer[]>) => this.paginatePlayers(res.body, res.headers));
+    }
   }
 
   private createFromForm(): IPlayer {
@@ -149,48 +146,43 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-	  this.sub = this.activatedRoute
-	      .queryParams
-	      .subscribe(params => {
-	        this.rId = +params['rId'] || 0;
-	      });
-	this.accountService.identity().subscribe(account => {
-	      this.currentAccount = account;
-	    });
-	this.userService
-	    .query({
-	    	size: 2000
-	    })
-	    .pipe(
-	      filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<IUser[]>) => response.body))
-	    .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.sub = this.activatedRoute.queryParams.subscribe(params => {
+      this.rId = +params['rId'] || 0;
+    });
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+    this.userService
+      .query({
+        size: 2000
+      })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
+      )
+      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
 
-    this.tourId = localStorage.getItem("TOURNAMENTID");
-     if (this.tourId)
-     {
+    this.tourId = localStorage.getItem('TOURNAMENTID');
+    if (this.tourId) {
       this.playerPointService
-            .query({
-              size: 2000,
-             'tournamentId.equals': +this.tourId || 0,
-            })
-            .pipe(
-              filter((mayBeOk: HttpResponse<IPlayerPoint[]>) => mayBeOk.ok),
-              map((response: HttpResponse<IPlayerPoint[]>) => response.body))
-            .subscribe((res: IPlayerPoint[]) => (this.playerpoints = res), (res: HttpErrorResponse) => this.onError(res.message));
+        .query({
+          size: 2000,
+          'tournamentId.equals': +this.tourId || 0
+        })
+        .pipe(
+          filter((mayBeOk: HttpResponse<IPlayerPoint[]>) => mayBeOk.ok),
+          map((response: HttpResponse<IPlayerPoint[]>) => response.body)
+        )
+        .subscribe((res: IPlayerPoint[]) => (this.playerpoints = res), (res: HttpErrorResponse) => this.onError(res.message));
 
-        if (this.tourId === 0)
-             this.tourSet = false;
-           else
-             this.tourSet = true;
-     }
+      if (this.tourId === 0) this.tourSet = false;
+      else this.tourSet = true;
+    }
 
     this.loadAll();
     this.registerChangeInPlayers();
-    this.playerService.findOwner(this.rId)
-                      .subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
-     this.playerService.enableUpdate(this.rId)
-                      .subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
+    this.playerService.findOwner(this.rId).subscribe((res: HttpResponse<number>) => this.paginateOwner(res.body, res.headers));
+    this.playerService.enableUpdate(this.rId).subscribe((res: HttpResponse<number>) => this.paginateUpdate(res.body, res.headers));
   }
 
   ngOnDestroy() {
@@ -232,37 +224,32 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.isSaving = false;
   }
   protected onError(errorMessage: string) {
-	    this.jhiAlertService.error(errorMessage, null, null);
+    this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  Cancel(){
-      window.history.back();
+  Cancel() {
+    window.history.back();
   }
 
-  isTheOwner(){
+  isTheOwner() {
     return this.isOwner;
   }
 
   protected paginateOwner(data: number, headers: HttpHeaders) {
     this.ownerId = data;
-    if (this.ownerId.toString() === this.currentAccount.id.toString())
-     this.isOwner = true;
-    else
-     this.isOwner = false;
+    if (this.ownerId.toString() === this.currentAccount.id.toString()) this.isOwner = true;
+    else this.isOwner = false;
   }
 
   protected paginateUpdate(data: number, headers: HttpHeaders) {
-     this.updAllowed = data;
-     if (this.updAllowed.toString() !== "0")
-      if(this.isOwner)
-         this.isOwner = true;
-      else
-      this.isOwner = false;
-     else
-      this.isOwner = false;
+    this.updAllowed = data;
+    if (this.updAllowed.toString() !== '0')
+      if (this.isOwner) this.isOwner = true;
+      else this.isOwner = false;
+    else this.isOwner = false;
   }
 
-  protected IsTourSet() {
-   return this.tourSet;
+  IsTourSet() {
+    return this.tourSet;
   }
 }
