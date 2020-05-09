@@ -139,7 +139,7 @@ public class UserExtraResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/user-extras/roster")
+    /*@GetMapping("/user-extras/roster")
     public ResponseEntity<UserExtraDTO> getUserExtraToRoster(@RequestParam(value="idUser", required=true) Long idUser, @RequestParam(value="idRoster", required=true) Long idRoster,
             @RequestParam(value="idEventCategory", required=true) Long idEventCategory) {
         log.debug("REST request to get UserExtra to Roster --> iduser: {}, idRoster: {}, idEventCategory: {}", idUser,
@@ -151,5 +151,5 @@ public class UserExtraResource {
             throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "genericError");
         }
         return ResponseUtil.wrapOrNotFound(userExtraDTO);
-    }
+    }*/
 }

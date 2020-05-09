@@ -80,6 +80,15 @@ public class PlayerResource {
         if (playerDTO.getId() != null) {
             throw new BadRequestAlertException("A new player cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (playerDTO.getProfile() == null){
+            throw new BadRequestAlertException("Profile cant be Null", ENTITY_NAME, "nullProfile");
+        }
+        if (playerService.validExists(playerDTO)){
+            throw new BadRequestAlertException("Already Exists", ENTITY_NAME, "alreadyInRoster");
+        }
+        if (playerService.validExistsOtherRoster(playerDTO)){
+            throw new BadRequestAlertException("Already Exists", ENTITY_NAME, "alreadyInOtherRoster");
+        }
         PlayerDTO result = playerService.save(playerDTO);
         if (result.getId() == null)
         {
@@ -109,11 +118,18 @@ public class PlayerResource {
         if (playerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (playerDTO.getProfile() == null){
+            throw new BadRequestAlertException("Profile cant be Null", ENTITY_NAME, "nullProfile");
+        }
+        if (playerService.validExistsOtherRoster(playerDTO)){
+            throw new BadRequestAlertException("Already Exists", ENTITY_NAME, "alreadyInOtherRoster");
+        }
         PlayerDTO result = playerService.save(playerDTO);
         User user = userRepository.findOneById(result.getUserId());
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, user.getLastName() + ", " + user.getFirstName()))
             .body(result);
+
     }
 
     /**

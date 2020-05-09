@@ -123,7 +123,7 @@ public class UserExtraService {
         return userExtra;
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public Optional<UserExtraDTO> getUniqueUserToRoster(Long idUser, Long idRoster, Long idEventCategory) {
         // Busco si existe el usuario
         UserExtra userExtra = userExtraRepository.findById(idUser)
@@ -151,5 +151,5 @@ public class UserExtraService {
             throw new IllegalArgumentException("Ya existe el player para el EventoCategoria");
         }
         return Optional.of(userExtraMapper.toDto(userExtra));
-    }
+    }*/
 }

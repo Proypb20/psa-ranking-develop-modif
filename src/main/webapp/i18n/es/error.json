@@ -11,6 +11,9 @@
     },
     "concurrencyFailure": "Otro usuario ha modificado estos datos al mismo tiempo que tú. Tus cambios fueron rechazados.",
     "validation": "Error de validación en el servidor.",
-    "teamexists": "El Equipo ya existe"
+    "teamexists": "El Equipo ya existe",
+    "alreadyInRoster": "El Jugador ya esta inscripto",
+    "alreadyInOtherRoster": "El Jugador ya esta Inscripto en otro Equipo",
+    "nullProfile": "Debe indicar un Perfil de Jugador"
   }
 }

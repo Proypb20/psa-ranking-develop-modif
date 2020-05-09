@@ -78,7 +78,7 @@ size: 2000
 		  this.teamService
 	      .query({"teamId.equals": this.teId,
 	             "ownerId.equals": this.currentAccount.id,
-size: 2000
+                size: 2000
 	            })
 	      .pipe(
 	            filter((mayBeOk: HttpResponse<ITeam[]>) => mayBeOk.ok),

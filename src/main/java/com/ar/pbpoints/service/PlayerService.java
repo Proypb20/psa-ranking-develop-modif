@@ -26,6 +26,8 @@ import com.ar.pbpoints.service.dto.PlayerDTO;
 import com.ar.pbpoints.service.mapper.PlayerMapper;
 import com.ar.pbpoints.web.rest.errors.BadRequestAlertException;
 
+import javax.swing.text.html.Option;
+
 /**
  * Service Implementation for managing {@link Player}.
  */
@@ -69,33 +71,6 @@ public class PlayerService {
     public PlayerDTO save(PlayerDTO playerDTO) {
         log.debug("Request to save Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
-        try
-        {
-        	Optional<Player> validPlayer = Optional.of(playerRepository.findByUserAndRoster (player.getUser(), player.getRoster()));
-            if (validPlayer.isPresent())
-            {
-            	log.debug("Error: Jugador Ya registrado en el Roster");
-            	return playerMapper.toDto(player);
-            }
-	    }
-        catch (Exception e)
-        {
-	        	log.debug("Jugador no existe");
-	    }
-        try
-        {
-        	Optional<Player> validPlayer = Optional.of(playerRepository.findByUserRosterAndEventCategory (player.getUser().getId(), player.getRoster().getId(),player.getRoster().getEventCategory().getId()));
-        	log.debug("validPlayer: {} " + validPlayer);
-            if (validPlayer.isPresent())
-            {
-            	log.debug("Error: Jugador Ya registrado en el otro Roster");
-            	return playerMapper.toDto(player);
-            }
-	    }
-        catch (Exception e)
-        {
-	        	log.debug("Jugador no esta en otro roster");
-	    }
         if (player.getProfile().equals(ProfileUser.PLAYER))
         {
 	        /*Obtengo el eventoCategory del Roster*/
@@ -165,6 +140,47 @@ public class PlayerService {
         }
     }
 
+    public Boolean validExists(PlayerDTO playerDTO){
+        log.debug("Request to valid if Player exists in roster : {}", playerDTO);
+        try {
+            Optional<Player> validPlayer = findByUserAndRoster(playerDTO.getUserId(), playerDTO.getRosterId());
+            if (validPlayer.isPresent())
+            {
+                log.debug("Error: Jugador Ya registrado en el Roster");
+                return true;
+            }
+            else
+                return false;
+        }
+        catch (Exception e){
+            log.debug("Error: " + e);
+            return false;
+        }
+
+    }
+
+    public Boolean validExistsOtherRoster(PlayerDTO playerDTO){
+        log.debug("Request to valid if Player exists in roster : {}", playerDTO);
+        if (playerDTO.getProfile() == ProfileUser.STAFF){
+            log.debug("No valida si se agrega como Staff");
+            return false;
+        }
+        Roster roster = rosterRepository.getOne(playerDTO.getRosterId());
+        try {
+            Optional<Player> validPlayer = findByUserAndEventCategory(playerDTO.getUserId(), roster.getEventCategory());
+            if (validPlayer.isPresent()) {
+                log.debug("Error: Jugador Ya registrado en otro Roster");
+                return true;
+            } else
+                return false;
+        }
+        catch (Exception e) {
+            log.debug("Error: " + e);
+            return false;
+        }
+    }
+
+
     /**
      * Get all the players.
      *
@@ -202,25 +218,29 @@ public class PlayerService {
         playerRepository.deleteById(id);
     }
 
-    public Optional<Player> findByUserAndEventCategory (User user, EventCategory eventCategory){
-        log.debug("Buscando User en EventoCategoria: {}, {}", user, eventCategory);
+    public Optional<Player> findByUserAndEventCategory (Long userId, EventCategory eventCategory){
+        log.debug("Buscando User en EventoCategoria: {}, {}", userId, eventCategory);
         for (Roster roster : eventCategory.getRosters()) {
-            Optional<Player> player = this.findPlayer(user, roster);
+            Optional<Player> player = this.findPlayer(userId, roster);
             if (player.isPresent()) {
-                return player;
+                if (player.get().getProfile() == ProfileUser.PLAYER)
+                  return player;
             }
         }
         return Optional.empty();
     }
 
-    public Optional<Player> findByUserAndRoster (User user, Roster roster){
-        log.debug("Buscando User en Roster: {}, {}", user, roster);
-        return this.findPlayer(user, roster);
+    public Optional<Player> findByUserAndRoster (Long userId, Long rosterId){
+        log.debug("Buscando User en Roster: {}, {}", userId, rosterId);
+        Roster roster = rosterRepository.getOne(rosterId);
+        log.debug("Roster: {}", roster);
+        return this.findPlayer(userId, roster);
     }
 
-    private Optional<Player> findPlayer (User user, Roster roster) {
+    private Optional<Player> findPlayer (Long userId, Roster roster) {
         for (Player player : roster.getPlayers()) {
-            if (player.getUser().equals(user)) {
+            log.debug("Player: {}", player);
+            if (player.getUser().getId().equals(userId)) {
                 return Optional.of(player);
             }
         }
