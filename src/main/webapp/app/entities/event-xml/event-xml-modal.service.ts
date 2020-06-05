@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
-import { JhiLoginModalComponent } from 'app/shared/login/login.component';
+import { EventXmlModalComponent } from 'app/entities/event-xml/event-xml.component';
 
 @Injectable({ providedIn: 'root' })
-export class LoginModalService {
+export class EventXmlModalService {
   private isOpen = false;
   constructor(private modalService: NgbModal) {}
 
@@ -19,7 +19,7 @@ export class LoginModalService {
           keyboard : false
     };
 
-    const modalRef = this.modalService.open(JhiLoginModalComponent, ngbModalOptions);
+    const modalRef = this.modalService.open(EventXmlModalComponent, ngbModalOptions);
     modalRef.result.finally(() => (this.isOpen = false));
     return modalRef;
   }

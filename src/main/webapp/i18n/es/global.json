@@ -14,8 +14,7 @@
           "province": "Agregar Provincia",
           "team": "Agregar Equipo",
           "player": "Agregar Jugador",
-          "add": "Agregar",
-          "xml": "Generar Archivo"
+          "add": "Agregar"
         },
         "view": {
           "view": "Ver Todo",
@@ -51,6 +50,10 @@
           "doctype": "Tipos de Documento",
           "country": "Paises",
           "city": "Ciudades"
+        },
+        "xml": {
+          "export": "Exportar Archivo",
+          "import": "Subir Archivo"
         }
       },
       "entities": {

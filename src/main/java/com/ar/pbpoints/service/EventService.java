@@ -7,6 +7,28 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import java.io.FileOutputStream;
+import java.util.stream.Collectors;
+
+import com.ar.pbpoints.domain.*;
+import com.ar.pbpoints.repository.*;
+import com.ar.pbpoints.service.dto.xml.GameResultDTO;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javax.persistence.NoResultException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,17 +46,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.ar.pbpoints.domain.Event;
-import com.ar.pbpoints.domain.EventCategory;
-import com.ar.pbpoints.domain.Game;
-import com.ar.pbpoints.repository.EventCategoryRepository;
-import com.ar.pbpoints.repository.EventRepository;
-import com.ar.pbpoints.repository.GameRepository;
 import com.ar.pbpoints.service.dto.EventDTO;
 import com.ar.pbpoints.service.mapper.EventMapper;
 
@@ -51,15 +69,28 @@ public class EventService {
 
     private final EventCategoryRepository eventCategoryRepository;
 
+    private final UserExtraRepository userExtraRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    private final GameService gameService;
+
     private final GameRepository gameRepository;
 
     private final EventMapper eventMapper;
 
-    public EventService(EventRepository eventRepository, EventCategoryRepository eventCategoryRepository,
-            GameRepository gameRepository, EventMapper eventMapper) {
+    public EventService(EventRepository eventRepository,
+                        EventCategoryRepository eventCategoryRepository,
+                        UserExtraRepository userExtraRepository,
+                        CategoryRepository categoryRepository,
+                        GameService gameService,
+                        GameRepository gameRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventCategoryRepository = eventCategoryRepository;
+        this.gameService = gameService;
         this.gameRepository = gameRepository;
+        this.userExtraRepository = userExtraRepository;
+        this.categoryRepository = categoryRepository;
         this.eventMapper = eventMapper;
     }
 
@@ -114,16 +145,14 @@ public class EventService {
      * A partir de todos los los equipos que van a participar en un
      * evento-categoria, se genera el fixture para generar los games
      *
-     * @param eventCategory
+     * @param event
      * @throws ParserConfigurationException
      * @throws TransformerConfigurationException
      * @throws IOException
      */
     public void generarXML(Event event)
             throws ParserConfigurationException, TransformerConfigurationException, IOException {
-        if (event.getEndInscriptionDate().isAfter(LocalDate.now())) {
-            throw new NoResultException("La fecha de Inscripcion aun no ha finalizado");
-        }
+
         log.info("*** Generando XML para el evento {}", event);
 
         try {
@@ -150,13 +179,10 @@ public class EventService {
             root.appendChild(setup);
 
             List<EventCategory> eventCategories = eventCategoryRepository.findByEvent(event);
-            log.debug(eventCategories.toString());
-            if (eventCategories.isEmpty()) {
-                throw new NoResultException("No hay Categorias en el evento");
-            }
-            log.debug("Categorias a incluir: {}", eventCategories);
+            log.info("*** Recorriendo Categorias ***");
             for (EventCategory eventCategory : eventCategories) {
 
+                log.info("*** Recorriendo Categoria {}", eventCategory);
                 Element categorys = document.createElement("CATEGORY");
                 setup.appendChild(categorys);
 
@@ -212,32 +238,34 @@ public class EventService {
                 categoryf.appendChild(gamesxml);
 
                 List<Game> games = gameRepository.findByEventCategory(eventCategory);
+                if (!games.isEmpty()) {
+                    log.info("*** Recorriendo Games ***");
+                    for (Game gameloop : games) {
 
-                log.debug(games.toString());
+                        log.info("*** Recorriendo Game {}", gameloop);
+                        Element gamexml = document.createElement("GAME");
+                        gamesxml.appendChild(gamexml);
 
-                for (Game gameloop : games) {
-                    Element gamexml = document.createElement("GAME");
-                    gamesxml.appendChild(gamexml);
+                        Element gameid = document.createElement("ID");
+                        gameid.appendChild(document.createTextNode(gameloop.getId().toString()));
+                        gamexml.appendChild(gameid);
 
-                    Element gameid = document.createElement("ID");
-                    gameid.appendChild(document.createTextNode(gameloop.getId().toString()));
-                    gamexml.appendChild(gameid);
+                        Element spid = document.createElement("SD_ID");
+                        spid.appendChild(document.createTextNode(gameloop.getSplitDeckNum().toString()));
+                        gamexml.appendChild(spid);
 
-                    Element spid = document.createElement("SD_ID");
-                    spid.appendChild(document.createTextNode(gameloop.getSplitDeckNum().toString()));
-                    gamexml.appendChild(spid);
+                        Element clasif = document.createElement("CLASIF");
+                        clasif.appendChild(document.createTextNode("1"));
+                        gamexml.appendChild(clasif);
 
-                    Element clasif = document.createElement("CLASIF");
-                    clasif.appendChild(document.createTextNode("1"));
-                    gamexml.appendChild(clasif);
+                        Element teama = document.createElement("TEAM_A");
+                        teama.appendChild(document.createTextNode(gameloop.getTeamA().getName()));
+                        gamexml.appendChild(teama);
 
-                    Element teama = document.createElement("TEAM_A");
-                    teama.appendChild(document.createTextNode(gameloop.getTeamA().getName()));
-                    gamexml.appendChild(teama);
-
-                    Element teamb = document.createElement("TEAM_B");
-                    teamb.appendChild(document.createTextNode(gameloop.getTeamB().getName()));
-                    gamexml.appendChild(teamb);
+                        Element teamb = document.createElement("TEAM_B");
+                        teamb.appendChild(document.createTextNode(gameloop.getTeamB().getName()));
+                        gamexml.appendChild(teamb);
+                    }
                 }
             }
 
@@ -276,15 +304,71 @@ public class EventService {
             tfe.printStackTrace();
         }
     }
-
-    public void generaXML(Long eventId)
-            throws NoResultException, ParserConfigurationException, TransformerConfigurationException, IOException {
-
-        Optional<Event> event = eventRepository.findById(eventId);
-        if (event.isPresent()) {
-            this.generarXML(event.get());
-        } else {
-            throw new NoResultException("No se encontró un evento para generar XML");
-        }
+    public boolean hasCategories(Event event){
+        List<EventCategory> eventCategories = eventCategoryRepository.findByEvent(event);
+        log.debug("Event Categories: {}" + eventCategories);
+        if (eventCategories.isEmpty())
+            return false;
+        else
+            return true;
     }
+
+    public boolean hasGames(Event event){
+        int qty = 0;
+        List<EventCategory> eventCategories = eventCategoryRepository.findByEvent(event);
+        for (EventCategory eventCategory : eventCategories) {
+            List<Game> games = gameRepository.findByEventCategory(eventCategory);
+            if (!games.isEmpty()) {
+                qty ++;
+            }
+        }
+        if (qty == 0)
+            return false;
+        else
+            return true;
+    }
+
+    public Boolean submitXML(MultipartFile file) {
+        XmlMapper xmlMapper = new XmlMapper();
+        log.info("*** Inicio parseo de fichero con resultados de EventCategory ***");
+        try {
+            log.info("Fichero: {}", file.getOriginalFilename());
+            GameResultDTO gameResultDTO = xmlMapper.readValue(file.getBytes(), GameResultDTO.class);
+            log.debug(gameResultDTO.toString());
+            // Validaciones de entidades
+            UserExtra userExtra = userExtraRepository.findById(gameResultDTO.getOwner_id()).orElseThrow(() ->
+                new IllegalArgumentException("No existe un Usuario con el ID " + gameResultDTO.getOwner_id()));
+            Event event = eventRepository.findById(gameResultDTO.getEvent_id()).orElseThrow(() ->
+                new IllegalArgumentException("No existe un evento con ID: " + gameResultDTO.getEvent_id()));
+            Category category = categoryRepository.findByName(gameResultDTO.getFixtureDTO().getCategoryDTO().getName())
+                .orElseThrow(() -> new IllegalArgumentException("No existe una Categoria con el nombre: "
+                    + gameResultDTO.getFixtureDTO().getCategoryDTO().getName()));
+            eventCategoryRepository.findByEventAndCategory(event, category).orElseThrow(() ->
+                new IllegalArgumentException("No existe la combinacion de Evento-Categoria "
+                    + event.toString() + " - " + category.toString()));
+            if (!event.getTournament().getOwner().equals(userExtra.getUser())) {
+                throw new IllegalArgumentException(("El usuario " + userExtra.getUser().getLogin() + " no es el " +
+                    "owner del torneo"));
+            }
+            List<Game> games =
+                gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
+                    .collect(Collectors.toList());
+            // parseo el dto a mi modelo de datos
+
+            log.info("** Parseo terminado");
+            gameRepository.saveAll(games);
+            log.debug("** Games actualizados **");
+            log.info("*** Fin de proceso de carga de puntajes ***");
+        } catch (IOException e) {
+            log.error("Error al parsear el fichero: {}", file.getName());
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    public void generatePdf(Event event){
+        log.debug("*** Generando PDF ***");
+    }
+
 }

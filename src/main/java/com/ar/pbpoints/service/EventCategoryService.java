@@ -272,45 +272,6 @@ public class EventCategoryService {
         log.info("*** Fin de generación automática de fixtures ***");
     }
 
-    public Boolean submitXML(MultipartFile file) {
-        XmlMapper xmlMapper = new XmlMapper();
-        log.info("*** Inicio parseo de fichero con resultados de EventCategory ***");
-        try {
-            log.info("Fichero: {}", file.getOriginalFilename());
-            GameResultDTO gameResultDTO = xmlMapper.readValue(file.getBytes(), GameResultDTO.class);
-            log.debug(gameResultDTO.toString());
-            // Validaciones de entidades
-            UserExtra userExtra = userExtraRepository.findById(gameResultDTO.getOwner_id()).orElseThrow(() ->
-                new IllegalArgumentException("No existe un Usuario con el ID " + gameResultDTO.getOwner_id()));
-            Event event = eventRepository.findById(gameResultDTO.getEvent_id()).orElseThrow(() ->
-                new IllegalArgumentException("No existe un evento con ID: " + gameResultDTO.getEvent_id()));
-            Category category = categoryRepository.findByName(gameResultDTO.getFixtureDTO().getCategoryDTO().getName())
-                .orElseThrow(() -> new IllegalArgumentException("No existe una Categoria con el nombre: "
-                    + gameResultDTO.getFixtureDTO().getCategoryDTO().getName()));
-                eventCategoryRepository.findByEventAndCategory(event, category).orElseThrow(() ->
-                    new IllegalArgumentException("No existe la combinacion de Evento-Categoria "
-                        + event.toString() + " - " + category.toString()));
-            if (!event.getTournament().getOwner().equals(userExtra.getUser())) {
-                throw new IllegalArgumentException(("El usuario " + userExtra.getUser().getLogin() + " no es el " +
-                    "owner del torneo"));
-            }
-            List<Game> games =
-                gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
-                    .collect(Collectors.toList());
-            // parseo el dto a mi modelo de datos
-
-            log.info("** Parseo terminado");
-            gameRepository.saveAll(games);
-            log.debug("** Games actualizados **");
-            log.info("*** Fin de proceso de carga de puntajes ***");
-        } catch (IOException e) {
-            log.error("Error al parsear el fichero: {}", file.getName());
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
-
     public long validEvent(Long eventId){
         Optional<EventDTO> event = eventService.findOne(eventId);
         Long result;

@@ -3,6 +3,7 @@ package com.ar.pbpoints.web.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import javax.persistence.NoResultException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 
+import com.ar.pbpoints.domain.Event;
+import com.ar.pbpoints.service.mapper.EventMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,14 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ar.pbpoints.service.EventQueryService;
@@ -55,9 +52,14 @@ public class EventResource {
 
     private final EventQueryService eventQueryService;
 
-    public EventResource(EventService eventService, EventQueryService eventQueryService) {
+    private final EventMapper eventMapper;
+
+    public EventResource(EventService eventService,
+                         EventQueryService eventQueryService,
+                         EventMapper eventMapper) {
         this.eventService = eventService;
         this.eventQueryService = eventQueryService;
+        this.eventMapper = eventMapper;
     }
 
     /**
@@ -164,11 +166,52 @@ public class EventResource {
             throw new BadRequestAlertException("A event cannot have an empty ID", ENTITY_NAME, "idexists");
         }
         try {
-            eventService.generaXML(id);
+            Optional<EventDTO> eventDTO = eventService.findOne(id);
+            if (eventDTO.isPresent()) {
+                Event event = eventMapper.toEntity(eventDTO.get());
+                log.debug("Event: {}" + event);
+                if (event.getEndInscriptionDate().isAfter(LocalDate.now()))
+                    throw new BadRequestAlertException("Subscription Date no End", ENTITY_NAME, "inscrNotFinish");
+                if (!eventService.hasCategories(event))
+                    throw new BadRequestAlertException("No EventCategories Found", ENTITY_NAME, "noEventCategoriesFound");
+                if (!eventService.hasGames(event))
+                    throw new BadRequestAlertException("No Games Found", ENTITY_NAME, "noGamesFound");
+                eventService.generarXML(event);
+                return ResponseEntity.ok().body("Archivo generado con éxito");
+            } else {
+                throw new BadRequestAlertException("Event Not Found", ENTITY_NAME, "eventNotFound");
+            }
         } catch (NoResultException e) {
             return ResponseEntity.noContent().build();
         }
+    }
 
-        return ResponseEntity.ok().body("Archivo generado con éxito");
+    @PostMapping(value = "/events/importXML", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> write(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+        log.debug("REST request to Import file: {}",multipartFile);
+        return ResponseEntity.ok(eventService.submitXML(multipartFile));
+    }
+
+    @GetMapping("/events/generatepdf/{id}")
+    public ResponseEntity<Void> generatePdf(@PathVariable Long id) {
+        log.debug("REST request to Generate a Pdf File from: {}", id);
+        if (id == null) {
+            throw new BadRequestAlertException("A event cannot have an empty ID", ENTITY_NAME, "idexists");
+        }
+        Optional<EventDTO> eventDTO = eventService.findOne(id);
+        if (eventDTO.isPresent()) {
+            Event event = eventMapper.toEntity(eventDTO.get());
+            log.debug("Event: {}" + event);
+            if (event.getEndInscriptionDate().isAfter(LocalDate.now()))
+                throw new BadRequestAlertException("Subscription Date no End", ENTITY_NAME, "inscrNotFinish");
+            if (!eventService.hasCategories(event))
+                throw new BadRequestAlertException("No EventCategories Found", ENTITY_NAME, "noEventCategoriesFound");
+            if (!eventService.hasGames(event))
+                throw new BadRequestAlertException("No Games Found", ENTITY_NAME, "noGamesFound");
+            eventService.generatePdf(event);
+            return ResponseEntity.noContent().build();
+        }
+        else
+            throw new BadRequestAlertException("Event Not Found", ENTITY_NAME, "eventNotFound");
     }
 }

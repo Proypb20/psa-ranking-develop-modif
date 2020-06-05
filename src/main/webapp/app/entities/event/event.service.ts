@@ -5,7 +5,8 @@ import * as moment from 'moment';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
-
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { EventXmlModalService } from 'app/entities/event-xml/event-xml-modal.service';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IEvent } from 'app/shared/model/event.model';
@@ -16,8 +17,9 @@ type EntityArrayResponseType = HttpResponse<IEvent[]>;
 @Injectable({ providedIn: 'root' })
 export class EventService {
   public resourceUrl = SERVER_API_URL + 'api/events';
-
-  constructor(protected http: HttpClient) {}
+  modalRef: NgbModalRef;
+  constructor(protected http: HttpClient
+             ,private eventXmlModalService: EventXmlModalService) {}
 
   create(event: IEvent): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(event);
@@ -32,13 +34,17 @@ export class EventService {
       .put<IEvent>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
-  
+
   generateXML(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IEvent>(`${this.resourceUrl}/generateXML/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
-  
+
+  importXML(id: number) {
+    this.modalRef = this.eventXmlModalService.open();
+  }
+
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IEvent>(`${this.resourceUrl}/${id}`, { observe: 'response' })

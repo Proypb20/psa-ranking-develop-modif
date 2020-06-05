@@ -60,11 +60,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     const email = this.registerForm.get(['email']).value;
     const password = this.registerForm.get(['password']).value;
     const phone = this.registerForm.get(['phone']).value;
-    const numDoc = this.registerForm.get(['numDoc']).value; 
+    const numDoc = this.registerForm.get(['numDoc']).value;
     const bornDate = this.registerForm.get(['bornDate']).value;
     const picture = this.registerForm.get(['picture']).value;
     const pictureContentType = this.registerForm.get(['pictureContentType']).value;
-    
+
     if (password !== this.registerForm.get(['confirmPassword']).value) {
       this.doNotMatch = 'ERROR';
     } else {
@@ -102,11 +102,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.error = 'ERROR';
     }
   }
-    
+
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }
- 
+
    getSelected(selectedVals: any[], option: any) {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
@@ -117,7 +117,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
     return option;
   }
-  
+
   clearInputImage(field: string, fieldContentType: string, idInput: string) {
     this.registerForm.patchValue({
       [field]: null,
@@ -127,7 +127,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
     }
   }
-  
+
   byteSize(field) {
     return this.dataUtils.byteSize(field);
   }

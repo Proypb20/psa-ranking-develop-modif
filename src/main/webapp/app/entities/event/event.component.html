@@ -4,7 +4,7 @@
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event" (click)="Cancel()">
             <span jhiTranslate="global.menu.back">Back</span>
         </button>
-        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" 
+        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
          id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="PbPointsApp.event.home.createLabel">
@@ -69,9 +69,14 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>-->
                         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
-                               (click)="generateXML(event.id)" 
+                               (click)="generateXML(event.id)"
                                 class="btn btn-primary btn-sm">
-                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.add.xml">Generate XML</span>
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.xml.export">Export File</span>
+                        </button>
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
+                                (click)="importXML(event.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.xml.import">Import File</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/event-category']"
@@ -80,14 +85,14 @@
                             <fa-icon [icon]="'pencil'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" 
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
                                 [routerLink]="['/event', event.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'" 
+                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
                                 [routerLink]="['/event', { outlets: { popup: event.id + '/delete'} }]"
                                 replaceUrl="true"

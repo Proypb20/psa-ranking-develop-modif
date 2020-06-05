@@ -63,7 +63,7 @@ public class EventCategoryResource {
         try {
             EventCategoryDTO result = eventCategoryService.save(eventCategoryDTO);
             return ResponseEntity.created(new URI("/api/event-categories/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getCategoryName()))
                 .body(result);
         } catch (DuplicateKeyException e) {
             throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "duplicateError");
@@ -157,11 +157,6 @@ public class EventCategoryResource {
         }
 
         return ResponseEntity.ok().body("Fixture generado con éxito");
-    }
-
-    @PostMapping(value = "/event-categories/write", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> write(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-        return ResponseEntity.ok(eventCategoryService.submitXML(multipartFile));
     }
 
     @GetMapping("/event-categories/upd/{id}")

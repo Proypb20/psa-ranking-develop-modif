@@ -256,6 +256,9 @@ public class UserService {
 
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
+            log.debug("Delete UserExtra: {}", user);
+            userExtraRepository.deleteById(user.getId());
+            log.debug("Delete User: {}", user);
             userRepository.delete(user);
             this.clearUserCaches(user);
             log.debug("Deleted User: {}", user);
@@ -305,6 +308,7 @@ public class UserService {
         userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(
             Instant.now().minus(3, ChronoUnit.DAYS)).forEach(user -> {
             log.debug("Deleting not activated user {}", user.getLogin());
+            userExtraRepository.deleteById(user.getId());
             userRepository.delete(user);
             this.clearUserCaches(user);
         });

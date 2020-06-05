@@ -24,7 +24,16 @@
       "createDate": "Fecha Creado",
       "updatedDate": "Fecha Actualizado",
       "tournament": "Torneo",
-      "city": "Ciudad"
-    }
+      "city": "Ciudad",
+      "xml": {
+          "title": "Importar Archivo",
+          "accept": "Importar",
+          "import": {
+            "label": "Seleccionar Archivo",
+            "placeholder": "Archivo"
+             }
+          }
+      }
   }
+
 }

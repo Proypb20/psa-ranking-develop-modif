@@ -89,18 +89,22 @@ public class PlayerResource {
         if (playerService.validExistsOtherRoster(playerDTO)){
             throw new BadRequestAlertException("Already Exists", ENTITY_NAME, "alreadyInOtherRoster");
         }
-        PlayerDTO result = playerService.save(playerDTO);
-        if (result.getId() == null)
-        {
-        	throw new BadRequestAlertException("No se puede agregar al jugador", ENTITY_NAME, "internalServerError");
+        if (playerService.validCategory(playerDTO)){
+            PlayerDTO result = playerService.save(playerDTO);
+            if (result.getId() == null)
+            {
+                throw new BadRequestAlertException("No se puede agregar al jugador", ENTITY_NAME, "InvalidPlayer");
+            }
+            else
+            {
+                User user = userRepository.findOneById(result.getUserId());
+                return ResponseEntity.created(new URI("/api/players/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, user.getLastName() + ", " + user.getFirstName()))
+                    .body(result);
+            }
         }
         else
-        {
-          User user = userRepository.findOneById(result.getUserId());
-          return ResponseEntity.created(new URI("/api/players/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, user.getLastName() + ", " + user.getFirstName()))
-                .body(result);
-        }
+            throw new BadRequestAlertException("La Categoria no es valida", ENTITY_NAME, "invalidCategoryPlayer");
     }
 
     /**

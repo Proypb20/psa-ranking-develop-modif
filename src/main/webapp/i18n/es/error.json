@@ -14,6 +14,10 @@
     "teamexists": "El Equipo ya existe",
     "alreadyInRoster": "El Jugador ya esta inscripto",
     "alreadyInOtherRoster": "El Jugador ya esta Inscripto en otro Equipo",
-    "nullProfile": "Debe indicar un Perfil de Jugador"
+    "nullProfile": "Debe indicar un Perfil de Jugador",
+    "invalidCategoryPlayer": "No se puede agregar un jugador con esta categoria",
+    "InvalidPlayer": "Error al agregar el jugador",
+    "noGamesFound": "No se encontraron partidos a disputar",
+    "noEventCategoriesFound": "No hay categorias asignadas"
   }
 }

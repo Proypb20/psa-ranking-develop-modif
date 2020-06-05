@@ -70,74 +70,8 @@ public class PlayerService {
      */
     public PlayerDTO save(PlayerDTO playerDTO) {
         log.debug("Request to save Player : {}", playerDTO);
-        Player player = playerMapper.toEntity(playerDTO);
-        if (player.getProfile().equals(ProfileUser.PLAYER))
-        {
-	        /*Obtengo el eventoCategory del Roster*/
-	        EventCategory eventCategory = eventCategoryRepository.findByRosters(player.getRoster());
-	        log.debug("Get EventCategory: {}",eventCategory);
-	        /*Obtengo el torneo del eventoCategory*/
-	        Tournament tournament = tournamentRepository.findByEvents(eventCategory.getEvent());
-	        log.debug("Get Tournament: {}",tournament);
-	        /*Si el torneo categoriza al jugador*/
-	        if (tournament.isCategorize())
-	        {
-	        	log.debug("Tournament Categorize");
-	        	/*Obtengo la categoria a la que pertenece el jugador*/
-	            PlayerPoint playerPoint = playerPointRepository.findByUserAndTournament(player.getUser(), tournament);
-	            log.debug("Get PlayerPoint: {}",playerPoint);
-	            if (playerPoint == null)
-	            {
-	            	playerPoint = new PlayerPoint();
-	            	playerPoint.setPoints((float) 0);
-	            	playerPoint.setTournament(tournament);
-	            	playerPoint.setUser(player.getUser());
-	            	playerPoint.setCategory(categoryRepository.LastCategoryByTournamentId(tournament.getId()));
-	            	log.debug("Get PlayerPoint: {}",playerPoint);
-	            	playerPoint = playerPointRepository.save(playerPoint);
-	            }
-	            /*Si la categoria del jugador es menor o igual a la del EventoCategoria (orden invertido)*/
-	            log.debug("Event Category Order: " + eventCategory.getCategory().getOrder());
-	            log.debug("Player Category Order: " + playerPoint.getCategory().getOrder());
-	            if (eventCategory.getCategory().getOrder() <= playerPoint.getCategory().getOrder())
-	            {
-	               player = playerRepository.save(player);
-	               return playerMapper.toDto(player);
-	            }
-	            else
-	            {
-	            	/*O el jugador esta en la proxima categoria*/
-	            	log.debug("Cant Jugadores Proxima Categoria: " + tournament.getCantPlayersNextCategory());
-	            	log.debug("Categoria Evento: " + eventCategory.getCategory().getOrder());
-	            	log.debug("Categoria Jugador: " + playerPoint.getCategory().getOrder());
-	            	log.debug("Cantidad Jugadores Inscriptos: " + rosterRepository.CountPlayerNextCategory(player.getRoster().getId(),playerPoint.getCategory().getId()));
-	                if ((tournament.getCantPlayersNextCategory() > 0 && eventCategory.getCategory().getOrder() +1 == playerPoint.getCategory().getOrder())
-	                /*Y no hay nadie inscripto*/
-	                 && (rosterRepository.CountPlayerNextCategory(player.getRoster().getId(),playerPoint.getCategory().getId()) < tournament.getCantPlayersNextCategory()))
-	                {
-	                	log.debug("Jugador Distinta Categoria Permitido");
-	                	player = playerRepository.save(player);
-	                    return playerMapper.toDto(player);
-	                }
-	                else
-	                {
-	                	log.debug("Error: Jugador Distinta Categoria NO Permitido");
-	                	return playerMapper.toDto(player);
-	                }
-
-	            }
-	        }
-	        else
-	        {
-	            player = playerRepository.save(player);
-	            return playerMapper.toDto(player);
-	        }
-        }
-        else
-        {
-            player = playerRepository.save(player);
-            return playerMapper.toDto(player);
-        }
+        Player player = playerRepository.save(playerMapper.toEntity(playerDTO));
+	    return playerMapper.toDto(player);
     }
 
     public Boolean validExists(PlayerDTO playerDTO){
@@ -180,6 +114,56 @@ public class PlayerService {
         }
     }
 
+    public boolean validCategory (PlayerDTO playerDTO){
+        Player player = playerMapper.toEntity(playerDTO);
+        if (playerDTO.getProfile().equals(ProfileUser.PLAYER)) {
+            /*Obtengo el eventoCategory del Roster*/
+            EventCategory eventCategory = eventCategoryRepository.findByRosters(player.getRoster());
+            log.debug("Get EventCategory: {}",eventCategory);
+            /*Obtengo el torneo del eventoCategory*/
+            Tournament tournament = tournamentRepository.findByEvents(eventCategory.getEvent());
+            log.debug("Get Tournament: {}",tournament);
+            /*Si el torneo categoriza al jugador*/
+            if (tournament.isCategorize()) {
+                log.debug("Tournament Categorize");
+                /*Obtengo la categoria a la que pertenece el jugador*/
+                PlayerPoint playerPoint = playerPointRepository.findByUserAndTournament(player.getUser(), tournament);
+                log.debug("Get PlayerPoint: {}",playerPoint);
+                if (playerPoint == null) {
+                    playerPoint = new PlayerPoint();
+                    playerPoint.setPoints((float) 0);
+                    playerPoint.setTournament(tournament);
+                    playerPoint.setUser(player.getUser());
+                    playerPoint.setCategory(categoryRepository.LastCategoryByTournamentId(tournament.getId()));
+                    log.debug("Get PlayerPoint: {}",playerPoint);
+                    playerPoint = playerPointRepository.save(playerPoint);
+                }
+                /*Si la categoria del jugador es menor o igual a la del EventoCategoria (orden invertido)*/
+                log.debug("Event Category Order: " + eventCategory.getCategory().getOrder());
+                log.debug("Player Category Order: " + playerPoint.getCategory().getOrder());
+                if (eventCategory.getCategory().getOrder() <= playerPoint.getCategory().getOrder())
+                    return true;
+                else
+                {
+                    /*O el jugador esta en la proxima categoria*/
+                    log.debug("Cant Jugadores Proxima Categoria: " + tournament.getCantPlayersNextCategory());
+                    log.debug("Categoria Evento: " + eventCategory.getCategory().getOrder());
+                    log.debug("Categoria Jugador: " + playerPoint.getCategory().getOrder());
+                    log.debug("Cantidad Jugadores Inscriptos: " + rosterRepository.CountPlayerNextCategory(player.getRoster().getId(),playerPoint.getCategory().getId()));
+                    if ((tournament.getCantPlayersNextCategory() > 0 && eventCategory.getCategory().getOrder() +1 == playerPoint.getCategory().getOrder())
+                        /*Y no hay nadie inscripto*/
+                        && (rosterRepository.CountPlayerNextCategory(player.getRoster().getId(),playerPoint.getCategory().getId()) < tournament.getCantPlayersNextCategory()))
+                        return true;
+                     else
+                        return false;
+                }
+            }
+            else
+              return true;
+        }
+        else
+            return true;
+    }
 
     /**
      * Get all the players.

@@ -220,8 +220,12 @@ export class EventComponent implements OnInit, OnDestroy {
      this.subscribeToSaveResponse(this.eventService.generateXML(id));
   }
 
+  importXML(id: number) {
+     this.eventService.importXML(id);
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess());
   }
 
   protected onSaveSuccess() {

@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4 class="modal-title" jhiTranslate="PbPointsApp.event.xml.title">Import File</h4>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form class="form" role="form" (ngSubmit)="onSubmit()" [formGroup]="eventXmlForm">
+                <div class="form-group">
+                    <label class="file-label" for="file" jhiTranslate="PbPointsApp.event.xml.import.label">Login</label>
+                    <input type="file" class="form-control" name="file" id="file" accept=".pbp" placeholder="{{'PbPointsApp.event.xml.import.placeholder' | translate}}"
+                           (change)="onFileSelect($event)" formControlName="file">
+                </div>
+                <button type="submit"
+                        class="btn btn-primary btn-block"
+                        jhiTranslate="PbPointsApp.event.xml.accept">Accept</button>
+            </form>
+        </div>
+    </div>
+</div>
