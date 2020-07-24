@@ -15,7 +15,7 @@ import { JhiAlertService } from 'ng-jhipster';
 export class EventXmlModalComponent implements AfterViewInit {
   public resourceUrl = SERVER_API_URL + 'api/events';
   eventXmlForm = this.fb.group({
-    file: ['']
+    file: [null]
   });
 
   constructor(
@@ -43,7 +43,7 @@ export class EventXmlModalComponent implements AfterViewInit {
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.eventXmlForm.get('profile').setValue(file);
+      this.eventXmlForm.get('file').setValue(file);
     }
   }
 

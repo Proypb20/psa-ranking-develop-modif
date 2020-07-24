@@ -187,7 +187,7 @@ public class EventResource {
     }
 
     @PostMapping(value = "/events/importXML", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> write(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+    public ResponseEntity<?> write(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
         log.debug("REST request to Import file: {}",multipartFile);
         return ResponseEntity.ok(eventService.submitXML(multipartFile));
     }
