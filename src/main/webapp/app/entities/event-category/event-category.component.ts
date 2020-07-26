@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { IEventCategory } from 'app/shared/model/event-category.model';
 import { AccountService } from 'app/core/auth/account.service';
-
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EventCategoryService } from './event-category.service';
 

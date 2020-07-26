@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.ar.pbpoints.domain.*;
 import com.ar.pbpoints.repository.*;
 import com.ar.pbpoints.service.dto.xml.GameResultDTO;
+import com.ar.pbpoints.service.dto.xml.PositionDTO;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Anchor;
@@ -354,7 +355,6 @@ public class EventService {
                 gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
                     .collect(Collectors.toList());
             // parseo el dto a mi modelo de datos
-
             log.info("** Parseo terminado");
             gameRepository.saveAll(games);
             log.debug("** Games actualizados **");

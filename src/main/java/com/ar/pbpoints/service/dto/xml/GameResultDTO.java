@@ -31,6 +31,11 @@ public class GameResultDTO {
     @NotNull
     private FixtureDTO fixtureDTO;
 
+    @JacksonXmlProperty(localName = "POSITIONS")
+    @Valid
+    @NotNull
+    private PositionsDTO positionsDTO;
+
     public Long getEvent_id() {
         return event_id;
     }
@@ -61,6 +66,14 @@ public class GameResultDTO {
 
     public void setFixtureDTO(FixtureDTO fixtureDTO) {
         this.fixtureDTO = fixtureDTO;
+    }
+
+    public PositionsDTO getPositionsDTO() {
+        return positionsDTO;
+    }
+
+    public void setPositionsDTO(PositionsDTO positionsDTO) {
+        this.positionsDTO = positionsDTO;
     }
 
     @Override

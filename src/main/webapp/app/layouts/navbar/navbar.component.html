@@ -1,4 +1,5 @@
-<nav class="navbar navbar-dark navbar-expand-md bg-dark">
+    <!--<nav class="navbar navbar-dark navbar-expand-md bg-dark">-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
         <span jhiTranslate="global.title" class="navbar-title">PbPoints</span>
@@ -18,21 +19,27 @@
             </li>
             <!-- Agregado Edu Menu USER -->
             <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-item" 
-                   routerLink="team/new" 
-                   routerLinkActive="active" 
-                   [routerLinkActiveOptions]="{ exact: true }" 
+                <a class="nav-link dropdown-item"
+                   routerLink="team/new"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: true }"
                    (click)="collapseNavbar()">
-                   <span jhiTranslate="global.menu.custom.add.team">Agregar</span>
+                    <span>
+                      <fa-icon icon="plus"></fa-icon>
+                      <span jhiTranslate="global.menu.custom.add.team">Agregar</span>
+                    </span>
                 </a>
             </li>
             <li *jhiHasAnyAuthority="'ROLE_USER'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-item" 
-                   routerLink="tournament" 
-                   routerLinkActive="active" 
-                   [routerLinkActiveOptions]="{ exact: true }" 
-                   (click)="collapseNavbar()" 
-                   jhiTranslate="global.menu.entities.tournament">
+                <a class="nav-link dropdown-item"
+                   routerLink="tournament"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                   (click)="collapseNavbar()">
+                    <span>
+                      <fa-icon icon="trophy"></fa-icon>
+                      <span jhiTranslate="global.menu.entities.tournament">Tournament</span>
+                    </span>
                 </a>
             </li>
             <!-- FIn Agregado Edu Menu USER -->
@@ -49,7 +56,7 @@
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                     <li>
                         <a class="dropdown-item" routerLink="country" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <!-- <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>-->
+                            <fa-icon icon="flag" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.country">Country</span>
                         </a>
                     </li>
@@ -102,7 +109,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="roster" 
+                        <a class="dropdown-item" routerLink="roster"
                         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <!-- <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>-->
                             <span jhiTranslate="global.menu.entities.roster">Roster</span>
