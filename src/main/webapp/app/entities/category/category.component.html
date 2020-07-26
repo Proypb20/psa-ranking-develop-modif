@@ -44,11 +44,11 @@
                 <td><div *ngIf="category.tournamentId">{{category.tournamentName}}</div></td>
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
-                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>
-                <!--  <td>{{category.gameTime}}</td>
-                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</td>
-                <!--  <td>{{category.stopTime}}</td>
-                <!--  <td>{{category.totalPoints}}</td>
+                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.gameTimeType}}">{{category.gameTimeType}}</td>-->
+                <!--  <td>{{category.gameTime}}</td>-->
+                <!--  <td jhiTranslate="{{'PbPointsApp.TimeType.' + category.stopTimeType}}">{{category.stopTimeType}}</td>-->
+                <!--  <td>{{category.stopTime}}</td>-->
+                <!--  <td>{{category.totalPoints}}</td>-->
                 <!--  <td>{{category.difPoints}}</td>-->
                 <td>{{category.order}}</td>
                 <td class="text-right">
@@ -65,7 +65,7 @@
                                 class="btn btn-primary btn-sm"
                                 data-toggle="tooltip" [title]="'entity.action.edit'| translate">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <!--<span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>-->
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 type="submit"
@@ -75,7 +75,7 @@
                                 class="btn btn-danger btn-sm"
                                 data-toggle="tooltip" [title]="'entity.action.delete'| translate">
                             <fa-icon [icon]="'trash'"></fa-icon>
-                            <!--<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>-->
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
                     </div>
                 </td>

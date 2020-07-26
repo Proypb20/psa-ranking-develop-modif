@@ -52,8 +52,8 @@
           "city": "Ciudades"
         },
         "xml": {
-          "export": "Exportar Archivo",
-          "import": "Subir Archivo"
+          "export": "Descargar Archivo",
+          "import": "Importar Resultados"
         }
       },
       "entities": {

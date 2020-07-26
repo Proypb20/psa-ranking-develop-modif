@@ -1,14 +1,17 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="PbPointsApp.city.home.title">Cities</span>
-        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-city" (click)="Cancel()">
-            <span jhiTranslate="global.menu.back">Back</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-city" (click)="Cancel()"
+                data-toggle="tooltip" [title]="'global.menu.back'| translate">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>
+            <!--<span jhiTranslate="global.menu.back">Back</span>-->
         </button>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-city" [routerLink]="['/city/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-city" [routerLink]="['/city/new']"
+                data-toggle="tooltip" [title]="'PbPointsApp.city.home.createLabel'| translate">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="PbPointsApp.city.home.createLabel">
+            <!--<span  jhiTranslate="PbPointsApp.city.home.createLabel">
             Create a new City
-            </span>
+            </span>-->
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>
@@ -53,7 +56,8 @@
                         </button> -->
                         <button type="submit"
                                 [routerLink]="['/city', city.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                                class="btn btn-primary btn-sm"
+                                data-toggle="tooltip" [title]="'entity.action.edit'| translate">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
@@ -61,8 +65,9 @@
                                 [routerLink]="['/city', { outlets: { popup: city.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
+                                class="btn btn-danger btn-sm"
+                                data-toggle="tooltip" [title]="'entity.action.delete'| translate">
+                            <fa-icon [icon]="'trash'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
                     </div>

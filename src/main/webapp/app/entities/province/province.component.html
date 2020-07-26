@@ -1,14 +1,17 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="PbPointsApp.province.home.title">Provinces</span>
-        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-province" (click)="Cancel()">
-            <span jhiTranslate="global.menu.back">Back</span>
+        <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-province" (click)="Cancel()"
+                data-toggle="tooltip" [title]="'global.menu.back'| translate">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>
+            <!--<span jhiTranslate="global.menu.back">Back</span>-->
         </button>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-province" [routerLink]="['/province/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-province" [routerLink]="['/province/new']"
+                data-toggle="tooltip" [title]="'PbPointsApp.province.home.createLabel'| translate">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="PbPointsApp.province.home.createLabel">
+            <!--<span  jhiTranslate="PbPointsApp.province.home.createLabel">
             Create a new Province
-            </span>
+            </span>-->
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>
@@ -50,13 +53,15 @@
                         <button type="submit"
                                 [routerLink]="['/city']"
                                 [queryParams]="{pId:province.id}"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil'"></fa-icon>
+                                class="btn btn-primary btn-sm"
+                                data-toggle="tooltip" [title]="'global.menu.custom.view.city'| translate">
+                            <fa-icon [icon]="'building'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.city">Cities</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/province', province.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                                class="btn btn-primary btn-sm"
+                                data-toggle="tooltip" [title]="'entity.action.edit'| translate">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
@@ -64,8 +69,9 @@
                                 [routerLink]="['/province', { outlets: { popup: province.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
+                                class="btn btn-danger btn-sm"
+                                data-toggle="tooltip" [title]="'entity.action.delete'| translate">
+                            <fa-icon [icon]="'trash'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
                     </div>
