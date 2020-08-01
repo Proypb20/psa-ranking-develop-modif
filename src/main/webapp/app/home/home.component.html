@@ -143,6 +143,26 @@
 			                </td>
 			                <td>{{event.fromDate | date:'dd-MM-yyyy'}}</td>
 			                <td>{{event.endDate | date:'dd-MM-yyyy'}}</td>
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <!-- <button type="submit"
+                                        [routerLink]="['/event', event.id, 'view' ]"
+                                        class="btn btn-info btn-sm">
+                                    <fa-icon [icon]="'eye'"></fa-icon>
+                                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                                </button>-->
+                                    <div *ngIf="isAuthenticated()">
+                                        <button type="submit"
+                                                [routerLink]="['/event-category']"
+                                                [queryParams]="{evId:event.id}"
+                                                class="btn btn-primary btn-sm"
+                                                data-toggle="tooltip" [title]="'global.menu.custom.view.category'| translate">
+                                            <fa-icon [icon]="'list'"></fa-icon>
+                                            <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.view.category">Categories</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
 			            </tr>
 			            </tbody>
 			        </table>
