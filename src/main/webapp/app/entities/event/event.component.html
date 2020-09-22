@@ -3,14 +3,14 @@
         <span jhiTranslate="PbPointsApp.event.home.title">Events</span>
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-event" (click)="Cancel()">
             <fa-icon [icon]="'arrow-left'"></fa-icon>
-            <!--<span jhiTranslate="global.menu.back">Back</span>-->
+            <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
          id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-event" [routerLink]="['/event/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <!--<span  jhiTranslate="PbPointsApp.event.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.event.home.createLabel">
             Create a new Event
-            </span>-->
+            </span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>

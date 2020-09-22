@@ -70,6 +70,7 @@ public class CacheConfiguration {
             createCache(cm, com.ar.pbpoints.domain.Game.class.getName());
             createCache(cm, com.ar.pbpoints.domain.EventCategory.class.getName() + ".games");
             createCache(cm, com.ar.pbpoints.domain.Bracket.class.getName());
+            createCache(cm, com.ar.pbpoints.domain.Formula.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

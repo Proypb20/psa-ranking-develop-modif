@@ -47,5 +47,5 @@
     "entityTableName": "player_point",
     "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "pagination": "pagination"
+    "pagination": "infinite-scroll"
 }

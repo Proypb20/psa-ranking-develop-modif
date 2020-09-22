@@ -61,13 +61,15 @@ export class TournamentUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+if (this.editForm.get(['ownerId']).value == null)
+{
     if (this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
     {
       this.editForm.patchValue({
       ownerId: this.currentAccount.id});
     }
   }
-
+}
   updateForm(tournament: ITournament) {
     this.editForm.patchValue({
       id: tournament.id,

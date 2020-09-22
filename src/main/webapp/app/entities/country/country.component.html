@@ -4,14 +4,14 @@
         <button id="jh-create-entity-back" class="btn btn-primary float-right jh-create-entity create-country" (click)="Cancel()"
                 data-toggle="tooltip" [title]="'global.menu.back'| translate">
             <fa-icon [icon]="'arrow-left'"></fa-icon>
-            <!--<span jhiTranslate="global.menu.back">Back</span>-->
+            <span jhiTranslate="global.menu.back">Back</span>
         </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-country" [routerLink]="['/country/new']"
                 data-toggle="tooltip" [title]="'PbPointsApp.country.home.createLabel'| translate">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <!--<span  jhiTranslate="PbPointsApp.country.home.createLabel">
+            <span  jhiTranslate="PbPointsApp.country.home.createLabel">
             Create a new Country
-            </span>-->
+            </span>
         </button>
     </h2>
     <jhi-alert-error></jhi-alert-error>

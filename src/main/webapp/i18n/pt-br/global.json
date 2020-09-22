@@ -28,6 +28,7 @@
         "eventCategory": "Event Category",
         "game": "Game",
         "bracket": "Bracket",
+        "formula": "Formula",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

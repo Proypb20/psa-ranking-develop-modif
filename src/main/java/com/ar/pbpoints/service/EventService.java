@@ -161,20 +161,33 @@ public class EventService {
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
+            log.info("*** Creando element PBPOINTS", event);
+
             Element root = document.createElement("PBPOINTS");
             document.appendChild(root);
+
+            log.info("*** Creando element EVENT_ID", event);
 
             Element eventId = document.createElement("EVENT_ID");
             eventId.appendChild(document.createTextNode(event.getId().toString()));
             root.appendChild(eventId);
 
+            log.info("*** Creando element OWNER_ID", event);
+
+            log.info("*** Creando element OWNER_ID: {}", event.getTournament());
+
+            //CORREGIR NO LEVANTA, TOURNAMENT NO TIENE OWNER?
             Element ownerId = document.createElement("OWNER_ID");
             ownerId.appendChild(document.createTextNode(event.getTournament().getOwner().getId().toString()));
             root.appendChild(ownerId);
 
+            log.info("*** Creando element HASH", event);
+
             Element hash = document.createElement("HASH");
             hash.appendChild(document.createTextNode(event.getTournament().getOwner().getLangKey()));
             root.appendChild(hash);
+
+            log.info("*** Creando element SETUP", event);
 
             Element setup = document.createElement("SETUP");
             root.appendChild(setup);

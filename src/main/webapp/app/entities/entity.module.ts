@@ -87,6 +87,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'bracket',
         loadChildren: () => import('./bracket/bracket.module').then(m => m.PbPointsBracketModule)
+      },
+      {
+        path: 'formula',
+        loadChildren: () => import('./formula/formula.module').then(m => m.PbPointsFormulaModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

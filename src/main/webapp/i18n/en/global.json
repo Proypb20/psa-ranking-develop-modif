@@ -77,6 +77,7 @@
         "eventCategory": "Categories",
         "game": "Matches",
         "bracket": "Bracket",
+        "formula": "Formula",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

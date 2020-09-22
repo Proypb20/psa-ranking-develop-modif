@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="formula">
+            <h2><span jhiTranslate="pbPointsApp.formula.detail.title">Formula</span> {{formula.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="pbPointsApp.formula.formula">Formula</span></dt>
+                <dd>
+                    <span>{{formula.formula}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.var1">Var 1</span></dt>
+                <dd>
+                    <span>{{formula.var1}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.var2">Var 2</span></dt>
+                <dd>
+                    <span>{{formula.var2}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.var3">Var 3</span></dt>
+                <dd>
+                    <span>{{formula.var3}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.description">Description</span></dt>
+                <dd>
+                    <span>{{formula.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.example">Example</span></dt>
+                <dd>
+                    <span>{{formula.example}}</span>
+                </dd>
+                <dt><span jhiTranslate="pbPointsApp.formula.tournament">Tournament</span></dt>
+                <dd>
+                    <div *ngIf="formula.tournamentId">
+                        <a [routerLink]="['/tournament', formula.tournamentId, 'view']">{{formula.tournamentName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/formula', formula.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
