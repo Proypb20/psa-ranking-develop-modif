@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+
 import { IPlayerPoint } from 'app/shared/model/player-point.model';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -23,13 +23,11 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   error: any;
   success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
   totalItems: any;
   itemsPerPage: any;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
   currentImage : any;
   currentImageURL : any;
@@ -38,18 +36,17 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
     protected playerPointService: PlayerPointService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
     protected eventManager: JhiEventManager,
     private sanitizer: DomSanitizer
   ) {
+    this.playerPoints = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
@@ -57,7 +54,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   {
     this.playerPointService
       .query({
-        page: this.page - 1,
+        page: this.page,
         size: this.itemsPerPage,
         sort: this.sort()
       })
@@ -74,36 +71,17 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
       })
       .subscribe((res: HttpResponse<IPlayerPoint[]>) => this.paginatePlayerPoints(res.body, res.headers));
   }
-  
+
   }
 
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/player-point'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.playerPoints = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/player-point',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
@@ -129,7 +107,7 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInPlayerPoints() {
-    this.eventSubscriber = this.eventManager.subscribe('playerPointListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('playerPointListModification', response => this.reset());
   }
 
   sort() {
@@ -143,9 +121,11 @@ export class PlayerPointComponent implements OnInit, OnDestroy {
   protected paginatePlayerPoints(data: IPlayerPoint[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.playerPoints = data;
+    for (let i = 0; i < data.length; i++) {
+      this.playerPoints.push(data[i]);
+    }
   }
-  
+
   Cancel(){
       window.history.back();
   }

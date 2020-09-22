@@ -31,9 +31,9 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData
-                  file="config/liquibase/data/player_point.csv"
-                  separator=";"
-                  tableName="player_point">
+            file="config/liquibase/data/player_point.csv"
+            separator=";"
+            tableName="player_point">
             <column name="id" type="numeric"/>
             <column name="points" type="numeric"/>
             <column name="tournament_id" type="numeric"/>
