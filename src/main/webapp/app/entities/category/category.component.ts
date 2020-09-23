@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -22,13 +21,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
   error: any;
   success: any;
   eventSubscriber: Subscription;
-  routeData: any;
   links: any;
   totalItems: any;
   itemsPerPage: any;
   page: any;
   predicate: any;
-  previousPage: any;
   reverse: any;
   tourId: number;
   private sub: any;
@@ -37,17 +34,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
     protected categoryService: CategoryService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
     protected eventManager: JhiEventManager
   ) {
+    this.categories = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-    });
+    this.page = 0;
+    this.links = {
+      last: 0
+    };
+    this.predicate = 'id';
+    this.reverse = true;
   }
 
   loadAll() {
@@ -74,33 +70,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
    }
   }
 
-  loadPage(page: number) {
-    if (page !== this.previousPage) {
-      this.previousPage = page;
-      this.transition();
-    }
-  }
-
-  transition() {
-    this.router.navigate(['/category'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    });
+  reset() {
+    this.page = 0;
+    this.categories = [];
     this.loadAll();
   }
 
-  clear() {
-    this.page = 0;
-    this.router.navigate([
-      '/category',
-      {
-        page: this.page,
-        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-      }
-    ]);
+  loadPage(page) {
+    this.page = page;
     this.loadAll();
   }
 
@@ -128,7 +105,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCategories() {
-    this.eventSubscriber = this.eventManager.subscribe('categoryListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('categoryListModification', response => this.reset());
   }
 
   sort() {
@@ -142,9 +119,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
   protected paginateCategories(data: ICategory[], headers: HttpHeaders) {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    this.categories = data;
+    for (let i = 0; i < data.length; i++) {
+      this.categories.push(data[i]);
+    }
   }
-  
+
   Cancel() {
     window.history.back();
   }

@@ -76,7 +76,7 @@
     "changelogDate": "20191022230141",
     "entityTableName": "category",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

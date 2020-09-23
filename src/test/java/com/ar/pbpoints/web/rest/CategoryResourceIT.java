@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.ar.pbpoints.domain.enumeration.TimeType;
+import com.ar.pbpoints.domain.enumeration.TimeType;
 /**
  * Integration tests for the {@link CategoryResource} REST controller.
  */
@@ -381,7 +382,7 @@ public class CategoryResourceIT {
             .andExpect(jsonPath("$.[*].difPoints").value(hasItem(DEFAULT_DIF_POINTS)))
             .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
     }
-
+    
     @Test
     @Transactional
     public void getCategory() throws Exception {
