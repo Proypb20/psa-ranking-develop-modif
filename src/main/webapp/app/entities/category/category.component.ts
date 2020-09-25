@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
@@ -34,6 +35,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     protected categoryService: CategoryService,
     protected parseLinks: JhiParseLinks,
     protected accountService: AccountService,
+    protected activatedRoute: ActivatedRoute,
     protected eventManager: JhiEventManager
   ) {
     this.categories = [];
