@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@JacksonXmlRootElement(localName = "CATEGORY")
+@JacksonXmlRootElement(localName = "GAME")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDTO {
 

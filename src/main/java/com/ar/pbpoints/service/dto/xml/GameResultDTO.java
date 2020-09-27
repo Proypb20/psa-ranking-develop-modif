@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import java.util.List;
 
 @JacksonXmlRootElement(localName = "PBPOINTS")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,11 +31,6 @@ public class GameResultDTO {
     @Valid
     @NotNull
     private FixtureDTO fixtureDTO;
-
-    @JacksonXmlProperty(localName = "POSITIONS")
-    @Valid
-    @NotNull
-    private PositionsDTO positionsDTO;
 
     public Long getEvent_id() {
         return event_id;
@@ -66,14 +62,6 @@ public class GameResultDTO {
 
     public void setFixtureDTO(FixtureDTO fixtureDTO) {
         this.fixtureDTO = fixtureDTO;
-    }
-
-    public PositionsDTO getPositionsDTO() {
-        return positionsDTO;
-    }
-
-    public void setPositionsDTO(PositionsDTO positionsDTO) {
-        this.positionsDTO = positionsDTO;
     }
 
     @Override

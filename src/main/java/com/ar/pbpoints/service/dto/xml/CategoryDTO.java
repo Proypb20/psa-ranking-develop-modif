@@ -16,10 +16,16 @@ public class CategoryDTO {
     @JacksonXmlProperty(localName = "NAME")
     @NotBlank
     private String name;
+
     @JacksonXmlProperty(localName = "GAMES")
     @Valid
     @NotNull
     private List<GameDTO> games;
+
+    @JacksonXmlProperty(localName = "POSITIONS")
+    @Valid
+    @NotNull
+    private List<PositionDTO> positions;
 
     public String getName() {
         return name;
@@ -37,11 +43,20 @@ public class CategoryDTO {
         this.games = games;
     }
 
+    public List<PositionDTO> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<PositionDTO> positions) {
+        this.positions = positions;
+    }
+
     @Override
     public String toString() {
         return "CategoryDTO{" +
             "name='" + name + '\'' +
             ", games=" + games +
+            ", positions=" + positions +
             '}';
     }
 }

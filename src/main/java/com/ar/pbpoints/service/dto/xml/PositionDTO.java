@@ -7,13 +7,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@JacksonXmlRootElement(localName = "POSITION")
+@JacksonXmlRootElement(localName = "POSITIONS")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PositionDTO {
 
     @JacksonXmlProperty(localName = "NRO")
     @NotNull
-    private Integer pos;
+    private Integer position;
     @JacksonXmlProperty(localName = "TEAM")
     @NotNull
     private String teamName;
@@ -21,12 +21,12 @@ public class PositionDTO {
     @NotNull
     private Float points;
 
-    public Integer getPos() {
-        return pos;
+    public Integer getPosition() {
+        return position;
     }
 
-    public void setPos(Integer pos) {
-        this.pos = pos;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public String getTeamName() {
@@ -48,9 +48,9 @@ public class PositionDTO {
     @Override
     public String toString() {
         return "PositionDTO{" +
-            "pos=" + pos +
-            ", teamName=" + teamName +
-            ", points='" + points +
+            "position=" + position +
+            ", teamName='" + teamName + '\'' +
+            ", points=" + points +
             '}';
     }
 }
