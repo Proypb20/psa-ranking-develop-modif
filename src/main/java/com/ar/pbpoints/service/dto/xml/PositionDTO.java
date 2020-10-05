@@ -7,19 +7,26 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@JacksonXmlRootElement(localName = "POSITIONS")
+@JacksonXmlRootElement(localName = "POSITION")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PositionDTO {
 
+    @JacksonXmlProperty(localName = "CATEGORY")
+    @NotNull
+    private String category;
     @JacksonXmlProperty(localName = "NRO")
     @NotNull
     private Integer position;
-    @JacksonXmlProperty(localName = "TEAM")
+    @JacksonXmlProperty(localName = "TEAM_ID")
     @NotNull
-    private String teamName;
+    private Long teamId;
     @JacksonXmlProperty(localName = "POINTS")
     @NotNull
     private Float points;
+
+    public String getCategory() {return category; }
+
+    public void setCategory(String category) {this.category = category;}
 
     public Integer getPosition() {
         return position;
@@ -29,12 +36,12 @@ public class PositionDTO {
         this.position = position;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public Long getTeamId() {
+        return teamId;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public Float getPoints() {
@@ -49,7 +56,7 @@ public class PositionDTO {
     public String toString() {
         return "PositionDTO{" +
             "position=" + position +
-            ", teamName='" + teamName + '\'' +
+            ", teamId='" + teamId + '\'' +
             ", points=" + points +
             '}';
     }

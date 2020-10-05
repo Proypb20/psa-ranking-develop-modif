@@ -1,4 +1,6 @@
 package com.ar.pbpoints.repository;
+import com.ar.pbpoints.domain.Category;
+import com.ar.pbpoints.domain.Team;
 import com.ar.pbpoints.domain.TeamPoint;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -10,5 +12,7 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface TeamPointRepository extends JpaRepository<TeamPoint, Long>, JpaSpecificationExecutor<TeamPoint> {
+
+    TeamPoint findByTeam(Team team);
 
 }

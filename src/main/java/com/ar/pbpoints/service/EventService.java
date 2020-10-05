@@ -78,6 +78,10 @@ public class EventService {
 
     private final GameRepository gameRepository;
 
+    private final TeamPointRepository teamPointRepository;
+
+    private final TeamDetailPointRepository teamPointDetailRepository;
+
     private final EventMapper eventMapper;
 
     public EventService(EventRepository eventRepository,
@@ -85,11 +89,15 @@ public class EventService {
                         UserExtraRepository userExtraRepository,
                         CategoryRepository categoryRepository,
                         GameService gameService,
+                        TeamPointRepository teamPointRepository,
+                        TeamDetailPointRepository teamPointDetailRepository,
                         GameRepository gameRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventCategoryRepository = eventCategoryRepository;
         this.gameService = gameService;
         this.gameRepository = gameRepository;
+        this.teamPointRepository = teamPointRepository;
+        this.teamPointDetailRepository = teamPointDetailRepository;
         this.userExtraRepository = userExtraRepository;
         this.categoryRepository = categoryRepository;
         this.eventMapper = eventMapper;
@@ -184,7 +192,7 @@ public class EventService {
             log.info("*** Creando element HASH", event);
 
             Element hash = document.createElement("HASH");
-            hash.appendChild(document.createTextNode(event.getTournament().getOwner().getLangKey()));
+            hash.appendChild(document.createTextNode(event.getTournament().getOwner().getPassword()));
             root.appendChild(hash);
 
             log.info("*** Creando element SETUP", event);
@@ -364,12 +372,35 @@ public class EventService {
                 throw new IllegalArgumentException(("El usuario " + userExtra.getUser().getLogin() + " no es el " +
                     "owner del torneo"));
             }
+            //Cargo los Games
             List<Game> games =
                 gameResultDTO.getFixtureDTO().getCategoryDTO().getGames().stream().map(gameService::findByXML)
                     .collect(Collectors.toList());
+            gameRepository.saveAll(games);
+
+            //Cargo los Team Points
+            List<TeamPoint> teamPoints =
+                gameResultDTO.getPositions().stream().map(gameService::findPosByXML)
+                    .collect(Collectors.toList());
+            for (TeamPoint teamPoint : teamPoints) {
+                if (teamPoint.getTournament() == null)
+                  teamPoint.setTournament(event.getTournament());
+            }
+            teamPointRepository.saveAll(teamPoints);
+
+            //Cargo los Team Detail Points
+            List<TeamDetailPoint> teamDetailPoints =
+                gameResultDTO.getPositions().stream().map(gameService::findPosDetByXML)
+                    .collect(Collectors.toList());
+            for (TeamDetailPoint teamPointDetail : teamDetailPoints) {
+                teamPointDetail.setEvent(event);
+            }
+            teamPointDetailRepository.saveAll(teamDetailPoints);
+
             // parseo el dto a mi modelo de datos
             log.info("** Parseo terminado");
-            gameRepository.saveAll(games);
+
+
             log.debug("** Games actualizados **");
             log.info("*** Fin de proceso de carga de puntajes ***");
         } catch (IOException e) {
