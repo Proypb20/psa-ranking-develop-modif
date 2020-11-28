@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventXmlModalService } from 'app/entities/event-xml/event-xml-modal.service';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IEvent } from 'app/shared/model/event.model';
@@ -18,8 +17,7 @@ type EntityArrayResponseType = HttpResponse<IEvent[]>;
 export class EventService {
   public resourceUrl = SERVER_API_URL + 'api/events';
   modalRef: NgbModalRef;
-  constructor(protected http: HttpClient
-             ,private eventXmlModalService: EventXmlModalService) {}
+  constructor(protected http: HttpClient) {}
 
   create(event: IEvent): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(event);
@@ -39,10 +37,6 @@ export class EventService {
     return this.http
       .get<IEvent>(`${this.resourceUrl}/generateXML/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-  }
-
-  importXML(id: number) {
-    this.modalRef = this.eventXmlModalService.open();
   }
 
   find(id: number): Observable<EntityResponseType> {

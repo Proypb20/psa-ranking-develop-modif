@@ -63,56 +63,47 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
-	  if(this.tourId)
-	  {
-	    if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
-	    {
-		    this.eventService
-		      .query({
-		        'tournamentId.equals': this.tourId,
-		        page: this.page - 1,
-		        size: this.itemsPerPage,
-		        sort: this.sort()
-		      })
-		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-		 }
-		 else
-		 {
-		        this.eventService
-    		        .query({
-					'tournamentId.equals': this.tourId,
-					'status.in': ['CREATED','IN_PROGRESS'],
-					 page: this.page - 1,
-					 size: this.itemsPerPage,
-					 sort: this.sort()
-					})
-		      .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-		  }
-
-	  }
-	  else
-	  {
-	    if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT'))
-	    {
-	      this.eventService
-	          .query({
-	           page: this.page - 1,
-	           size: this.itemsPerPage,
-	           sort: this.sort()
-	           })
-	          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-	    }
-	    else
-	    {
-	      this.eventService
-	          .query({
-	          'status.in': ['CREATED','IN_PROGRESS'],
-	           page: this.page - 1,
-	           size: this.itemsPerPage,
-	           sort: this.sort()})
-	          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
-	    }
-	  }
+    if (this.tourId) {
+      if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT')) {
+        this.eventService
+          .query({
+            'tournamentId.equals': this.tourId,
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+          })
+          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+      } else {
+        this.eventService
+          .query({
+            'tournamentId.equals': this.tourId,
+            'status.in': ['CREATED', 'IN_PROGRESS'],
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+          })
+          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+      }
+    } else {
+      if (this.currentAccount.authorities.includes('ROLE_ADMIN') || this.currentAccount.authorities.includes('ROLE_OWNER_TOURNAMENT')) {
+        this.eventService
+          .query({
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+          })
+          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+      } else {
+        this.eventService
+          .query({
+            'status.in': ['CREATED', 'IN_PROGRESS'],
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+          })
+          .subscribe((res: HttpResponse<IEvent[]>) => this.paginateEvents(res.body, res.headers));
+      }
+    }
   }
   loadPage(page: number) {
     if (page !== this.previousPage) {
@@ -145,36 +136,34 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sub = this.activatedRoute
-      .queryParams
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        this.tourId = +params['tourId'] || 0;
-      });
-    localStorage.setItem("TOURNAMENTID",this.tourId.toString());
+    this.sub = this.activatedRoute.queryParams.subscribe(params => {
+      // Defaults to 0 if no query param provided.
+      this.tourId = +params['tourId'] || 0;
+    });
+    localStorage.setItem('TOURNAMENTID', this.tourId.toString());
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.loadAll();
     this.registerChangeInEvents();
     this.tournamentService
-	    .query({
-	    	size: 2000
-	    })
-	    .pipe(
-	      filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<ITournament[]>) => response.body)
-	    )
-	    .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
-	this.cityService
-	    .query({
-	    	size: 2000
-	    })
-	    .pipe(
-	      filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
-	      map((response: HttpResponse<ICity[]>) => response.body)
-	    )
-	    .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .query({
+        size: 2000
+      })
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITournament[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITournament[]>) => response.body)
+      )
+      .subscribe((res: ITournament[]) => (this.tournaments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.cityService
+      .query({
+        size: 2000
+      })
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICity[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICity[]>) => response.body)
+      )
+      .subscribe((res: ICity[]) => (this.cities = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   ngOnDestroy() {
@@ -204,24 +193,19 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   trackTournamentById(index: number, item: ITournament) {
-	    return item.name;
+    return item.name;
   }
 
   trackCityById(index: number, item: ICity) {
-	    return item.name;
+    return item.name;
   }
 
   protected onError(errorMessage: string) {
-	    this.jhiAlertService.error(errorMessage, null, null);
+    this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  generateXML(id: number)
-  {
-     this.subscribeToSaveResponse(this.eventService.generateXML(id));
-  }
-
-  importXML(id: number) {
-     this.eventService.importXML(id);
+  generateXML(id: number) {
+    this.subscribeToSaveResponse(this.eventService.generateXML(id));
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>) {
@@ -229,14 +213,14 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   protected onSaveSuccess() {
-    alert ("XML Generado con exito");
+    alert('XML Generado con exito');
   }
 
   protected onSaveError() {
-    alert("Error al generar XML");
+    alert('Error al generar XML');
   }
 
-  Cancel(){
-      window.history.back();
+  Cancel() {
+    window.history.back();
   }
 }

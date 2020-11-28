@@ -76,13 +76,13 @@
                             <fa-icon [icon]="'download'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.xml.export">Export File</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
+  <!--                      <button *jhiHasAnyAuthority="'ROLE_OWNER_TOURNAMENT'"
                                 (click)="importXML(event.id)"
                                 class="btn btn-primary btn-sm"
                                 data-toggle="tooltip" [title]="'global.menu.custom.xml.import'| translate">
                             <fa-icon [icon]="'upload'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="global.menu.custom.xml.import">Import File</span>
-                        </button>
+                        </button>-->
                         <button type="submit"
                                 [routerLink]="['/event-category']"
                                 [queryParams]="{evId:event.id}"
