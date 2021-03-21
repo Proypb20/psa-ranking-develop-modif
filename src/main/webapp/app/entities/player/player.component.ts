@@ -42,6 +42,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private sub: any;
   tourId: any;
   users: IUser[];
+  users2: IUser[];
   playerpoints: IPlayerPoint[];
   ownerId: any;
   isOwner: boolean;
@@ -195,6 +196,19 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   registerChangeInPlayers() {
     this.eventSubscriber = this.eventManager.subscribe('playerListModification', response => this.loadAll());
+  }
+
+  getPlayerName() {
+    this.userService
+      .query({
+        size: 2000,
+        'id.equals': +this.addForm.get(['userId']).value
+      })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser[]>) => response.body)
+      )
+      .subscribe((res: IUser[]) => (this.users2 = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   sort() {
