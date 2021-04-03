@@ -56,6 +56,10 @@
           "import": "Importar Resultados"
         }
       },
+      "reports": {
+        "main": "Listados",
+        "playerEvents": "Jugadores por Evento"
+      },
       "entities": {
         "main": "Entidades",
         "country": "Paises",
