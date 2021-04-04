@@ -4,6 +4,7 @@
     "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=es\">actualice su navegador</a> para mejorar su experiencia.",
     "menu": {
       "home": "Inicio",
+      "software": "Descargar Software",
       "back": "Volver",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "custom": {
@@ -57,8 +58,19 @@
         }
       },
       "reports": {
-        "main": "Listados",
-        "playerEvents": "Jugadores por Evento"
+        "main": "Eventos",
+        "event": {
+          "player": "Jugadores Inscriptos",
+          "roster": "Ver Rosters"
+        },
+        "fixture": {
+          "print": "Imprimir Fixture"
+        }
+      },
+      "player": {
+        "main": "Jugadores",
+        "find": "Buscar Jugador",
+        "suspend": "Suspender Jugador"
       },
       "entities": {
         "main": "Entidades",
